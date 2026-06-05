@@ -1,0 +1,102 @@
+{
+  "entities": {
+    "TicketTier": {
+      "title": "Ticket Tier",
+      "description": "Defines a ticket package (tier) available for purchase.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "duration": { "type": "string", "enum": ["single", "3-day"] },
+        "isVip": { "type": "boolean" },
+        "includes": { "type": "array", "items": { "type": "string" } },
+        "excludes": { "type": "array", "items": { "type": "string" } },
+        "capacity": { "type": "number" },
+        "soldCount": { "type": "number" },
+        "badge": { "type": "string" },
+        "wristband": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "sold-out", "paused"] }
+      },
+      "required": ["id", "name", "price", "duration", "capacity"]
+    },
+    "Inventory": {
+      "title": "Inventory",
+      "description": "Real-time stock tracking for a ticket tier, potentially by day.",
+      "type": "object",
+      "properties": {
+        "tierId": { "type": "string" },
+        "day": { "type": "string", "description": "Friday, Saturday, Sunday, or 'all'" },
+        "available": { "type": "number" },
+        "held": { "type": "number", "description": "Temporary hold during checkout" }
+      },
+      "required": ["tierId", "day", "available"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "A successful ticket purchase record.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "tierId": { "type": "string" },
+        "day": { "type": "string" },
+        "quantity": { "type": "number" },
+        "totalPrice": { "type": "number" },
+        "buyerInfo": {
+          "type": "object",
+          "properties": {
+            "fullName": { "type": "string" },
+            "email": { "type": "string" },
+            "phone": { "type": "string" },
+            "country": { "type": "string" },
+            "city": { "type": "string" },
+            "language": { "type": "string" }
+          }
+        },
+        "vipDetails": {
+          "type": "object",
+          "properties": {
+            "dietaryPreference": { "type": "string" },
+            "welcomeKitName": { "type": "string" }
+          }
+        },
+        "status": { "type": "string", "enum": ["pending", "paid", "cancelled", "failed"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "paymentId": { "type": "string" },
+        "qrCode": { "type": "string" }
+      },
+      "required": ["tierId", "quantity", "totalPrice", "buyerInfo", "status"]
+    },
+    "Waitlist": {
+      "title": "Waitlist",
+      "description": "User signups for sold-out tiers.",
+      "type": "object",
+      "properties": {
+        "tierId": { "type": "string" },
+        "email": { "type": "string" },
+        "name": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["tierId", "email"]
+    }
+  },
+  "firestore": {
+    "/ticketTiers": {
+      "schema": "TicketTier",
+      "description": "Global ticket tier definitions."
+    },
+    "/inventory": {
+      "schema": "Inventory",
+      "description": "Real-time inventory levels."
+    },
+    "/orders": {
+      "schema": "Order",
+      "description": "Purchase records."
+    },
+    "/waitlist": {
+      "schema": "Waitlist",
+      "description": "Waitlist signups."
+    }
+  }
+}

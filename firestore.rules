@@ -1,0 +1,100 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 0. Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Connectivity Test
+    match /test/connection {
+      allow read: if true;
+    }
+
+    // --- Globally Hardened Helpers ---
+    function isSignedIn() { return request.auth != null; }
+    function isEmailVerified() { return isSignedIn() && request.auth.token.email_verified == true; }
+    function isAdmin() { 
+      return isSignedIn() && (
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
+        (request.auth.token.email == 'anahoniamhere@gmail.com' && request.auth.token.email_verified == true)
+      ); 
+    }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+
+    // --- Ticket Tiers ---
+    match /ticketTiers/{tierId} {
+      allow get, list: if true; // Publicly viewable
+      allow create, update: if isAdmin() && isValidTier(incoming());
+      allow delete: if isAdmin();
+
+      function isValidTier(data) {
+        return data.keys().hasAll(['name', 'price', 'duration', 'capacity', 'status']) &&
+               data.name is string && data.name.size() <= 100 &&
+               data.price is number && data.price >= 0 &&
+               data.capacity is number && data.capacity >= 0 &&
+               data.status in ['active', 'sold-out', 'paused'];
+      }
+    }
+
+    // --- Inventory ---
+    match /inventory/{invId} {
+      allow get, list: if true;
+      allow write: if isAdmin();
+      
+      // Potential atomic update for orders (if we were doing that on client side, 
+      // but usually better on server. If client-side, we'd add logic here).
+    }
+
+    // --- Orders ---
+    match /orders/{orderId} {
+      // PII Isolation: Only owners or admins can read orders.
+      allow get: if isSignedIn() && (existing().userId == request.auth.uid || isAdmin());
+      // List must be restricted to prevent scraping PII.
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      
+      allow create: if isSignedIn() && isValidOrder(incoming()) && (
+        incoming().userId == request.auth.uid &&
+        incoming().status == 'pending' && // Orders start as pending
+        incoming().createdAt == request.time
+      );
+
+      allow update: if isSignedIn() && (
+        isAdmin() || 
+        (existing().userId == request.auth.uid && 
+         incoming().diff(existing()).affectedKeys().hasOnly(['status']) &&
+         incoming().status == 'cancelled' &&
+         existing().status == 'pending')
+      );
+
+      function isValidOrder(data) {
+        return data.keys().hasAll(['tierId', 'quantity', 'totalPrice', 'buyerInfo', 'status', 'createdAt', 'userId']) &&
+               isValidId(data.tierId) &&
+               data.quantity is number && data.quantity > 0 && data.quantity <= 10 &&
+               data.totalPrice is number && data.totalPrice >= 0 &&
+               data.buyerInfo.email is string && data.buyerInfo.email.size() <= 200 &&
+               data.userId == request.auth.uid;
+      }
+    }
+
+    // --- Waitlist ---
+    match /waitlist/{entryId} {
+      allow create: if isValidWaitlist(incoming()) && incoming().createdAt == request.time;
+      allow read: if isAdmin();
+
+      function isValidWaitlist(data) {
+        return data.keys().hasAll(['tierId', 'email', 'createdAt']) &&
+               isValidId(data.tierId) &&
+               data.email is string && data.email.size() <= 200;
+      }
+    }
+
+    // --- Admins ---
+    match /admins/{userId} {
+      allow read: if isSignedIn() && request.auth.uid == userId;
+      allow write: if false; // System management or manual bootstrap needed
+    }
+  }
+}
