@@ -1,7 +1,6 @@
 import { 
-  collection, getDocs, query, where, writeBatch, doc
-} from 'firebase/firestore';
-import { db, auth } from '../lib/firebase';
+  db, auth, collection, getDocs, query, where, writeBatch, doc
+} from '../lib/firebase';
 import { Order, TicketTier } from '../types';
 import { TICKET_TIERS, EVENT_DAYS } from '../constants';
 

@@ -16,12 +16,7 @@ import { SanctuaryPage } from './components/SanctuaryPage';
 import { SanctuaryApplyPage } from './components/SanctuaryApplyPage';
 import { OurStory } from './components/OurStory';
 import { TicketsPage } from './components/TicketsPage';
-import { getDocs, collection } from 'firebase/firestore';
-import { auth, db } from './lib/firebase';
-import { 
-  signInWithPopup, GoogleAuthProvider, 
-  onAuthStateChanged, User as FirebaseUser 
-} from 'firebase/auth';
+import { auth, db, onAuthStateChanged, signInWithPasscode, collection, getDocs, User as FirebaseUser } from './lib/firebase';
 import { TICKET_TIERS, EVENT_DAYS } from './constants';
 import { TicketTier, EventDay, Order, BuyerInfo, VipDetails } from './types';
 import { TicketService } from './services/ticketService';
@@ -852,18 +847,24 @@ const AdminDashboard = () => {
   const [stats, setStats] = useState({ orders: 0, revenue: 0, tiers: [] as any[] });
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<FirebaseUser | null>(auth.currentUser);
+  const [passcode, setPasscode] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, setUser);
     return () => unsubscribe();
   }, []);
 
-  const handleLogin = async () => {
-    const provider = new GoogleAuthProvider();
+  const handleLogin = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!passcode.trim()) return;
+    setIsLoading(true);
+    setError(null);
     try {
-      await signInWithPopup(auth, provider);
-    } catch (error) {
-      console.error("Login failed", error);
+      await signInWithPasscode(passcode);
+    } catch (err: any) {
+      setError(err.message || "Login failed");
+      setIsLoading(false);
     }
   };
 
@@ -903,12 +904,30 @@ const AdminDashboard = () => {
           </div>
           <h2 className="font-display font-bold text-4xl text-brand-navy mb-4 uppercase tracking-tighter">Admin Access</h2>
           <p className="font-body text-brand-navy/40 mb-10">Verification required to access the logistics command interface.</p>
-          <button 
-            onClick={handleLogin}
-            className="w-full py-5 bg-brand-navy text-white font-display font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-brand-coral transition-all shadow-2xl"
-          >
-            Authenticate with Google
-          </button>
+          
+          {error && (
+            <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-2xl text-sm font-medium">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleLogin} className="w-full">
+            <input
+              type="password"
+              value={passcode}
+              onChange={(e) => setPasscode(e.target.value)}
+              placeholder="ENTER ACCESS CODE"
+              autoFocus
+              className="w-full bg-white text-brand-navy border border-brand-navy/15 rounded-xl px-6 py-3.5 sm:py-4 font-mono uppercase tracking-[0.25em] text-center focus:outline-none focus:ring-1 focus:ring-brand-coral text-sm mb-4 shadow-sm"
+            />
+            <button 
+              type="submit"
+              disabled={!passcode.trim()}
+              className="w-full py-5 bg-brand-navy text-white font-display font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-brand-coral transition-all shadow-2xl disabled:opacity-60"
+            >
+              Authenticate
+            </button>
+          </form>
         </div>
       </div>
     );

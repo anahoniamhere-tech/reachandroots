@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { auth } from '../lib/firebase';
-import { 
-  signInWithPopup, GoogleAuthProvider, 
-  onAuthStateChanged, User, signOut 
-} from 'firebase/auth';
+import { auth, onAuthStateChanged, signInWithPasscode, signOut, User } from '../lib/firebase';
 import { motion } from 'motion/react';
-import { Shield, Lock, LogIn, AlertCircle, LogOut, Loader2 } from 'lucide-react';
+import { Shield, Lock, LogIn, AlertCircle, LogOut, Loader2, ArrowRight } from 'lucide-react';
 import { BrandLogo } from './BrandingIcons';
 
 // Admin Allowlist - Add approved emails here
 const ADMIN_EMAILS = [
   "anahoniamhere@gmail.com",
   "your@email.com",
-  "secondadmin@email.com"
+  "secondadmin@email.com",
+  "RR666"
 ];
 
 interface AdminGuardProps {
@@ -23,6 +20,8 @@ export const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(auth.currentUser);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [passcode, setPasscode] = useState('');
+  const [showInput, setShowInput] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (u) => {
@@ -32,14 +31,16 @@ export const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  const handleSignIn = async () => {
+  const handlePasscodeSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!passcode.trim()) return;
+
     setLoading(true);
     setError(null);
-    const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      await signInWithPasscode(passcode);
     } catch (err: any) {
-      setError(err.message || 'Failed to sign in');
+      setError(err.message || 'Failed to verify passcode');
       setLoading(false);
     }
   };
@@ -71,7 +72,7 @@ export const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
             Private Access
           </h2>
           <p className="font-body text-brand-navy/60 mb-10 leading-relaxed">
-            The preview site is restricted to approved administrators. Please sign in with your authorized Google account to continue.
+            The preview site is restricted to approved administrators. Please enter your authorized access code to continue.
           </p>
 
           {error && (
@@ -81,13 +82,34 @@ export const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
             </div>
           )}
 
-          <button 
-            onClick={handleSignIn}
-            className="w-full flex items-center justify-center gap-4 bg-brand-navy text-white px-8 py-5 rounded-full hover:bg-brand-coral transition-all duration-300 shadow-xl group"
-          >
-            <LogIn size={20} className="group-hover:translate-x-1 transition-transform" />
-            <span className="editorial-label text-white tracking-[0.3em] font-medium uppercase">Sign In with Google</span>
-          </button>
+          {showInput ? (
+            <form onSubmit={handlePasscodeSubmit} className="w-full">
+              <input
+                type="password"
+                value={passcode}
+                onChange={(e) => setPasscode(e.target.value)}
+                placeholder="ENTER ACCESS CODE"
+                autoFocus
+                className="w-full bg-white text-brand-navy border border-brand-navy/15 rounded-xl px-6 py-3.5 sm:py-4 font-mono uppercase tracking-[0.25em] text-center focus:outline-none focus:ring-1 focus:ring-brand-coral text-sm mb-4 shadow-sm"
+              />
+              <button 
+                type="submit"
+                disabled={!passcode.trim()}
+                className="w-full flex items-center justify-center gap-4 bg-brand-navy text-white px-8 py-5 rounded-full hover:bg-brand-coral transition-all duration-300 shadow-xl group disabled:opacity-60"
+              >
+                <span className="editorial-label text-white tracking-[0.3em] font-medium uppercase">SUBMIT CODE</span>
+                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              </button>
+            </form>
+          ) : (
+            <button 
+              onClick={() => setShowInput(true)}
+              className="w-full flex items-center justify-center gap-4 bg-brand-navy text-white px-8 py-5 rounded-full hover:bg-brand-coral transition-all duration-300 shadow-xl group"
+            >
+              <LogIn size={20} className="group-hover:translate-x-1 transition-transform" />
+              <span className="editorial-label text-white tracking-[0.3em] font-medium uppercase">SIGN IN TO ENTER</span>
+            </button>
+          )}
           
           <div className="mt-12 pt-8 border-t border-brand-navy/5">
              <a href="/" className="editorial-label text-brand-navy/30 hover:text-brand-coral transition-colors tracking-widest text-[10px]">BACK TO PUBLIC SITE</a>

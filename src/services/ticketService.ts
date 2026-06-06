@@ -1,8 +1,7 @@
 import { 
-  collection, doc, getDoc, getDocs, setDoc, updateDoc, 
+  db, auth, collection, doc, getDoc, getDocs, setDoc, updateDoc, 
   increment, query, where, onSnapshot, serverTimestamp, runTransaction 
-} from 'firebase/firestore';
-import { db, auth } from '../lib/firebase';
+} from '../lib/firebase';
 import { TicketTier, Order, Inventory, OperationType } from '../types';
 
 // Helper for errors as required by Firebase Instructions

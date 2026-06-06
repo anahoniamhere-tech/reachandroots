@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { BrandLogo } from './BrandingIcons';
-import { auth } from '../lib/firebase';
-import { onAuthStateChanged, signInWithPopup, GoogleAuthProvider, User } from 'firebase/auth';
+import { auth, onAuthStateChanged, signInWithPasscode, User } from '../lib/firebase';
 import { useNavigate } from 'react-router-dom';
 import { LogIn, ArrowRight, Loader2 } from 'lucide-react';
 
 const APPROVED_EMAILS = [
   "anahoniamhere@gmail.com",
   "your@email.com",
-  "secondadmin@email.com"
+  "secondadmin@email.com",
+  "RR666"
 ];
 
 export const ComingSoon: React.FC = () => {
@@ -17,6 +17,8 @@ export const ComingSoon: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [passcode, setPasscode] = useState('');
+  const [showInput, setShowInput] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,21 +29,22 @@ export const ComingSoon: React.FC = () => {
     return () => unsubscribe();
   }, []);
 
-  const handleSignInAndEnter = async () => {
+  const handlePasscodeSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!passcode.trim()) return;
+
     setActionLoading(true);
     setError(null);
-    const provider = new GoogleAuthProvider();
     try {
-      const result = await signInWithPopup(auth, provider);
-      const email = result.user?.email || '';
-      if (APPROVED_EMAILS.includes(email)) {
+      const loggedUser = await signInWithPasscode(passcode);
+      if (APPROVED_EMAILS.includes(loggedUser.email || '')) {
         navigate('/preview');
       } else {
-        setError(`Access restricted. ${email} is not in the approved list.`);
+        setError(`Access restricted.`);
         setActionLoading(false);
       }
     } catch (err: any) {
-      setError(err.message || 'Authentication failed');
+      setError(err.message || 'Verification failed');
       setActionLoading(false);
     }
   };
@@ -89,25 +92,45 @@ export const ComingSoon: React.FC = () => {
               <span>ENTER SITE</span>
               <ArrowRight size={14} />
             </motion.button>
+          ) : showInput ? (
+            <form onSubmit={handlePasscodeSubmit} className="w-full">
+              <input
+                type="password"
+                value={passcode}
+                onChange={(e) => setPasscode(e.target.value)}
+                placeholder="ENTER ACCESS CODE"
+                autoFocus
+                className="w-full bg-white text-brand-navy border border-brand-navy/15 rounded-xl px-6 py-3.5 sm:py-4 font-mono uppercase tracking-[0.25em] text-center focus:outline-none focus:ring-1 focus:ring-brand-coral text-sm mb-4 shadow-sm"
+              />
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                type="submit"
+                disabled={actionLoading || !passcode.trim()}
+                className="w-full flex items-center justify-center gap-3 bg-brand-navy hover:bg-brand-coral hover:text-white text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl transition-all font-display font-black uppercase text-xs tracking-wider cursor-pointer shadow-lg disabled:opacity-60"
+              >
+                {actionLoading ? (
+                  <>
+                    <Loader2 className="animate-spin" size={14} />
+                    <span>VERIFYING...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>SUBMIT CODE</span>
+                    <ArrowRight size={14} />
+                  </>
+                )}
+              </motion.button>
+            </form>
           ) : (
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              disabled={actionLoading}
-              onClick={handleSignInAndEnter}
-              className="w-full flex items-center justify-center gap-3 bg-brand-navy hover:bg-brand-coral hover:text-white text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl transition-all font-display font-black uppercase text-xs tracking-wider cursor-pointer shadow-lg disabled:opacity-60"
+              onClick={() => setShowInput(true)}
+              className="w-full flex items-center justify-center gap-3 bg-brand-navy hover:bg-brand-coral hover:text-white text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl transition-all font-display font-black uppercase text-xs tracking-wider cursor-pointer shadow-lg"
             >
-              {actionLoading ? (
-                <>
-                  <Loader2 className="animate-spin" size={14} />
-                  <span>AUTHORIZING...</span>
-                </>
-              ) : (
-                <>
-                  <LogIn size={14} />
-                  <span>SIGN IN TO ENTER</span>
-                </>
-              )}
+              <LogIn size={14} />
+              <span>SIGN IN TO ENTER</span>
             </motion.button>
           )}
           
