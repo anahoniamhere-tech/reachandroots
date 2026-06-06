@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Calendar, MapPin, Check, Phone, Mail, Award, Clock, ArrowRight, Sparkles, 
@@ -43,11 +44,11 @@ export const ContentCreatorsInvitation: React.FC = () => {
       {/* Primary Top Header to match the PDF Exact Style */}
       <header className="pt-10 pb-8 px-6 md:px-12 max-w-4xl mx-auto flex justify-between items-start relative z-20">
         {/* Left Stacked Title */}
-        <a href="/" className="flex flex-col group text-brand-navy">
+        <Link to="/" className="flex flex-col group text-brand-navy">
           <span className="font-display text-2xl font-black tracking-tight leading-[0.9] uppercase">ROOTS</span>
           <span className="font-display text-2xl font-black tracking-tight leading-[0.9] uppercase">AND</span>
           <span className="font-display text-2xl font-black tracking-tight leading-[0.9] uppercase">REACH</span>
-        </a>
+        </Link>
         
         {/* Right Stacked Labels */}
         <div className="text-right space-y-1">

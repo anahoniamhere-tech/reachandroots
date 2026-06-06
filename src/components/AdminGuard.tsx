@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { auth, onAuthStateChanged, signInWithPasscode, signOut, User } from '../lib/firebase';
+import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Shield, Lock, LogIn, AlertCircle, LogOut, Loader2, ArrowRight } from 'lucide-react';
 import { BrandLogo } from './BrandingIcons';
@@ -112,7 +113,7 @@ export const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
           )}
           
           <div className="mt-12 pt-8 border-t border-brand-navy/5">
-             <a href="/" className="editorial-label text-brand-navy/30 hover:text-brand-coral transition-colors tracking-widest text-[10px]">BACK TO PUBLIC SITE</a>
+             <Link to="/" className="editorial-label text-brand-navy/30 hover:text-brand-coral transition-colors tracking-widest text-[10px]">BACK TO PUBLIC SITE</Link>
           </div>
         </motion.div>
       </div>
@@ -146,12 +147,12 @@ export const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
               <LogOut size={16} />
               Sign Out & Switch Account
             </button>
-            <a 
-              href="/"
+            <Link 
+              to="/"
               className="editorial-label text-brand-navy/40 hover:text-brand-coral transition-colors tracking-widest text-[10px] uppercase font-bold mt-4"
             >
               Return Home
-            </a>
+            </Link>
           </div>
         </motion.div>
       </div>
