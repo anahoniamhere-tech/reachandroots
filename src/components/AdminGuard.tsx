@@ -165,9 +165,9 @@ export const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
       <div className="fixed bottom-6 left-6 z-[100]">
         <div className="flex items-center gap-4 bg-brand-navy/90 backdrop-blur-md text-white px-6 py-3 rounded-full shadow-2xl border border-white/10">
           <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-          <span className="editorial-label text-[10px] tracking-widest uppercase font-bold opacity-80">Admin Mode</span>
-          <div className="w-px h-4 bg-white/10 mx-2" />
-          <span className="editorial-label text-[10px] tracking-widest uppercase font-bold hidden md:inline">{user.email}</span>
+          <span className="editorial-label !text-white text-[10px] tracking-widest uppercase font-bold opacity-80">Admin Mode</span>
+          <div className="w-px h-4 bg-white/20 mx-2" />
+          <span className="editorial-label !text-white text-[10px] tracking-widest uppercase font-bold hidden md:inline">{user.email}</span>
           <button onClick={handleSignOut} className="hover:text-brand-coral transition-colors p-1" title="Sign Out">
             <LogOut size={14} />
           </button>
