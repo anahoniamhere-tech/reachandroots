@@ -20,49 +20,49 @@ const GALLERY_PHOTOS = [
   {
     id: 'creator1',
     url: '/gallery/gallery_creator1.jpg',
-    title: { en: "Content Creator Spotlight", ar: 'تسليط الضوء على منشئي المحتوى' },
+    title: { en: "Chef Hammoud", ar: 'الشيف حمود'},
     description: { en: "Empowering local storytelling through regional digital voices.", ar: 'تمكين سرد القصص المحلية من خلال الأصوات الرقمية الإقليمية.' }
   },
   {
     id: 'creator2',
     url: '/gallery/gallery_creator2.jpg',
-    title: { en: "Community Gathering", ar: 'التجمع المجتمعي' },
+    title: { en: "Hussein Fayad", ar: 'حسين فياض'},
     description: { en: "Building bridges between local talent and regional creators.", ar: 'بناء الجسور بين المواهب المحلية والمبدعين الإقليميين.' }
   },
   {
     id: 'creator3',
     url: '/gallery/gallery_creator3.jpg',
-    title: { en: "Cultural Exchange", ar: 'التبادل الثقافي' },
+    title: { en: "Ahmad Al Khatib", ar: 'أحمد الخطيب'},
     description: { en: "Sharing insights and regional voices defining the Mediterranean creative soul.", ar: 'مشاركة الأفكار والأصوات الإقليمية التي تحدد الروح الإبداعية للبحر الأبيض المتوسط.' }
   },
   {
     id: 'creator4',
     url: '/gallery/gallery_creator4.jpg',
-    title: { en: "Modern Narratives", ar: 'الروايات الحديثة' },
+    title: { en: "Karen Wazen", ar: 'كارن وازن'},
     description: { en: "Exploring heritage through digital storytelling and modern design.", ar: 'استكشاف التراث من خلال سرد القصص الرقمية والتصميم الحديث.' }
   },
   {
     id: 'creator5',
     url: '/gallery/gallery_creator5.jpg',
-    title: { en: "Heritage and Companionship", ar: 'التراث والصحبة' },
+    title: { en: "Mariam Bachat", ar: 'مريم باشات'},
     description: { en: "Documenting the serene integration of local life and historic architectural ruins.", ar: 'توثيق التكامل الهادئ للحياة المحلية والأطلال المعمارية التاريخية.' }
   },
   {
     id: 'creator6',
     url: '/gallery/gallery_creator6.jpg',
-    title: { en: "Culinary Storytelling", ar: 'سرد قصص الطهي' },
+    title: { en: "May Bsat", ar: 'مي بساط'},
     description: { en: "Sharing authentic Mediterranean recipes and community food traditions.", ar: 'مشاركة وصفات البحر الأبيض المتوسط الأصيلة وتقاليد الطعام المجتمعية.' }
   },
   {
     id: 'creator7',
     url: '/gallery/gallery_creator7.jpg',
-    title: { en: "Creative Reflection", ar: 'التأمل الإبداعي' },
+    title: { en: "Osama Marwah", ar: 'أسامة مروة'},
     description: { en: "A regional creator contemplating the synthesis of modern media and tradition.", ar: 'مبدع إقليمي يتأمل في توليف وسائل الإعلام الحديثة والتقاليد.' }
   },
   {
     id: 'creator8',
     url: '/gallery/gallery_creator8.jpg',
-    title: { en: "Moments of Joy", ar: 'لحظات من الفرح' },
+    title: { en: "Patrick Daoud", ar: 'باتريك داود'},
     description: { en: "Celebrating the laughter and authentic connection between content creators.", ar: 'الاحتفال بالضحك والتواصل الأصيل بين منشئي المحتوى.' }
   },
   {
@@ -80,25 +80,25 @@ const GALLERY_PHOTOS = [
   {
     id: 'creator10',
     url: '/gallery/gallery_creator10.jpg',
-    title: { en: "Street Level Perspectives", ar: 'منظور الشارع' },
+    title: { en: "Wessam Quotob", ar: 'وسام قطب'},
     description: { en: "Capturing the vibrant energy of Tripoli’s public spaces and walkability.", ar: 'التقاط الطاقة النابضة بالحياة للمساحات العامة في طرابلس وقابليتها للمشي.' }
   },
   {
     id: 'creator11',
     url: '/gallery/gallery_creator11.jpg',
-    title: { en: "Summer Gatherings", ar: 'التجمعات الصيفية' },
+    title: { en: "Yasmin Nasir", ar: 'ياسمين ناصر'},
     description: { en: "Emphasizing the connection between simple pleasures and community bonding.", ar: 'التأكيد على الروابط بين المتع البسيطة والترابط المجتمعي.' }
   },
   {
     id: 'creator12',
     url: '/gallery/gallery_creator12.jpg',
-    title: { en: "Culinary Masterclass", ar: 'دروس الطهي الاحترافية' },
+    title: { en: "Chadi Maatouk", ar: 'شادي معتوق'},
     description: { en: "Chady Maatouk sharing food and beverage consulting insights during the exhibition.", ar: 'شادي معتوق يشارك أفكار استشارات الأغذية والمشروبات خلال المعرض.' }
   },
   {
     id: 'creator13',
     url: '/gallery/gallery_creator13.jpg',
-    title: { en: "Gastronomic Curation", ar: 'التنسيق الغذائي' },
+    title: { en: "Abir Al Saghir", ar: 'عبير الصغير'},
     description: { en: "Expressing cultural heritage through culinary expertise and traditional cooking.", ar: 'التعبير عن التراث الثقافي من خلال الخبرة في مجال الطهي والطبخ التقليدي.' }
   },
   {
@@ -128,259 +128,259 @@ const GALLERY_PHOTOS = [
   {
     id: 'creator14',
     url: '/gallery/gallery_creator14.jpg',
-    title: { en: "Chef Elie Harb", ar: 'الشيف إيلي حرب' },
+    title: { en: "Elie Harb", ar: 'إيلي حرب'},
     description: { en: "Chef Elie Harb preparing gastronomic delights for the event’s culinary showcase.", ar: 'الشيف إيلي حرب يحضر أطباقاً شهية لمعرض الطهي الخاص بالحدث.' }
   },
   {
     id: 'creator15',
     url: '/gallery/gallery_creator15.jpg',
-    title: { en: "Style Spotlight", ar: 'تسليط الضوء على الأناقة' },
+    title: { en: "Fatima Jaafar", ar: 'فاطمة جعفر'},
     description: { en: "A regional creator sharing modern fashion inspiration and lifestyle aesthetics.", ar: 'منشئة محتوى إقليمية تشارك إلهام الموضة الحديثة وجماليات أسلوب الحياة.' }
   },
   {
     id: 'creator16',
     url: '/gallery/gallery_creator16.jpg',
-    title: { en: "Evening Elegance", ar: 'أناقة المساء' },
+    title: { en: "Afaf Lazkani", ar: 'عفاف لزكاني'},
     description: { en: "Showcasing designer evening wear and modern Mediterranean fashion.", ar: 'عرض ملابس السهرة الفاخرة والأزياء الحديثة للبحر الأبيض المتوسط.' }
   },
   {
     id: 'creator17',
     url: '/gallery/gallery_creator17.png',
-    title: { en: "Royal Cosmetics Showcase", ar: 'معرض مستحضرات التجميل رويال' },
+    title: { en: "Beauty by Lama", ar: 'بيوتي باي لما'},
     description: { en: "A vibrant moment celebrating regional beauty brands and creative marketing.", ar: 'لحظة حيوية تحتفي بماركات التجميل الإقليمية والتسويق الإبداعي.' }
   },
   {
     id: 'creator18',
     url: '/gallery/gallery_creator18.jpg',
-    title: { en: "Community Architect", ar: 'مهندس المجتمع' },
+    title: { en: "Saleh Al Nawawy", ar: 'صالح النواوي'},
     description: { en: "Husein Fayad sharing insights on digital architecture and heritage preservation.", ar: 'حسين فياض يشارك رؤى حول الهندسة المعمارية الرقمية والحفاظ على التراث.' }
   },
   {
     id: 'creator19',
     url: '/gallery/gallery_creator19.jpg',
-    title: { en: "Artistic Inspiration", ar: 'إلهام فني' },
+    title: { en: "Darine Jaafar", ar: 'دارين جعفر'},
     description: { en: "A visitor contemplating historical masterpieces, reflecting on the union of art and heritage.", ar: 'زائرة تتأمل الروائع التاريخية، متأملة في اتحاد الفن والتراث.' }
   },
   {
     id: 'creator20',
     url: '/gallery/gallery_creator20.jpg',
-    title: { en: "Podcast & Transmission", ar: 'البودكاست والبث' },
+    title: { en: "Tarek Sakik", ar: 'طارق سكيك'},
     description: { en: "Broadcasting live interviews and creator dialogues from the Tripoli event.", ar: 'بث المقابلات المباشرة وحوارات المبدعين من حدث طرابلس.' }
   },
   {
     id: 'creator21',
     url: '/gallery/gallery_creator21.jpg',
-    title: { en: "Executive Spotlight", ar: 'تسليط الضوء على الإدارة' },
+    title: { en: "Yazeed Moussa", ar: 'يزيد موسى'},
     description: { en: "Celebrating leadership and regional entrepreneurship in the digital domain.", ar: 'الاحتفال بالقيادة وريادة الأعمال الإقليمية في المجال الرقمي.' }
   },
   {
     id: 'creator22',
     url: '/gallery/gallery_creator22.jpg',
-    title: { en: "Passionate Creator", ar: 'مبدع شغوف' },
+    title: { en: "Munzer Al Herani", ar: 'منذر الحيراني'},
     description: { en: "A regional storyteller sharing creative strategies and branding designs.", ar: 'راوي قصص إقليمي يشارك الاستراتيجيات الإبداعية وتصاميم الهوية التجارية.' }
   },
   {
     id: 'creator23',
     url: '/gallery/gallery_creator23.jpg',
-    title: { en: "Journey to Tripoli", ar: 'رحلة إلى طرابلس' },
+    title: { en: "Zein Al Dakane", ar: 'زين الدكاني'},
     description: { en: "Capturing moments of transit and exploration in North Lebanon.", ar: 'التقاط لحظات الانتقال والاستكشاف في شمال لبنان.' }
   },
   {
     id: 'creator24',
     url: '/gallery/gallery_creator24.jpg',
-    title: { en: "Creative Spotlight", ar: 'تسليط الضوء على الإبداع' },
+    title: { en: "Amr Tarazan", ar: 'عمرو طرزان'},
     description: { en: "A content creator sharing ideas and regional voices at the event.", ar: 'منشئ محتوى يشارك الأفكار والأصوات الإقليمية في الحدث.' }
   },
   {
     id: 'creator25',
     url: '/gallery/gallery_creator25.jpg',
-    title: { en: "Event Snapshot", ar: 'لقطة من الحدث' },
+    title: { en: "Ghaith Marwan", ar: 'غيث مروان'},
     description: { en: "Documenting the vibrant energy of the Tripoli community and creative voices.", ar: 'توثيق الطاقة النابضة بالحياة لمجتمع طرابلس والأصوات الإبداعية.' }
   },
   {
     id: 'creator26',
     url: '/gallery/gallery_creator26.jpg',
-    title: { en: "Tripoli Memories", ar: 'ذكريات طرابلس' },
+    title: { en: "Liliane Mokhalalty", ar: 'ليليان مخللاتي'},
     description: { en: "Sharing insights and connections that define our Mediterranean heritage.", ar: 'مشاركة الأفكار والروابط التي تحدد تراثنا المتوسطي.' }
   },
   {
     id: 'creator27',
     url: '/gallery/gallery_creator27.jpg',
-    title: { en: "Community Insight", ar: 'رؤية مجتمعية' },
+    title: { en: "Aseel Awwad", ar: 'أسيل عواد'},
     description: { en: "Engaging with regional audiences through modern digital storytelling.", ar: 'التفاعل مع الجماهير الإقليمية من خلال سرد القصص الرقمية الحديثة.' }
   },
   {
     id: 'creator28',
     url: '/gallery/gallery_creator28.jpg',
-    title: { en: "Creative Expression", ar: 'التعبير الإبداعي' },
+    title: { en: "Karakeeb (Eyad and Abo Eyad)", ar: 'كراكيب (إياد وأبو إياد)'},
     description: { en: "Exploring local identity and architectural heritage through media.", ar: 'استكشاف الهوية المحلية والتراث المعماري من خلال وسائل الإعلام.' }
   },
   {
     id: 'creator29',
     url: '/gallery/gallery_creator29.jpg',
-    title: { en: "Digital Voice", ar: 'الصوت الرقمي' },
+    title: { en: "Ammar and Reem", ar: 'عمار وريم'},
     description: { en: "Empowering young creators to share their local perspectives with the world.", ar: 'تمكين المبدعين الشباب من مشاركة وجهات نظرهم المحلية مع العالم.' }
   },
   {
     id: 'creator30',
     url: '/gallery/gallery_creator30.jpg',
-    title: { en: "Cultural Dialogue", ar: 'الحوار الثقافي' },
+    title: { en: "Hssan Raad and Em Raad", ar: 'حسن رعد وأم رعد'},
     description: { en: "Fostering regional collaboration and creative exchange in North Lebanon.", ar: 'تعزيز التعاون الإقليمي والتبادل الإبداعي في شمال لبنان.' }
   },
   {
     id: 'creator31',
     url: '/gallery/gallery_creator31.jpg',
-    title: { en: "Collaborative Moment", ar: 'لحظة تعاونية' },
+    title: { en: "Omar Abo Rob", ar: 'عمر أبو الرب'},
     description: { en: "Content creators aligning on shared vision and community engagement.", ar: 'منشؤو المحتوى يتفقون على رؤية مشتركة والمشاركة المجتمعية.' }
   },
   {
     id: 'creator32',
     url: '/gallery/gallery_creator32.jpg',
-    title: { en: "Community Gathering", ar: 'التجمع المجتمعي' },
+    title: { en: "Eisa Al Habib", ar: 'عيسى الحبيب'},
     description: { en: "Uniting creative talents to celebrate the rich history and future of Tripoli.", ar: 'توحيد المواهب الإبداعية للاحتفال بتاريخ طرابلس الغني ومستقبلها.' }
   },
   {
     id: 'creator33',
     url: '/gallery/gallery_creator33.jpg',
-    title: { en: "Heritage Connection", ar: 'صلة التراث' },
+    title: { en: "Life with Jad", ar: 'لايف وذ جاد'},
     description: { en: "Rediscovering the historical roots of the region through digital media.", ar: 'إعادة اكتشاف الجذور التاريخية للمنطقة من خلال وسائل الإعلام الرقمية.' }
   },
   {
     id: 'creator34',
     url: '/gallery/gallery_creator34.jpg',
-    title: { en: "Creative Gathering", ar: 'التجمع الإبداعي' },
+    title: { en: "Eslam Mahdi", ar: 'إسلام مهدي'},
     description: { en: "A gathering of designers, storytellers, and cultural catalysts.", ar: 'تجمع للمصممين ورواة القصص ومحفزي الثقافة.' }
   },
   {
     id: 'creator35',
     url: '/gallery/gallery_creator35.jpg',
-    title: { en: "Tripoli Inspiration", ar: 'إلهام طرابلس' },
+    title: { en: "Shashtari Twins", ar: 'توأم ششتري'},
     description: { en: "Finding artistic inspiration in the architectural textures of the fairgrounds.", ar: 'العثور على إلهام فني في التفاصيل المعمارية لمعرض رشيد كرامي.' }
   },
   {
     id: 'creator36',
     url: '/gallery/gallery_creator36.jpg',
-    title: { en: "Digital Architecture", ar: 'العمارة الرقمية' },
+    title: { en: "Ramy Hamdan", ar: 'رامي حمدان'},
     description: { en: "Interpreting Oscar Niemeyer's modernist designs through a digital lens.", ar: 'تفسير تصاميم أوسكار نيماير الحداثية من خلال عدسة رقمية.' }
   },
   {
     id: 'creator37',
     url: '/gallery/gallery_creator37.jpg',
-    title: { en: "Visual Archive", ar: 'الأرشيف البصري' },
+    title: { en: "Tarazan", ar: 'طرزان'},
     description: { en: "Preserving collective memories and regional stories of North Lebanon.", ar: 'الحفاظ على الذكريات الجماعية والقصص الإقليمية لشمال لبنان.' }
   },
   {
     id: 'creator38',
     url: '/gallery/gallery_creator38.jpg',
-    title: { en: "Local Perspective", ar: 'منظور محلي' },
+    title: { en: "Ibrahim Maarawi", ar: 'إبراهيم معراوي'},
     description: { en: "Highlighting the authentic daily narratives of Tripoli's historic quarters.", ar: 'تسليط الضوء على الروايات اليومية الأصيلة للأحياء التاريخية في طرابلس.' }
   },
   {
     id: 'creator39',
     url: '/gallery/gallery_creator39.jpg',
-    title: { en: "Creative Journey", ar: 'رحلة إبداعية' },
+    title: { en: "Mira Ghamrawi (Em Roben)", ar: 'ميرا غمراوي (أم روبين)'},
     description: { en: "Exploring the creative pathways that connect North Lebanon to the world.", ar: 'استكشاف المسارات الإبداعية التي تربط شمال لبنان بالعالم.' }
   },
   {
     id: 'creator40',
     url: '/gallery/gallery_creator40.jpg',
-    title: { en: "Modern Heritage", ar: 'التراث الحديث' },
+    title: { en: "Raed Hamdan", ar: 'رائد حمدان'},
     description: { en: "Synthesizing historic architecture with contemporary digital design.", ar: 'توليف العمارة التاريخية مع التصميم الرقمي المعاصر.' }
   },
   {
     id: 'creator41',
     url: '/gallery/gallery_creator41.jpg',
-    title: { en: "Tripoli Gathering", ar: 'تجمع طرابلس' },
+    title: { en: "Kamal Mohammad", ar: 'كمال محمد'},
     description: { en: "Building supportive networks for content creators and local talent.", ar: 'بناء شبكات دعم لمنشئي المحتوى والمواهب المحلية.' }
   },
   {
     id: 'creator42',
     url: '/gallery/gallery_creator42.jpg',
-    title: { en: "Content Curation", ar: 'تنسيق المحتوى' },
+    title: { en: "Bob Jaalouk", ar: 'بوب جعلوك'},
     description: { en: "Selecting visual narratives that showcase the cultural depth of the city.", ar: 'تحديد الروايات البصرية التي تعرض العمق الثقافي للمدينة.' }
   },
   {
     id: 'creator43',
     url: '/gallery/gallery_creator43.jpg',
-    title: { en: "Creative Dialogue", ar: 'حوار إبداعي' },
+    title: { en: "Yara Bou Monsef", ar: 'يارا بو منصف'},
     description: { en: "Discussing the role of media in preserving cultural assets and memory.", ar: 'مناقشة دور وسائل الإعلام في الحفاظ على الأصول الثقافية والذاكرة.' }
   },
   {
     id: 'creator44',
     url: '/gallery/gallery_creator44.jpg',
-    title: { en: "Cultural Preservation", ar: 'الحفاظ الثقافي' },
+    title: { en: "Raghda K", ar: 'رغدة كيو'},
     description: { en: "Highlighting community efforts in documenting Tripoli's public spaces.", ar: 'تسليط الضوء على الجهود المجتمعية في توثيق المساحات العامة في طرابلس.' }
   },
   {
     id: 'creator45',
     url: '/gallery/gallery_creator45.jpg',
-    title: { en: "Regional Voice", ar: 'صوت إقليمي' },
+    title: { en: "Bilal Haddad", ar: 'بلال حداد'},
     description: { en: "Amplifying local perspectives through coordinated digital campaigns.", ar: 'تضخيم وجهات النظر المحلية من خلال الحملات الرقمية المنسقة.' }
   },
   {
     id: 'creator46',
     url: '/gallery/gallery_creator46.jpg',
-    title: { en: "Community Inspiration", ar: 'إلهام المجتمع' },
+    title: { en: "Osman Taleb", ar: 'عثمان طالب'},
     description: { en: "Inspiring the next generation of storytellers in North Lebanon.", ar: 'إلهام الجيل القادم من رواة القصص في شمال لبنان.' }
   },
   {
     id: 'creator47',
     url: '/gallery/gallery_creator47.jpg',
-    title: { en: "Artistic Reflection", ar: 'انعكاس فني' },
+    title: { en: "Mohamad Adnan", ar: 'محمد عدنان'},
     description: { en: "Reflecting on the geometry and light of Tripoli's iconic landmarks.", ar: 'التأمل في هندسة ونور معالم طرابلس الشهيرة.' }
   },
   {
     id: 'creator48',
     url: '/gallery/gallery_creator48.jpg',
-    title: { en: "Tripoli Spotlight", ar: 'أضواء على طرابلس' },
+    title: { en: "Christiane AlKhoury Abboud", ar: 'كريستيان الخوري عبود'},
     description: { en: "Bringing regional focus to the cultural treasures of the city.", ar: 'تسليط التركيز الإقليمي على الكنوز الثقافية للمدينة.' }
   },
   {
     id: 'creator49',
     url: '/gallery/gallery_creator49.jpg',
-    title: { en: "Modern Narrative", ar: 'الرواية الحديثة' },
+    title: { en: "Farah Kordy", ar: 'فرح الكردي'},
     description: { en: "Telling the stories of Tripoli's heritage through interactive media.", ar: 'سرد قصص تراث طرابلس من خلال وسائل الإعلام التفاعلية.' }
   },
   {
     id: 'creator50',
     url: '/gallery/gallery_creator50.jpg',
-    title: { en: "Creative Catalyst", ar: 'محفز إبداعي' },
+    title: { en: "Ammar Najjar", ar: 'عمار النجار'},
     description: { en: "Sparking conversations about architecture, culture, and media.", ar: 'إثارة المحادثات حول العمارة والثقافة ووسائل الإعلام.' }
   },
   {
     id: 'creator51',
     url: '/gallery/gallery_creator51.jpg',
-    title: { en: "Cultural Connection", ar: 'الترابط الثقافي' },
+    title: { en: "Bob Harkal", ar: 'بوب حركال'},
     description: { en: "Strengthening the bonds between traditional crafts and digital platforms.", ar: 'تعزيز الروابط بين الحرف التقليدية والمنصات الرقمية.' }
   },
   {
     id: 'creator52',
     url: '/gallery/gallery_creator52.jpg',
-    title: { en: "Tripoli Showcase", ar: 'معرض طرابلس' },
+    title: { en: "Ahmad Abo Rob", ar: 'أحمد أبو الرب'},
     description: { en: "Presenting community-driven documentation of historic monuments.", ar: 'تقديم توثيق مدفوع من المجتمع للمباني التاريخية.' }
   },
   {
     id: 'creator53',
     url: '/gallery/gallery_creator53.jpg',
-    title: { en: "Digital Storytelling", ar: 'سرد القصص الرقمية' },
+    title: { en: "Mohamad Sabbagh", ar: 'محمد الصباغ'},
     description: { en: "Translating heritage into compelling digital content and visual art.", ar: 'ترجمة التراث إلى محتوى رقمي مقنع وفن بصري.' }
   },
   {
     id: 'creator54',
     url: '/gallery/gallery_creator54.jpg',
-    title: { en: "Community Snapshot", ar: 'لقطة مجتمعية' },
+    title: { en: "Denise al Shaloohy", ar: 'دنيز الشلوحي'},
     description: { en: "Capturing authentic smiles and collaboration between local creators.", ar: 'التقاط الابتسامات الأصيلة والتعاون بين المبدعين المحليين.' }
   },
   {
     id: 'creator55',
     url: '/gallery/gallery_creator55.jpg',
-    title: { en: "Creative Collaboration", ar: 'التعاون الإبداعي' },
+    title: { en: "The Rahal", ar: 'الرحال'},
     description: { en: "Designing the future of community storytelling through digital tools.", ar: 'تصميم مستقبل سرد القصص المجتمعية من خلال الأدوات الرقمية.' }
   },
   {
     id: 'creator56',
     url: '/gallery/gallery_creator56.jpg',
-    title: { en: "Tripoli Vision", ar: 'رؤية طرابلس' },
+    title: { en: "Hassan Hashem", ar: 'حسن هاشم'},
     description: { en: "Envisioning the intersection of digital growth and heritage preservation.", ar: 'تصور تقاطع النمو الرقمي والحفاظ على التراث.' }
   }
 ];
