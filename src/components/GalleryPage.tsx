@@ -154,6 +154,36 @@ const GALLERY_PHOTOS = [
     url: '/gallery/gallery_creator18.jpg',
     title: { en: 'Community Architect', ar: 'مهندس المجتمع' },
     description: { en: 'Husein Fayad sharing insights on digital architecture and heritage preservation.', ar: 'حسين فياض يشارك رؤى حول الهندسة المعمارية الرقمية والحفاظ على التراث.' }
+  },
+  {
+    id: 'creator19',
+    url: '/gallery/gallery_creator19.jpg',
+    title: { en: 'Artistic Inspiration', ar: 'إلهام فني' },
+    description: { en: 'A visitor contemplating historical masterpieces, reflecting on the union of art and heritage.', ar: 'زائرة تتأمل الروائع التاريخية، متأملة في اتحاد الفن والتراث.' }
+  },
+  {
+    id: 'creator20',
+    url: '/gallery/gallery_creator20.jpg',
+    title: { en: 'Podcast & Transmission', ar: 'البودكاست والبث' },
+    description: { en: 'Broadcasting live interviews and creator dialogues from the Tripoli event.', ar: 'بث المقابلات المباشرة وحوارات المبدعين من حدث طرابلس.' }
+  },
+  {
+    id: 'creator21',
+    url: '/gallery/gallery_creator21.jpg',
+    title: { en: 'Executive Spotlight', ar: 'تسليط الضوء على الإدارة' },
+    description: { en: 'Celebrating leadership and regional entrepreneurship in the digital domain.', ar: 'الاحتفال بالقيادة وريادة الأعمال الإقليمية في المجال الرقمي.' }
+  },
+  {
+    id: 'creator22',
+    url: '/gallery/gallery_creator22.jpg',
+    title: { en: 'Passionate Creator', ar: 'مبدع شغوف' },
+    description: { en: 'A regional storyteller sharing creative strategies and branding designs.', ar: 'راوي قصص إقليمي يشارك الاستراتيجيات الإبداعية وتصاميم الهوية التجارية.' }
+  },
+  {
+    id: 'creator23',
+    url: '/gallery/gallery_creator23.jpg',
+    title: { en: 'Journey to Tripoli', ar: 'رحلة إلى طرابلس' },
+    description: { en: 'Capturing moments of transit and exploration in North Lebanon.', ar: 'التقاط لحظات الانتقال والاستكشاف في شمال لبنان.' }
   }
 ];
 
