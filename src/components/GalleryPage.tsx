@@ -124,6 +124,36 @@ const GALLERY_PHOTOS = [
     url: '/gallery/gallery_logo_yellow.png',
     title: { en: 'HON Roots & Reach Logo (Gold)', ar: 'شعار جذور ووصول (ذهبي)' },
     description: { en: 'The signature gold variation of the Roots & Reach branding logo, reflecting Tripoli’s historical warmth.', ar: 'النسخة الذهبية المميزة لشعار جذور ووصول، تعكس الدفء التاريخي لمدينة طرابلس.' }
+  },
+  {
+    id: 'creator14',
+    url: '/gallery/gallery_creator14.jpg',
+    title: { en: 'Chef Elie Harb', ar: 'الشيف إيلي حرب' },
+    description: { en: 'Chef Elie Harb preparing gastronomic delights for the event’s culinary showcase.', ar: 'الشيف إيلي حرب يحضر أطباقاً شهية لمعرض الطهي الخاص بالحدث.' }
+  },
+  {
+    id: 'creator15',
+    url: '/gallery/gallery_creator15.jpg',
+    title: { en: 'Style Spotlight', ar: 'تسليط الضوء على الأناقة' },
+    description: { en: 'A regional creator sharing modern fashion inspiration and lifestyle aesthetics.', ar: 'منشئة محتوى إقليمية تشارك إلهام الموضة الحديثة وجماليات أسلوب الحياة.' }
+  },
+  {
+    id: 'creator16',
+    url: '/gallery/gallery_creator16.jpg',
+    title: { en: 'Evening Elegance', ar: 'أناقة المساء' },
+    description: { en: 'Showcasing designer evening wear and modern Mediterranean fashion.', ar: 'عرض ملابس السهرة الفاخرة والأزياء الحديثة للبحر الأبيض المتوسط.' }
+  },
+  {
+    id: 'creator17',
+    url: '/gallery/gallery_creator17.png',
+    title: { en: 'Royal Cosmetics Showcase', ar: 'معرض مستحضرات التجميل رويال' },
+    description: { en: 'A vibrant moment celebrating regional beauty brands and creative marketing.', ar: 'لحظة حيوية تحتفي بماركات التجميل الإقليمية والتسويق الإبداعي.' }
+  },
+  {
+    id: 'creator18',
+    url: '/gallery/gallery_creator18.jpg',
+    title: { en: 'Community Architect', ar: 'مهندس المجتمع' },
+    description: { en: 'Husein Fayad sharing insights on digital architecture and heritage preservation.', ar: 'حسين فياض يشارك رؤى حول الهندسة المعمارية الرقمية والحفاظ على التراث.' }
   }
 ];
 
