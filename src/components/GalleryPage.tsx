@@ -70,6 +70,36 @@ const GALLERY_PHOTOS = [
     url: '/gallery/gallery_fair.jpg',
     title: { en: 'Rashid Karami Pavilion', ar: 'جناح رشيد كرامي' },
     description: { en: 'A sunlit view of Oscar Niemeyer’s iconic modernist architecture in Tripoli.', ar: 'منظر مشمس للعمارة الحداثية الشهيرة للمصمم أوسكار نيماير في طرابلس.' }
+  },
+  {
+    id: 'creator9',
+    url: '/gallery/gallery_creator9.jpg',
+    title: { en: 'Focused Curation', ar: 'تنسيق مركز' },
+    description: { en: 'A content creator concentrating on video curation and storytelling logistics.', ar: 'منشئ محتوى يركز على تنسيق الفيديو ولوجستيات سرد القصص.' }
+  },
+  {
+    id: 'creator10',
+    url: '/gallery/gallery_creator10.jpg',
+    title: { en: 'Street Level Perspectives', ar: 'منظور الشارع' },
+    description: { en: 'Capturing the vibrant energy of Tripoli’s public spaces and walkability.', ar: 'التقاط الطاقة النابضة بالحياة للمساحات العامة في طرابلس وقابليتها للمشي.' }
+  },
+  {
+    id: 'creator11',
+    url: '/gallery/gallery_creator11.jpg',
+    title: { en: 'Summer Gatherings', ar: 'التجمعات الصيفية' },
+    description: { en: 'Emphasizing the connection between simple pleasures and community bonding.', ar: 'التأكيد على الروابط بين المتع البسيطة والترابط المجتمعي.' }
+  },
+  {
+    id: 'creator12',
+    url: '/gallery/gallery_creator12.jpg',
+    title: { en: 'Culinary Masterclass', ar: 'دروس الطهي الاحترافية' },
+    description: { en: 'Chady Maatouk sharing food and beverage consulting insights during the exhibition.', ar: 'شادي معتوق يشارك أفكار استشارات الأغذية والمشروبات خلال المعرض.' }
+  },
+  {
+    id: 'creator13',
+    url: '/gallery/gallery_creator13.jpg',
+    title: { en: 'Gastronomic Curation', ar: 'التنسيق الغذائي' },
+    description: { en: 'Expressing cultural heritage through culinary expertise and traditional cooking.', ar: 'التعبير عن التراث الثقافي من خلال الخبرة في مجال الطهي والطبخ التقليدي.' }
   }
 ];
 
