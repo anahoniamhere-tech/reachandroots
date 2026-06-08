@@ -6,7 +6,7 @@ import {
   Sparkles, Coffee, Mic2, Palmtree, Utensils, Theater, PlayCircle,
   Loader2, Video, Play, Mic, Radio, Smartphone, Activity, 
   Grid, Award, Share2, MessageSquare, Zap, Waves, Signal, 
-  Search, Users, Globe, Target, Clock, Filter, ExternalLink
+  Search, Users, Globe, Target, Clock, Filter, ExternalLink, Copy
 } from 'lucide-react';
 import { 
   TripoliHeritage, FayhaaFlow, DigitalCreativity, 
@@ -24,6 +24,7 @@ import { TicketService } from './services/ticketService';
 import { AdminService } from './services/adminService';
 import { PROGRAM_DATA, DayProgram, Session } from './constants/programData';
 import { useLanguage } from './lib/LanguageContext';
+import { CREATORS_EMAIL_DATA } from './constants/creatorsData';
 
 // --- Components ---
 
@@ -850,6 +851,183 @@ export default function App() {
   );
 }
 
+const CreatorInvitationPortal = () => {
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const [selectedType, setSelectedType] = React.useState<string | null>(null);
+  const [copiedId, setCopiedId] = React.useState<string | null>(null);
+  const [previewCreator, setPreviewCreator] = React.useState<typeof CREATORS_EMAIL_DATA[0] | null>(null);
+
+  // Extract unique types and filter out nulls/falsy values
+  const types = Array.from(new Set(CREATORS_EMAIL_DATA.map(c => c.type))).filter(Boolean);
+
+  const filteredCreators = CREATORS_EMAIL_DATA.filter(c => {
+    const matchesSearch = c.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          c.id.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesType = !selectedType || c.type === selectedType;
+    return matchesSearch && matchesType;
+  });
+
+  const copyToClipboard = (id: string, html: string) => {
+    navigator.clipboard.writeText(html).then(() => {
+      setCopiedId(id);
+      setTimeout(() => setCopiedId(null), 2000);
+    });
+  };
+
+  return (
+    <div className="space-y-8">
+      {/* Search & Filter Controls */}
+      <div className="flex flex-col md:flex-row gap-6 justify-between items-stretch md:items-center">
+        {/* Search Input */}
+        <div className="relative flex-1 max-w-md">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-navy/30" size={18} />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search creators by name or ID..."
+            className="w-full bg-white text-brand-navy border border-brand-navy/15 rounded-xl pl-12 pr-6 py-3.5 focus:outline-none focus:ring-1 focus:ring-brand-coral text-sm shadow-sm"
+          />
+        </div>
+
+        {/* Filter Pills */}
+        <div className="flex flex-wrap gap-2 items-center">
+          <button
+            onClick={() => setSelectedType(null)}
+            className={`px-4 py-2 rounded-xl text-xs font-display font-bold uppercase tracking-wider transition-colors border ${!selectedType ? 'bg-brand-navy text-white border-brand-navy' : 'bg-white text-brand-navy/40 border-brand-navy/10 hover:bg-brand-navy/5'}`}
+          >
+            All Types
+          </button>
+          {types.map(t => (
+            <button
+              key={t}
+              onClick={() => setSelectedType(t)}
+              className={`px-4 py-2 rounded-xl text-xs font-display font-bold uppercase tracking-wider transition-colors border ${selectedType === t ? 'bg-brand-navy text-white border-brand-navy' : 'bg-white text-brand-navy/40 border-brand-navy/10 hover:bg-brand-navy/5'}`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Grid of Creators */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredCreators.map(creator => (
+          <div key={creator.id} className="p-8 bg-white border border-brand-navy/5 rounded-[2rem] flex flex-col justify-between hover:shadow-2xl transition-all duration-500 min-h-[220px]">
+            <div>
+              <div className="flex justify-between items-start gap-4 mb-4">
+                <span className="font-mono text-[10px] tracking-wider text-brand-navy/30 uppercase">
+                  ID: {creator.id.toUpperCase()}
+                </span>
+                <span className="px-3 py-1 bg-brand-navy/5 text-brand-navy/50 rounded-full text-[9px] font-display font-bold uppercase tracking-widest">
+                  {creator.type}
+                </span>
+              </div>
+              <h3 className="font-display font-bold text-2xl text-brand-navy uppercase tracking-tighter mb-2 leading-none">
+                {creator.name}
+              </h3>
+              <p className="editorial-label text-brand-coral font-bold text-[9px] uppercase tracking-widest mb-6">
+                Category: {creator.category}
+              </p>
+            </div>
+
+            <div className="flex gap-4 pt-4 border-t border-brand-navy/5 mt-auto">
+              {/* Copy HTML Button */}
+              <button
+                onClick={() => copyToClipboard(creator.id, creator.emailHtml)}
+                className="flex-1 flex items-center justify-center gap-2 py-3 px-4 border-2 border-brand-navy hover:border-brand-coral hover:bg-brand-coral hover:text-white rounded-xl font-display font-bold text-[10px] tracking-wider uppercase transition-colors"
+              >
+                {copiedId === creator.id ? (
+                  <>
+                    <Check size={12} className="text-green-500" />
+                    <span>Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy size={12} />
+                    <span>Copy HTML</span>
+                  </>
+                )}
+              </button>
+
+              {/* Preview Button */}
+              <button
+                onClick={() => setPreviewCreator(creator)}
+                className="px-4 py-3 bg-brand-navy hover:bg-brand-coral text-white rounded-xl transition-colors flex items-center justify-center"
+                title="Preview invitation email template"
+              >
+                <ExternalLink size={14} />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Render count or empty state */}
+      {filteredCreators.length === 0 && (
+        <div className="text-center py-20 bg-warm-beige/10 rounded-[2rem] border border-dashed border-brand-navy/10">
+          <p className="font-body text-brand-navy/40 text-lg">No creators match your search or filter.</p>
+        </div>
+      )}
+
+      {/* Email Preview Modal */}
+      {previewCreator && (
+        <div className="fixed inset-0 z-[150] bg-brand-navy/95 backdrop-blur-md flex items-center justify-center p-4 md:p-10" onClick={() => setPreviewCreator(null)}>
+          <div className="relative max-w-5xl w-full h-[85vh] flex flex-col bg-warm-beige rounded-[3rem] overflow-hidden shadow-2xl border border-white/10" onClick={(e) => e.stopPropagation()}>
+            {/* Modal Header */}
+            <div className="p-8 bg-white border-b border-brand-navy/5 flex justify-between items-center shrink-0">
+              <div>
+                <span className="editorial-label text-brand-coral font-bold tracking-widest block mb-1">EMAIL INVITATION PREVIEW</span>
+                <h2 className="font-display font-black text-2xl text-brand-navy uppercase tracking-tight">
+                  {previewCreator.name}
+                </h2>
+              </div>
+              <div className="flex gap-4 items-center">
+                <button
+                  onClick={() => copyToClipboard(previewCreator.id + '_modal', previewCreator.emailHtml)}
+                  className="flex items-center gap-2 py-3 px-6 bg-brand-coral text-white hover:bg-brand-navy rounded-xl font-display font-bold text-xs tracking-wider uppercase transition-colors shadow-md"
+                >
+                  {copiedId === previewCreator.id + '_modal' ? (
+                    <>
+                      <Check size={14} className="text-green-300" />
+                      <span>HTML Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy size={14} />
+                      <span>Copy HTML</span>
+                    </>
+                  )}
+                </button>
+                <button
+                  onClick={() => setPreviewCreator(null)}
+                  className="w-12 h-12 rounded-full bg-brand-navy/5 hover:bg-brand-coral hover:text-white text-brand-navy flex items-center justify-center transition-colors shadow-sm"
+                  title="Close preview"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Body / Iframe Area */}
+            <div className="flex-1 bg-white p-6 md:p-10 overflow-hidden flex flex-col">
+              <div className="mb-4 text-xs font-mono text-brand-navy/40 bg-brand-navy/5 p-4 rounded-xl">
+                Note: This renders the email HTML code inside a sandboxed environment exactly as it will appear in the composed email.
+              </div>
+              <iframe
+                srcDoc={previewCreator.emailHtml}
+                title="Email preview"
+                className="w-full h-full border border-brand-navy/10 rounded-2xl bg-white shadow-inner"
+                sandbox="allow-same-origin"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const AdminDashboard = () => {
   const [stats, setStats] = useState({ orders: 0, revenue: 0, tiers: [] as any[] });
   const [isLoading, setIsLoading] = useState(true);
@@ -1018,6 +1196,14 @@ const AdminDashboard = () => {
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="space-y-12 relative z-10 mb-32">
+        <div className="flex items-center gap-6 border-b border-brand-navy/5 pb-8">
+           <span className="editorial-label text-brand-coral font-bold italic">02 //</span>
+           <h2 className="editorial-label text-brand-navy/30 tracking-[0.4em] uppercase font-bold text-[10px]">Creator Invitation Portal</h2>
+        </div>
+        <CreatorInvitationPortal />
       </div>
       
       <div className="media-card rounded-[3rem] p-16 md:p-24 flex flex-col md:flex-row justify-between items-center gap-12 relative overflow-hidden bg-warm-beige/30 border-none">
