@@ -100,6 +100,30 @@ const GALLERY_PHOTOS = [
     url: '/gallery/gallery_creator13.jpg',
     title: { en: 'Gastronomic Curation', ar: 'التنسيق الغذائي' },
     description: { en: 'Expressing cultural heritage through culinary expertise and traditional cooking.', ar: 'التعبير عن التراث الثقافي من خلال الخبرة في مجال الطهي والطبخ التقليدي.' }
+  },
+  {
+    id: 'fair_aerial',
+    url: '/gallery/gallery_fair_aerial.jpg',
+    title: { en: 'Rashid Karami International Fair Overview', ar: 'نظرة عامة على معرض رشيد كرامي الدولي' },
+    description: { en: 'An aerial perspective showing Oscar Niemeyer’s architectural masterpieces surrounded by lush gardens.', ar: 'منظور جوي يظهر الروائع المعمارية للمصمم أوسكار نيماير محاطة بالحدائق المورقة.' }
+  },
+  {
+    id: 'logo_black',
+    url: '/gallery/gallery_logo_black.png',
+    title: { en: 'HON Roots & Reach Logo (Dark)', ar: 'شعار جذور ووصول (داكن)' },
+    description: { en: 'The brand identity design for Roots & Reach, featuring a high-contrast skull emblem and geometric glyphs.', ar: 'تصميم الهوية التجارية لـ جذور ووصول، يتميز بشعار جمجمة عالي التباين ورموز هندسية.' }
+  },
+  {
+    id: 'hammam',
+    url: '/gallery/gallery_hammam.jpg',
+    title: { en: 'Al-Nouri Hammam Interior', ar: 'التصميم الداخلي لحمام النوري' },
+    description: { en: 'The ancient stone arches, geometric dome, and central marble fountain of Tripoli’s historic public bath.', ar: 'الأقواس الحجرية القديمة، والقبة الهندسية، والنافورة الرخامية المركزية للحمام التاريخي العام في طرابلس.' }
+  },
+  {
+    id: 'logo_yellow',
+    url: '/gallery/gallery_logo_yellow.png',
+    title: { en: 'HON Roots & Reach Logo (Gold)', ar: 'شعار جذور ووصول (ذهبي)' },
+    description: { en: 'The signature gold variation of the Roots & Reach branding logo, reflecting Tripoli’s historical warmth.', ar: 'النسخة الذهبية المميزة لشعار جذور ووصول، تعكس الدفء التاريخي لمدينة طرابلس.' }
   }
 ];
 
