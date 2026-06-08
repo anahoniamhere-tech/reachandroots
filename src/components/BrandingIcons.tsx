@@ -4,6 +4,8 @@ import logo02T from '../assets/HON-LOGO---02-1440-T.png';
 import logo02TYellow from '../assets/HON-LOGO---02-1440-T_Yellow.png';
 import logo03Y from '../assets/HON-LOGO---03-1440-Y.png';
 import yellowHeaderLogo from '../assets/Yellow_Header_logo.png';
+import galleryLogoBlack from '../assets/gallery_logo_black.png';
+import galleryLogoYellow from '../assets/gallery_logo_yellow.png';
 
 export const TripoliHeritage = ({ className = "w-6 h-6" }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={className}>
@@ -67,7 +69,7 @@ export const CommunityConnection = ({ className = "w-6 h-6" }: { className?: str
 
 interface BrandLogoProps {
   className?: string;
-  variant?: 'transparent' | 'yellow' | 'transparent-yellow' | 'banner' | 'yellow-header';
+  variant?: 'transparent' | 'yellow' | 'transparent-yellow' | 'banner' | 'yellow-header' | 'written-black' | 'written-yellow';
 }
 
 export const BrandLogo = ({ className = "w-12 h-12", variant = "transparent" }: BrandLogoProps) => {
@@ -81,6 +83,10 @@ export const BrandLogo = ({ className = "w-12 h-12", variant = "transparent" }: 
         return logo03Y;
       case 'yellow-header':
         return yellowHeaderLogo;
+      case 'written-black':
+        return galleryLogoBlack;
+      case 'written-yellow':
+        return galleryLogoYellow;
       case 'transparent':
       default:
         return logo02T;
