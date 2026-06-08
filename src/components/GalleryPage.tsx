@@ -40,6 +40,36 @@ const GALLERY_PHOTOS = [
     url: '/gallery/gallery_creator4.jpg',
     title: { en: 'Modern Narratives', ar: 'الروايات الحديثة' },
     description: { en: 'Exploring heritage through digital storytelling and modern design.', ar: 'استكشاف التراث من خلال سرد القصص الرقمية والتصميم الحديث.' }
+  },
+  {
+    id: 'creator5',
+    url: '/gallery/gallery_creator5.jpg',
+    title: { en: 'Heritage and Companionship', ar: 'التراث والصحبة' },
+    description: { en: 'Documenting the serene integration of local life and historic architectural ruins.', ar: 'توثيق التكامل الهادئ للحياة المحلية والأطلال المعمارية التاريخية.' }
+  },
+  {
+    id: 'creator6',
+    url: '/gallery/gallery_creator6.jpg',
+    title: { en: 'Culinary Storytelling', ar: 'سرد قصص الطهي' },
+    description: { en: 'Sharing authentic Mediterranean recipes and community food traditions.', ar: 'مشاركة وصفات البحر الأبيض المتوسط الأصيلة وتقاليد الطعام المجتمعية.' }
+  },
+  {
+    id: 'creator7',
+    url: '/gallery/gallery_creator7.jpg',
+    title: { en: 'Creative Reflection', ar: 'التأمل الإبداعي' },
+    description: { en: 'A regional creator contemplating the synthesis of modern media and tradition.', ar: 'مبدع إقليمي يتأمل في توليف وسائل الإعلام الحديثة والتقاليد.' }
+  },
+  {
+    id: 'creator8',
+    url: '/gallery/gallery_creator8.jpg',
+    title: { en: 'Moments of Joy', ar: 'لحظات من الفرح' },
+    description: { en: 'Celebrating the laughter and authentic connection between content creators.', ar: 'الاحتفال بالضحك والتواصل الأصيل بين منشئي المحتوى.' }
+  },
+  {
+    id: 'fair',
+    url: '/gallery/gallery_fair.jpg',
+    title: { en: 'Rashid Karami Pavilion', ar: 'جناح رشيد كرامي' },
+    description: { en: 'A sunlit view of Oscar Niemeyer’s iconic modernist architecture in Tripoli.', ar: 'منظر مشمس للعمارة الحداثية الشهيرة للمصمم أوسكار نيماير في طرابلس.' }
   }
 ];
 
