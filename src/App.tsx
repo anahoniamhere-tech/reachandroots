@@ -913,8 +913,24 @@ const CreatorInvitationPortal = () => {
       {/* Grid of Creators */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredCreators.map(creator => (
-          <div key={creator.id} className="p-8 bg-white border border-brand-navy/5 rounded-[2rem] flex flex-col justify-between hover:shadow-2xl transition-all duration-500 min-h-[220px]">
+          <div key={creator.id} className="p-8 bg-white border border-brand-navy/5 rounded-[2rem] flex flex-col justify-between hover:shadow-2xl transition-all duration-500 min-h-[340px]">
             <div>
+              {/* Creator Photo */}
+              <div className="relative h-48 w-full rounded-2xl overflow-hidden mb-6 bg-brand-navy/5 border border-brand-navy/5 shadow-inner">
+                <img 
+                  src={`/gallery/gallery_${creator.id}.jpg`} 
+                  alt={creator.name}
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                  loading="lazy"
+                  onError={(e) => {
+                    const img = e.currentTarget;
+                    if (img.src.endsWith('.jpg')) {
+                      img.src = `/gallery/gallery_${creator.id}.png`;
+                    }
+                  }}
+                />
+              </div>
+
               <div className="flex justify-between items-start gap-4 mb-4">
                 <span className="font-mono text-[10px] tracking-wider text-brand-navy/30 uppercase">
                   ID: {creator.id.toUpperCase()}
