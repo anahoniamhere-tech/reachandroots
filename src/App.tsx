@@ -16,6 +16,7 @@ import { SanctuaryPage } from './components/SanctuaryPage';
 import { SanctuaryApplyPage } from './components/SanctuaryApplyPage';
 import { OurStory } from './components/OurStory';
 import { TicketsPage } from './components/TicketsPage';
+import { GalleryPage } from './components/GalleryPage';
 import { auth, db, onAuthStateChanged, signInWithPasscode, collection, getDocs, User as FirebaseUser } from './lib/firebase';
 import { TICKET_TIERS, EVENT_DAYS } from './constants';
 import { TicketTier, EventDay, Order, BuyerInfo, VipDetails } from './types';
@@ -26,7 +27,7 @@ import { useLanguage } from './lib/LanguageContext';
 
 // --- Components ---
 
-const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply') => void, onOpenTickets: () => void, currentView: string }) => {
+const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery') => void, onOpenTickets: () => void, currentView: string }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, language, setLanguage, isRTL } = useLanguage();
@@ -281,7 +282,7 @@ const Hero = ({ onShopNow }: { onShopNow: () => void }) => {
 
 // --- Selection Page ---
 
-const ProgramPage = ({ onNavigate }: { onNavigate: (v: 'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply') => void }) => {
+const ProgramPage = ({ onNavigate }: { onNavigate: (v: 'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery') => void }) => {
   const [activeDay, setActiveDay] = useState<'Friday' | 'Saturday' | 'Sunday'>('Friday');
   const [filterType, setFilterType] = useState<string | null>(null);
   const { t, isRTL } = useLanguage();
@@ -538,7 +539,7 @@ const ProgramPage = ({ onNavigate }: { onNavigate: (v: 'landing' | 'finder' | 't
 
 export default function App() {
   const { t, isRTL } = useLanguage();
-  const [view, setView] = useState<'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply'>('landing');
+  const [view, setView] = useState<'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery'>('landing');
   const [selectedTrack, setSelectedTrack] = useState<string | null>(null);
   const [isAdminMode, setIsAdminMode] = useState(window.location.hash === '#admin');
   const [user, setUser] = useState<FirebaseUser | null>(auth.currentUser);
@@ -549,10 +550,12 @@ export default function App() {
     const isProgram = p.endsWith('/program') || p.includes('/program/');
     const isSanctuaryApply = p.endsWith('/sanctuary/apply');
     const isSanctuary = (p.endsWith('/sanctuary') || p.includes('/sanctuary/')) && !isSanctuaryApply;
+    const isGallery = p.endsWith('/gallery') || p.includes('/gallery/');
 
     if (isProgram) setView('program');
     else if (isSanctuaryApply) setView('sanctuary-apply');
     else if (isSanctuary) setView('sanctuary');
+    else if (isGallery) setView('gallery');
     
     const unsubscribe = onAuthStateChanged(auth, setUser);
     const handleHash = () => setIsAdminMode(window.location.hash === '#admin');
@@ -564,6 +567,7 @@ export default function App() {
       if (path.endsWith('/program')) setView('program');
       else if (path.endsWith('/sanctuary')) setView('sanctuary');
       else if (path.endsWith('/sanctuary/apply')) setView('sanctuary-apply');
+      else if (path.endsWith('/gallery')) setView('gallery');
       else setView('landing');
     };
     window.addEventListener('popstate', handlePopState);
@@ -586,7 +590,9 @@ export default function App() {
       window.history.pushState({}, '', `${prefix}/sanctuary`);
     } else if (view === 'sanctuary-apply' && !path.endsWith('/sanctuary/apply')) {
       window.history.pushState({}, '', `${prefix}/sanctuary/apply`);
-    } else if (view === 'landing' && path !== prefix && !['program', 'sanctuary', 'sanctuary-apply'].includes(view)) {
+    } else if (view === 'gallery' && !path.endsWith('/gallery')) {
+      window.history.pushState({}, '', `${prefix}/gallery`);
+    } else if (view === 'landing' && path !== prefix && !['program', 'sanctuary', 'sanctuary-apply', 'gallery'].includes(view)) {
       window.history.pushState({}, '', prefix);
     }
     window.scrollTo(0, 0);
@@ -671,6 +677,7 @@ export default function App() {
           <Navbar onNavigate={setView} onOpenTickets={() => setView('tickets')} currentView={view} />
           <main>
             {view === 'program' && <ProgramPage onNavigate={setView} />}
+            {view === 'gallery' && <GalleryPage onNavigate={setView} />}
             {view === 'sanctuary' && (
               <SanctuaryPage 
                 onNavigate={setView} 
