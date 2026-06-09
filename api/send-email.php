@@ -151,16 +151,15 @@ function send_smtp_email($to, $subject, $html, $host, $port, $user, $pass) {
     return true;
 }
 
-// Helper for local php mail() fallback
+// Helper for local php mail() fallback (uses standard string headers for cross-version compatibility)
 function send_mail_fallback($to, $subject, $html, $from_email) {
-    $headers = [
-        "MIME-Version: 1.0",
-        "Content-Type: text/html; charset=UTF-8",
-        "From: Roots & Reach <" . $from_email . ">",
-        "Reply-To: " . $from_email,
-        "X-Mailer: PHP/" . phpversion()
-    ];
-    return mail($to, $subject, $html, $headers);
+    $headers = "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $headers .= "From: Roots & Reach <" . $from_email . ">\r\n";
+    $headers .= "Reply-To: " . $from_email . "\r\n";
+    $headers .= "X-Mailer: PHP/" . phpversion();
+    // Suppress warning if mail() is disabled on Hostinger account, allowing script to return false safely
+    return @mail($to, $subject, $html, $headers);
 }
 
 // 4. Dispatch flow
@@ -184,23 +183,24 @@ try {
         'simulated' => true,
         'message' => 'Email sending simulated because SMTP_PASS is not set and local mail() failed.'
     ]);
-} catch (Exception $e) {
-    log_error("SMTP failed: " . $e->getMessage());
+} catch (Throwable $e) {
+    log_error("Failed to send email: " . $e->getMessage());
     
-    // D. SMTP exception: try PHP mail() fallback as a last resort
+    // D. Exception: try PHP mail() fallback as a last resort
     try {
         if (send_mail_fallback($to, $subject, $html, $smtp_user)) {
-            echo json_encode(['success' => true, 'method' => 'mail_fallback_after_smtp_failure']);
+            echo json_encode(['success' => true, 'method' => 'mail_fallback_after_failure']);
             exit;
         }
-    } catch (Exception $e2) {
-        log_error("Fallback mail() after SMTP failure failed: " . $e2->getMessage());
+    } catch (Throwable $e2) {
+        log_error("Fallback mail() after failure failed: " . $e2->getMessage());
     }
     
-    // Return error response
+    // Return clean JSON error response (will be parsed by fetch)
     http_response_code(500);
     echo json_encode([
         'success' => false,
         'error' => $e->getMessage()
     ]);
+    exit;
 }
