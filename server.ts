@@ -7,6 +7,7 @@ import { z } from "zod";
 import admin from "firebase-admin";
 import { getFirestore } from "firebase-admin/firestore";
 import firebaseConfig from "./firebase-applet-config.json" with { type: "json" };
+import nodemailer from "nodemailer";
 
 // Initialize Firebase Admin (Using Default Credentials or Config)
 // In a real production environment, you'd use a service account key
@@ -20,6 +21,17 @@ if (!admin.apps.length) {
 
 const db = admin.apps.length ? getFirestore(firebaseConfig.firestoreDatabaseId) : null;
 
+// Outbound Mail Transporter Setup (Hostinger SMTP)
+const mailTransporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST || "smtp.hostinger.com",
+  port: parseInt(process.env.SMTP_PORT || "465"),
+  secure: (process.env.SMTP_PORT || "465") === "465",
+  auth: {
+    user: process.env.SMTP_USER || "contact@rootsandreach.org",
+    pass: process.env.SMTP_PASS || "",
+  },
+});
+
 // Validation Schemas
 const OrderRequestSchema = z.object({
   tierId: z.string(),
@@ -29,6 +41,12 @@ const OrderRequestSchema = z.object({
     fullName: z.string(),
     email: z.string().email(),
   }),
+});
+
+const SendEmailSchema = z.object({
+  to: z.string().email(),
+  subject: z.string().min(1),
+  html: z.string().min(1),
 });
 
 const __filename = fileURLToPath(import.meta.url);
@@ -146,6 +164,37 @@ async function startServer() {
       res.json(report);
     } catch (error) {
       res.status(500).json({ error: "Reporting failed" });
+    }
+  });
+
+  // 4. Send Creator Invitation Email (Admin API)
+  app.post("/api/admin/send-email", async (req, res) => {
+    try {
+      const validated = SendEmailSchema.parse(req.body);
+      
+      if (!process.env.SMTP_PASS) {
+        console.warn("SMTP_PASS is not configured. Email sending will be simulated.");
+        return res.status(200).json({ 
+          success: true, 
+          simulated: true, 
+          message: "Email sending simulated because SMTP_PASS is not set." 
+        });
+      }
+
+      await mailTransporter.sendMail({
+        from: `"Roots & Reach" <${process.env.SMTP_USER || "contact@rootsandreach.org"}>`,
+        to: validated.to,
+        subject: validated.subject,
+        html: validated.html,
+      });
+
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Failed to send email:", error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.issues });
+      }
+      res.status(500).json({ error: error instanceof Error ? error.message : "Failed to send email" });
     }
   });
 

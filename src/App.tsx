@@ -4,7 +4,7 @@ import {
   Menu, X, Ticket, ChevronRight, Check, Star, 
   MapPin, Calendar, ArrowRight, User, Settings,
   Sparkles, Coffee, Mic2, Palmtree, Utensils, Theater, PlayCircle,
-  Loader2, Video, Play, Mic, Radio, Smartphone, Activity, 
+  Loader2, Video, Play, Mic, Radio, Smartphone, Activity, Mail,
   Grid, Award, Share2, MessageSquare, Zap, Waves, Signal, 
   Search, Users, Globe, Target, Clock, Filter, ExternalLink, Copy
 } from 'lucide-react';
@@ -857,6 +857,47 @@ const CreatorInvitationPortal = () => {
   const [copiedId, setCopiedId] = React.useState<string | null>(null);
   const [previewCreator, setPreviewCreator] = React.useState<typeof CREATORS_EMAIL_DATA[0] | null>(null);
 
+  const [emails, setEmails] = React.useState<Record<string, string>>({});
+  const [sendingState, setSendingState] = React.useState<Record<string, 'idle' | 'sending' | 'success' | 'error'>>({});
+
+  const handleSendEmail = async (creatorId: string, toEmail: string, htmlContent: string, creatorName: string) => {
+    if (!toEmail || !toEmail.includes('@')) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+    
+    setSendingState(prev => ({ ...prev, [creatorId]: 'sending' }));
+    
+    try {
+      const response = await fetch('/api/admin/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: toEmail,
+          subject: `Roots & Reach Special Creator Invitation - Prepared for ${creatorName}`,
+          html: htmlContent,
+        }),
+      });
+      
+      const result = await response.json();
+      
+      if (response.ok && result.success) {
+        setSendingState(prev => ({ ...prev, [creatorId]: 'success' }));
+        setTimeout(() => {
+          setSendingState(prev => ({ ...prev, [creatorId]: 'idle' }));
+        }, 3000);
+      } else {
+        throw new Error(result.error || "Failed to send email");
+      }
+    } catch (error: any) {
+      console.error(error);
+      alert(error.message || "An error occurred while sending the email.");
+      setSendingState(prev => ({ ...prev, [creatorId]: 'error' }));
+    }
+  };
+
   // Extract unique types and filter out nulls/falsy values
   const types = Array.from(new Set(CREATORS_EMAIL_DATA.map(c => c.type))).filter(Boolean);
 
@@ -913,7 +954,7 @@ const CreatorInvitationPortal = () => {
       {/* Grid of Creators */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredCreators.map(creator => (
-          <div key={creator.id} className="p-8 bg-white border border-brand-navy/5 rounded-[2rem] flex flex-col justify-between hover:shadow-2xl transition-all duration-500 min-h-[340px]">
+          <div key={creator.id} className="p-8 bg-white border border-brand-navy/5 rounded-[2rem] flex flex-col justify-between hover:shadow-2xl transition-all duration-500 min-h-[420px]">
             <div>
               {/* Creator Photo */}
               <div className="relative h-48 w-full rounded-2xl overflow-hidden mb-6 bg-brand-navy/5 border border-brand-navy/5 shadow-inner">
@@ -945,31 +986,69 @@ const CreatorInvitationPortal = () => {
               <p className="editorial-label text-brand-coral font-bold text-[9px] uppercase tracking-widest mb-6">
                 Category: {creator.category}
               </p>
+
+              {/* Recipient Email Input */}
+              <div className="space-y-2 mb-6">
+                <label className="editorial-label text-brand-navy/40 text-[9px] uppercase tracking-wider block">Recipient Email</label>
+                <input
+                  type="email"
+                  value={emails[creator.id] || ''}
+                  onChange={(e) => setEmails(prev => ({ ...prev, [creator.id]: e.target.value }))}
+                  placeholder="creator@example.com"
+                  className="w-full bg-brand-navy/5 text-brand-navy border border-brand-navy/10 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-brand-coral"
+                />
+              </div>
             </div>
 
-            <div className="flex gap-4 pt-4 border-t border-brand-navy/5 mt-auto">
+            <div className="flex gap-3 pt-4 border-t border-brand-navy/5 mt-auto">
+              {/* Send Invitation Button */}
+              <button
+                onClick={() => handleSendEmail(creator.id, emails[creator.id] || '', creator.emailHtml, creator.name)}
+                disabled={sendingState[creator.id] === 'sending'}
+                className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-display font-bold text-[10px] tracking-wider uppercase transition-all duration-300 border ${
+                  sendingState[creator.id] === 'sending' ? 'bg-brand-navy/20 text-brand-navy/40 border-none cursor-not-allowed' :
+                  sendingState[creator.id] === 'success' ? 'bg-green-600 text-white border-green-600' :
+                  sendingState[creator.id] === 'error' ? 'bg-red-600 text-white border-red-600' :
+                  'bg-brand-navy hover:bg-brand-coral text-white border-brand-navy hover:border-brand-coral'
+                }`}
+              >
+                {sendingState[creator.id] === 'sending' ? (
+                  <>
+                    <Loader2 size={12} className="animate-spin" />
+                    <span>Sending...</span>
+                  </>
+                ) : sendingState[creator.id] === 'success' ? (
+                  <>
+                    <Check size={12} />
+                    <span>Sent!</span>
+                  </>
+                ) : sendingState[creator.id] === 'error' ? (
+                  <span>Retry</span>
+                ) : (
+                  <>
+                    <Mail size={12} />
+                    <span>Send Invite</span>
+                  </>
+                )}
+              </button>
+
               {/* Copy HTML Button */}
               <button
                 onClick={() => copyToClipboard(creator.id, creator.emailHtml)}
-                className="flex-1 flex items-center justify-center gap-2 py-3 px-4 border-2 border-brand-navy hover:border-brand-coral hover:bg-brand-coral hover:text-white rounded-xl font-display font-bold text-[10px] tracking-wider uppercase transition-colors"
+                className="flex items-center justify-center p-3 border border-brand-navy/15 hover:border-brand-coral hover:bg-brand-coral/5 rounded-xl transition-colors"
+                title="Copy Email HTML"
               >
                 {copiedId === creator.id ? (
-                  <>
-                    <Check size={12} className="text-green-500" />
-                    <span>Copied!</span>
-                  </>
+                  <Check size={14} className="text-green-500" />
                 ) : (
-                  <>
-                    <Copy size={12} />
-                    <span>Copy HTML</span>
-                  </>
+                  <Copy size={14} className="text-brand-navy/60" />
                 )}
               </button>
 
               {/* Preview Button */}
               <button
                 onClick={() => setPreviewCreator(creator)}
-                className="px-4 py-3 bg-brand-navy hover:bg-brand-coral text-white rounded-xl transition-colors flex items-center justify-center"
+                className="px-3 py-3 bg-brand-navy/5 hover:bg-brand-coral/10 text-brand-navy/70 rounded-xl transition-colors flex items-center justify-center"
                 title="Preview invitation email template"
               >
                 <ExternalLink size={14} />
