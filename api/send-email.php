@@ -69,37 +69,37 @@ $smtp_port = 465;
 $smtp_user = 'contact@rootsandreach.org';
 $smtp_pass = '';
 
-$paths = [
-    __DIR__ . '/.env',
-    __DIR__ . '/../.env',
-    (isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] . '/.env' : '')
-];
-
-foreach ($paths as $path) {
-    if (!empty($path) && @file_exists($path)) {
-        $lines = @file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        if ($lines !== false) {
-            debug_log("Loaded env file from: $path");
-            foreach ($lines as $line) {
-                $line = trim($line);
-                if (empty($line) || strpos($line, '#') === 0) continue;
-                if (strpos($line, '=') === false) continue;
-                list($name, $value) = explode('=', $line, 2);
-                $name = trim($name);
-                $value = trim($value);
-                // Strip outer quotes
-                if (preg_match('/^"(.*)"$/', $value, $matches) || preg_match('/^\'(.*)\'$/', $value, $matches)) {
-                    $value = $matches[1];
-                }
-                if ($name === 'SMTP_HOST') $smtp_host = $value;
-                if ($name === 'SMTP_PORT') $smtp_port = intval($value);
-                if ($name === 'SMTP_USER') $smtp_user = $value;
-                if ($name === 'SMTP_PASS') $smtp_pass = $value;
-            }
-            break;
-        }
-    }
-}
+// $paths = [
+//     __DIR__ . '/.env',
+//     __DIR__ . '/../.env',
+//     (isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] . '/.env' : '')
+// ];
+// 
+// foreach ($paths as $path) {
+//     if (!empty($path) && @file_exists($path)) {
+//         $lines = @file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+//         if ($lines !== false) {
+//             debug_log("Loaded env file from: $path");
+//             foreach ($lines as $line) {
+//                 $line = trim($line);
+//                 if (empty($line) || strpos($line, '#') === 0) continue;
+//                 if (strpos($line, '=') === false) continue;
+//                 list($name, $value) = explode('=', $line, 2);
+//                 $name = trim($name);
+//                 $value = trim($value);
+//                 // Strip outer quotes
+//                 if (preg_match('/^"(.*)"$/', $value, $matches) || preg_match('/^\'(.*)\'$/', $value, $matches)) {
+//                     $value = $matches[1];
+//                 }
+//                 if ($name === 'SMTP_HOST') $smtp_host = $value;
+//                 if ($name === 'SMTP_PORT') $smtp_port = intval($value);
+//                 if ($name === 'SMTP_USER') $smtp_user = $value;
+//                 if ($name === 'SMTP_PASS') $smtp_pass = $value;
+//             }
+//             break;
+//         }
+//     }
+// }
 
 // Helper to send email via SMTP sockets
 function send_smtp_email($to, $subject, $html, $host, $port, $user, $pass) {
