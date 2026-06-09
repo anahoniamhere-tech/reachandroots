@@ -68,9 +68,7 @@ $smtp_pass = '';
 $paths = [
     __DIR__ . '/.env',
     __DIR__ . '/../.env',
-    __DIR__ . '/../../.env',
-    (isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] . '/.env' : ''),
-    (isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] . '/../.env' : '')
+    (isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] . '/.env' : '')
 ];
 
 foreach ($paths as $path) {
