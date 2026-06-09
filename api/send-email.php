@@ -2,13 +2,33 @@
 // Set headers for JSON response
 header('Content-Type: application/json; charset=utf-8');
 
-// Disable error display to prevent malformed JSON in output, but log to error log
+// Disable error display in output to prevent malformed JSON, but log everything
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
 
 function log_error($msg) {
     error_log("[send-email] " . $msg);
 }
+
+// Register global exception handler to guarantee JSON is always returned on failure
+set_exception_handler(function ($e) {
+    http_response_code(500);
+    echo json_encode([
+        'success' => false,
+        'error' => $e->getMessage(),
+        'file' => basename($e->getFile()),
+        'line' => $e->getLine()
+    ]);
+    exit;
+});
+
+// Register global error handler to convert warnings/notices to throwables
+set_error_handler(function ($severity, $message, $file, $line) {
+    if (!(error_reporting() & $severity)) {
+        return false;
+    }
+    throw new ErrorException($message, 0, $severity, $file, $line);
+});
 
 // 1. Validate request method
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -72,13 +92,14 @@ foreach ($paths as $path) {
 
 // Helper to send email via SMTP sockets
 function send_smtp_email($to, $subject, $html, $host, $port, $user, $pass) {
-    // Closure to read socket lines until the SMTP multiline response completes
+    if (!function_exists('stream_socket_client')) {
+        throw new Exception("stream_socket_client function is disabled or not available.");
+    }
+
     $read_response = function($socket, $expected) {
         $response = "";
         while ($line = fgets($socket, 515)) {
             $response .= $line;
-            // SMTP lines end with \r\n and the fourth character determines if there are more lines
-            // '-' means more lines, ' ' (space) means last line of response
             if (strlen($line) >= 4 && substr($line, 3, 1) === " ") {
                 break;
             }
@@ -123,7 +144,6 @@ function send_smtp_email($to, $subject, $html, $host, $port, $user, $pass) {
         fwrite($socket, "DATA\r\n");
         $read_response($socket, "354");
         
-        // Encode subject to UTF-8 Base64 to prevent header parsing glitches
         $encoded_subject = "=?UTF-8?B?" . base64_encode($subject) . "?=";
         
         $headers = [
@@ -136,7 +156,6 @@ function send_smtp_email($to, $subject, $html, $host, $port, $user, $pass) {
             "Content-Transfer-Encoding: 8bit"
         ];
         
-        // Escape leading dots in lines to comply with SMTP RFC dot-stuffing
         $escaped_body = preg_replace('/^\./m', '..', $html);
         
         $data = implode("\r\n", $headers) . "\r\n\r\n" . $escaped_body . "\r\n.\r\n";
@@ -151,56 +170,43 @@ function send_smtp_email($to, $subject, $html, $host, $port, $user, $pass) {
     return true;
 }
 
-// Helper for local php mail() fallback (uses standard string headers for cross-version compatibility)
+// Helper for local php mail() fallback
 function send_mail_fallback($to, $subject, $html, $from_email) {
+    if (!function_exists('mail')) {
+        return false;
+    }
+    // Check if mail is in disable_functions
+    $disabled = explode(',', ini_get('disable_functions'));
+    if (in_array('mail', array_map('trim', $disabled))) {
+        return false;
+    }
+
     $headers = "MIME-Version: 1.0\r\n";
     $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
     $headers .= "From: Roots & Reach <" . $from_email . ">\r\n";
     $headers .= "Reply-To: " . $from_email . "\r\n";
     $headers .= "X-Mailer: PHP/" . phpversion();
-    // Suppress warning if mail() is disabled on Hostinger account, allowing script to return false safely
+    
     return @mail($to, $subject, $html, $headers);
 }
 
 // 4. Dispatch flow
-try {
-    // A. Send via SMTP if SMTP_PASS is configured
-    if (!empty($smtp_pass)) {
-        send_smtp_email($to, $subject, $html, $smtp_host, $smtp_port, $smtp_user, $smtp_pass);
-        echo json_encode(['success' => true, 'method' => 'smtp']);
-        exit;
-    }
-    
-    // B. SMTP password not set, fall back to native PHP mail()
-    if (send_mail_fallback($to, $subject, $html, $smtp_user)) {
-        echo json_encode(['success' => true, 'method' => 'mail']);
-        exit;
-    }
-    
-    // C. Fallback failed, run simulation success
-    echo json_encode([
-        'success' => true,
-        'simulated' => true,
-        'message' => 'Email sending simulated because SMTP_PASS is not set and local mail() failed.'
-    ]);
-} catch (Throwable $e) {
-    log_error("Failed to send email: " . $e->getMessage());
-    
-    // D. Exception: try PHP mail() fallback as a last resort
-    try {
-        if (send_mail_fallback($to, $subject, $html, $smtp_user)) {
-            echo json_encode(['success' => true, 'method' => 'mail_fallback_after_failure']);
-            exit;
-        }
-    } catch (Throwable $e2) {
-        log_error("Fallback mail() after failure failed: " . $e2->getMessage());
-    }
-    
-    // Return clean JSON error response (will be parsed by fetch)
-    http_response_code(500);
-    echo json_encode([
-        'success' => false,
-        'error' => $e->getMessage()
-    ]);
+// A. Send via SMTP if SMTP_PASS is configured
+if (!empty($smtp_pass)) {
+    send_smtp_email($to, $subject, $html, $smtp_host, $smtp_port, $smtp_user, $smtp_pass);
+    echo json_encode(['success' => true, 'method' => 'smtp']);
     exit;
 }
+
+// B. SMTP password not set, fall back to native PHP mail()
+if (send_mail_fallback($to, $subject, $html, $smtp_user)) {
+    echo json_encode(['success' => true, 'method' => 'mail']);
+    exit;
+}
+
+// C. Fallback failed, run simulation success
+echo json_encode([
+    'success' => true,
+    'simulated' => true,
+    'message' => 'Email sending simulated because SMTP_PASS is not set and local mail() failed.'
+]);
