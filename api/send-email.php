@@ -50,16 +50,16 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
 
-if (!$data || !isset($data['to']) || !isset($data['subject']) || !isset($data['html'])) {
+$to = isset($data['to']) ? $data['to'] : null;
+$subject = isset($data['subject']) ? $data['subject'] : null;
+$html = isset($data['html']) ? $data['html'] : (isset($data['message']) ? $data['message'] : null);
+
+if (!$data || !$to || !$subject || $html === null) {
     debug_log("Invalid request fields: " . json_encode(array_keys($data ?: [])));
     http_response_code(400);
-    echo json_encode(['success' => false, 'error' => 'Invalid request. "to", "subject", and "html" fields are required.']);
+    echo json_encode(['success' => false, 'error' => 'Invalid request. "to", "subject", and "html"/"message" fields are required.']);
     exit;
 }
-
-$to = $data['to'];
-$subject = $data['subject'];
-$html = $data['html'];
 
 debug_log("Request parsed. To: $to, Subject: $subject, HTML length: " . strlen($html));
 
