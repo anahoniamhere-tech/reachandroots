@@ -859,6 +859,14 @@ const CreatorInvitationPortal = () => {
 
   const [emails, setEmails] = React.useState<Record<string, string>>({});
   const [sendingState, setSendingState] = React.useState<Record<string, 'idle' | 'sending' | 'success' | 'error'>>({});
+  const [copiedSubjectId, setCopiedSubjectId] = React.useState<string | null>(null);
+
+  const copySubjectToClipboard = (id: string, subjectText: string) => {
+    navigator.clipboard.writeText(subjectText).then(() => {
+      setCopiedSubjectId(id);
+      setTimeout(() => setCopiedSubjectId(null), 2000);
+    });
+  };
 
   const handleSendEmail = async (creatorId: string, toEmail: string, htmlContent: string, creatorName: string) => {
     if (!toEmail || !toEmail.includes('@')) {
@@ -986,6 +994,30 @@ const CreatorInvitationPortal = () => {
               <p className="editorial-label text-brand-coral font-bold text-[9px] uppercase tracking-widest mb-6">
                 Category: {creator.category}
               </p>
+
+              {/* Subject Line Display & Copy */}
+              <div className="space-y-2 mb-4">
+                <label className="editorial-label text-brand-navy/40 text-[9px] uppercase tracking-wider block">Subject Line</label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    readOnly
+                    value={`Roots & Reach Special Creator Invitation - Prepared for ${creator.name}`}
+                    className="flex-1 bg-brand-navy/5 text-brand-navy border border-brand-navy/10 rounded-xl px-4 py-2 text-[10px] focus:outline-none select-all font-sans"
+                  />
+                  <button
+                    onClick={() => copySubjectToClipboard(creator.id, `Roots & Reach Special Creator Invitation - Prepared for ${creator.name}`)}
+                    className="px-3 bg-brand-navy/5 hover:bg-brand-coral/10 text-brand-navy/70 border border-brand-navy/10 rounded-xl transition-colors flex items-center justify-center"
+                    title="Copy Subject"
+                  >
+                    {copiedSubjectId === creator.id ? (
+                      <Check size={12} className="text-green-500" />
+                    ) : (
+                      <Copy size={12} />
+                    )}
+                  </button>
+                </div>
+              </div>
 
               {/* Recipient Email Input */}
               <div className="space-y-2 mb-6">
