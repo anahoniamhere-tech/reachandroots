@@ -6,26 +6,30 @@ header('Content-Type: application/json; charset=utf-8');
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
 
+$debug_logs = [];
 function debug_log($msg) {
-    @file_put_contents(__DIR__ . '/debug_log.txt', date('[Y-m-d H:i:s] ') . $msg . "\n", FILE_APPEND);
+    global $debug_logs;
+    $debug_logs[] = date('[H:i:s] ') . $msg;
 }
 
 // Register global exception handler to guarantee JSON is always returned on failure
 set_exception_handler(function ($e) {
-    debug_log("EXCEPTION: " . $e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine());
+    global $debug_logs;
+    debug_log("EXCEPTION CAUGHT: " . $e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine());
     http_response_code(500);
     echo json_encode([
         'success' => false,
         'error' => $e->getMessage(),
         'file' => basename($e->getFile()),
-        'line' => $e->getLine()
+        'line' => $e->getLine(),
+        'debug_logs' => $debug_logs
     ]);
     exit;
 });
 
 // Register global error handler to convert warnings/notices to throwables
 set_error_handler(function ($severity, $message, $file, $line) {
-    debug_log("ERROR WARNING: $message in $file on line $line (severity $severity)");
+    debug_log("PHP ERROR/WARNING: $message in $file on line $line (severity $severity)");
     if (!(error_reporting() & $severity)) {
         return false;
     }
