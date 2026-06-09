@@ -6,12 +6,13 @@ header('Content-Type: application/json; charset=utf-8');
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
 
-function log_error($msg) {
-    error_log("[send-email] " . $msg);
+function debug_log($msg) {
+    @file_put_contents(__DIR__ . '/debug_log.txt', date('[Y-m-d H:i:s] ') . $msg . "\n", FILE_APPEND);
 }
 
 // Register global exception handler to guarantee JSON is always returned on failure
 set_exception_handler(function ($e) {
+    debug_log("EXCEPTION: " . $e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine());
     http_response_code(500);
     echo json_encode([
         'success' => false,
@@ -24,14 +25,18 @@ set_exception_handler(function ($e) {
 
 // Register global error handler to convert warnings/notices to throwables
 set_error_handler(function ($severity, $message, $file, $line) {
+    debug_log("ERROR WARNING: $message in $file on line $line (severity $severity)");
     if (!(error_reporting() & $severity)) {
         return false;
     }
     throw new ErrorException($message, 0, $severity, $file, $line);
 });
 
+debug_log("Script started. Method: " . $_SERVER['REQUEST_METHOD']);
+
 // 1. Validate request method
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    debug_log("Invalid method: " . $_SERVER['REQUEST_METHOD']);
     http_response_code(405);
     echo json_encode(['success' => false, 'error' => 'Method Not Allowed. Only POST is supported.']);
     exit;
@@ -42,6 +47,7 @@ $input = file_get_contents('php://input');
 $data = json_decode($input, true);
 
 if (!$data || !isset($data['to']) || !isset($data['subject']) || !isset($data['html'])) {
+    debug_log("Invalid request fields: " . json_encode(array_keys($data ?: [])));
     http_response_code(400);
     echo json_encode(['success' => false, 'error' => 'Invalid request. "to", "subject", and "html" fields are required.']);
     exit;
@@ -50,6 +56,8 @@ if (!$data || !isset($data['to']) || !isset($data['subject']) || !isset($data['h
 $to = $data['to'];
 $subject = $data['subject'];
 $html = $data['html'];
+
+debug_log("Request parsed. To: $to, Subject: $subject, HTML length: " . strlen($html));
 
 // 3. Load SMTP configurations from .env
 $smtp_host = 'smtp.hostinger.com';
@@ -69,6 +77,7 @@ foreach ($paths as $path) {
     if (!empty($path) && @file_exists($path)) {
         $lines = @file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         if ($lines !== false) {
+            debug_log("Loaded env file from: $path");
             foreach ($lines as $line) {
                 $line = trim($line);
                 if (empty($line) || strpos($line, '#') === 0) continue;
@@ -92,6 +101,7 @@ foreach ($paths as $path) {
 
 // Helper to send email via SMTP sockets
 function send_smtp_email($to, $subject, $html, $host, $port, $user, $pass) {
+    debug_log("SMTP send initiated to: $to");
     if (!function_exists('stream_socket_client')) {
         throw new Exception("stream_socket_client function is disabled or not available.");
     }
@@ -112,6 +122,7 @@ function send_smtp_email($to, $subject, $html, $host, $port, $user, $pass) {
     };
 
     $secure = ($port == 465) ? "ssl://" : "";
+    debug_log("Connecting to SMTP: " . $secure . $host . ":" . $port);
     $socket = @stream_socket_client($secure . $host . ":" . $port, $errno, $errstr, 15);
     if (!$socket) {
         throw new Exception("Could not connect to SMTP server: $errstr ($errno)");
@@ -167,17 +178,21 @@ function send_smtp_email($to, $subject, $html, $host, $port, $user, $pass) {
     } finally {
         fclose($socket);
     }
+    debug_log("SMTP send completed successfully.");
     return true;
 }
 
 // Helper for local php mail() fallback
 function send_mail_fallback($to, $subject, $html, $from_email) {
+    debug_log("Local mail fallback initiated to: $to");
     if (!function_exists('mail')) {
+        debug_log("mail() function does not exist");
         return false;
     }
     // Check if mail is in disable_functions
     $disabled = explode(',', ini_get('disable_functions'));
     if (in_array('mail', array_map('trim', $disabled))) {
+        debug_log("mail() function is disabled in disable_functions");
         return false;
     }
 
@@ -187,26 +202,35 @@ function send_mail_fallback($to, $subject, $html, $from_email) {
     $headers .= "Reply-To: " . $from_email . "\r\n";
     $headers .= "X-Mailer: PHP/" . phpversion();
     
-    return @mail($to, $subject, $html, $headers);
+    debug_log("Calling @mail()...");
+    $res = @mail($to, $subject, $html, $headers);
+    debug_log("mail() result: " . ($res ? "true" : "false"));
+    return $res;
 }
 
 // 4. Dispatch flow
 // A. Send via SMTP if SMTP_PASS is configured
 if (!empty($smtp_pass)) {
+    debug_log("SMTP password found, attempting SMTP send...");
     send_smtp_email($to, $subject, $html, $smtp_host, $smtp_port, $smtp_user, $smtp_pass);
     echo json_encode(['success' => true, 'method' => 'smtp']);
+    debug_log("Exiting with SMTP success JSON.");
     exit;
 }
 
 // B. SMTP password not set, fall back to native PHP mail()
+debug_log("SMTP password not set, attempting mail fallback...");
 if (send_mail_fallback($to, $subject, $html, $smtp_user)) {
     echo json_encode(['success' => true, 'method' => 'mail']);
+    debug_log("Exiting with mail success JSON.");
     exit;
 }
 
 // C. Fallback failed, run simulation success
+debug_log("Mail fallback failed, running simulation success...");
 echo json_encode([
     'success' => true,
     'simulated' => true,
     'message' => 'Email sending simulated because SMTP_PASS is not set and local mail() failed.'
 ]);
+debug_log("Exiting with simulation success JSON.");
