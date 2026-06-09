@@ -221,18 +221,18 @@ if (!empty($smtp_pass)) {
 }
 
 // B. SMTP password not set, fall back to native PHP mail()
-debug_log("SMTP password not set, attempting mail fallback...");
-if (send_mail_fallback($to, $subject, $html, $smtp_user)) {
-    echo json_encode(['success' => true, 'method' => 'mail']);
-    debug_log("Exiting with mail success JSON.");
-    exit;
-}
+// debug_log("SMTP password not set, attempting mail fallback...");
+// if (send_mail_fallback($to, $subject, $html, $smtp_user)) {
+//     echo json_encode(['success' => true, 'method' => 'mail']);
+//     debug_log("Exiting with mail success JSON.");
+//     exit;
+// }
 
 // C. Fallback failed, run simulation success
-debug_log("Mail fallback failed, running simulation success...");
+debug_log("Mail fallback skipped, running simulation success...");
 echo json_encode([
     'success' => true,
     'simulated' => true,
-    'message' => 'Email sending simulated because SMTP_PASS is not set and local mail() failed.'
+    'message' => 'Email sending simulated because SMTP_PASS is not set and mail() is bypassed.'
 ]);
 debug_log("Exiting with simulation success JSON.");
