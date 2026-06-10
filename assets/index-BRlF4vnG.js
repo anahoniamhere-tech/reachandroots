@@ -381,12 +381,14 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
   <meta charset="UTF-8">
   <title>Outbound Email Integration Test</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light only">
+  <meta name="supported-color-schemes" content="light">
 </head>
-<body bgcolor="#FEDD8B" style="margin:0; padding:0; background-color:#FEDD8B !important; font-family:Arial, Helvetica, sans-serif;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#FEDD8B" style="width:100%; margin:0; padding:40px 0;">
+<body bgcolor="#FEDD8B" style="margin:0; padding:0; background-color:#FEDD8B !important; background:#FEDD8B !important; background-image:linear-gradient(#FEDD8B,#FEDD8B) !important; font-family:Arial, Helvetica, sans-serif; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#FEDD8B" style="width:100%; margin:0; padding:0; background-color:#FEDD8B !important; background:#FEDD8B !important; background-image:linear-gradient(#FEDD8B,#FEDD8B) !important;">
     <tr>
-      <td align="center">
-        <table role="presentation" width="92%" cellpadding="0" cellspacing="0" border="0" style="max-width:480px; background-color:#FFFFFF; border-radius:28px; padding:32px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+      <td align="center" bgcolor="#FEDD8B" style="padding:40px 0; background-color:#FEDD8B !important; background:#FEDD8B !important; background-image:linear-gradient(#FEDD8B,#FEDD8B) !important;">
+        <table role="presentation" width="92%" cellpadding="0" cellspacing="0" border="0" bgcolor="#FFFFFF" style="max-width:480px; background-color:#FFFFFF !important; background:#FFFFFF !important; background-image:linear-gradient(#FFFFFF,#FFFFFF) !important; border-radius:28px; padding:32px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border:1px solid #FFFFFF;">
           <!-- Header Logo -->
           <tr>
             <td align="center" style="padding-bottom: 24px; border-bottom: 1px solid #EEEEEE;">
@@ -396,16 +398,16 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
           
           <!-- Greeting -->
           <tr>
-            <td style="padding-top: 32px; font-size: 28px; font-weight: 900; color: #000000; letter-spacing: -1px; line-height: 1.2;">
+            <td style="padding-top: 32px; font-family:Arial, Helvetica, sans-serif; font-size: 28px; font-weight: 900; color: #000000 !important; -webkit-text-fill-color:#000000 !important; letter-spacing: -1px; line-height: 1.2;">
               Connection Test Successful.
             </td>
           </tr>
           
           <!-- Body Message -->
           <tr>
-            <td style="padding-top: 16px; font-size: 15px; line-height: 24px; color: #444444;">
-              Dear <strong>Test Creator</strong>,<br><br>
-              This is a live outbound test email transmitted directly from your admin panel at <strong>rootsandreach.org</strong> using your Hostinger SMTP server (\`smtp.hostinger.com\`).
+            <td style="padding-top: 16px; font-family:Arial, Helvetica, sans-serif; font-size: 15px; line-height: 24px; color: #444444 !important; -webkit-text-fill-color:#444444 !important;">
+              Dear <strong style="color:#000000 !important; -webkit-text-fill-color:#000000 !important;">Test Creator</strong>,<br><br>
+              This is a live outbound test email transmitted directly from your admin panel at <a href="https://rootsandreach.org" target="_blank" style="color:#FF8072 !important; -webkit-text-fill-color:#FF8072 !important; text-decoration:underline;"><strong style="color:#FF8072 !important; -webkit-text-fill-color:#FF8072 !important;">rootsandreach.org</strong></a> using your Hostinger SMTP server (\`smtp.hostinger.com\`).
               <br><br>
               If you are reading this message, your integration is fully functional and ready to deliver invitations to regional content creators!
             </td>
@@ -420,7 +422,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
           
           <!-- Footer -->
           <tr>
-            <td align="center" style="padding-top: 32px; border-top: 1px solid #EEEEEE; font-size: 11px; color: #999999; text-transform: uppercase; letter-spacing: 1px;">
+            <td align="center" style="padding-top: 32px; border-top: 1px solid #EEEEEE; font-family:Arial, Helvetica, sans-serif; font-size: 11px; color: #999999 !important; -webkit-text-fill-color:#999999 !important; text-transform: uppercase; letter-spacing: 1px;">
               Roots &amp; Reach Team // Fayhaa Edition
             </td>
           </tr>
