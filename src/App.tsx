@@ -861,6 +861,20 @@ const CreatorInvitationPortal = () => {
   const [sendingState, setSendingState] = React.useState<Record<string, 'idle' | 'sending' | 'success' | 'error'>>({});
   const [copiedSubjectId, setCopiedSubjectId] = React.useState<string | null>(null);
 
+  const getCreatorSubject = (emailHtml: string, fallbackName: string) => {
+    const match = emailHtml.match(/<title>([^<]+)<\/title>/i);
+    if (match && match[1]) {
+      const title = match[1]
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'");
+      return `${title} - Roots & Reach Special Creator Invitation`;
+    }
+    return `${fallbackName} - Roots & Reach Special Creator Invitation`;
+  };
+
   const copySubjectToClipboard = (id: string, subjectText: string) => {
     navigator.clipboard.writeText(subjectText).then(() => {
       setCopiedSubjectId(id);
@@ -884,7 +898,7 @@ const CreatorInvitationPortal = () => {
         },
         body: JSON.stringify({
           to: toEmail,
-          subject: `Roots & Reach Special Creator Invitation - Prepared for ${creatorName}`,
+          subject: getCreatorSubject(htmlContent, creatorName),
           html: htmlContent,
         }),
       });
@@ -1002,11 +1016,11 @@ const CreatorInvitationPortal = () => {
                   <input
                     type="text"
                     readOnly
-                    value={`Roots & Reach Special Creator Invitation - Prepared for ${creator.name}`}
+                    value={getCreatorSubject(creator.emailHtml, creator.name)}
                     className="flex-1 bg-brand-navy/5 text-brand-navy border border-brand-navy/10 rounded-xl px-4 py-2 text-[10px] focus:outline-none select-all font-sans"
                   />
                   <button
-                    onClick={() => copySubjectToClipboard(creator.id, `Roots & Reach Special Creator Invitation - Prepared for ${creator.name}`)}
+                    onClick={() => copySubjectToClipboard(creator.id, getCreatorSubject(creator.emailHtml, creator.name))}
                     className="px-3 bg-brand-navy/5 hover:bg-brand-coral/10 text-brand-navy/70 border border-brand-navy/10 rounded-xl transition-colors flex items-center justify-center"
                     title="Copy Subject"
                   >
