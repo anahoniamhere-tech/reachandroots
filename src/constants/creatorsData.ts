@@ -18,7 +18,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator2",
-    "email": "",
+    "email": "husenfayad1@gmail.com",
     "name": "Hussein Fayad",
     "category": "Food",
     "type": "Panel",
@@ -26,7 +26,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator11",
-    "email": "",
+    "email": "sales@roya.tv",
     "name": "Yasmin Nasir",
     "category": "General",
     "type": "Panel",
@@ -50,7 +50,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator6",
-    "email": "",
+    "email": "maybsat.001@gmail.com",
     "name": "May Bsat",
     "category": "General",
     "type": "Live cooking station",
@@ -74,7 +74,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator15",
-    "email": "lysanyma@gmail.com",
+    "email": "fatsoonotsoo@gmail.com",
     "name": "Fatima Jaafar",
     "category": "Beauty and fashion",
     "type": "Panel",
@@ -82,7 +82,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator19",
-    "email": "",
+    "email": "darine.management@hotmail.com",
     "name": "Darine Jaafar",
     "category": "General",
     "type": "Panel",
@@ -98,7 +98,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator4",
-    "email": "Customercare@karenwazen.com",
+    "email": "karenwazen@egoandeast.co",
     "name": "Karen Wazen",
     "category": "General",
     "type": "Ted",
@@ -106,7 +106,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator17",
-    "email": "",
+    "email": "beautybylama@gmail.com",
     "name": "Beauty by Lama",
     "category": "General",
     "type": "Workshop/ live makeup station",
@@ -114,7 +114,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator10",
-    "email": "wessamq@xpozed.ae",
+    "email": "Business@wessamq.ae",
     "name": "Wessam Quotob",
     "category": "Influence",
     "type": "Panel",
@@ -122,7 +122,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator18",
-    "email": "",
+    "email": "saleh@salehelnawawy.com",
     "name": "Saleh Al Nawawy",
     "category": "General",
     "type": "Panel",
@@ -130,7 +130,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator20",
-    "email": "",
+    "email": "Tarek.sakik@xpozed.ae",
     "name": "Tarek Sakik",
     "category": "General",
     "type": "Panel",
@@ -170,7 +170,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator50",
-    "email": "",
+    "email": "createwithammar@outlook.com",
     "name": "Ammar Najjar",
     "category": "General",
     "type": "Panel",
@@ -178,7 +178,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator41",
-    "email": "Workwithsailos@Gmail.com",
+    "email": "workwithsailos@gmail.com",
     "name": "Kamal Mohammad",
     "category": "General",
     "type": "Ted",
@@ -194,7 +194,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator32",
-    "email": "eisa@alhabib.com",
+    "email": "eisa@majarah.co",
     "name": "Eisa Al Habib",
     "category": "Informative",
     "type": "Panel",
@@ -210,7 +210,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator31",
-    "email": "",
+    "email": "business@omarshow.com",
     "name": "Omar Abo Rob",
     "category": "General",
     "type": "Panel",
@@ -218,7 +218,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator40",
-    "email": "",
+    "email": "raedhamdanbusiness@gmail.com",
     "name": "Raed Hamdan",
     "category": "General",
     "type": "Ted",
@@ -234,7 +234,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator45",
-    "email": "Advleb1@gmail.com",
+    "email": "info@bilalhaddad.org",
     "name": "Bilal Haddad",
     "category": "Sports",
     "type": "Panel",
@@ -242,7 +242,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator47",
-    "email": "abdo2xd.contact@gmail.com",
+    "email": "info@mohdadnan.com",
     "name": "Mohamad Adnan",
     "category": "General",
     "type": "Panel",
@@ -250,7 +250,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator34",
-    "email": "",
+    "email": "eslamelias988@gmail.com",
     "name": "Eslam Mahdi",
     "category": "General",
     "type": "Panel",
@@ -258,7 +258,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator55",
-    "email": "Info@therahalofficial.com",
+    "email": "hello@therahal.com",
     "name": "The Rahal",
     "category": "Family Content",
     "type": "Panel ",
@@ -266,7 +266,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator29",
-    "email": "",
+    "email": "amar.rim@reachdxb.me",
     "name": "Ammar and Reem",
     "category": "General",
     "type": "Panel ",
@@ -298,7 +298,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator44",
-    "email": "raghda@xpozed.ae",
+    "email": "Business@raghdak.ae",
     "name": "Raghda K",
     "category": "General",
     "type": "Ted",
@@ -322,7 +322,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator38",
-    "email": "",
+    "email": "Barhombusiness@gmail.com",
     "name": "Ibrahim Maarawi",
     "category": "General",
     "type": "Panel option2",
@@ -330,7 +330,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator25",
-    "email": "Ghaith-mk@outlook.com",
+    "email": "ghaith-mk@outlook.com",
     "name": "Ghaith Marwan",
     "category": "General",
     "type": "Panel option3",
@@ -346,7 +346,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator36",
-    "email": "",
+    "email": "rayane@representuae.com",
     "name": "Ramy Hamdan",
     "category": "General",
     "type": "Panel option 4",
@@ -354,7 +354,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator53",
-    "email": "",
+    "email": "sabbagh.ads@gmail.com",
     "name": "Mohamad Sabbagh",
     "category": "Adventures",
     "type": "Panel",
@@ -370,7 +370,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator27",
-    "email": "",
+    "email": "aseelbintawwad@gmail.com",
     "name": "Aseel Awwad",
     "category": "General",
     "type": "Panel",
@@ -418,7 +418,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator39",
-    "email": "",
+    "email": "mira.gh2012@gmail.com",
     "name": "Mira Ghamrawi (Em Roben)",
     "category": "General",
     "type": "Panel",
@@ -426,7 +426,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator26",
-    "email": "",
+    "email": "lilianealayli@gmail.com",
     "name": "Liliane Mokhalalty",
     "category": "General",
     "type": "Panel",
@@ -442,7 +442,7 @@ export const CREATORS_EMAIL_DATA: CreatorEmailData[] = [
   },
   {
     "id": "creator51",
-    "email": "",
+    "email": "bobharkal@hotmail.com",
     "name": "Bob Harkal",
     "category": "Story",
     "type": "Panel",
