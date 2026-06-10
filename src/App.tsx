@@ -857,9 +857,18 @@ const CreatorInvitationPortal = () => {
   const [copiedId, setCopiedId] = React.useState<string | null>(null);
   const [previewCreator, setPreviewCreator] = React.useState<typeof CREATORS_EMAIL_DATA[0] | null>(null);
 
-  const [emails, setEmails] = React.useState<Record<string, string>>({});
+  const [emails, setEmails] = React.useState<Record<string, string>>(() => {
+    const initial: Record<string, string> = {};
+    CREATORS_EMAIL_DATA.forEach(c => {
+      if (c.email) {
+        initial[c.id] = c.email;
+      }
+    });
+    return initial;
+  });
   const [sendingState, setSendingState] = React.useState<Record<string, 'idle' | 'sending' | 'success' | 'error'>>({});
   const [copiedSubjectId, setCopiedSubjectId] = React.useState<string | null>(null);
+  const [copiedEmailId, setCopiedEmailId] = React.useState<string | null>(null);
 
   const getCreatorSubject = (emailHtml: string, fallbackName: string) => {
     const match = emailHtml.match(/<title>([^<]+)<\/title>/i);
@@ -879,6 +888,14 @@ const CreatorInvitationPortal = () => {
     navigator.clipboard.writeText(subjectText).then(() => {
       setCopiedSubjectId(id);
       setTimeout(() => setCopiedSubjectId(null), 2000);
+    });
+  };
+
+  const copyEmailToClipboard = (id: string, emailText: string) => {
+    if (!emailText) return;
+    navigator.clipboard.writeText(emailText).then(() => {
+      setCopiedEmailId(id);
+      setTimeout(() => setCopiedEmailId(null), 2000);
     });
   };
 
@@ -1036,13 +1053,26 @@ const CreatorInvitationPortal = () => {
               {/* Recipient Email Input */}
               <div className="space-y-2 mb-6">
                 <label className="editorial-label text-brand-navy/40 text-[9px] uppercase tracking-wider block">Recipient Email</label>
-                <input
-                  type="email"
-                  value={emails[creator.id] || ''}
-                  onChange={(e) => setEmails(prev => ({ ...prev, [creator.id]: e.target.value }))}
-                  placeholder="creator@example.com"
-                  className="w-full bg-brand-navy/5 text-brand-navy border border-brand-navy/10 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-brand-coral"
-                />
+                <div className="flex gap-2">
+                  <input
+                    type="email"
+                    value={emails[creator.id] || ''}
+                    onChange={(e) => setEmails(prev => ({ ...prev, [creator.id]: e.target.value }))}
+                    placeholder="creator@example.com"
+                    className="flex-1 bg-brand-navy/5 text-brand-navy border border-brand-navy/10 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-brand-coral"
+                  />
+                  <button
+                    onClick={() => copyEmailToClipboard(creator.id, emails[creator.id] || '')}
+                    className="px-3 bg-brand-navy/5 hover:bg-brand-coral/10 text-brand-navy/70 border border-brand-navy/10 rounded-xl transition-colors flex items-center justify-center"
+                    title="Copy Email"
+                  >
+                    {copiedEmailId === creator.id ? (
+                      <Check size={12} className="text-green-500" />
+                    ) : (
+                      <Copy size={12} />
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
 
