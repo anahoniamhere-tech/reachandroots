@@ -429,7 +429,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator2",email:"",name:"Hussein Fayad",category:"Food",type:"Panel",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator2",email:"husenfayad1@gmail.com",name:"Hussein Fayad",category:"Food",type:"Panel",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -714,7 +714,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator11",email:"",name:"Yasmin Nasir",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator11",email:"sales@roya.tv",name:"Yasmin Nasir",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -1524,7 +1524,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator6",email:"",name:"May Bsat",category:"General",type:"Live cooking station",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator6",email:"maybsat.001@gmail.com",name:"May Bsat",category:"General",type:"Live cooking station",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -2343,7 +2343,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator15",email:"lysanyma@gmail.com",name:"Fatima Jaafar",category:"Beauty and fashion",type:"Panel",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator15",email:"fatsoonotsoo@gmail.com",name:"Fatima Jaafar",category:"Beauty and fashion",type:"Panel",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -2616,7 +2616,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator19",email:"",name:"Darine Jaafar",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator19",email:"darine.management@hotmail.com",name:"Darine Jaafar",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -3162,7 +3162,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator4",email:"Customercare@karenwazen.com",name:"Karen Wazen",category:"General",type:"Ted",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator4",email:"karenwazen@egoandeast.co",name:"Karen Wazen",category:"General",type:"Ted",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -3435,7 +3435,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator17",email:"",name:"Beauty by Lama",category:"General",type:"Workshop/ live makeup station",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator17",email:"beautybylama@gmail.com",name:"Beauty by Lama",category:"General",type:"Workshop/ live makeup station",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -3708,7 +3708,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator10",email:"wessamq@xpozed.ae",name:"Wessam Quotob",category:"Influence",type:"Panel",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator10",email:"Business@wessamq.ae",name:"Wessam Quotob",category:"Influence",type:"Panel",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -3981,7 +3981,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator18",email:"",name:"Saleh Al Nawawy",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator18",email:"saleh@salehelnawawy.com",name:"Saleh Al Nawawy",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -4254,7 +4254,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator20",email:"",name:"Tarek Sakik",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator20",email:"Tarek.sakik@xpozed.ae",name:"Tarek Sakik",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -5619,7 +5619,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator50",email:"",name:"Ammar Najjar",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator50",email:"createwithammar@outlook.com",name:"Ammar Najjar",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -5892,7 +5892,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator41",email:"Workwithsailos@Gmail.com",name:"Kamal Mohammad",category:"General",type:"Ted",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator41",email:"workwithsailos@gmail.com",name:"Kamal Mohammad",category:"General",type:"Ted",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -6438,7 +6438,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator32",email:"eisa@alhabib.com",name:"Eisa Al Habib",category:"Informative",type:"Panel",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator32",email:"eisa@majarah.co",name:"Eisa Al Habib",category:"Informative",type:"Panel",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -6984,7 +6984,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator31",email:"",name:"Omar Abo Rob",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator31",email:"business@omarshow.com",name:"Omar Abo Rob",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -7257,7 +7257,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator40",email:"",name:"Raed Hamdan",category:"General",type:"Ted",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator40",email:"raedhamdanbusiness@gmail.com",name:"Raed Hamdan",category:"General",type:"Ted",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -7803,7 +7803,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator45",email:"Advleb1@gmail.com",name:"Bilal Haddad",category:"Sports",type:"Panel",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator45",email:"info@bilalhaddad.org",name:"Bilal Haddad",category:"Sports",type:"Panel",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -8076,7 +8076,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator47",email:"abdo2xd.contact@gmail.com",name:"Mohamad Adnan",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator47",email:"info@mohdadnan.com",name:"Mohamad Adnan",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -8349,7 +8349,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator34",email:"",name:"Eslam Mahdi",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator34",email:"eslamelias988@gmail.com",name:"Eslam Mahdi",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -8622,7 +8622,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator55",email:"Info@therahalofficial.com",name:"The Rahal",category:"Family Content",type:"Panel ",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator55",email:"hello@therahal.com",name:"The Rahal",category:"Family Content",type:"Panel ",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -8895,7 +8895,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator29",email:"",name:"Ammar and Reem",category:"General",type:"Panel ",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator29",email:"amar.rim@reachdxb.me",name:"Ammar and Reem",category:"General",type:"Panel ",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -9987,7 +9987,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator44",email:"raghda@xpozed.ae",name:"Raghda K",category:"General",type:"Ted",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator44",email:"Business@raghdak.ae",name:"Raghda K",category:"General",type:"Ted",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -10806,7 +10806,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator38",email:"",name:"Ibrahim Maarawi",category:"General",type:"Panel option2",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator38",email:"Barhombusiness@gmail.com",name:"Ibrahim Maarawi",category:"General",type:"Panel option2",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -11079,7 +11079,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator25",email:"Ghaith-mk@outlook.com",name:"Ghaith Marwan",category:"General",type:"Panel option3",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator25",email:"ghaith-mk@outlook.com",name:"Ghaith Marwan",category:"General",type:"Panel option3",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -11625,7 +11625,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator36",email:"",name:"Ramy Hamdan",category:"General",type:"Panel option 4",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator36",email:"rayane@representuae.com",name:"Ramy Hamdan",category:"General",type:"Panel option 4",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -11898,7 +11898,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator53",email:"",name:"Mohamad Sabbagh",category:"Adventures",type:"Panel",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator53",email:"sabbagh.ads@gmail.com",name:"Mohamad Sabbagh",category:"Adventures",type:"Panel",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -12444,7 +12444,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator27",email:"",name:"Aseel Awwad",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator27",email:"aseelbintawwad@gmail.com",name:"Aseel Awwad",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -14082,7 +14082,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator39",email:"",name:"Mira Ghamrawi (Em Roben)",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator39",email:"mira.gh2012@gmail.com",name:"Mira Ghamrawi (Em Roben)",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -14355,7 +14355,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator26",email:"",name:"Liliane Mokhalalty",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator26",email:"lilianealayli@gmail.com",name:"Liliane Mokhalalty",category:"General",type:"Panel",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -14901,7 +14901,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     </tr>
   </table>
 </body>
-</html>`},{id:"creator51",email:"",name:"Bob Harkal",category:"Story",type:"Panel",emailHtml:`<!DOCTYPE html>
+</html>`},{id:"creator51",email:"bobharkal@hotmail.com",name:"Bob Harkal",category:"Story",type:"Panel",emailHtml:`<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
