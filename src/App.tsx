@@ -52,11 +52,11 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'l
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${isScrolled ? 'bg-warm-beige/95 backdrop-blur-xl border-brand-navy/10 py-4' : 'bg-transparent border-transparent py-8'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex justify-between items-center">
         <div className={`flex items-center gap-4 sm:gap-6 cursor-pointer group`} onClick={() => { onNavigate('landing'); setIsMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
-          <BrandLogo variant="written-yellow" className="h-14 sm:h-20 md:h-24 w-auto transition-all duration-500 group-hover:scale-105" />
+          <BrandLogo variant="written-yellow" className={`${isScrolled ? 'h-8 sm:h-10 md:h-12' : 'h-10 sm:h-14 md:h-16'} w-auto transition-all duration-500 group-hover:scale-105`} />
         </div>
         
-        <div className="hidden lg:flex items-center gap-12">
-          <div className="flex items-center gap-10">
+        <div className="hidden lg:flex items-center gap-8">
+          <div className="flex items-center gap-6">
             {navLinks.map(link => (
               link.type === 'view' ? (
                 <button 
