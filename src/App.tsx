@@ -6,7 +6,7 @@ import {
   Sparkles, Coffee, Mic2, Palmtree, Utensils, Theater, PlayCircle,
   Loader2, Video, Play, Mic, Radio, Smartphone, Activity, Mail,
   Grid, Award, Share2, MessageSquare, Zap, Waves, Signal, 
-  Search, Users, Globe, Target, Clock, Filter, ExternalLink, Copy
+  Search, Users, Globe, Target, Clock, Filter, ExternalLink, Copy, Download, FileDown
 } from 'lucide-react';
 import { 
   TripoliHeritage, FayhaaFlow, DigitalCreativity, 
@@ -14,6 +14,7 @@ import {
 } from './components/BrandingIcons';
 import { SanctuaryPage } from './components/SanctuaryPage';
 import { SanctuaryApplyPage } from './components/SanctuaryApplyPage';
+import { SponsorsLandingPage } from './components/SponsorsLandingPage';
 import { OurStory } from './components/OurStory';
 import { TicketsPage } from './components/TicketsPage';
 import { GalleryPage } from './components/GalleryPage';
@@ -28,7 +29,7 @@ import { CREATORS_EMAIL_DATA } from './constants/creatorsData';
 
 // --- Components ---
 
-const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery') => void, onOpenTickets: () => void, currentView: string }) => {
+const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors') => void, onOpenTickets: () => void, currentView: string }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, language, setLanguage, isRTL } = useLanguage();
@@ -43,6 +44,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'l
     { name: t.nav.story, id: 'about', icon: <Globe size={10} />, type: 'anchor' },
     { name: t.nav.program, id: 'program', icon: <Activity size={10} />, type: 'view' },
     { name: t.nav.sanctuary, id: 'sanctuary', icon: <Target size={10} />, type: 'view' },
+    { name: (t.nav as any).sponsors || 'Sponsors', id: 'sponsors', icon: <Award size={10} />, type: 'view' },
   ];
 
   return (
@@ -540,7 +542,7 @@ const ProgramPage = ({ onNavigate }: { onNavigate: (v: 'landing' | 'finder' | 't
 
 export default function App() {
   const { t, isRTL } = useLanguage();
-  const [view, setView] = useState<'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery'>('landing');
+  const [view, setView] = useState<'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors'>('landing');
   const [selectedTrack, setSelectedTrack] = useState<string | null>(null);
   const [isAdminMode, setIsAdminMode] = useState(window.location.hash === '#admin');
   const [user, setUser] = useState<FirebaseUser | null>(auth.currentUser);
@@ -552,11 +554,13 @@ export default function App() {
     const isSanctuaryApply = p.endsWith('/sanctuary/apply');
     const isSanctuary = (p.endsWith('/sanctuary') || p.includes('/sanctuary/')) && !isSanctuaryApply;
     const isGallery = p.endsWith('/gallery') || p.includes('/gallery/');
+    const isSponsors = p.endsWith('/sponsors') || p.includes('/sponsors/') || p.endsWith('/sponsores') || p.includes('/sponsores/');
 
     if (isProgram) setView('program');
     else if (isSanctuaryApply) setView('sanctuary-apply');
     else if (isSanctuary) setView('sanctuary');
     else if (isGallery) setView('gallery');
+    else if (isSponsors) setView('sponsors');
     
     const unsubscribe = onAuthStateChanged(auth, setUser);
     const handleHash = () => setIsAdminMode(window.location.hash === '#admin');
@@ -569,6 +573,7 @@ export default function App() {
       else if (path.endsWith('/sanctuary')) setView('sanctuary');
       else if (path.endsWith('/sanctuary/apply')) setView('sanctuary-apply');
       else if (path.endsWith('/gallery')) setView('gallery');
+      else if (path.endsWith('/sponsors') || path.endsWith('/sponsores')) setView('sponsors');
       else setView('landing');
     };
     window.addEventListener('popstate', handlePopState);
@@ -593,7 +598,9 @@ export default function App() {
       window.history.pushState({}, '', `${prefix}/sanctuary/apply`);
     } else if (view === 'gallery' && !path.endsWith('/gallery')) {
       window.history.pushState({}, '', `${prefix}/gallery`);
-    } else if (view === 'landing' && path !== prefix && !['program', 'sanctuary', 'sanctuary-apply', 'gallery'].includes(view)) {
+    } else if (view === 'sponsors' && !path.endsWith('/sponsors')) {
+      window.history.pushState({}, '', `${prefix}/sponsors`);
+    } else if (view === 'landing' && path !== prefix && !['program', 'sanctuary', 'sanctuary-apply', 'gallery', 'sponsors'].includes(view)) {
       window.history.pushState({}, '', prefix);
     }
     window.scrollTo(0, 0);
@@ -679,6 +686,7 @@ export default function App() {
           <main>
             {view === 'program' && <ProgramPage onNavigate={setView} />}
             {view === 'gallery' && <GalleryPage onNavigate={setView} />}
+            {view === 'sponsors' && <SponsorsLandingPage />}
             {view === 'sanctuary' && (
               <SanctuaryPage 
                 onNavigate={setView} 
@@ -954,8 +962,113 @@ const CreatorInvitationPortal = () => {
     });
   };
 
+  const handleDownloadPDFs = () => {
+    const missingEmails = CREATORS_EMAIL_DATA.filter(c => !emails[c.id]);
+    if (missingEmails.length === 0) {
+      alert("All creators have emails.");
+      return;
+    }
+    
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+      alert("Please allow popups to generate the PDF.");
+      return;
+    }
+
+    const htmlContent = missingEmails.map((creator) => {
+      return `
+        <div style="page-break-after: always; width: 100%; height: 100vh;">
+          ${creator.emailHtml}
+        </div>
+      `;
+    }).join('');
+
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Missing Email Invitations</title>
+          <style>
+            body { margin: 0; padding: 0; background: #000; }
+            @media print {
+              @page { margin: 0; }
+              body { margin: 0; background: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            }
+          </style>
+        </head>
+        <body>
+          ${htmlContent}
+          <script>
+            setTimeout(() => {
+              window.print();
+              window.close();
+            }, 1000);
+          </script>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+  };
+
+  const handleDownloadSinglePDF = (creator: typeof CREATORS_EMAIL_DATA[0]) => {
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+      alert("Please allow popups to generate the PDF.");
+      return;
+    }
+
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>${creator.name} - Invitation</title>
+          <style>
+            body { margin: 0; padding: 0; background: #000; }
+            @media print {
+              @page { margin: 0; }
+              body { margin: 0; background: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            }
+          </style>
+        </head>
+        <body>
+          <div style="width: 100%; height: 100vh;">
+            ${creator.emailHtml}
+          </div>
+          <script>
+            setTimeout(() => {
+              window.print();
+              window.close();
+            }, 1000);
+          </script>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+  };
+
+  const handleDownloadSingleHTML = (creator: typeof CREATORS_EMAIL_DATA[0]) => {
+    const element = document.createElement("a");
+    const file = new Blob([creator.emailHtml], { type: 'text/html' });
+    element.href = URL.createObjectURL(file);
+    element.download = `${creator.id}_invitation.html`;
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
+
   return (
     <div className="space-y-8">
+      {/* Action Bar */}
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={handleDownloadPDFs}
+          className="flex items-center gap-2 py-3 px-6 bg-brand-coral text-white hover:bg-brand-navy rounded-xl font-display font-bold text-xs tracking-wider uppercase transition-colors shadow-md"
+        >
+          <Download size={14} />
+          <span>Download PDF (No Email)</span>
+        </button>
+      </div>
+
       {/* Search & Filter Controls */}
       <div className="flex flex-col md:flex-row gap-6 justify-between items-stretch md:items-center">
         {/* Search Input */}
@@ -1121,6 +1234,24 @@ const CreatorInvitationPortal = () => {
                 )}
               </button>
 
+              {/* Download HTML Button */}
+              <button
+                onClick={() => handleDownloadSingleHTML(creator)}
+                className="flex items-center justify-center p-3 border border-brand-navy/15 hover:border-brand-coral hover:bg-brand-coral/5 rounded-xl transition-colors"
+                title="Download HTML File"
+              >
+                <FileDown size={14} className="text-brand-navy/60" />
+              </button>
+
+              {/* Download PDF Button */}
+              <button
+                onClick={() => handleDownloadSinglePDF(creator)}
+                className="flex items-center justify-center p-3 border border-brand-navy/15 hover:border-brand-coral hover:bg-brand-coral/5 rounded-xl transition-colors"
+                title="Download PDF"
+              >
+                <Download size={14} className="text-brand-navy/60" />
+              </button>
+
               {/* Preview Button */}
               <button
                 onClick={() => setPreviewCreator(creator)}
@@ -1169,6 +1300,20 @@ const CreatorInvitationPortal = () => {
                       <span>Copy HTML</span>
                     </>
                   )}
+                </button>
+                <button
+                  onClick={() => handleDownloadSingleHTML(previewCreator)}
+                  className="flex items-center gap-2 py-3 px-6 bg-amber-600 text-white hover:bg-brand-navy rounded-xl font-display font-bold text-xs tracking-wider uppercase transition-colors shadow-md"
+                >
+                  <FileDown size={14} />
+                  <span>Download HTML</span>
+                </button>
+                <button
+                  onClick={() => handleDownloadSinglePDF(previewCreator)}
+                  className="flex items-center gap-2 py-3 px-6 bg-brand-navy text-white hover:bg-brand-coral rounded-xl font-display font-bold text-xs tracking-wider uppercase transition-colors shadow-md"
+                >
+                  <Download size={14} />
+                  <span>Download PDF</span>
                 </button>
                 <button
                   onClick={() => setPreviewCreator(null)}
