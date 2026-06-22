@@ -8,7 +8,8 @@ export const translations = {
       program: 'Program',
       sanctuary: 'Accreditation',
       portal: 'Access Portal',
-      edition: 'Fayhaa Edition'
+      edition: 'Fayhaa Edition',
+      sponsors: 'Sponsors'
     },
     hero: {
       tagline: 'CULTURE x CREATION x DIGITAL',
@@ -325,7 +326,8 @@ export const translations = {
       program: 'البرنامج',
       sanctuary: 'تصاريح الاعتماد',
       portal: 'بوابة الدخول',
-      edition: 'نسخة الفيحاء'
+      edition: 'نسخة الفيحاء',
+      sponsors: 'الرعاة'
     },
     hero: {
       tagline: 'ثقافة x إبداع x رقمي',

@@ -18,6 +18,7 @@ import { SponsorsLandingPage } from './components/SponsorsLandingPage';
 import { OurStory } from './components/OurStory';
 import { TicketsPage } from './components/TicketsPage';
 import { GalleryPage } from './components/GalleryPage';
+import { TrfAnahonPage } from './components/TrfAnahonPage';
 import { auth, db, onAuthStateChanged, signInWithPasscode, collection, getDocs, User as FirebaseUser } from './lib/firebase';
 import { TICKET_TIERS, EVENT_DAYS } from './constants';
 import { TicketTier, EventDay, Order, BuyerInfo, VipDetails } from './types';
@@ -29,7 +30,7 @@ import { CREATORS_EMAIL_DATA } from './constants/creatorsData';
 
 // --- Components ---
 
-const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors') => void, onOpenTickets: () => void, currentView: string }) => {
+const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors' | 'trf-anahon') => void, onOpenTickets: () => void, currentView: string }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, language, setLanguage, isRTL } = useLanguage();
@@ -546,7 +547,7 @@ const ProgramPage = ({ onNavigate }: { onNavigate: (v: 'landing' | 'finder' | 't
 
 export default function App() {
   const { t, isRTL } = useLanguage();
-  const [view, setView] = useState<'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors'>('landing');
+  const [view, setView] = useState<'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors' | 'trf-anahon'>('landing');
   const [selectedTrack, setSelectedTrack] = useState<string | null>(null);
   const [isAdminMode, setIsAdminMode] = useState(window.location.hash === '#admin');
   const [user, setUser] = useState<FirebaseUser | null>(auth.currentUser);
@@ -559,12 +560,14 @@ export default function App() {
     const isSanctuary = (p.endsWith('/sanctuary') || p.includes('/sanctuary/')) && !isSanctuaryApply;
     const isGallery = p.endsWith('/gallery') || p.includes('/gallery/');
     const isSponsors = p.endsWith('/sponsors') || p.includes('/sponsors/') || p.endsWith('/sponsores') || p.includes('/sponsores/');
+    const isTrfAnahon = p.endsWith('/trf-anahon') || p.includes('/trf-anahon/');
 
     if (isProgram) setView('program');
     else if (isSanctuaryApply) setView('sanctuary-apply');
     else if (isSanctuary) setView('sanctuary');
     else if (isGallery) setView('gallery');
     else if (isSponsors) setView('sponsors');
+    else if (isTrfAnahon) setView('trf-anahon');
     
     const unsubscribe = onAuthStateChanged(auth, setUser);
     const handleHash = () => setIsAdminMode(window.location.hash === '#admin');
@@ -578,6 +581,7 @@ export default function App() {
       else if (path.endsWith('/sanctuary/apply')) setView('sanctuary-apply');
       else if (path.endsWith('/gallery')) setView('gallery');
       else if (path.endsWith('/sponsors') || path.endsWith('/sponsores')) setView('sponsors');
+      else if (path.endsWith('/trf-anahon')) setView('trf-anahon');
       else setView('landing');
     };
     window.addEventListener('popstate', handlePopState);
@@ -604,7 +608,9 @@ export default function App() {
       window.history.pushState({}, '', `${prefix}/gallery`);
     } else if (view === 'sponsors' && !path.endsWith('/sponsors')) {
       window.history.pushState({}, '', `${prefix}/sponsors`);
-    } else if (view === 'landing' && path !== prefix && !['program', 'sanctuary', 'sanctuary-apply', 'gallery', 'sponsors'].includes(view)) {
+    } else if (view === 'trf-anahon' && !path.endsWith('/trf-anahon')) {
+      window.history.pushState({}, '', `${prefix}/trf-anahon`);
+    } else if (view === 'landing' && path !== prefix && !['program', 'sanctuary', 'sanctuary-apply', 'gallery', 'sponsors', 'trf-anahon'].includes(view)) {
       window.history.pushState({}, '', prefix);
     }
     window.scrollTo(0, 0);
@@ -691,6 +697,7 @@ export default function App() {
             {view === 'program' && <ProgramPage onNavigate={setView} />}
             {view === 'gallery' && <GalleryPage onNavigate={setView} />}
             {view === 'sponsors' && <SponsorsLandingPage />}
+            {view === 'trf-anahon' && <TrfAnahonPage onNavigate={setView as any} />}
             {view === 'sanctuary' && (
               <SanctuaryPage 
                 onNavigate={setView} 
@@ -953,8 +960,11 @@ const CreatorInvitationPortal = () => {
   const types = Array.from(new Set(CREATORS_EMAIL_DATA.map(c => c.type))).filter(Boolean);
 
   const filteredCreators = CREATORS_EMAIL_DATA.filter(c => {
-    const matchesSearch = c.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          c.id.toLowerCase().includes(searchQuery.toLowerCase());
+    const queryWords = searchQuery.toLowerCase().split(/\s+/).filter(Boolean);
+    const matchesSearch = queryWords.length === 0 || queryWords.every(word => 
+      c.name.toLowerCase().includes(word) || 
+      c.id.toLowerCase().includes(word)
+    );
     const matchesType = !selectedType || c.type === selectedType;
     return matchesSearch && matchesType;
   });
