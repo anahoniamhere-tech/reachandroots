@@ -271,7 +271,7 @@ export const TrfAnahonPage = ({ onNavigate }: { onNavigate?: (v: string) => void
                   {podcast.youtubeUrl ? (
                     <iframe 
                       src={getYoutubeEmbedUrl(podcast.youtubeUrl)} 
-                      title={podcast.title}
+                      title={lang === 'ar' ? podcast.titleAr : podcast.titleEn}
                       frameBorder="0" 
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                       referrerPolicy="strict-origin-when-cross-origin" 

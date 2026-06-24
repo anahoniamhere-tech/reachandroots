@@ -32,7 +32,7 @@ export const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  const handlePasscodeSubmit = async (e?: React.FormEvent) => {
+  const handleLoginSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     if (!passcode.trim()) return;
 
@@ -41,7 +41,7 @@ export const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
     try {
       await signInWithPasscode(passcode);
     } catch (err: any) {
-      setError(err.message || 'Failed to verify passcode');
+      setError(err.message || 'Failed to authenticate');
       setLoading(false);
     }
   };
@@ -73,7 +73,7 @@ export const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
             Private Access
           </h2>
           <p className="font-body text-brand-navy/60 mb-10 leading-relaxed">
-            The preview site is restricted to approved administrators. Please enter your authorized access code to continue.
+            The preview site is restricted to approved administrators. Please enter your credentials to continue.
           </p>
 
           {error && (
@@ -84,7 +84,7 @@ export const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
           )}
 
           {showInput ? (
-            <form onSubmit={handlePasscodeSubmit} className="w-full">
+            <form onSubmit={handleLoginSubmit} className="w-full">
               <input
                 type="password"
                 value={passcode}
@@ -98,7 +98,7 @@ export const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
                 disabled={!passcode.trim()}
                 className="w-full flex items-center justify-center gap-4 bg-brand-navy text-white px-8 py-5 rounded-full hover:bg-brand-coral transition-all duration-300 shadow-xl group disabled:opacity-60"
               >
-                <span className="editorial-label text-white tracking-[0.3em] font-medium uppercase">SUBMIT CODE</span>
+                <span className="editorial-label text-white tracking-[0.3em] font-medium uppercase">SIGN IN</span>
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </button>
             </form>

@@ -382,6 +382,126 @@ const GALLERY_PHOTOS = [
     url: '/gallery/gallery_creator56.jpg',
     title: { en: "Hassan Hashem", ar: 'حسن هاشم'},
     description: { en: "Envisioning the intersection of digital growth and heritage preservation.", ar: 'تصور تقاطع النمو الرقمي والحفاظ على التراث.' }
+  },
+  {
+    id: 'omar_farooq',
+    url: '/gallery/gallery_omar_farooq.jpg',
+    title: { en: "Omar Farooq", ar: 'عمر فاروق' },
+    description: { en: "Bahraini filmmaker and content creator known for social experiments, travel storytelling, and immersive cultural experiences across the Arab world.", ar: "صانع أفلام ومحتوى بحريني معروف بالتجارب الاجتماعية، سرد قصص السفر، والتجارب الثقافية الغامرة في جميع أنحاء العالم العربي." }
+  },
+  {
+    id: 'joe_hattab',
+    url: '/gallery/gallery_joe_hattab.jpg',
+    title: { en: "Joe Hattab", ar: 'جو حطاب' },
+    description: { en: "Jordanian documentary filmmaker and travel creator who produces cinematic stories and documentaries exploring cultures, people, and destinations worldwide.", ar: "صانع أفلام وثائقية ومنشئ محتوى سفر أردني ينتج قصصًا سينمائية وأفلامًا وثائقية تستكشف الثقافات والناس والوجهات في جميع أنحاء العالم." }
+  },
+  {
+    id: 'omar_abiad',
+    url: '/gallery/gallery_omar_abiad_real.jpg',
+    title: { en: "Omar Al Abiad", ar: 'عمر الأبيض' },
+    description: { en: "A community coordinator and social activist known for leading volunteer relief efforts in Tripoli.", ar: "منسق مجتمعي وناشط اجتماعي معروف بقيادة جهود الإغاثة التطوعية في طرابلس." }
+  },
+  {
+    id: 'ahmadalsabouni',
+    url: '/gallery/gallery_ahmadalsabouni.jpg?v=3',
+    title: { en: "Ahmad Al Sabouni", ar: 'أحمد الصابوني' },
+    description: { en: "A Syrian content creator focused on religious spirituality, relationship dynamics, motivational speaking, and life reflections.", ar: "صانع محتوى سوري يركز على الروحانيات الدينية، ديناميكيات العلاقات، التحدث التحفيزي، والتأملات الحياتية." }
+  },
+  {
+    id: 'rahalista',
+    url: '/gallery/gallery_rahalista.jpg',
+    title: { en: "Rahalista", ar: 'رحاليستا' },
+    description: { en: "A Libyan travel and adventure content creator who documents culture, local experiences, and scenic spots across Libya and neighboring regions.", ar: "صانع محتوى سفر ومغامرة ليبي يوثق الثقافة والتجارب المحلية والأماكن الخلابة في جميع أنحاء ليبيا والمناطق المجاورة." }
+  },
+  {
+    id: 'ibnhattuta',
+    url: '/gallery/gallery_ibnhattuta.jpg',
+    title: { en: "Ibn Hatutta", ar: 'ابن بطوطة' },
+    description: { en: "One of the Arab world’s most prominent travel vloggers and digital nomads. He shares immersive, off-the-beaten-path cultural experiences and global adventures.", ar: "أحد أبرز مدوني السفر والرحالة الرقميين في العالم العربي. يشارك تجارب ثقافية غامرة ومغامرات عالمية خارجة عن المألوف." }
+  },
+  {
+    id: 'alkhmyaai',
+    url: '/gallery/gallery_alkhmyaai.jpg',
+    title: { en: "alkhmyaai", ar: 'الخيميائي' },
+    description: { en: "An Egyptian history, travel, and culture enthusiast who produces narrative-driven content exploring ancient ruins, cultural trivia, and historical deep-dives.", ar: "هاوٍ مصري للتاريخ والسفر والثقافة ينتج محتوى روائيًا يستكشف الآثار القديمة والمعلومات الثقافية العامة والغوص التاريخي العميق." }
+  },
+  {
+    id: 'nutrishahd',
+    url: '/gallery/gallery_nutrishahd.jpg',
+    title: { en: "Nutrishahd", ar: 'نوتريشهد' },
+    description: { en: "A health, medicine, and clinical nutrition influencer who shares accessible healthy-eating tips, alternative remedies, and wellness advice.", ar: "مؤثرة في مجالات الصحة والطب والتغذية العلاجية، تشارك نصائح سهلة لتناول الطعام الصحي والوصفات البديلة وإرشادات العافية." }
+  },
+  {
+    id: 'amjadalnour',
+    url: '/gallery/gallery_amjadalnour.jpg',
+    title: { en: "Amjad alnour", ar: 'أمجد النور' },
+    description: { en: "A creative Sudanese media producer, musical satirist, and video content creator known for sharp, viral sketches and politically witty musical parodies.", ar: "منتج إعلامي سوداني مبدع وفنان هجاء موسيقي وصانع محتوى فيديو معروف باسكتشاته الحادة والواسعة الانتشار والمحاكاة الساخرة للموسيقى الذكية." }
+  },
+  {
+    id: 'raiefkhalaileh',
+    url: '/gallery/gallery_raiefkhalaileh.jpg',
+    title: { en: "Raeif Khaleila", ar: 'رائف خلايلة' },
+    description: { en: "A charismatic Dubai-based educator and digital media professional who creates engaging, viral videos on the nuances, idioms, and beauties of the Arabic language.", ar: "تربوي كاريزمي مقيم في دبي ومتخصص في الإعلام الرقمي ينشئ مقاطع فيديو جذابة وواسعة الانتشار حول الفروق الدقيقة والمصطلحات وجماليات اللغة العربية." }
+  },
+  {
+    id: 'kasoest',
+    url: '/gallery/gallery_kasoest.jpg',
+    title: { en: "Kasoest", ar: 'كاسوست' },
+    description: { en: "A popular travel couple documenting their ongoing fitness lifestyle and globe-trotting journey across dozens of countries.", ar: "ثنائي سفر شهير يوثقان أسلوب حياتهما الرياضي المستمر ورحلاتهما حول العالم عبر عشرات البلدان." }
+  },
+  {
+    id: 'tahertravels',
+    url: '/gallery/gallery_tahertravels.jpg',
+    title: { en: "Taher travels", ar: 'طاهر ترافلز' },
+    description: { en: "An Egyptian backpacker and adventurer who left regular corporate life to pursue raw, low-budget global exploration, sharing practical travel advice along the way.", ar: "رحالة ومغامر مصري ترك حياة الشركات التقليدية لمتابعة الاستكشاف العالمي بميزانية منخفضة، ومشاركة نصائح سفر عملية على طول الطريق." }
+  },
+  {
+    id: 'abulsadiq',
+    url: '/gallery/gallery_abulsadiq.jpg?v=3',
+    title: { en: "Abulsadiq", ar: 'أبو الصادق' },
+    description: { en: "A documentary filmmaker and prominent content creator known for high-production true-crime, historical, and geopolitically themed storytelling videos.", ar: "صانع أفلام وثائقية وصانع محتوى بارز معروف بفيديوهاته ذات الإنتاج العالي التي تتناول الجريمة الحقيقية والتاريخ والموضوعات الجيوسياسية." }
+  },
+  {
+    id: 'hasan_asmaeel',
+    url: '/gallery/gallery_hasan_asmaeel.jpg?v=3',
+    title: { en: "Hasan asmaeel", ar: 'حسن إسماعيل' },
+    description: { en: "An Arab lifestyle and visual content creator who produces high-engagement aesthetic reels, vlogs, and personal reflections.", ar: "صانع محتوى بصري ونمط حياة عربي ينتج مقاطع فيديو وريلز جمالية وتدوينات مرئية عالية التفاعل وتأملات شخصية." }
+  },
+  {
+    id: 'raffijarrouj',
+    url: '/gallery/gallery_raffijarrouj.jpg',
+    title: { en: "Raffi jarrouj", ar: 'رافي جروج' },
+    description: { en: "A Syrian media creator who specializes in informative, summarized explainers breaking down political histories, social trends, and current affairs swiftly.", ar: "صانع محتوى إعلامي سوري متخصص في الشروحات التوضيحية الملخصة والمفيدة التي تفكك تواريخ السياسة والاتجاهات الاجتماعية والشؤون الجارية بسرعة." }
+  },
+  {
+    id: 'bahae_sanari',
+    url: '/gallery/gallery_bahae_sanari.jpg',
+    title: { en: "Bahae sanar", ar: 'بهاء سناري' },
+    description: { en: "A dynamic Moroccan youth ambassador and content creator focusing on high-energy travel stories, lifestyle vlogs, and community-driven adventures.", ar: "سفير شباب مغربي ديناميكي وصانع محتوى يركز على قصص السفر الحيوية والتدوينات اليومية والمغامرات التي يقودها المجتمع." }
+  },
+  {
+    id: 'osamanasan',
+    url: '/gallery/gallery_osamanasan.jpg',
+    title: { en: "Osama nasan", ar: 'أسامة نعسان' },
+    description: { en: "A prominent Middle Eastern lifestyle and travel creator focused on documenting visual aesthetics, luxury destinations, and global city exploration.", ar: "صانع محتوى سفر ونمط حياة بارز في الشرق الأوسط يركز على توثيق الجماليات البصرية والوجهات الفاخرة واستكشاف المدن العالمية." }
+  },
+  {
+    id: 'alialkalede',
+    url: '/gallery/gallery_alialkalede.jpg?v=3',
+    title: { en: "Ali Al khalidi", ar: 'علي الخالدي' },
+    description: { en: "A well-known Iraqi TV presenter, journalist, and media figure who shares human-interest stories, social advocacy content, and media highlights from Iraq.", ar: "مقدم برامج تلفزيونية وصحفي وشخصية إعلامية عراقية معروفة تشارك القصص الإنسانية ومحتوى المناصرة الاجتماعية والمستجدات الإعلامية من العراق." }
+  },
+  {
+    id: 'alaa_jaber',
+    url: '/gallery/gallery_alaa_jaber.jpg',
+    title: { en: "Alaa Jaber", ar: 'علاء جابر' },
+    description: { en: "A religious figure, speaker, and media host based in Jordan who shares emotional guidance, Islamic lifestyle counsel, and human connection stories.", ar: "شخصية دينية ومتحدث ومضيف إعلامي مقيم في الأردن يشارك التوجيه الوجداني والنصح في نمط الحياة الإسلامي وقصص التواصل الإنساني." }
+  },
+  {
+    id: 'fedaaadeen',
+    url: '/gallery/gallery_fedaaadeen.jpg',
+    title: { en: "Fedaa eddine Yahya", ar: 'فداء الدين يحيى' },
+    description: { en: "A prominent Yemeni student, public speaker, and sociopolitical commentator known for his media appearances (such as Barlaman Al-Sha'ab) and philosophical reflections.", ar: "طالب يمني بارز ومتحدث عام ومعلق اجتماعي وسياسي معروف بظهوره الإعلامي (مثل برنامج برلمان الشعب) وتأملاته الفلسفية." }
   }
 ];
 

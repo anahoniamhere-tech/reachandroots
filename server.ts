@@ -170,6 +170,32 @@ async function startServer() {
   // 4. Send Creator Invitation Email (Admin API)
   app.post("/api/admin/send-email", async (req, res) => {
     try {
+      // Security Check
+      const authHeader = req.headers.authorization;
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ error: "Missing or invalid authorization token" });
+      }
+      
+      const idToken = authHeader.split('Bearer ')[1];
+      let decodedToken;
+      try {
+        decodedToken = await admin.auth().verifyIdToken(idToken);
+      } catch (authError) {
+        return res.status(401).json({ error: "Unauthorized access" });
+      }
+
+      // Check if user is admin
+      if (db) {
+        const adminDoc = await db.collection('admins').doc(decodedToken.uid).get();
+        const isAnahon = decodedToken.email === 'anahoniamhere@gmail.com' && decodedToken.email_verified;
+        
+        if (!adminDoc.exists && !isAnahon) {
+          return res.status(403).json({ error: "Forbidden: Admin access required" });
+        }
+      } else {
+        return res.status(500).json({ error: "Database not initialized" });
+      }
+
       const validated = SendEmailSchema.parse(req.body);
       
       if (!process.env.SMTP_PASS) {
