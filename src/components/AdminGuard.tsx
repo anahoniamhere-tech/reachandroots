@@ -52,8 +52,9 @@ export const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center gap-4">
         <Loader2 className="animate-spin text-brand-coral" size={32} />
+        <span className="text-xs text-brand-navy/40 font-mono">Verifying credentials...</span>
       </div>
     );
   }

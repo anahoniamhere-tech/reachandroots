@@ -18,6 +18,10 @@ createRoot(document.getElementById('root')!).render(
           {/* Public Landing Page */}
           <Route path="/" element={<ComingSoon />} />
           
+          {/* Direct Redirects for easier access */}
+          <Route path="/gallery" element={<Navigate to="/preview/gallery" replace />} />
+          <Route path="/admin" element={<Navigate to="/preview/admin" replace />} />
+          
           {/* Public Content Creators Invitation Page */}
           <Route path="/icontent_Creators" element={<ContentCreatorsInvitation />} />
           <Route path="/icontent_creators" element={<Navigate to="/icontent_Creators" replace />} />

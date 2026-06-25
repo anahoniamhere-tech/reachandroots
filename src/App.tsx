@@ -549,7 +549,11 @@ export default function App() {
   const { t, isRTL } = useLanguage();
   const [view, setView] = useState<'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors' | 'trf-anahon'>('landing');
   const [selectedTrack, setSelectedTrack] = useState<string | null>(null);
-  const [isAdminMode, setIsAdminMode] = useState(window.location.hash === '#admin');
+  const [isAdminMode, setIsAdminMode] = useState(
+    window.location.hash === '#admin' || 
+    window.location.pathname.endsWith('/admin') || 
+    window.location.pathname.includes('/admin/')
+  );
   const [user, setUser] = useState<FirebaseUser | null>(auth.currentUser);
 
   useEffect(() => {
@@ -561,6 +565,7 @@ export default function App() {
     const isGallery = p.endsWith('/gallery') || p.includes('/gallery/');
     const isSponsors = p.endsWith('/sponsors') || p.includes('/sponsors/') || p.endsWith('/sponsores') || p.includes('/sponsores/');
     const isTrfAnahon = p.endsWith('/trf-anahon') || p.includes('/trf-anahon/');
+    const isAdmin = p.endsWith('/admin') || p.includes('/admin/');
 
     if (isProgram) setView('program');
     else if (isSanctuaryApply) setView('sanctuary-apply');
@@ -568,21 +573,23 @@ export default function App() {
     else if (isGallery) setView('gallery');
     else if (isSponsors) setView('sponsors');
     else if (isTrfAnahon) setView('trf-anahon');
+    else if (isAdmin) setIsAdminMode(true);
     
     const unsubscribe = onAuthStateChanged(auth, setUser);
-    const handleHash = () => setIsAdminMode(window.location.hash === '#admin');
+    const handleHash = () => setIsAdminMode(window.location.hash === '#admin' || window.location.pathname.endsWith('/admin'));
     window.addEventListener('hashchange', handleHash);
     
     // Listen for pops
     const handlePopState = () => {
       const path = window.location.pathname;
-      if (path.endsWith('/program')) setView('program');
-      else if (path.endsWith('/sanctuary')) setView('sanctuary');
-      else if (path.endsWith('/sanctuary/apply')) setView('sanctuary-apply');
-      else if (path.endsWith('/gallery')) setView('gallery');
-      else if (path.endsWith('/sponsors') || path.endsWith('/sponsores')) setView('sponsors');
-      else if (path.endsWith('/trf-anahon')) setView('trf-anahon');
-      else setView('landing');
+      if (path.endsWith('/program')) { setView('program'); setIsAdminMode(false); }
+      else if (path.endsWith('/sanctuary')) { setView('sanctuary'); setIsAdminMode(false); }
+      else if (path.endsWith('/sanctuary/apply')) { setView('sanctuary-apply'); setIsAdminMode(false); }
+      else if (path.endsWith('/gallery')) { setView('gallery'); setIsAdminMode(false); }
+      else if (path.endsWith('/sponsors') || path.endsWith('/sponsores')) { setView('sponsors'); setIsAdminMode(false); }
+      else if (path.endsWith('/trf-anahon')) { setView('trf-anahon'); setIsAdminMode(false); }
+      else if (path.endsWith('/admin')) { setIsAdminMode(true); }
+      else { setView('landing'); setIsAdminMode(false); }
     };
     window.addEventListener('popstate', handlePopState);
 
@@ -598,7 +605,11 @@ export default function App() {
     const prefix = '/preview';
     const path = window.location.pathname;
     
-    if (view === 'program' && !path.endsWith('/program')) {
+    if (isAdminMode) {
+      if (!path.endsWith('/admin')) {
+        window.history.pushState({}, '', `${prefix}/admin`);
+      }
+    } else if (view === 'program' && !path.endsWith('/program')) {
       window.history.pushState({}, '', `${prefix}/program`);
     } else if (view === 'sanctuary' && !path.endsWith('/sanctuary')) {
       window.history.pushState({}, '', `${prefix}/sanctuary`);
@@ -614,7 +625,7 @@ export default function App() {
       window.history.pushState({}, '', prefix);
     }
     window.scrollTo(0, 0);
-  }, [view]);
+  }, [view, isAdminMode]);
 
   const [recommendedTier, setRecommendedTier] = useState<string | null>(null);
   const [selectedTier, setSelectedTier] = useState<TicketTier | null>(null);
@@ -1408,7 +1419,7 @@ const AdminDashboard = () => {
     loadStats();
   }, [user]);
 
-  if (isLoading) return <div className="min-h-screen flex items-center justify-center bg-white"><Loader2 className="animate-spin text-brand-coral" /></div>;
+  if (isLoading) return <div className="min-h-screen flex flex-col items-center justify-center bg-white gap-4"><Loader2 className="animate-spin text-brand-coral" size={32} /><span className="text-xs text-brand-navy/40 font-mono">Loading system telemetry...</span></div>;
 
   if (!user) {
     return (
