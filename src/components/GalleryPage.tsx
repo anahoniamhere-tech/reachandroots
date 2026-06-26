@@ -502,6 +502,12 @@ const GALLERY_PHOTOS = [
     url: '/gallery/gallery_fedaaadeen.jpg',
     title: { en: "Fedaa eddine Yahya", ar: 'فداء الدين يحيى' },
     description: { en: "A prominent Yemeni student, public speaker, and sociopolitical commentator known for his media appearances (such as Barlaman Al-Sha'ab) and philosophical reflections.", ar: "طالب يمني بارز ومتحدث عام ومعلق اجتماعي وسياسي معروف بظهوره الإعلامي (مثل برنامج برلمان الشعب) وتأملاته الفلسفية." }
+  },
+  {
+    id: 'sallykayali',
+    url: '/gallery/gallery_sallykayali.jpg',
+    title: { en: "Sally Kayali", ar: 'سالي كيالي' },
+    description: { en: "Food & Lifestyle Creator / Graphic Designer sharing Tripoli's stories.", ar: 'صانعة محتوى طعام وأسلوب حياة ومصممة غرافيك تشارك قصص طرابلس.' }
   }
 ];
 
