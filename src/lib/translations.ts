@@ -120,7 +120,7 @@ export const translations = {
         mission: {
           title: 'MISSION',
           subtitle: 'HOW WE IMPLEMENT OUR VISION',
-          desc: 'Our mission is to connect creators, amplify authentic stories, and create spaces for learning and collaboration, turning local creativity into regional impact.',
+          desc: 'Our mission is to empower creators with the spaces and tools they need, through gatherings, programs, and experiences that position Tripoli as a vibrant hub for creativity and storytelling in the region.',
           pillars: { p1: 'CONNECT', p2: 'AMPLIFY', p3: 'COLLABORATE', p4: 'GROW' }
         }
       },
@@ -538,7 +538,7 @@ export const translations = {
         mission: {
           title: 'المهمة',
           subtitle: 'كيف نُنفّذ رؤيتنا',
-          desc: 'مهمتنا أن نربط المبدعين، نُضخّم القصص الأصيلة، ونخلق مساحات للتعلّم والتعاون، ليكبر الإبداع المحلي نحو أثر إقليمي.',
+          desc: 'مهمتنا تمكين صُنّاع المحتوى وتزويدهم بالمساحات والأدوات التي يحتاجونها، عبر لقاءات وبرامج وتجارب تُبرز طرابلس كمركز حيوي للإبداع وسرد القصص في المنطقة.',
           pillars: { p1: 'نربط', p2: 'نضخّم', p3: 'نتعاون', p4: 'ننمو' }
         }
       },

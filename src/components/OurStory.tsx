@@ -68,15 +68,15 @@ export const OurStory = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
         <div className="max-w-[1400px] w-full mx-auto grid lg:grid-cols-2 gap-16 lg:gap-24 items-center mb-32 relative z-10">
           {/* Text Content (Right logically, so order-1 in RTL) */}
           <div className={`flex flex-col items-center lg:items-start text-center lg:text-start ${isRTL ? 'lg:order-1' : 'lg:order-2'}`}>
-            <h2 className="font-display font-black text-7xl md:text-[8rem] uppercase tracking-tighter text-brand-navy leading-none mb-6">
+            <h2 className="font-display font-black text-5xl md:text-7xl lg:text-[8rem] uppercase tracking-tighter text-brand-navy leading-none mb-4 md:mb-6">
               {t.companyInfo?.whoWeAre?.title}
             </h2>
-            <h3 className="font-arabic font-bold text-3xl md:text-5xl text-brand-coral leading-tight mb-12">
+            <h3 className="font-arabic font-bold text-2xl md:text-4xl lg:text-5xl text-brand-coral leading-tight mb-8 md:mb-12">
               {t.companyInfo?.whoWeAre?.subtitle}
             </h3>
             
             <div className="bg-white/90 backdrop-blur-sm p-8 md:p-12 rounded-[2rem] shadow-xl max-w-xl">
-              <p className="font-body font-medium text-2xl md:text-3xl text-brand-navy leading-relaxed">
+              <p className="font-body font-medium text-xl md:text-2xl lg:text-3xl text-brand-navy leading-relaxed">
                 {t.companyInfo?.whoWeAre?.desc}
               </p>
             </div>
@@ -133,15 +133,15 @@ export const OurStory = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
         <div className="max-w-[1400px] w-full mx-auto grid lg:grid-cols-2 gap-16 lg:gap-24 items-center mb-32 relative z-10">
           {/* Text Content */}
           <div className={`flex flex-col items-center lg:items-start text-center lg:text-start ${isRTL ? 'lg:order-1' : 'lg:order-2'}`}>
-            <h2 className="font-display font-black text-7xl md:text-[9rem] uppercase tracking-tighter text-brand-navy leading-none mb-4">
+            <h2 className="font-display font-black text-5xl md:text-7xl lg:text-[9rem] uppercase tracking-tighter text-brand-navy leading-none mb-2 md:mb-4">
               {t.companyInfo?.vision?.title}
             </h2>
-            <h3 className="font-arabic font-bold text-4xl md:text-6xl text-warm-beige leading-tight mb-12">
+            <h3 className="font-arabic font-bold text-2xl md:text-4xl lg:text-6xl text-warm-beige leading-tight mb-8 md:mb-12">
               {t.companyInfo?.vision?.subtitle}
             </h3>
             
             <div className="max-w-xl">
-              <p className="font-body font-bold text-2xl md:text-3xl text-brand-navy leading-relaxed">
+              <p className="font-body font-bold text-xl md:text-2xl lg:text-3xl text-brand-navy leading-relaxed">
                 {t.companyInfo?.vision?.desc}
               </p>
             </div>
@@ -195,16 +195,16 @@ export const OurStory = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
         <div className="max-w-[1400px] w-full mx-auto grid lg:grid-cols-2 gap-16 lg:gap-24 items-center mb-32 relative z-10">
           {/* Text Content */}
           <div className={`flex flex-col items-center lg:items-start text-center lg:text-start ${isRTL ? 'lg:order-1' : 'lg:order-2'}`}>
-            <h2 className="font-display font-black text-7xl md:text-[9rem] uppercase tracking-tighter text-brand-navy leading-none mb-4">
+            <h2 className="font-display font-black text-5xl md:text-7xl lg:text-[9rem] uppercase tracking-tighter text-brand-navy leading-none mb-2 md:mb-4">
               {t.companyInfo?.mission?.title}
             </h2>
-            <h3 className="font-arabic font-bold text-4xl md:text-5xl text-brand-coral leading-tight mb-12">
+            <h3 className="font-arabic font-bold text-2xl md:text-4xl lg:text-5xl text-brand-coral leading-tight mb-8 md:mb-12">
               {t.companyInfo?.mission?.subtitle}
             </h3>
             
             <div className="max-w-xl relative">
               <div className="absolute -top-6 right-0 w-16 h-1 bg-brand-navy/80 rounded-full" />
-              <p className="font-body font-bold text-2xl md:text-3xl text-brand-navy leading-relaxed pt-4">
+              <p className="font-body font-bold text-xl md:text-2xl lg:text-3xl text-brand-navy leading-relaxed pt-2 md:pt-4">
                 {t.companyInfo?.mission?.desc}
               </p>
             </div>
