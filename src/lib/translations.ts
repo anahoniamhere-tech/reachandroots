@@ -7,7 +7,7 @@ export const translations = {
       story: 'Story',
       program: 'Program',
       sanctuary: 'Accreditation',
-      portal: 'Access Portal',
+      portal: 'Register',
       edition: 'Fayhaa Edition',
       sponsors: 'Sponsors',
       journey: 'Journey'
@@ -395,7 +395,7 @@ export const translations = {
       story: 'قصتنا',
       program: 'البرنامج',
       sanctuary: 'تصاريح الاعتماد',
-      portal: 'بوابة الدخول',
+      portal: 'تسجيل',
       edition: 'نسخة الفيحاء',
       sponsors: 'الرعاة',
       journey: 'الرحلة'

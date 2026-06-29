@@ -111,6 +111,15 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'l
           </div>
 
           <div className="h-4 w-px bg-brand-navy/10" />
+          <a 
+            href="https://docs.google.com/forms/d/e/1FAIpQLSeJFab8QYXaO4e2QExsu1ZUKNY4enFagNOiUPP37gfPoMQ0JA/viewform"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 bg-brand-navy text-white px-8 py-3.5 rounded-full hover:bg-brand-coral transition-all duration-300 group"
+          >
+            <span className="editorial-label text-white tracking-[0.3em] font-medium">{t.nav.portal}</span>
+            <ChevronRight size={14} className={`${isRTL ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'} transition-transform shrink-0`} />
+          </a>
         </div>
 
         <div className="flex items-center gap-4 lg:hidden">
@@ -179,6 +188,20 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'l
                 )}
               </motion.div>
             ))}
+          </div>
+
+          <div className="mt-auto mb-10">
+            <a 
+              href="https://docs.google.com/forms/d/e/1FAIpQLSeJFab8QYXaO4e2QExsu1ZUKNY4enFagNOiUPP37gfPoMQ0JA/viewform"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`w-full flex items-center justify-between bg-brand-navy text-white p-6 sm:p-8 rounded-[2rem] hover:bg-brand-coral transition-all`}
+            >
+              <span className="font-display font-bold text-xl sm:text-2xl uppercase tracking-widest">{t.nav.portal}</span>
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white flex items-center justify-center rounded-full text-brand-navy shrink-0 transition-transform group-hover:scale-110">
+                 <ArrowRight size={20} className={isRTL ? 'rotate-180' : ''} />
+              </div>
+            </a>
           </div>
 
 
