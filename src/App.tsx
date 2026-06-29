@@ -111,13 +111,6 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'l
           </div>
 
           <div className="h-4 w-px bg-brand-navy/10" />
-          <button 
-            onClick={() => onNavigate('tickets')}
-            className="flex items-center gap-3 bg-brand-navy text-white px-8 py-3.5 rounded-full hover:bg-brand-coral transition-all duration-300 group"
-          >
-            <span className="editorial-label text-white tracking-[0.3em] font-medium">{t.nav.portal}</span>
-            <ChevronRight size={14} className={`${isRTL ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'} transition-transform shrink-0`} />
-          </button>
         </div>
 
         <div className="flex items-center gap-4 lg:hidden">
@@ -188,17 +181,6 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'l
             ))}
           </div>
 
-          <div className="mt-auto mb-10">
-            <button 
-              onClick={() => { onNavigate('tickets'); setIsMenuOpen(false); }}
-              className={`w-full flex items-center justify-between bg-brand-navy text-white p-6 sm:p-8 rounded-[2rem] hover:bg-brand-coral transition-all`}
-            >
-              <span className="font-display font-bold text-xl sm:text-2xl uppercase tracking-widest">{t.nav.portal}</span>
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white flex items-center justify-center rounded-full text-brand-navy shrink-0 transition-transform group-hover:scale-110">
-                 <ArrowRight size={20} className={isRTL ? 'rotate-180' : ''} />
-              </div>
-            </button>
-          </div>
 
           <div className="pixel-grid absolute inset-0 opacity-[0.05] pointer-events-none" />
         </motion.div>
@@ -208,7 +190,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'l
   );
 };
 
-const Hero = ({ onShopNow }: { onShopNow: () => void }) => {
+const Hero = () => {
   const { t, isRTL } = useLanguage();
   return (
     <section className="relative min-h-[110vh] flex items-center justify-center pt-32 overflow-hidden bg-warm-beige">
@@ -265,7 +247,7 @@ const Hero = ({ onShopNow }: { onShopNow: () => void }) => {
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 w-full sm:w-auto">
               <button 
-                onClick={() => onShopNow()}
+                onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
                 className="w-full sm:w-auto group flex items-center justify-center gap-4 bg-brand-navy text-white px-10 py-5 rounded-full hover:bg-brand-coral transition-all duration-500 shadow-2xl relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
@@ -709,21 +691,9 @@ export default function App() {
         <>
           <Navbar onNavigate={setView} onOpenTickets={() => setView('tickets')} currentView={view} />
           <main>
-            {view === 'program' && <ProgramPage onNavigate={setView} />}
             {view === 'gallery' && <GalleryPage onNavigate={setView} />}
-            {view === 'sponsors' && <SponsorsLandingPage />}
             {view === 'trf-anahon' && <TrfAnahonPage onNavigate={setView as any} />}
             {view === 'journey' && <JourneyPage onNavigate={setView} />}
-            {view === 'sanctuary' && (
-              <SanctuaryPage 
-                onNavigate={setView} 
-                onApply={() => setView('sanctuary-apply')} 
-                onApplyWithTrack={(track) => { setSelectedTrack(track); setView('sanctuary-apply'); }} 
-              />
-            )}
-            {view === 'sanctuary-apply' && (
-              <SanctuaryApplyPage onBack={() => setView('sanctuary')} selectedTrack={selectedTrack} />
-            )}
             {view === 'landing' && (
               <>
                 <Hero onShopNow={() => setView('tickets')} />
@@ -731,95 +701,6 @@ export default function App() {
               </>
             )}
 
-        {view === 'tickets' && (
-          <TicketsPage 
-            onComplete={handleTicketsComplete}
-            onBack={() => setView('landing')}
-          />
-        )}
-        
-        {view === 'success' && selectedTier && (
-          <section className="py-40 flex flex-col items-center justify-center min-h-screen px-6 text-center bg-white relative overflow-hidden" dir={isRTL ? 'rtl' : 'ltr'}>
-            <div className={`absolute top-[10%] ${isRTL ? 'right-[-10%]' : 'left-[-10%]'} w-[500px] h-[500px] bg-brand-coral/5 soft-glow petal-shape rotate-45`} />
-            <div className="absolute inset-0 pixel-grid opacity-30 pointer-events-none" />
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, ease: "circOut" }}
-              className="max-w-[1200px] w-full relative z-10"
-            >
-              <div className="w-24 h-24 bg-brand-navy rounded-[2rem] flex items-center justify-center mx-auto mb-16 shadow-2xl relative overflow-hidden">
-                <div className="absolute inset-0 bg-brand-coral translate-y-full animate-progress-fill" />
-                <Check size={40} className="text-white relative z-10" />
-              </div>
-              
-              <div className="flex flex-col items-center gap-4 mb-24">
-                <span className="editorial-label text-brand-coral block tracking-[0.5em] uppercase font-bold">{t.common.authenticated}</span>
-                <h2 className="editorial-h1 lowercase tracking-tighter">{t.common.welcome.split(' ')[0]} <span className="text-brand-coral italic">{t.common.welcome.split(' ').slice(1).join(' ')}</span></h2>
-              </div>
-              
-              <div className={`media-card p-12 md:p-20 relative overflow-hidden ${isRTL ? 'text-right' : 'text-left'} mb-20 bg-warm-beige/30 border-brand-navy/5`}>
-                <div className="absolute top-0 left-0 w-full h-1.5 bg-brand-navy" />
-                <div className="absolute inset-0 pixel-grid opacity-[0.03] pointer-events-none" />
-                
-                <div className="flex flex-col lg:flex-row justify-between items-start gap-24 relative z-10">
-                  <div className="space-y-16 flex-1">
-                    <div className="grid md:grid-cols-2 gap-16">
-                      <div className="space-y-4">
-                        <span className="editorial-label text-brand-navy/30 uppercase font-bold text-[9px]">{t.common.verifiedGuest}</span>
-                        <p className="font-display font-bold text-4xl uppercase tracking-tighter text-brand-navy leading-none">{buyerInfo.fullName}</p>
-                      </div>
-                      <div className="space-y-4">
-                        <span className="editorial-label text-brand-navy/30 uppercase font-bold text-[9px]">{t.common.sanctuaryTier}</span>
-                        <p className="font-display font-bold text-4xl uppercase tracking-tighter text-brand-coral leading-none">{selectedTier.name}</p>
-                      </div>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-16">
-                      <div className="space-y-4">
-                        <span className="editorial-label text-brand-navy/30 uppercase font-bold text-[9px]">{t.common.timeframe}</span>
-                        <p className="font-display font-bold text-xl uppercase tracking-tighter text-brand-navy/60 leading-tight">
-                          {selectedDay === 'all' ? (isRTL ? 'دورة كاملة ٣ أيام' : 'FULL 3-DAY CYCLE') : `${selectedDay} ${isRTL ? 'توجيه' : 'ORIENTATION'}`} <br />
-                          <span className="text-[11px] opacity-40 uppercase tracking-[0.3em] font-mono">July 10 — 12, 2026</span>
-                        </p>
-                      </div>
-                      <div className="space-y-4">
-                        <span className="editorial-label text-brand-navy/30 uppercase font-bold text-[9px]">{t.common.systemId}</span>
-                        <p className="font-mono text-[9px] tracking-[0.4em] text-brand-navy/40 uppercase">{orderId?.substring(0, 16).toUpperCase() || 'RR-PROTO-2026'}</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="shrink-0 flex flex-col items-center bg-white p-10 rounded-[3rem] shadow-xl border border-brand-navy/5">
-                    <div className="w-48 h-48 bg-white p-4 relative overflow-hidden">
-                      <div className="absolute inset-0 pixel-grid opacity-[0.05]" />
-                      <div className="w-full h-full flex items-center justify-center bg-brand-navy/5 rounded-2xl relative">
-                        <Smartphone size={40} className="text-brand-navy/20" />
-                        <div className="absolute inset-0 flex items-center justify-center">
-                           <div className="w-12 h-12 border-2 border-brand-coral rounded-full animate-ping opacity-20" />
-                        </div>
-                      </div>
-                    </div>
-                    <span className="editorial-label mt-8 tracking-[0.3em] uppercase opacity-40">{t.common.digitalNode}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-col md:flex-row gap-6 justify-center">
-                <button className="px-12 py-5 bg-brand-navy text-white font-display font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-brand-coral transition-all duration-700 shadow-2xl">
-                  {t.common.launchMap}
-                </button>
-                <button 
-                  onClick={() => setView('landing')}
-                  className="px-12 py-5 border border-brand-navy/10 text-brand-navy/40 font-display font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-white transition-all hover:text-brand-navy"
-                >
-                   {t.common.returnArchive}
-                </button>
-              </div>
-            </motion.div>
-          </section>
-        )}
       </main>
 
       <footer className="py-20 sm:py-40 bg-warm-beige border-t border-brand-navy/5 relative overflow-hidden" dir={isRTL ? 'rtl' : 'ltr'}>
@@ -854,8 +735,6 @@ export default function App() {
                 <span className="editorial-label text-brand-coral mb-4 sm:mb-8 block uppercase font-bold tracking-[0.4em]">{t.footer.narrative}</span>
                 <ul className="space-y-3 sm:space-y-4">
                   <li><a href="#" onClick={(e) => { e.preventDefault(); setView('landing'); setTimeout(() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }), 100); }} className="font-display font-bold text-sm sm:text-lg text-brand-navy/50 hover:text-brand-navy transition-colors uppercase tracking-tight block truncate sm:whitespace-normal">{t.footer.story}</a></li>
-                  <li><a href="#" onClick={(e) => { e.preventDefault(); setView('tickets'); }} className="font-display font-bold text-sm sm:text-lg text-brand-navy/50 hover:text-brand-navy transition-colors uppercase tracking-tight block truncate sm:whitespace-normal">{t.footer.access}</a></li>
-                  <li><a href="#" onClick={(e) => { e.preventDefault(); setView('sanctuary'); }} className="font-display font-bold text-sm sm:text-lg text-brand-navy/50 hover:text-brand-navy transition-colors uppercase tracking-tight block truncate sm:whitespace-normal">{t.footer.sanctuary}</a></li>
                 </ul>
               </div>
               <div className="min-w-0">

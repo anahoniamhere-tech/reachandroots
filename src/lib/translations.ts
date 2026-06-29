@@ -16,8 +16,8 @@ export const translations = {
       tagline: 'CULTURE x CREATION x DIGITAL',
       title1: 'Roots',
       title2: 'Reach',
-      description: 'An event for influencers and creators, bringing real talk, innovation, and content creation into one space.',
-      cta: 'Securize Entry',
+      description: 'A community for creators and storytellers across the Arab world, bringing real talk, innovation, and content creation into one space.',
+      cta: 'Discover the Community',
       narrative: 'Launch Narrative',
       live: 'Live Connection',
       quote: 'A space architected for the creative resilience of a global generation.'
@@ -50,7 +50,7 @@ export const translations = {
       returnArchive: 'Return to Archive'
     },
     footer: {
-      tagline: 'An event for influencers and creators, bringing real talk, innovation, and content creation into one space.',
+      tagline: 'A community for creators and storytellers across the Arab world, bringing real talk, innovation, and content creation into one space.',
       narrative: 'Narrative',
       story: 'The Story',
       access: 'Access Tiers',
@@ -404,8 +404,8 @@ export const translations = {
       tagline: 'ثقافة x إبداع x رقمي',
       title1: 'Roots',
       title2: 'Reach',
-      description: 'حدث للمؤثرين وصنّاع المحتوى، يجمع الريل توك، الابتكار، وصناعة المحتوى في مكان واحد.',
-      cta: 'تأمين الدخول',
+      description: 'مجتمع لصنّاع المحتوى ورواة القصص في العالم العربي، يجمع الريل توك، الابتكار، وصناعة المحتوى في مكان واحد.',
+      cta: 'اكتشف المجتمع',
       narrative: 'ابدأ الرواية',
       live: 'اتصال مباشر',
       quote: 'مساحة صممت هندسياً للصمود الإبداعي لجيل عالمي.'
@@ -422,7 +422,7 @@ export const translations = {
       returnArchive: 'العودة إلى الأرشيف'
     },
     footer: {
-      tagline: 'حدث للمؤثرين وصنّاع المحتوى، يجمع الريل توك، الابتكار، وصناعة المحتوى في مكان واحد.',
+      tagline: 'مجتمع لصنّاع المحتوى ورواة القصص في العالم العربي، يجمع الريل توك، الابتكار، وصناعة المحتوى في مكان واحد.',
       narrative: 'السرد',
       story: 'القصة',
       access: 'فئات الدخول',
