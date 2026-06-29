@@ -69,15 +69,15 @@ export const OurStory = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
           {/* Text Content (Right logically, so order-1 in RTL) */}
           <div className={`flex flex-col items-center lg:items-start text-center lg:text-start ${isRTL ? 'lg:order-1' : 'lg:order-2'}`}>
             <h2 className="font-display font-black text-5xl md:text-7xl lg:text-[8rem] uppercase tracking-tighter text-brand-navy leading-none mb-4 md:mb-6">
-              {t.companyInfo?.whoWeAre?.title}
+              {t.story.companyInfo?.whoWeAre?.title}
             </h2>
             <h3 className="font-arabic font-bold text-2xl md:text-4xl lg:text-5xl text-brand-coral leading-tight mb-8 md:mb-12">
-              {t.companyInfo?.whoWeAre?.subtitle}
+              {t.story.companyInfo?.whoWeAre?.subtitle}
             </h3>
             
             <div className="bg-white/90 backdrop-blur-sm p-8 md:p-12 rounded-[2rem] shadow-xl max-w-xl">
               <p className="font-body font-medium text-xl md:text-2xl lg:text-3xl text-brand-navy leading-relaxed">
-                {t.companyInfo?.whoWeAre?.desc}
+                {t.story.companyInfo?.whoWeAre?.desc}
               </p>
             </div>
           </div>
@@ -106,10 +106,10 @@ export const OurStory = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
         {/* Pillars */}
         <div className="max-w-[1400px] mx-auto w-full grid grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
           {[
-            { icon: Mic2, text: t.companyInfo?.whoWeAre?.pillars?.p1, color: 'text-brand-navy', bg: 'bg-[#fcd07a]', decor: 'bg-brand-orange' },
-            { icon: Users, text: t.companyInfo?.whoWeAre?.pillars?.p2, color: 'text-brand-navy', bg: 'bg-[#FF8072]', decor: 'bg-brand-coral' },
-            { icon: Share2, text: t.companyInfo?.whoWeAre?.pillars?.p3, color: 'text-brand-navy', bg: 'bg-[#80AEF4]', decor: 'bg-brand-sky' },
-            { icon: Target, text: t.companyInfo?.whoWeAre?.pillars?.p4, color: 'text-brand-navy', bg: 'bg-[#7A9178]', decor: 'bg-brand-green' },
+            { icon: Mic2, text: t.story.companyInfo?.whoWeAre?.pillars?.p1, color: 'text-brand-navy', bg: 'bg-[#fcd07a]', decor: 'bg-brand-orange' },
+            { icon: Users, text: t.story.companyInfo?.whoWeAre?.pillars?.p2, color: 'text-brand-navy', bg: 'bg-[#FF8072]', decor: 'bg-brand-coral' },
+            { icon: Share2, text: t.story.companyInfo?.whoWeAre?.pillars?.p3, color: 'text-brand-navy', bg: 'bg-[#80AEF4]', decor: 'bg-brand-sky' },
+            { icon: Target, text: t.story.companyInfo?.whoWeAre?.pillars?.p4, color: 'text-brand-navy', bg: 'bg-[#7A9178]', decor: 'bg-brand-green' },
           ].map((item, i) => (
             <div key={i} className="bg-white rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-lg hover:-translate-y-2 transition-transform duration-300">
               <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-6 ${item.bg}`}>
@@ -134,15 +134,15 @@ export const OurStory = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
           {/* Text Content */}
           <div className={`flex flex-col items-center lg:items-start text-center lg:text-start ${isRTL ? 'lg:order-1' : 'lg:order-2'}`}>
             <h2 className="font-display font-black text-5xl md:text-7xl lg:text-[9rem] uppercase tracking-tighter text-brand-navy leading-none mb-2 md:mb-4">
-              {t.companyInfo?.vision?.title}
+              {t.story.companyInfo?.vision?.title}
             </h2>
             <h3 className="font-arabic font-bold text-2xl md:text-4xl lg:text-6xl text-warm-beige leading-tight mb-8 md:mb-12">
-              {t.companyInfo?.vision?.subtitle}
+              {t.story.companyInfo?.vision?.subtitle}
             </h3>
             
             <div className="max-w-xl">
               <p className="font-body font-bold text-xl md:text-2xl lg:text-3xl text-brand-navy leading-relaxed">
-                {t.companyInfo?.vision?.desc}
+                {t.story.companyInfo?.vision?.desc}
               </p>
             </div>
           </div>
@@ -169,10 +169,10 @@ export const OurStory = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
         {/* Pillars */}
         <div className="max-w-[1400px] mx-auto w-full grid grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
           {[
-            { icon: Users, text: t.companyInfo?.vision?.pillars?.p1, color: 'text-brand-navy', bg: 'bg-[#fcd07a]' },
-            { icon: Palette, text: t.companyInfo?.vision?.pillars?.p2, color: 'text-brand-navy', bg: 'bg-[#FF8072]' },
-            { icon: Globe, text: t.companyInfo?.vision?.pillars?.p3, color: 'text-brand-navy', bg: 'bg-[#80AEF4]' },
-            { icon: Sparkles, text: t.companyInfo?.vision?.pillars?.p4, color: 'text-brand-navy', bg: 'bg-[#7A9178]' },
+            { icon: Users, text: t.story.companyInfo?.vision?.pillars?.p1, color: 'text-brand-navy', bg: 'bg-[#fcd07a]' },
+            { icon: Palette, text: t.story.companyInfo?.vision?.pillars?.p2, color: 'text-brand-navy', bg: 'bg-[#FF8072]' },
+            { icon: Globe, text: t.story.companyInfo?.vision?.pillars?.p3, color: 'text-brand-navy', bg: 'bg-[#80AEF4]' },
+            { icon: Sparkles, text: t.story.companyInfo?.vision?.pillars?.p4, color: 'text-brand-navy', bg: 'bg-[#7A9178]' },
           ].map((item, i) => (
             <div key={i} className="bg-warm-beige rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-lg hover:-translate-y-2 transition-transform duration-300">
               <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-6 ${item.bg}`}>
@@ -196,16 +196,16 @@ export const OurStory = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
           {/* Text Content */}
           <div className={`flex flex-col items-center lg:items-start text-center lg:text-start ${isRTL ? 'lg:order-1' : 'lg:order-2'}`}>
             <h2 className="font-display font-black text-5xl md:text-7xl lg:text-[9rem] uppercase tracking-tighter text-brand-navy leading-none mb-2 md:mb-4">
-              {t.companyInfo?.mission?.title}
+              {t.story.companyInfo?.mission?.title}
             </h2>
             <h3 className="font-arabic font-bold text-2xl md:text-4xl lg:text-5xl text-brand-coral leading-tight mb-8 md:mb-12">
-              {t.companyInfo?.mission?.subtitle}
+              {t.story.companyInfo?.mission?.subtitle}
             </h3>
             
             <div className="max-w-xl relative">
               <div className="absolute -top-6 right-0 w-16 h-1 bg-brand-navy/80 rounded-full" />
               <p className="font-body font-bold text-xl md:text-2xl lg:text-3xl text-brand-navy leading-relaxed pt-2 md:pt-4">
-                {t.companyInfo?.mission?.desc}
+                {t.story.companyInfo?.mission?.desc}
               </p>
             </div>
           </div>
@@ -231,10 +231,10 @@ export const OurStory = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
         {/* Pillars */}
         <div className="max-w-[1400px] mx-auto w-full grid grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
           {[
-            { icon: Users, text: t.companyInfo?.mission?.pillars?.p1, color: 'text-brand-navy', bg: 'bg-[#fcd07a]', decor: 'bg-brand-orange' },
-            { icon: Zap, text: t.companyInfo?.mission?.pillars?.p2, color: 'text-brand-navy', bg: 'bg-[#FF8072]', decor: 'bg-brand-coral' },
-            { icon: Heart, text: t.companyInfo?.mission?.pillars?.p3, color: 'text-brand-navy', bg: 'bg-[#80AEF4]', decor: 'bg-brand-sky' },
-            { icon: Activity, text: t.companyInfo?.mission?.pillars?.p4, color: 'text-brand-navy', bg: 'bg-[#7A9178]', decor: 'bg-brand-green' },
+            { icon: Users, text: t.story.companyInfo?.mission?.pillars?.p1, color: 'text-brand-navy', bg: 'bg-[#fcd07a]', decor: 'bg-brand-orange' },
+            { icon: Zap, text: t.story.companyInfo?.mission?.pillars?.p2, color: 'text-brand-navy', bg: 'bg-[#FF8072]', decor: 'bg-brand-coral' },
+            { icon: Heart, text: t.story.companyInfo?.mission?.pillars?.p3, color: 'text-brand-navy', bg: 'bg-[#80AEF4]', decor: 'bg-brand-sky' },
+            { icon: Activity, text: t.story.companyInfo?.mission?.pillars?.p4, color: 'text-brand-navy', bg: 'bg-[#7A9178]', decor: 'bg-brand-green' },
           ].map((item, i) => (
             <div key={i} className="bg-white rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-lg hover:-translate-y-2 transition-transform duration-300">
               <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-6 ${item.bg}`}>
