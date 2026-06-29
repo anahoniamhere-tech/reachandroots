@@ -74,11 +74,7 @@ export const BrandLogo = ({ className = "w-12 h-12", variant = "transparent" }: 
   if (variant === 'transparent' || variant === 'yellow' || variant === 'transparent-yellow') {
     return (
       <svg viewBox="0 0 100 100" className={`${colorClass} ${className}`} fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="45" stroke="currentColor" strokeWidth="6" strokeDasharray="4 4" />
-        <path d="M50 20C66.5685 20 80 33.4315 80 50C80 66.5685 66.5685 80 50 80C33.4315 80 20 66.5685 20 50" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-        <circle cx="50" cy="50" r="12" fill="currentColor" />
-        <path d="M50 38V62" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-        <path d="M38 50H62" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+        {/* Intentionally empty to remove the shape as requested */}
       </svg>
     );
   }

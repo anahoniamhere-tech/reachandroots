@@ -104,6 +104,26 @@ export const translations = {
         v5: { title: 'Public Imagination', desc: 'Inspiring the community to see their city as a stage for global creativity.' },
         v6: { title: 'Community Connection', desc: 'Fostering deep relationships rooted in place, authenticity, and shared purpose.' }
       },
+      companyInfo: {
+        vision: {
+          title: 'VISION',
+          subtitle: 'A CONNECTED ARAB CREATIVE COMMUNITY',
+          desc: 'We envision an Arab world where creators are connected across cities and borders, local stories travel farther, and creative voices shape culture, conversation, and opportunity with confidence, purpose, and impact.',
+          pillars: { p1: 'BELONGING', p2: 'COLLABORATION', p3: 'CULTURE', p4: 'GROWTH' }
+        },
+        whoWeAre: {
+          title: 'WHO ARE WE',
+          subtitle: 'A COMMUNITY FOR CREATORS & STORYTELLERS ACROSS THE ARAB WORLD',
+          desc: 'Roots & Reach is a community that works with creators and storytellers across the Arab world. We amplify their voices, support authentic stories, and connect them with platforms, audiences, and opportunities to publish, collaborate, and grow.',
+          pillars: { p1: 'COMMUNITY', p2: 'VOICES', p3: 'STORIES', p4: 'OPPORTUNITY' }
+        },
+        mission: {
+          title: 'MISSION',
+          subtitle: 'HOW WE IMPLEMENT OUR VISION',
+          desc: 'We implement our vision by connecting creators, amplifying authentic stories, creating spaces for learning and collaboration, and strengthening a community where creativity can grow into visibility, opportunity, and collective impact.',
+          pillars: { p1: 'CONNECT', p2: 'AMPLIFY', p3: 'COLLABORATE', p4: 'GROW' }
+        }
+      },
       location: {
         title: 'Location.',
         label: 'Location',
@@ -471,6 +491,26 @@ export const translations = {
         v4: { title: 'التراث في حركة', desc: 'نقل الجمال التاريخي إلى المستقبل الرقمي من خلال إنشاء محتوى ديناميكي.' },
         v5: { title: 'الخيال العام', desc: 'إلهام المجتمع لرؤية مدينتهم كمسرح للإبداع العالمي.' },
         v6: { title: 'الارتباط المجتمعي', desc: 'تعزيز علاقات عميقة متجذرة في المكان والأصالة والهدف المشترك.' }
+      },
+      companyInfo: {
+        vision: {
+          title: 'الرؤية',
+          subtitle: 'مجتمع إبداعي عربي مترابط',
+          desc: 'نتطلع إلى عالم عربي يكون فيه المبدعون متصلين عبر المدن والحدود، وتصل فيه القصص المحلية إلى مدى أبعد، وتُشكل فيه الأصوات الإبداعية الثقافة والحوار والفرص بثقة وهدف وأثر.',
+          pillars: { p1: 'الانتماء', p2: 'التعاون', p3: 'الثقافة', p4: 'النمو' }
+        },
+        whoWeAre: {
+          title: 'من نحن',
+          subtitle: 'مجتمع لصنّاع المحتوى ورواة القصص في العالم العربي',
+          desc: 'مجموعة من العالم العربي ترافق صنّاع المحتوى ورواة القصص في العالم العربي، ويمنح أصواتهم مساحة أوسع للوصول. نساعدهم على مشاركة قصصهم الأصيلة، بناء علاقات جديدة، والوصول إلى جمهور وفرص تُحوّل الإبداع إلى أثر.',
+          pillars: { p1: 'الأصوات', p2: 'العلاقات', p3: 'الجمهور', p4: 'الأثر' }
+        },
+        mission: {
+          title: 'المهمة',
+          subtitle: 'كيف نُنفّذ رؤيتنا',
+          desc: 'نُنفّذ رؤيتنا من خلال ربط المبدعين ببعضهم، وتضخيم القصص الأصيلة، وخلق مساحات للتعلّم والتعاون، وتعزيز مجتمع يمكن للإبداع فيه أن ينمو نحو الظهور والفرص والأثر الجماعي.',
+          pillars: { p1: 'نربط', p2: 'نضخّم', p3: 'نتعاون', p4: 'ننمو' }
+        }
       },
       location: {
         title: 'الموقع.',

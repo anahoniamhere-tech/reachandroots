@@ -6,7 +6,7 @@ import {
   Users, CheckCircle2, Copy, Send
 } from 'lucide-react';
 import { useLanguage } from '../lib/LanguageContext';
-import yazeedPhoto from '../assets/yazeed_mousa.png';
+import YazeedPhoto from '../assets/yazeed_mousa_real.jpg';
 
 export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
   const { t, isRTL } = useLanguage();
@@ -138,7 +138,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
               <div className="absolute inset-0 bg-brand-orange/10 rounded-[3rem] -rotate-3 -translate-x-2 -translate-y-2 scale-102 blur-sm pointer-events-none" />
               <div className="relative media-card border-none rounded-[3rem] overflow-hidden group shadow-2xl">
                 <img 
-                  src={yazeedPhoto} 
+                  src={YazeedPhoto} 
                   alt={journeyT.guestName} 
                   className="w-full h-auto object-cover aspect-square transition-transform duration-700 group-hover:scale-105"
                 />
