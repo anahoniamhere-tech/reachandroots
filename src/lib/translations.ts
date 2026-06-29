@@ -409,7 +409,14 @@ export const translations = {
         successTitle: 'Registration Successful!',
         successDesc: 'Thank you for registering. We look forward to seeing you.',
         backToHome: 'Back to Home',
-        optional: '(Optional)'
+        optional: '(Optional)',
+        ageOptions: ['Under 18', '18 – 24', '25 – 35', '36 – 45', 'Over 45'],
+        roleOptions: ['Student', 'Employee', 'Entrepreneur', 'Teacher / Academic', 'Interested in mental health and self-development', 'Content Creator', 'Other'],
+        howDidYouHearOptions: ['Instagram', 'Facebook', 'WhatsApp', 'Friend / Relative', 'University / Work', 'Ad / Partner Page', 'Other'],
+        attendedBeforeOptions: ['Yes', 'No'],
+        topicOfInterestOptions: ['Self-understanding', 'Thought management', 'Stress management', 'Passion and purpose', 'Relationships', 'Decision making', 'Preventive mental health', 'Personal growth'],
+        knowMoreOptions: ['Yes, I would like to know the details', 'Maybe', 'No'],
+        consentOptions: ['I agree to the use of my information to contact me regarding registration confirmation and lecture details.']
       }
     }
   },
@@ -820,7 +827,14 @@ export const translations = {
         successTitle: 'تم التسجيل بنجاح!',
         successDesc: 'شكراً لتسجيلك، نتطلع لرؤيتك.',
         backToHome: 'العودة للصفحة الرئيسية',
-        optional: '(اختياري)'
+        optional: '(اختياري)',
+        ageOptions: ['أقل من 18', '18 – 24', '25 – 35', '36 – 45', 'أكثر من 45'],
+        roleOptions: ['طالب/ة', 'موظف/ة', 'رائد/ة أعمال', 'معلّم/ة أو أكاديمي/ة', 'مهتم/ة بالصحة النفسية والتطوير الذاتي', 'صانع/ة محتوى', 'أخرى'],
+        howDidYouHearOptions: ['إنستغرام', 'فيسبوك', 'واتساب', 'صديق/ة أو قريب/ة', 'الجامعة / العمل', 'إعلان أو صفحة شريكة', 'أخرى'],
+        attendedBeforeOptions: ['نعم', 'لا'],
+        topicOfInterestOptions: ['فهم الذات', 'إدارة الأفكار', 'التعامل مع التوتر', 'الشغف والهدف', 'العلاقات', 'اتخاذ القرارات', 'الصحة النفسية الوقائية', 'النمو الشخصي'],
+        knowMoreOptions: ['نعم، أود معرفة التفاصيل', 'ربما', 'لا'],
+        consentOptions: ['أوافق على استخدام معلوماتي للتواصل معي بخصوص تأكيد التسجيل وتفاصيل المحاضرة.']
       }
     }
   }

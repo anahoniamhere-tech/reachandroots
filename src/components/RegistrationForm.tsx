@@ -19,7 +19,7 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
     howDidYouHear: '',
     whyAttend: '',
     attendedBefore: '',
-    topicOfInterest: '',
+    topicOfInterest: [] as string[],
     knowMore: '',
     consent: false
   });
@@ -28,8 +28,19 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
     const { name, value, type } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+      [name]: type === 'checkbox' && name !== 'topicOfInterest' ? (e.target as HTMLInputElement).checked : value
     }));
+  };
+
+  const handleCheckboxArrayChange = (field: string, value: string, checked: boolean) => {
+    setFormData(prev => {
+      const array = (prev as any)[field] as string[];
+      if (checked) {
+        return { ...prev, [field]: [...array, value] };
+      } else {
+        return { ...prev, [field]: array.filter(v => v !== value) };
+      }
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -124,10 +135,15 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
 
               <div className="space-y-2">
                 <label className="font-display font-bold text-sm uppercase text-brand-navy">{t.registration?.age} *</label>
-                <input 
-                  type="text" required name="age" value={formData.age} onChange={handleChange}
-                  className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy"
-                />
+                <select 
+                  required name="age" value={formData.age} onChange={handleChange}
+                  className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy appearance-none"
+                >
+                  <option value="" disabled>---</option>
+                  {t.registration?.ageOptions?.map((opt: string) => (
+                    <option key={opt} value={opt}>{opt}</option>
+                  ))}
+                </select>
               </div>
 
               <div className="space-y-2">
@@ -140,19 +156,29 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
 
               <div className="space-y-2">
                 <label className="font-display font-bold text-sm uppercase text-brand-navy">{t.registration?.role} *</label>
-                <input 
-                  type="text" required name="role" value={formData.role} onChange={handleChange}
-                  className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy"
-                />
+                <select 
+                  required name="role" value={formData.role} onChange={handleChange}
+                  className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy appearance-none"
+                >
+                  <option value="" disabled>---</option>
+                  {t.registration?.roleOptions?.map((opt: string) => (
+                    <option key={opt} value={opt}>{opt}</option>
+                  ))}
+                </select>
               </div>
             </div>
 
             <div className="space-y-2">
               <label className="font-display font-bold text-sm uppercase text-brand-navy">{t.registration?.howDidYouHear} *</label>
-              <input 
-                type="text" required name="howDidYouHear" value={formData.howDidYouHear} onChange={handleChange}
-                className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy"
-              />
+              <select 
+                required name="howDidYouHear" value={formData.howDidYouHear} onChange={handleChange}
+                className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy appearance-none"
+              >
+                <option value="" disabled>---</option>
+                {t.registration?.howDidYouHearOptions?.map((opt: string) => (
+                  <option key={opt} value={opt}>{opt}</option>
+                ))}
+              </select>
             </div>
 
             <div className="space-y-2">
@@ -169,33 +195,49 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
               <label className="font-display font-bold text-sm uppercase text-brand-navy">
                 {t.registration?.attendedBefore} <span className="text-brand-navy/40 font-normal normal-case">{t.registration?.optional}</span>
               </label>
-              <textarea 
-                name="attendedBefore" rows={2} value={formData.attendedBefore} onChange={handleChange}
-                className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy resize-none"
-              />
+              <select 
+                name="attendedBefore" value={formData.attendedBefore} onChange={handleChange}
+                className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy appearance-none"
+              >
+                <option value="" disabled>---</option>
+                {t.registration?.attendedBeforeOptions?.map((opt: string) => (
+                  <option key={opt} value={opt}>{opt}</option>
+                ))}
+              </select>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-4">
               <label className="font-display font-bold text-sm uppercase text-brand-navy">
                 {t.registration?.topicOfInterest} <span className="text-brand-navy/40 font-normal normal-case">{t.registration?.optional}</span>
               </label>
-              <input 
-                type="text" name="topicOfInterest" value={formData.topicOfInterest} onChange={handleChange}
-                className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy"
-              />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-warm-beige/50 p-6 rounded-2xl border border-brand-navy/10">
+                {t.registration?.topicOfInterestOptions?.map((opt: string) => (
+                  <label key={opt} className="flex items-start gap-4 cursor-pointer group">
+                    <div className="relative flex items-center justify-center w-6 h-6 shrink-0 mt-0.5">
+                      <input 
+                        type="checkbox" 
+                        name="topicOfInterest"
+                        checked={formData.topicOfInterest.includes(opt)} 
+                        onChange={(e) => handleCheckboxArrayChange('topicOfInterest', opt, e.target.checked)}
+                        className="peer appearance-none w-6 h-6 border-2 border-brand-navy/20 rounded-md checked:bg-brand-coral checked:border-brand-coral transition-all" 
+                      />
+                      <Check size={14} className="absolute text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none" />
+                    </div>
+                    <span className="font-body text-brand-navy/80 leading-relaxed group-hover:text-brand-navy transition-colors">{opt}</span>
+                  </label>
+                ))}
+              </div>
             </div>
 
             <div className="space-y-4 pt-4 border-t border-brand-navy/10">
               <label className="font-display font-bold text-sm uppercase text-brand-navy block mb-4">{t.registration?.knowMore} *</label>
-              <div className="flex gap-6">
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <input type="radio" name="knowMore" value="yes" onChange={handleChange} required className="w-5 h-5 accent-brand-coral" />
-                  <span className="font-body text-brand-navy">{isRTL ? 'نعم' : 'Yes'}</span>
-                </label>
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <input type="radio" name="knowMore" value="no" onChange={handleChange} required className="w-5 h-5 accent-brand-coral" />
-                  <span className="font-body text-brand-navy">{isRTL ? 'لا' : 'No'}</span>
-                </label>
+              <div className="flex flex-col gap-4">
+                {t.registration?.knowMoreOptions?.map((opt: string) => (
+                  <label key={opt} className="flex items-center gap-3 cursor-pointer">
+                    <input type="radio" name="knowMore" value={opt} onChange={handleChange} required className="w-5 h-5 accent-brand-coral" />
+                    <span className="font-body text-brand-navy">{opt}</span>
+                  </label>
+                ))}
               </div>
             </div>
 
@@ -205,7 +247,9 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
                   <input type="checkbox" name="consent" checked={formData.consent} onChange={handleChange} required className="peer appearance-none w-6 h-6 border-2 border-brand-navy/20 rounded-md checked:bg-brand-coral checked:border-brand-coral transition-all" />
                   <Check size={14} className="absolute text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none" />
                 </div>
-                <span className="font-body text-brand-navy/80 leading-relaxed group-hover:text-brand-navy transition-colors">{t.registration?.consentLabel} *</span>
+                <span className="font-body text-brand-navy/80 leading-relaxed group-hover:text-brand-navy transition-colors">
+                  {t.registration?.consentOptions?.[0] || t.registration?.consentLabel} *
+                </span>
               </label>
             </div>
 
