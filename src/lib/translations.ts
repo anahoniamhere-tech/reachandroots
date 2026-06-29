@@ -67,7 +67,7 @@ export const translations = {
     story: {
       label: 'The Chronicle',
       title: 'Our Story.',
-      description: 'Roots & Reach is a six-day immersive gathering that invites creators to rediscover Tripoli and North Lebanon through story, culture, movement, and authentic collaboration.',
+      description: 'Born in Tripoli, the Gateway of the Levant, Roots & Reach supports creators and storytellers across the region, amplifying their voices and connecting them with platforms, audiences, and opportunities.',
       methodology: {
         label: 'The Strategic Bridge',
         title: 'Two-Phase Methodology.',
@@ -108,19 +108,19 @@ export const translations = {
         vision: {
           title: 'VISION',
           subtitle: 'A CONNECTED ARAB CREATIVE COMMUNITY',
-          desc: 'We envision an Arab world where creators are connected across cities and borders, local stories travel farther, and creative voices shape culture, conversation, and opportunity with confidence, purpose, and impact.',
+          desc: 'Our vision is a connected creative community, from Tripoli to the region, where local stories travel farther and creative voices create impact.',
           pillars: { p1: 'BELONGING', p2: 'COLLABORATION', p3: 'CULTURE', p4: 'GROWTH' }
         },
         whoWeAre: {
           title: 'WHO ARE WE',
           subtitle: 'A COMMUNITY FOR CREATORS & STORYTELLERS ACROSS THE ARAB WORLD',
-          desc: 'Roots & Reach is a community that works with creators and storytellers across the Arab world. We amplify their voices, support authentic stories, and connect them with platforms, audiences, and opportunities to publish, collaborate, and grow.',
+          desc: 'Born in Tripoli, the Gateway of the Levant, Roots & Reach supports creators and storytellers across the region, amplifying their voices and connecting them with platforms, audiences, and opportunities.',
           pillars: { p1: 'COMMUNITY', p2: 'VOICES', p3: 'STORIES', p4: 'OPPORTUNITY' }
         },
         mission: {
           title: 'MISSION',
           subtitle: 'HOW WE IMPLEMENT OUR VISION',
-          desc: 'We implement our vision by connecting creators, amplifying authentic stories, creating spaces for learning and collaboration, and strengthening a community where creativity can grow into visibility, opportunity, and collective impact.',
+          desc: 'Our mission is to connect creators, amplify authentic stories, and create spaces for learning and collaboration, turning local creativity into regional impact.',
           pillars: { p1: 'CONNECT', p2: 'AMPLIFY', p3: 'COLLABORATE', p4: 'GROW' }
         }
       },
@@ -455,7 +455,7 @@ export const translations = {
     story: {
       label: 'السجل',
       title: 'قصتنا.',
-      description: 'إن Roots & Reach هو تجمع غامر لمدة ستة أيام يدعو المبدعين لإعادة اكتشاف طرابلس وشمال لبنان من خلال القصة والثقافة والحركة والتعاون الأصيل.',
+      description: 'من طرابلس، بوابة المشرق، انطلقت Roots & Reach كمجتمع يرافق صُنّاع المحتوى ورواة القصص في المنطقة، ويُضخّم أصواتهم، ويربطهم بالمنصات والجمهور والفرص.',
       methodology: {
         label: 'الجسر الاستراتيجي',
         title: 'منهجية ذات مرحلتين.',
@@ -496,19 +496,19 @@ export const translations = {
         vision: {
           title: 'الرؤية',
           subtitle: 'مجتمع إبداعي عربي مترابط',
-          desc: 'نتطلع إلى عالم عربي يكون فيه المبدعون متصلين عبر المدن والحدود، وتصل فيه القصص المحلية إلى مدى أبعد، وتُشكل فيه الأصوات الإبداعية الثقافة والحوار والفرص بثقة وهدف وأثر.',
+          desc: 'رؤيتنا مجتمع إبداعي مترابط، من طرابلس إلى المنطقة، حيث تصل القصص المحلية إلى جمهور أوسع وتتحوّل الأصوات الإبداعية إلى أثر.',
           pillars: { p1: 'الانتماء', p2: 'التعاون', p3: 'الثقافة', p4: 'النمو' }
         },
         whoWeAre: {
           title: 'من نحن',
           subtitle: 'مجتمع لصنّاع المحتوى ورواة القصص في العالم العربي',
-          desc: 'مجموعة من العالم العربي ترافق صنّاع المحتوى ورواة القصص في العالم العربي، ويمنح أصواتهم مساحة أوسع للوصول. نساعدهم على مشاركة قصصهم الأصيلة، بناء علاقات جديدة، والوصول إلى جمهور وفرص تُحوّل الإبداع إلى أثر.',
+          desc: 'من طرابلس، بوابة المشرق، انطلقت Roots & Reach كمجتمع يرافق صُنّاع المحتوى ورواة القصص في المنطقة، ويُضخّم أصواتهم، ويربطهم بالمنصات والجمهور والفرص.',
           pillars: { p1: 'الأصوات', p2: 'العلاقات', p3: 'الجمهور', p4: 'الأثر' }
         },
         mission: {
           title: 'المهمة',
           subtitle: 'كيف نُنفّذ رؤيتنا',
-          desc: 'نُنفّذ رؤيتنا من خلال ربط المبدعين ببعضهم، وتضخيم القصص الأصيلة، وخلق مساحات للتعلّم والتعاون، وتعزيز مجتمع يمكن للإبداع فيه أن ينمو نحو الظهور والفرص والأثر الجماعي.',
+          desc: 'مهمتنا أن نربط المبدعين، نُضخّم القصص الأصيلة، ونخلق مساحات للتعلّم والتعاون، ليكبر الإبداع المحلي نحو أثر إقليمي.',
           pillars: { p1: 'نربط', p2: 'نضخّم', p3: 'نتعاون', p4: 'ننمو' }
         }
       },
