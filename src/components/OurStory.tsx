@@ -22,42 +22,7 @@ export const OurStory = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
   return (
     <div id="about" className="relative overflow-hidden w-full">
 
-      {/* 1. Hero Section (Keep existing design) */}
-      <section className={`relative pt-24 md:pt-40 pb-12 md:pb-20 px-6 md:px-12 bg-warm-beige ${isRTL ? 'text-right' : 'text-left'}`}>
-        {/* Ambient backgrounds */}
-        <div className="absolute top-0 left-0 w-full h-[150vh] pointer-events-none">
-          <div className="absolute top-[-5%] left-[-10%] w-[60%] h-[60%] bg-brand-coral/5 soft-glow petal-shape rotate-12" />
-          <div className="absolute top-[20%] right-[-10%] w-[50%] h-[70%] bg-brand-sky/5 soft-glow petal-shape -rotate-12" />
-          <div className="absolute top-[50%] left-[10%] w-[70%] h-[50%] bg-brand-lavender/5 soft-glow petal-shape rotate-45" />
-        </div>
-        <div className="absolute inset-0 pixel-grid opacity-20 pointer-events-none" />
-
-        <div className="max-w-[1600px] mx-auto relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className={`flex flex-col items-center text-center mb-24 ${isRTL ? 'font-arabic' : ''}`}
-          >
-            <div className={`flex items-center gap-4 mb-8 ${isRTL ? 'flex-row-reverse' : ''}`}>
-              <div className="w-10 h-10 rounded-full border border-brand-navy/10 flex items-center justify-center">
-                <Globe size={16} className="text-brand-coral" />
-              </div>
-              <span className="editorial-label text-brand-coral tracking-[0.5em] uppercase">{t.story.label}</span>
-            </div>
-            
-            <h1 className="editorial-h1 text-brand-navy lowercase text-center">
-              {t.story.title.split(' ')[0]} <br /> <span className="text-brand-coral italic">{t.story.title.split(' ').slice(1).join(' ')}</span>
-            </h1>
-
-            <p className="font-body text-xl md:text-3xl text-brand-navy/60 mt-12 max-w-4xl mx-auto leading-tight luxury-text-shadow text-balance">
-              {t.story.description}
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* 2. Who We Are (Yellow) */}
+      {/* 1. Who We Are (Yellow) */}
       <section className="relative min-h-screen py-32 px-6 md:px-12 w-full flex flex-col justify-center bg-[#fcd07a]" dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="absolute top-12 left-12 md:top-16 md:left-16 z-20 pointer-events-none opacity-20">
           <div className="grid grid-cols-4 gap-4">
