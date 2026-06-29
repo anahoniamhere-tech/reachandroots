@@ -29,6 +29,7 @@ import { AdminService } from './services/adminService';
 import { PROGRAM_DATA, DayProgram, Session } from './constants/programData';
 import { useLanguage } from './lib/LanguageContext';
 import { CREATORS_EMAIL_DATA } from './constants/creatorsData';
+import RootsLogo from './assets/roots_logo.png';
 
 // --- Components ---
 
@@ -53,11 +54,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'l
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${isScrolled ? 'bg-warm-beige/95 backdrop-blur-xl border-brand-navy/10 py-4' : 'bg-transparent border-transparent py-8'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex justify-between items-center">
         <div className="cursor-pointer group" onClick={() => { onNavigate('landing'); setIsMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
-          <div className="flex flex-col text-brand-navy group-hover:text-brand-coral transition-colors select-none">
-            <span className="font-display text-lg sm:text-xl font-black tracking-tight leading-[0.9] uppercase">ROOTS</span>
-            <span className="font-display text-lg sm:text-xl font-black tracking-tight leading-[0.9] uppercase">AND</span>
-            <span className="font-display text-lg sm:text-xl font-black tracking-tight leading-[0.9] uppercase">REACH</span>
-          </div>
+          <img src={RootsLogo} alt="Roots and Reach Logo" className="h-16 sm:h-20 w-auto object-contain transition-transform group-hover:scale-105 select-none" />
         </div>
         
         <div className="hidden lg:flex items-center gap-8">

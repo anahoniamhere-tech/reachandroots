@@ -16,7 +16,7 @@ export const translations = {
       tagline: 'CULTURE x CREATION x DIGITAL',
       title1: 'Roots',
       title2: 'Reach',
-      description: 'A community for creators and storytellers across the Arab world, bringing real talk, innovation, and content creation into one space.',
+      description: 'A community for creators and storytellers across the Levant region, bringing real talk, innovation, and content creation into one space.',
       cta: 'Discover the Community',
       narrative: 'Launch Narrative',
       live: 'Live Connection',
@@ -50,7 +50,7 @@ export const translations = {
       returnArchive: 'Return to Archive'
     },
     footer: {
-      tagline: 'A community for creators and storytellers across the Arab world, bringing real talk, innovation, and content creation into one space.',
+      tagline: 'A community for creators and storytellers across the Levant region, bringing real talk, innovation, and content creation into one space.',
       narrative: 'Narrative',
       story: 'The Story',
       access: 'Access Tiers',
@@ -113,7 +113,7 @@ export const translations = {
         },
         whoWeAre: {
           title: 'WHO ARE WE',
-          subtitle: 'A COMMUNITY FOR CREATORS & STORYTELLERS ACROSS THE ARAB WORLD',
+          subtitle: 'A COMMUNITY FOR CREATORS & STORYTELLERS ACROSS THE LEVANT REGION',
           desc: 'Born in Tripoli, the Gateway of the Levant, Roots & Reach supports creators and storytellers across the region, amplifying their voices and connecting them with platforms, audiences, and opportunities.',
           pillars: { p1: 'COMMUNITY', p2: 'VOICES', p3: 'STORIES', p4: 'OPPORTUNITY' }
         },
