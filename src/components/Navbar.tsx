@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, ChevronRight, ArrowRight, Activity, Target, Award, Globe } from 'lucide-react';
+import { Menu, X, ChevronRight, ArrowRight, Activity, Target, Award, Globe, User } from 'lucide-react';
 import { BrandLogo } from './BrandingIcons';
 import { useLanguage } from '../lib/LanguageContext';
 
-export const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors' | 'trf-anahon') => void, onOpenTickets: () => void, currentView: string }) => {
+export const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors' | 'trf-anahon' | 'journey') => void, onOpenTickets: () => void, currentView: string }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, language, setLanguage, isRTL } = useLanguage();
@@ -17,9 +17,7 @@ export const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate:
 
   const navLinks = [
     { name: t.nav.story, id: 'about', icon: <Globe size={10} />, type: 'anchor' },
-    { name: t.nav.program, id: 'program', icon: <Activity size={10} />, type: 'view' },
-    { name: t.nav.sanctuary, id: 'sanctuary', icon: <Target size={10} />, type: 'view' },
-    { name: (t.nav as any).sponsors || 'Sponsors', id: 'sponsors', icon: <Award size={10} />, type: 'view' },
+    { name: (t.nav as any).journey || 'Journey', id: 'journey', icon: <User size={10} />, type: 'view' },
   ];
 
   return (

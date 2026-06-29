@@ -1,11 +1,4 @@
 import React from 'react';
-import logo01Y from '../assets/HON-LOGO---01-1440-Y.png';
-import logo02T from '../assets/HON-LOGO---02-1440-T.png';
-import logo02TYellow from '../assets/HON-LOGO---02-1440-T_Yellow.png';
-import logo03Y from '../assets/HON-LOGO---03-1440-Y.png';
-import yellowHeaderLogo from '../assets/Yellow_Header_logo.png';
-import galleryLogoBlack from '../assets/gallery_logo_black.png';
-import galleryLogoYellow from '../assets/gallery_logo_yellow.png';
 
 export const TripoliHeritage = ({ className = "w-6 h-6" }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={className}>
@@ -73,33 +66,32 @@ interface BrandLogoProps {
 }
 
 export const BrandLogo = ({ className = "w-12 h-12", variant = "transparent" }: BrandLogoProps) => {
-  const getSrc = () => {
-    switch (variant) {
-      case 'yellow':
-        return logo01Y;
-      case 'transparent-yellow':
-        return logo02TYellow;
-      case 'banner':
-        return logo03Y;
-      case 'yellow-header':
-        return yellowHeaderLogo;
-      case 'written-black':
-        return galleryLogoBlack;
-      case 'written-yellow':
-        return galleryLogoYellow;
-      case 'transparent':
-      default:
-        return logo02T;
-    }
-  };
+  const isYellow = variant.includes('yellow') || variant === 'banner' || variant === 'written-yellow';
+  const colorClass = isYellow ? 'text-brand-orange' : 'text-brand-navy';
+  const subtitleColor = isYellow ? '#FF8072' : 'rgba(0,0,0,0.4)';
 
+  // For small circular or square logo icons (default, written-black, written-yellow, transparent)
+  if (variant === 'transparent' || variant === 'yellow' || variant === 'transparent-yellow') {
+    return (
+      <svg viewBox="0 0 100 100" className={`${colorClass} ${className}`} fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="45" stroke="currentColor" strokeWidth="6" strokeDasharray="4 4" />
+        <path d="M50 20C66.5685 20 80 33.4315 80 50C80 66.5685 66.5685 80 50 80C33.4315 80 20 66.5685 20 50" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+        <circle cx="50" cy="50" r="12" fill="currentColor" />
+        <path d="M50 38V62" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+        <path d="M38 50H62" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  // For wide written banners / wordmarks (banner, yellow-header, written-black, written-yellow)
   return (
-    <img 
-      src={getSrc()} 
-      alt="HON Roots and Reach Logo" 
-      className={`object-contain max-h-full ${className}`}
-      referrerPolicy="no-referrer"
-    />
+    <svg viewBox="0 0 600 140" className={`${colorClass} ${className}`} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <text x="300" y="80" fontFamily="Space Grotesk, Tajawal, sans-serif" fontWeight="900" fontSize="68" fill="currentColor" textAnchor="middle" letterSpacing="-0.03em">
+        ROOTS &amp; REACH
+      </text>
+      <text x="300" y="115" fontFamily="Space Grotesk, Tajawal, sans-serif" fontWeight="700" fontSize="13" fill={subtitleColor} textAnchor="middle" letterSpacing="0.4em">
+        CULTURE · CREATION · DIGITAL
+      </text>
+    </svg>
   );
 };
-

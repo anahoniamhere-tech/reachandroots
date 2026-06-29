@@ -19,6 +19,7 @@ import { OurStory } from './components/OurStory';
 import { TicketsPage } from './components/TicketsPage';
 import { GalleryPage } from './components/GalleryPage';
 import { TrfAnahonPage } from './components/TrfAnahonPage';
+import { JourneyPage } from './components/JourneyPage';
 import { auth, db, onAuthStateChanged, signInWithPasscode, collection, getDocs, User as FirebaseUser } from './lib/firebase';
 import { TICKET_TIERS, EVENT_DAYS } from './constants';
 import { TicketTier, EventDay, Order, BuyerInfo, VipDetails } from './types';
@@ -30,7 +31,7 @@ import { CREATORS_EMAIL_DATA } from './constants/creatorsData';
 
 // --- Components ---
 
-const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors' | 'trf-anahon') => void, onOpenTickets: () => void, currentView: string }) => {
+const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors' | 'trf-anahon' | 'journey') => void, onOpenTickets: () => void, currentView: string }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, language, setLanguage, isRTL } = useLanguage();
@@ -43,9 +44,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'l
 
   const navLinks = [
     { name: t.nav.story, id: 'about', icon: <Globe size={10} />, type: 'anchor' },
-    { name: t.nav.program, id: 'program', icon: <Activity size={10} />, type: 'view' },
-    { name: t.nav.sanctuary, id: 'sanctuary', icon: <Target size={10} />, type: 'view' },
-    { name: (t.nav as any).sponsors || 'Sponsors', id: 'sponsors', icon: <Award size={10} />, type: 'view' },
+    { name: (t.nav as any).journey || 'Journey', id: 'journey', icon: <User size={10} />, type: 'view' },
   ];
 
   return (
@@ -547,7 +546,7 @@ const ProgramPage = ({ onNavigate }: { onNavigate: (v: 'landing' | 'finder' | 't
 
 export default function App() {
   const { t, isRTL } = useLanguage();
-  const [view, setView] = useState<'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors' | 'trf-anahon'>('landing');
+  const [view, setView] = useState<'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors' | 'trf-anahon' | 'journey'>('landing');
   const [selectedTrack, setSelectedTrack] = useState<string | null>(null);
   const [isAdminMode, setIsAdminMode] = useState(
     window.location.hash === '#admin' || 
@@ -565,6 +564,7 @@ export default function App() {
     const isGallery = p.endsWith('/gallery') || p.includes('/gallery/');
     const isSponsors = p.endsWith('/sponsors') || p.includes('/sponsors/') || p.endsWith('/sponsores') || p.includes('/sponsores/');
     const isTrfAnahon = p.endsWith('/trf-anahon') || p.includes('/trf-anahon/');
+    const isJourney = p.endsWith('/journey') || p.includes('/journey/');
     const isAdmin = p.endsWith('/admin') || p.includes('/admin/');
 
     if (isProgram) setView('program');
@@ -573,6 +573,7 @@ export default function App() {
     else if (isGallery) setView('gallery');
     else if (isSponsors) setView('sponsors');
     else if (isTrfAnahon) setView('trf-anahon');
+    else if (isJourney) setView('journey');
     else if (isAdmin) setIsAdminMode(true);
     
     const unsubscribe = onAuthStateChanged(auth, setUser);
@@ -588,6 +589,7 @@ export default function App() {
       else if (path.endsWith('/gallery')) { setView('gallery'); setIsAdminMode(false); }
       else if (path.endsWith('/sponsors') || path.endsWith('/sponsores')) { setView('sponsors'); setIsAdminMode(false); }
       else if (path.endsWith('/trf-anahon')) { setView('trf-anahon'); setIsAdminMode(false); }
+      else if (path.endsWith('/journey')) { setView('journey'); setIsAdminMode(false); }
       else if (path.endsWith('/admin')) { setIsAdminMode(true); }
       else { setView('landing'); setIsAdminMode(false); }
     };
@@ -621,7 +623,9 @@ export default function App() {
       window.history.pushState({}, '', `${prefix}/sponsors`);
     } else if (view === 'trf-anahon' && !path.endsWith('/trf-anahon')) {
       window.history.pushState({}, '', `${prefix}/trf-anahon`);
-    } else if (view === 'landing' && path !== prefix && !['program', 'sanctuary', 'sanctuary-apply', 'gallery', 'sponsors', 'trf-anahon'].includes(view)) {
+    } else if (view === 'journey' && !path.endsWith('/journey')) {
+      window.history.pushState({}, '', `${prefix}/journey`);
+    } else if (view === 'landing' && path !== prefix && !['program', 'sanctuary', 'sanctuary-apply', 'gallery', 'sponsors', 'trf-anahon', 'journey'].includes(view)) {
       window.history.pushState({}, '', prefix);
     }
     window.scrollTo(0, 0);
@@ -709,6 +713,7 @@ export default function App() {
             {view === 'gallery' && <GalleryPage onNavigate={setView} />}
             {view === 'sponsors' && <SponsorsLandingPage />}
             {view === 'trf-anahon' && <TrfAnahonPage onNavigate={setView as any} />}
+            {view === 'journey' && <JourneyPage onNavigate={setView} />}
             {view === 'sanctuary' && (
               <SanctuaryPage 
                 onNavigate={setView} 

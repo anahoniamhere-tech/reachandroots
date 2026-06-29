@@ -9,7 +9,8 @@ export const translations = {
       sanctuary: 'Accreditation',
       portal: 'Access Portal',
       edition: 'Fayhaa Edition',
-      sponsors: 'Sponsors'
+      sponsors: 'Sponsors',
+      journey: 'Journey'
     },
     hero: {
       tagline: 'CULTURE x CREATION x DIGITAL',
@@ -317,7 +318,56 @@ export const translations = {
           { q: 'Does accreditation guarantee entry?', a: 'Accreditation grants access to the public fair program, workshops, and panels, but registration is subject to site capacity constraints. VIP areas remain exclusive to VIP pass holders.' }
         ]
       },
-      footerCode: 'ACC-SEC 2026 // Lebanon'
+      footerCode: 'ACC-SEC 2026 // Lebanon',
+      journey: {
+        label: 'CREATOR COLLABORATIONS',
+        title: 'Our Journey.',
+        title2: 'With Creators',
+        description: 'We collaborate with forward-thinking content creators and experts to bring exclusive developmental, mental health, and educational programs to the community.',
+        guestLabel: 'Current Featured Guest',
+        guestName: 'Dr. Yazeed Mousa',
+        guestTitle: 'Psychologist & Mental Wellness Coach',
+        programTitle: 'Journey towards the Self',
+        programSub: 'Self-Development & Psychological Awareness Program',
+        programDesc: 'An integrated three-day developmental experience in Tripoli, Lebanon. Designed as a progressive learning journey starting with a public talk, leading into two specialized workshops focused on practical tools.',
+        eventsTitle: 'Program Timeline',
+        publicEvent: 'Public Lecture',
+        workshop: 'Specialized Workshop',
+        lectureTitle: 'The Five Inner Thoughts',
+        lectureDesc: 'A free public lecture laying the foundation of our inner cognitive patterns, exploring how repeat thoughts shape our emotions and decisions.',
+        lectureLoc: 'Cultural Association Theatre, Tripoli',
+        lectureDate: 'Monday, July 6, 2026',
+        lectureTime: 'Doors open at 5:30 PM | Program: 6:00 PM',
+        ws1Title: 'Passion & Stress Management',
+        ws1Desc: 'Learn practical tools for breathing, emotional decompression, and finding authentic passion amidst modern life pressures.',
+        ws1Loc: 'Space Noor, Tripoli',
+        ws1Date: 'Wednesday, July 8, 2026',
+        ws1Time: '4:00 PM – 7:00 PM',
+        ws2Title: 'Mind Programming',
+        ws2Desc: 'An advanced session on identifying self-limiting core beliefs and replacing them with supportive cognitive patterns.',
+        ws2Loc: 'Space Noor, Tripoli',
+        ws2Date: 'Thursday, July 9, 2026',
+        ws2Time: '4:00 PM – 7:00 PM',
+        pricingTitle: 'Ticket Options & Registration',
+        singleWs: 'Single Workshop',
+        singleWsPrice: '$20',
+        singleWsDesc: 'Access to either Passion & Stress Management or Mind Programming workshop.',
+        packageWs: 'Double Workshop Package',
+        packageWsPrice: '$30',
+        packageWsDesc: 'Complete access to both specialized workshops for a reduced rate.',
+        freeLecture: 'Public Lecture Entry',
+        freeLecturePrice: 'Free',
+        freeLectureDesc: 'Free admission to the general lecture on July 6 (prior registration required).',
+        paymentTitle: 'Suggested Payment Methods',
+        wishTitle: 'Wish Money Transfer',
+        wishDesc: 'Transfer the amount to the Wish Money account below. Keep your transaction receipt to present it at the entrance.',
+        wishAccount: 'Account number: 81408171',
+        doorTitle: 'Payment at the Door',
+        doorDesc: 'You can also secure your spot and pay cash in USD or LBP at the door upon arrival (subject to venue capacity).',
+        ctaReserve: 'Secure Your Ticket',
+        badgeCapacity: '50 Seats Max',
+        badgeFree: 'Registration Required'
+      }
     }
   },
   ar: {
@@ -327,7 +377,8 @@ export const translations = {
       sanctuary: 'تصاريح الاعتماد',
       portal: 'بوابة الدخول',
       edition: 'نسخة الفيحاء',
-      sponsors: 'الرعاة'
+      sponsors: 'الرعاة',
+      journey: 'الرحلة'
     },
     hero: {
       tagline: 'ثقافة x إبداع x رقمي',
@@ -635,7 +686,56 @@ export const translations = {
           { q: 'هل يضمن الاعتماد الدخول التلقائي؟', a: 'يمنحك الاعتماد حق الوصول لبرنامج المعرض العام وورش العمل والندوات، ولكن التسجيل يخضع لقدرة استيعاب الموقع. تظل مناطق الـ VIP حصرية لحاملي تصاريح الـ VIP.' }
         ]
       },
-      footerCode: 'ACC-SEC 2026 // Lebanon'
+      footerCode: 'ACC-SEC 2026 // Lebanon',
+      journey: {
+        label: 'شراكات صناع المحتوى',
+        title: 'رحلتنا.',
+        title2: 'مع المبدعين',
+        description: 'نتعاون مع صناع المحتوى والخبراء الرواد لتقديم برامج تطويرية وتوعوية حصرية تخدم المجتمع.',
+        guestLabel: 'ضيف الشرف الحالي',
+        guestName: 'د. يزيد موسى',
+        guestTitle: 'أخصائي التطوير الذاتي والوعي النفسي',
+        programTitle: 'رحلة نحو الذات',
+        programSub: 'برنامج تطوير الذات والوعي النفسي',
+        programDesc: 'تجربة تعليمية وتنموية متكاملة تمتد على مدار ثلاثة أيام في طرابلس، لبنان. صُمم البرنامج كرحلة تعلم تصاعدية تبدأ بمحاضرة عامة تليها ورشتا عمل تخصصيتان.',
+        eventsTitle: 'جدول الفعاليات',
+        publicEvent: 'محاضرة عامة',
+        workshop: 'ورشة عمل تخصصية',
+        lectureTitle: 'الأفكار الخمسة',
+        lectureDesc: 'محاضرة عامة مجانية تؤسس لفهم منظومة أفكارنا الداخلية المتكررة وتأثيرها على مشاعرنا وقراراتنا اليومية.',
+        lectureLoc: 'مسرح الرابطة الثقافية، طرابلس',
+        lectureDate: 'الإثنين، 6 تموز / يوليو 2026',
+        lectureTime: 'تفتح الأبواب الساعة 5:30 مساءً | اللقاء: 6:00 مساءً',
+        ws1Title: 'الشغف وإدارة التوتر',
+        ws1Desc: 'اكتساب تقنيات عملية للتنفيس الانفعالي، إدارة الضغوط، والتمييز بين الشغف الحقيقي والاهتمامات العابرة.',
+        ws1Loc: 'مساحة نور، طرابلس',
+        ws1Date: 'الأربعاء، 8 تموز / يوليو 2026',
+        ws1Time: 'من الساعة 4:00 عصراً حتى 7:00 مساءً',
+        ws2Title: 'برمجة العقل',
+        ws2Desc: 'جلسة متعمقة لتفكيك المعتقدات المحددة للذات وإعادة هيكلة الأنماط الذهنية السلبية لبناء منظومة دعم ذاتي.',
+        ws2Loc: 'مساحة نور، طرابلس',
+        ws2Date: 'الخميس، 9 تموز / يوليو 2026',
+        ws2Time: 'من الساعة 4:00 عصراً حتى 7:00 مساءً',
+        pricingTitle: 'خيارات التذاكر والتسجيل',
+        singleWs: 'ورشة عمل واحدة',
+        singleWsPrice: '$20',
+        singleWsDesc: 'حضور إحدى ورشتي العمل: الشغف وإدارة التوتر أو برمجة العقل.',
+        packageWs: 'باقة الورشتين معاً',
+        packageWsPrice: '$30',
+        packageWsDesc: 'تذكرة كاملة لحضور كلتا الورشتين التخصصيتين بسعر مخفض.',
+        freeLecture: 'دخول المحاضرة العامة',
+        freeLecturePrice: 'مجاني',
+        freeLectureDesc: 'دخول مجاني للمحاضرة العامة يوم 6 تموز (يتطلب تسجيلاً مسبقاً).',
+        paymentTitle: 'طرق الدفع المقترحة',
+        wishTitle: 'تحويل عبر Wish Money',
+        wishDesc: 'يمكنك إرسال قيمة التذكرة عبر تطبيق Wish Money إلى الحساب أدناه، والاحتفاظ بصورة التحويل لإبرازها عند الباب.',
+        wishAccount: 'رقم الحساب: 81408171',
+        doorTitle: 'الدفع عند الباب',
+        doorDesc: 'يمكنك أيضاً الدفع نقداً بالدولار أو الليرة اللبنانية مباشرة عند وصولك إلى قاعة الفعالية (حسب توفر المقاعد).',
+        ctaReserve: 'احجز تذكرتك الآن',
+        badgeCapacity: 'أقصى حد 50 مشاركاً',
+        badgeFree: 'يتطلب تسجيلاً مسبقاً'
+      }
     }
   }
 };
