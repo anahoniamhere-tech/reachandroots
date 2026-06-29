@@ -712,7 +712,6 @@ export default function App() {
             {view === 'registration' && <RegistrationForm onNavigate={(v) => { setView(v); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />}
             {view === 'landing' && (
               <>
-                <Hero onShopNow={() => setView('tickets')} />
                 <OurStory onNavigate={setView} />
               </>
             )}
