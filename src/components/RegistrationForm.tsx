@@ -1,0 +1,227 @@
+import React, { useState } from 'react';
+import { motion } from 'motion/react';
+import { Check, ArrowRight, X } from 'lucide-react';
+import { useLanguage } from '../lib/LanguageContext';
+import { submitRegistration } from '../lib/firebase';
+
+export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
+  const { t, isRTL } = useLanguage();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  
+  const [formData, setFormData] = useState({
+    fullName: '',
+    phone: '',
+    email: '',
+    age: '',
+    city: '',
+    role: '',
+    howDidYouHear: '',
+    whyAttend: '',
+    attendedBefore: '',
+    topicOfInterest: '',
+    knowMore: '',
+    consent: false
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      await submitRegistration(formData);
+      setIsSuccess(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (error) {
+      console.error("Submission failed", error);
+      alert("Failed to submit. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (isSuccess) {
+    return (
+      <div className="min-h-screen bg-warm-beige pt-32 pb-20 px-6 flex items-center justify-center relative overflow-hidden" dir={isRTL ? 'rtl' : 'ltr'}>
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-white p-12 rounded-[3rem] shadow-2xl max-w-2xl w-full text-center relative z-10"
+        >
+          <div className="w-24 h-24 bg-brand-green/10 text-brand-green rounded-full flex items-center justify-center mx-auto mb-8">
+            <Check size={48} />
+          </div>
+          <h2 className="font-display font-black text-4xl text-brand-navy mb-4">{t.registration?.successTitle}</h2>
+          <p className="font-body text-xl text-brand-navy/60 mb-10">{t.registration?.successDesc}</p>
+          <button 
+            onClick={() => onNavigate('landing')}
+            className="inline-flex items-center gap-3 bg-brand-navy text-white px-8 py-4 rounded-full hover:bg-brand-coral transition-colors"
+          >
+            <span className="font-display font-bold uppercase tracking-wider">{t.registration?.backToHome}</span>
+            <ArrowRight size={20} className={isRTL ? 'rotate-180' : ''} />
+          </button>
+        </motion.div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-warm-beige pt-32 pb-20 px-6 relative overflow-hidden" dir={isRTL ? 'rtl' : 'ltr'}>
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-yellow/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-coral/5 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
+      
+      <div className="max-w-3xl mx-auto relative z-10">
+        <button 
+          onClick={() => onNavigate('landing')}
+          className="mb-8 w-12 h-12 bg-white rounded-full flex items-center justify-center text-brand-navy shadow-sm hover:shadow-md transition-all group"
+        >
+          <X size={24} className="group-hover:scale-90 transition-transform" />
+        </button>
+
+        <div className="bg-white rounded-[3rem] shadow-xl overflow-hidden">
+          <div className="bg-brand-navy p-10 text-white relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
+            <span className="editorial-label text-brand-yellow mb-2 block">{t.registration?.title}</span>
+            <h1 className="font-display font-black text-4xl md:text-5xl uppercase tracking-tighter">
+              {t.registration?.subtitle}
+            </h1>
+          </div>
+
+          <form onSubmit={handleSubmit} className="p-8 md:p-12 space-y-8">
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="space-y-2">
+                <label className="font-display font-bold text-sm uppercase text-brand-navy">{t.registration?.fullName} *</label>
+                <input 
+                  type="text" required name="fullName" value={formData.fullName} onChange={handleChange}
+                  className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="font-display font-bold text-sm uppercase text-brand-navy">{t.registration?.phone} *</label>
+                <input 
+                  type="tel" required name="phone" value={formData.phone} onChange={handleChange}
+                  className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="font-display font-bold text-sm uppercase text-brand-navy">
+                  {t.registration?.email} <span className="text-brand-navy/40 font-normal normal-case">{t.registration?.optional}</span>
+                </label>
+                <input 
+                  type="email" name="email" value={formData.email} onChange={handleChange}
+                  className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="font-display font-bold text-sm uppercase text-brand-navy">{t.registration?.age} *</label>
+                <input 
+                  type="text" required name="age" value={formData.age} onChange={handleChange}
+                  className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="font-display font-bold text-sm uppercase text-brand-navy">{t.registration?.city} *</label>
+                <input 
+                  type="text" required name="city" value={formData.city} onChange={handleChange}
+                  className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="font-display font-bold text-sm uppercase text-brand-navy">{t.registration?.role} *</label>
+                <input 
+                  type="text" required name="role" value={formData.role} onChange={handleChange}
+                  className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="font-display font-bold text-sm uppercase text-brand-navy">{t.registration?.howDidYouHear} *</label>
+              <input 
+                type="text" required name="howDidYouHear" value={formData.howDidYouHear} onChange={handleChange}
+                className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="font-display font-bold text-sm uppercase text-brand-navy">
+                {t.registration?.whyAttend} <span className="text-brand-navy/40 font-normal normal-case">{t.registration?.optional}</span>
+              </label>
+              <textarea 
+                name="whyAttend" rows={3} value={formData.whyAttend} onChange={handleChange}
+                className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy resize-none"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="font-display font-bold text-sm uppercase text-brand-navy">
+                {t.registration?.attendedBefore} <span className="text-brand-navy/40 font-normal normal-case">{t.registration?.optional}</span>
+              </label>
+              <textarea 
+                name="attendedBefore" rows={2} value={formData.attendedBefore} onChange={handleChange}
+                className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy resize-none"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="font-display font-bold text-sm uppercase text-brand-navy">
+                {t.registration?.topicOfInterest} <span className="text-brand-navy/40 font-normal normal-case">{t.registration?.optional}</span>
+              </label>
+              <input 
+                type="text" name="topicOfInterest" value={formData.topicOfInterest} onChange={handleChange}
+                className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy"
+              />
+            </div>
+
+            <div className="space-y-4 pt-4 border-t border-brand-navy/10">
+              <label className="font-display font-bold text-sm uppercase text-brand-navy block mb-4">{t.registration?.knowMore} *</label>
+              <div className="flex gap-6">
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input type="radio" name="knowMore" value="yes" onChange={handleChange} required className="w-5 h-5 accent-brand-coral" />
+                  <span className="font-body text-brand-navy">{isRTL ? 'نعم' : 'Yes'}</span>
+                </label>
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input type="radio" name="knowMore" value="no" onChange={handleChange} required className="w-5 h-5 accent-brand-coral" />
+                  <span className="font-body text-brand-navy">{isRTL ? 'لا' : 'No'}</span>
+                </label>
+              </div>
+            </div>
+
+            <div className="pt-8 border-t border-brand-navy/10">
+              <label className="flex items-start gap-4 cursor-pointer group">
+                <div className="relative flex items-center justify-center w-6 h-6 mt-1 shrink-0">
+                  <input type="checkbox" name="consent" checked={formData.consent} onChange={handleChange} required className="peer appearance-none w-6 h-6 border-2 border-brand-navy/20 rounded-md checked:bg-brand-coral checked:border-brand-coral transition-all" />
+                  <Check size={14} className="absolute text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none" />
+                </div>
+                <span className="font-body text-brand-navy/80 leading-relaxed group-hover:text-brand-navy transition-colors">{t.registration?.consentLabel} *</span>
+              </label>
+            </div>
+
+            <button 
+              type="submit" 
+              disabled={isSubmitting}
+              className="w-full flex items-center justify-center gap-3 bg-brand-navy text-white px-8 py-5 rounded-2xl hover:bg-brand-coral transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-8 group"
+            >
+              <span className="font-display font-bold uppercase tracking-wider text-lg">
+                {isSubmitting ? t.registration?.submitting : t.registration?.submit}
+              </span>
+              {!isSubmitting && <ArrowRight size={20} className={`${isRTL ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'} transition-transform`} />}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};

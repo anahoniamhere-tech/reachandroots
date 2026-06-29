@@ -111,6 +111,19 @@ export {
   writeBatch
 };
 
+export const submitRegistration = async (data: any): Promise<void> => {
+  try {
+    const registrationsRef = collection(db, 'registrations');
+    await setDoc(doc(registrationsRef), {
+      ...data,
+      createdAt: serverTimestamp()
+    });
+  } catch (error) {
+    console.error("Error adding document: ", error);
+    throw error;
+  }
+};
+
 export type { User };
 
 export const signInWithPasscode = async (passcode: string): Promise<User> => {

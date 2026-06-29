@@ -387,6 +387,29 @@ export const translations = {
         ctaReserve: 'Secure Your Ticket',
         badgeCapacity: '50 Seats Max',
         badgeFree: 'Registration Required'
+      },
+      registration: {
+        title: 'Registration Form',
+        subtitle: 'The Five Ideas Lecture',
+        fullName: 'Full Name',
+        phone: 'Phone / WhatsApp',
+        email: 'Email',
+        age: 'Age',
+        city: 'City / Region',
+        role: 'Role / Field',
+        howDidYouHear: 'How did you hear about the lecture?',
+        whyAttend: 'Why do you want to attend "The Five Ideas" lecture?',
+        attendedBefore: 'Have you attended a self-development lecture or workshop before?',
+        topicOfInterest: 'What topic interests you the most?',
+        knowMore: 'Would you like to know more about upcoming workshops in the "Journey towards the Self" program?',
+        consent: 'Consent',
+        consentLabel: 'I agree to the terms and conditions.',
+        submit: 'Submit Registration',
+        submitting: 'Submitting...',
+        successTitle: 'Registration Successful!',
+        successDesc: 'Thank you for registering. We look forward to seeing you.',
+        backToHome: 'Back to Home',
+        optional: '(Optional)'
       }
     }
   },
@@ -775,6 +798,29 @@ export const translations = {
         ctaReserve: 'احجز تذكرتك الآن',
         badgeCapacity: 'أقصى حد 50 مشاركاً',
         badgeFree: 'يتطلب تسجيلاً مسبقاً'
+      },
+      registration: {
+        title: 'استمارة التسجيل',
+        subtitle: 'التسجيل في المحاضرة العامة المجانية: الأفكار الخمسة',
+        fullName: 'الاسم الكامل',
+        phone: 'رقم الهاتف / واتساب',
+        email: 'البريد الإلكتروني',
+        age: 'العمر',
+        city: 'المدينة / المنطقة',
+        role: 'الصفة / المجال',
+        howDidYouHear: 'كيف عرفت عن المحاضرة؟',
+        whyAttend: 'لماذا ترغب/ين بحضور محاضرة «الأفكار الخمسة»؟',
+        attendedBefore: 'هل سبق أن حضرت/ي محاضرة أو ورشة في التطوير الذاتي أو الوعي النفسي؟',
+        topicOfInterest: 'ما أكثر موضوع يهمّك؟',
+        knowMore: 'هل تود/ين معرفة المزيد عن ورش العمل اللاحقة ضمن برنامج «رحلة نحو الذات»؟',
+        consent: 'الموافقة',
+        consentLabel: 'أتعهد بالحضور في الموعد المحدد.',
+        submit: 'تأكيد التسجيل',
+        submitting: 'جاري الإرسال...',
+        successTitle: 'تم التسجيل بنجاح!',
+        successDesc: 'شكراً لتسجيلك، نتطلع لرؤيتك.',
+        backToHome: 'العودة للصفحة الرئيسية',
+        optional: '(اختياري)'
       }
     }
   }
