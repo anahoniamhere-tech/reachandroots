@@ -108,7 +108,7 @@ export const translations = {
         vision: {
           title: 'VISION',
           subtitle: 'A CONNECTED ARAB CREATIVE COMMUNITY',
-          desc: 'Our vision is a connected creative community, from Tripoli to the region, where local stories travel farther and creative voices create impact.',
+          desc: 'Our vision is a connected creative community where creators and storytellers meet, exchange experiences, develop ideas, and bring authentic voices to wider audiences. We believe creativity grows when it finds healthy spaces for collaboration, learning, and shared value.',
           pillars: { p1: 'BELONGING', p2: 'COLLABORATION', p3: 'CULTURE', p4: 'GROWTH' }
         },
         whoWeAre: {
@@ -526,7 +526,7 @@ export const translations = {
         vision: {
           title: 'الرؤية',
           subtitle: 'مجتمع إبداعي مترابط',
-          desc: 'رؤيتنا مجتمع إبداعي مترابط، من طرابلس إلى المنطقة، حيث تصل القصص المحلية إلى جمهور أوسع وتتحوّل الأصوات الإبداعية إلى أثر.',
+          desc: 'رؤيتنا مجتمع إبداعي مترابط، يلتقي فيه صُنّاع المحتوى ورواة القصص لتبادل الخبرات، تطوير الأفكار، وإيصال الأصوات الأصيلة إلى جمهور أوسع. نؤمن أن الإبداع ينمو حين يجد مساحة صحية للتعاون، التعلّم، والاستفادة المشتركة.',
           pillars: { p1: 'الانتماء', p2: 'التعاون', p3: 'الثقافة', p4: 'النمو' }
         },
         whoWeAre: {
