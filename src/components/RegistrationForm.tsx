@@ -49,7 +49,9 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
     try {
       await submitRegistration(formData);
       setIsSuccess(true);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 100);
     } catch (error) {
       console.error("Submission failed", error);
       alert("Failed to submit. Please try again.");
