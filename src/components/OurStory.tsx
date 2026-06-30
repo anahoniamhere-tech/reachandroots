@@ -272,7 +272,7 @@ export const OurStory = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
             <h2 className="font-display font-bold text-5xl md:text-7xl lg:text-[9rem] lowercase tracking-tighter text-brand-navy leading-[0.8] mb-2 md:mb-4">
               {t.story.companyInfo?.mission?.title}
             </h2>
-            <h3 className="font-arabic font-bold text-2xl md:text-4xl lg:text-5xl text-brand-coral leading-tight mb-8 md:mb-12">
+             <h3 className="font-arabic font-bold text-2xl md:text-4xl lg:text-5xl text-white leading-tight mb-8 md:mb-12">
               {t.story.companyInfo?.mission?.subtitle}
             </h3>
             
