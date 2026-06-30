@@ -134,11 +134,11 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
 
         {/* 1. HERO SECTION */}
         <div className="mb-24 w-full relative z-10 max-w-6xl mx-auto">
-          <div className={`flex flex-col lg:flex-row justify-between items-center gap-16 ${isRTL ? 'lg:flex-row-reverse' : ''}`}>
+          <div className="flex flex-col lg:flex-row justify-between items-center gap-16">
             
             {/* Left Content */}
             <div className="max-w-3xl flex-1">
-              <div className={`flex items-center gap-4 mb-8 ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <div className="flex items-center gap-4 mb-8">
                 <Sparkles size={16} className="text-brand-coral" />
                 <span className="editorial-label text-brand-coral tracking-[0.5em] font-bold uppercase">
                   {journeyT.label}
@@ -218,7 +218,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
 
         {/* 3. TIMELINE OF EVENTS */}
         <div className="w-full mb-28 relative z-10 max-w-6xl mx-auto">
-          <div className={`flex flex-col md:flex-row justify-between items-baseline mb-16 gap-4 ${isRTL ? 'md:flex-row-reverse' : ''}`}>
+          <div className="flex flex-col md:flex-row justify-between items-baseline mb-16 gap-4">
             <div>
               <span className="editorial-label text-brand-coral mb-2 block">// SCHEDULE</span>
               <h2 className="text-3xl md:text-5xl font-display font-bold text-brand-navy uppercase tracking-tighter">
@@ -242,7 +242,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
               className="glass-card p-10 rounded-[2rem] flex flex-col justify-between hover:shadow-xl transition-all duration-300 border border-brand-navy/5 relative overflow-hidden group min-h-[420px]"
             >
               <div>
-                <div className={`flex justify-between items-start mb-10 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <div className="flex justify-between items-start mb-10">
                   <span className="px-4 py-1.5 bg-brand-navy/5 text-brand-navy text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
                     {journeyT.publicEvent}
                   </span>
@@ -259,15 +259,15 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
               </div>
 
               <div className="space-y-4 pt-6 border-t border-brand-navy/5 text-sm text-brand-navy/70">
-                <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <div className="flex items-center gap-3">
                   <Calendar size={16} className="text-brand-coral shrink-0" />
                   <span className="font-mono text-[13px]">{journeyT.lectureDate}</span>
                 </div>
-                <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <div className="flex items-center gap-3">
                   <Clock size={16} className="text-brand-coral shrink-0" />
                   <span className="font-mono text-[13px]">{journeyT.lectureTime}</span>
                 </div>
-                <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <div className="flex items-center gap-3">
                   <MapPin size={16} className="text-brand-coral shrink-0" />
                   <span className="font-body text-[13px]">{journeyT.lectureLoc}</span>
                 </div>
@@ -283,7 +283,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
               className="glass-card p-10 rounded-[2rem] flex flex-col justify-between hover:shadow-xl transition-all duration-300 border border-brand-navy/5 relative overflow-hidden group min-h-[420px]"
             >
               <div>
-                <div className={`flex justify-between items-start mb-10 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <div className="flex justify-between items-start mb-10">
                   <span className="px-4 py-1.5 bg-brand-coral/10 text-brand-coral text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
                     {journeyT.workshop} 01
                   </span>
@@ -300,15 +300,15 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
               </div>
 
               <div className="space-y-4 pt-6 border-t border-brand-navy/5 text-sm text-brand-navy/70">
-                <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <div className="flex items-center gap-3">
                   <Calendar size={16} className="text-brand-coral shrink-0" />
                   <span className="font-mono text-[13px]">{journeyT.ws1Date}</span>
                 </div>
-                <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <div className="flex items-center gap-3">
                   <Clock size={16} className="text-brand-coral shrink-0" />
                   <span className="font-mono text-[13px]">{journeyT.ws1Time}</span>
                 </div>
-                <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <div className="flex items-center gap-3">
                   <MapPin size={16} className="text-brand-coral shrink-0" />
                   <span className="font-body text-[13px]">{journeyT.ws1Loc}</span>
                 </div>
@@ -324,7 +324,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
               className="glass-card p-10 rounded-[2rem] flex flex-col justify-between hover:shadow-xl transition-all duration-300 border border-brand-navy/5 relative overflow-hidden group min-h-[420px]"
             >
               <div>
-                <div className={`flex justify-between items-start mb-10 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <div className="flex justify-between items-start mb-10">
                   <span className="px-4 py-1.5 bg-brand-coral/10 text-brand-coral text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
                     {journeyT.workshop} 02
                   </span>
@@ -341,15 +341,15 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
               </div>
 
               <div className="space-y-4 pt-6 border-t border-brand-navy/5 text-sm text-brand-navy/70">
-                <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <div className="flex items-center gap-3">
                   <Calendar size={16} className="text-brand-coral shrink-0" />
                   <span className="font-mono text-[13px]">{journeyT.ws2Date}</span>
                 </div>
-                <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <div className="flex items-center gap-3">
                   <Clock size={16} className="text-brand-coral shrink-0" />
                   <span className="font-mono text-[13px]">{journeyT.ws2Time}</span>
                 </div>
-                <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <div className="flex items-center gap-3">
                   <MapPin size={16} className="text-brand-coral shrink-0" />
                   <span className="font-body text-[13px]">{journeyT.ws2Loc}</span>
                 </div>
@@ -362,7 +362,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
         {/* 4. REGISTRATION AND TICKET OPTIONS */}
         <span id="register" className="block h-24 -mt-24 pointer-events-none" />
         <div className="w-full mb-24 relative z-10 max-w-6xl mx-auto">
-          <div className={`flex flex-col md:flex-row justify-between items-baseline mb-16 gap-4 ${isRTL ? 'md:flex-row-reverse' : ''}`}>
+          <div className="flex flex-col md:flex-row justify-between items-baseline mb-16 gap-4">
             <div>
               <span className="editorial-label text-brand-coral mb-2 block">// ADMISSION PASSES</span>
               <h2 className="text-3xl md:text-5xl font-display font-bold text-brand-navy uppercase tracking-tighter">
@@ -397,7 +397,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                         {selectedTicket === 'lecture' && <div className="w-3 h-3 bg-brand-coral rounded-full" />}
                       </div>
                       <div className="flex-1">
-                        <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 mb-2 ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 mb-2">
                           <h3 className="font-display font-bold text-xl uppercase tracking-tight text-brand-navy">{journeyT.freeLecture}</h3>
                           <span className="font-display font-black text-2xl text-brand-green">{journeyT.freeLecturePrice}</span>
                         </div>
@@ -414,7 +414,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                         {selectedTicket === 'single' && <div className="w-3 h-3 bg-brand-coral rounded-full" />}
                       </div>
                       <div className="flex-1">
-                        <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 mb-2 ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 mb-2">
                           <h3 className="font-display font-bold text-xl uppercase tracking-tight text-brand-navy">{journeyT.singleWs}</h3>
                           <span className="font-display font-black text-2xl text-brand-navy">{journeyT.singleWsPrice}</span>
                         </div>
@@ -437,7 +437,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                         {selectedTicket === 'package' && <div className="w-3 h-3 bg-brand-coral rounded-full" />}
                       </div>
                       <div className="flex-1">
-                        <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 mb-2 ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 mb-2">
                           <h3 className="font-display font-bold text-xl uppercase tracking-tight text-brand-navy pr-12">{journeyT.packageWs}</h3>
                           <span className="font-display font-black text-2xl text-brand-coral">{journeyT.packageWsPrice}</span>
                         </div>
@@ -591,7 +591,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                           </div>
                         </div>
 
-                        <div className={`flex gap-4 pt-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                        <div className="flex gap-4 pt-4">
                           <button 
                             type="button" 
                             onClick={() => {
@@ -684,7 +684,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                       
                       {/* Method 1: Wish Money */}
                       <div className="space-y-3 pb-8 border-b border-brand-navy/5">
-                        <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                        <div className="flex items-center gap-3">
                           <span className="w-6 h-6 rounded-full bg-brand-coral/10 text-brand-coral text-xs font-mono font-bold flex items-center justify-center">1</span>
                           <h4 className="font-display font-bold text-lg text-brand-navy uppercase">{journeyT.wishTitle}</h4>
                         </div>
@@ -693,7 +693,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                         </p>
                         
                         {/* Copyable Account Box */}
-                        <div className={`flex items-center justify-between p-4 bg-warm-beige/30 rounded-xl border border-brand-navy/5 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                        <div className="flex items-center justify-between p-4 bg-warm-beige/30 rounded-xl border border-brand-navy/5">
                           <div className="space-y-1">
                             <span className="font-mono text-[9px] text-brand-navy/30 uppercase tracking-widest">WHISH TRANSFER ACCOUNT</span>
                             <p className="font-mono font-bold text-lg text-brand-navy">81408171</p>
@@ -710,7 +710,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
 
                       {/* Method 2: At the Door */}
                       <div className="space-y-3">
-                        <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                        <div className="flex items-center gap-3">
                           <span className="w-6 h-6 rounded-full bg-brand-coral/10 text-brand-coral text-xs font-mono font-bold flex items-center justify-center">2</span>
                           <h4 className="font-display font-bold text-lg text-brand-navy uppercase">{journeyT.doorTitle}</h4>
                         </div>
