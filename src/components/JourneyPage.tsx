@@ -391,13 +391,13 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                     {/* Option 1: Free Lecture Entry */}
                     <div 
                       onClick={() => setSelectedTicket('lecture')}
-                      className={`glass-card p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex gap-6 items-center ${selectedTicket === 'lecture' ? 'border-brand-coral bg-white shadow-md' : 'border-brand-navy/5 hover:border-brand-navy/20 bg-white/40'}`}
+                      className={`glass-card p-6 sm:p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex gap-4 sm:gap-6 items-center ${selectedTicket === 'lecture' ? 'border-brand-coral bg-white shadow-md' : 'border-brand-navy/5 hover:border-brand-navy/20 bg-white/40'}`}
                     >
                       <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${selectedTicket === 'lecture' ? 'border-brand-coral text-brand-coral' : 'border-brand-navy/20'}`}>
                         {selectedTicket === 'lecture' && <div className="w-3 h-3 bg-brand-coral rounded-full" />}
                       </div>
                       <div className="flex-1">
-                        <div className={`flex justify-between items-center mb-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                        <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 mb-2 ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
                           <h3 className="font-display font-bold text-xl uppercase tracking-tight text-brand-navy">{journeyT.freeLecture}</h3>
                           <span className="font-display font-black text-2xl text-brand-green">{journeyT.freeLecturePrice}</span>
                         </div>
@@ -408,13 +408,13 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                     {/* Option 2: Single Workshop */}
                     <div 
                       onClick={() => setSelectedTicket('single')}
-                      className={`glass-card p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex gap-6 items-center ${selectedTicket === 'single' ? 'border-brand-coral bg-white shadow-md' : 'border-brand-navy/5 hover:border-brand-navy/20 bg-white/40'}`}
+                      className={`glass-card p-6 sm:p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex gap-4 sm:gap-6 items-center ${selectedTicket === 'single' ? 'border-brand-coral bg-white shadow-md' : 'border-brand-navy/5 hover:border-brand-navy/20 bg-white/40'}`}
                     >
                       <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${selectedTicket === 'single' ? 'border-brand-coral text-brand-coral' : 'border-brand-navy/20'}`}>
                         {selectedTicket === 'single' && <div className="w-3 h-3 bg-brand-coral rounded-full" />}
                       </div>
                       <div className="flex-1">
-                        <div className={`flex justify-between items-center mb-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                        <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 mb-2 ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
                           <h3 className="font-display font-bold text-xl uppercase tracking-tight text-brand-navy">{journeyT.singleWs}</h3>
                           <span className="font-display font-black text-2xl text-brand-navy">{journeyT.singleWsPrice}</span>
                         </div>
@@ -425,7 +425,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                     {/* Option 3: Double Package (Recommended) */}
                     <div 
                       onClick={() => setSelectedTicket('package')}
-                      className={`glass-card p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex gap-6 items-center relative overflow-hidden ${selectedTicket === 'package' ? 'border-brand-coral bg-white shadow-md' : 'border-brand-navy/5 hover:border-brand-navy/20 bg-white/40'}`}
+                      className={`glass-card p-6 sm:p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex gap-4 sm:gap-6 items-center relative overflow-hidden ${selectedTicket === 'package' ? 'border-brand-coral bg-white shadow-md' : 'border-brand-navy/5 hover:border-brand-navy/20 bg-white/40'}`}
                     >
                       {/* Visual Accent */}
                       <div className="absolute top-0 right-0 w-24 h-24 bg-brand-coral/10 rounded-full blur-xl pointer-events-none" />
@@ -437,8 +437,8 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                         {selectedTicket === 'package' && <div className="w-3 h-3 bg-brand-coral rounded-full" />}
                       </div>
                       <div className="flex-1">
-                        <div className={`flex justify-between items-center mb-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                          <h3 className="font-display font-bold text-xl uppercase tracking-tight text-brand-navy">{journeyT.packageWs}</h3>
+                        <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 mb-2 ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
+                          <h3 className="font-display font-bold text-xl uppercase tracking-tight text-brand-navy pr-12">{journeyT.packageWs}</h3>
                           <span className="font-display font-black text-2xl text-brand-coral">{journeyT.packageWsPrice}</span>
                         </div>
                         <p className="font-body text-sm text-brand-navy/60 leading-normal">{journeyT.packageWsDesc}</p>
@@ -468,7 +468,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    className="bg-white rounded-[2.5rem] p-10 border border-brand-navy/5 shadow-xl relative overflow-hidden"
+                    className="bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 border border-brand-navy/5 shadow-xl relative overflow-hidden"
                   >
                     <div className="absolute inset-0 pixel-grid opacity-10 pointer-events-none" />
                     <div className="absolute top-0 left-0 w-full h-2 bg-brand-coral" />
@@ -670,7 +670,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                 animate={{ opacity: 1, x: 0 }}
                 className="lg:col-span-2"
               >
-                <div className="bg-white/70 border border-brand-navy/5 rounded-[2rem] p-8 md:p-10 shadow-sm backdrop-blur-xl relative overflow-hidden">
+                <div className="bg-white/70 border border-brand-navy/5 rounded-[1.5rem] sm:rounded-[2rem] p-6 sm:p-8 md:p-10 shadow-sm backdrop-blur-xl relative overflow-hidden">
                   <div className="absolute inset-0 pixel-grid opacity-[0.02] pointer-events-none" />
                   <div className="relative z-10">
                     <div className="flex items-center gap-3 mb-8">
