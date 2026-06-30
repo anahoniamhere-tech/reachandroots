@@ -17,7 +17,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
   const [isRegistered, setIsRegistered] = useState(false);
 
   // Fallback values if context translations are loading or missing
-  const journeyT = (t as any).journey || {
+  const journeyT = (t as any).sanctuary?.journey || {
     label: 'CREATOR COLLABORATIONS',
     title: 'Our Journey.',
     title2: 'With Creators',
