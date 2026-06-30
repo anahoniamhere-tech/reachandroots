@@ -94,31 +94,31 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
         <div className="absolute top-[40%] right-[-10%] w-[450px] h-[450px] bg-brand-orange/5 soft-glow petal-shape -rotate-12 pointer-events-none" />
 
         {/* 1. HERO SECTION */}
-        <div className="mb-24 w-full relative z-10">
-          <div className={`flex flex-col lg:flex-row justify-between items-center gap-16 ${isRTL ? 'lg:flex-row-reverse' : ''}`}>
+        <div className="mb-24 w-full relative z-10 max-w-4xl mx-auto flex flex-col items-center justify-center text-center">
+          <div className="flex flex-col items-center gap-12 w-full">
             
-            {/* Left Content */}
-            <div className="max-w-3xl flex-1">
-              <div className={`flex items-center gap-4 mb-8 ${isRTL ? 'flex-row-reverse' : ''}`}>
+            {/* Centered Content */}
+            <div className="w-full flex flex-col items-center text-center">
+              <div className="flex items-center justify-center gap-4 mb-8">
                 <Sparkles size={16} className="text-brand-coral" />
                 <span className="editorial-label text-brand-coral tracking-[0.5em] font-bold uppercase">
                   {journeyT.label}
                 </span>
               </div>
-              <h1 className="editorial-h1 lowercase tracking-tighter mb-8 leading-[0.8] text-brand-navy">
+              <h1 className="editorial-h1 lowercase tracking-tighter mb-8 leading-[0.8] text-brand-navy text-center w-full">
                 {journeyT.title.split('.')[0]} <br />
                 <span className="text-brand-coral italic font-normal">{journeyT.title2}</span>
               </h1>
-              <p className="font-body text-xl md:text-2xl text-brand-navy/60 leading-relaxed max-w-2xl mb-12">
+              <p className="font-body text-xl md:text-2xl text-brand-navy/60 leading-relaxed max-w-2xl mb-12 text-center mx-auto">
                 {journeyT.description}
               </p>
 
               {/* Creator Spotlight Badge */}
-              <div className="bg-white/60 border border-brand-navy/5 p-8 rounded-3xl backdrop-blur-md flex flex-col sm:flex-row items-start sm:items-center gap-6 shadow-sm">
+              <div className="bg-white/60 border border-brand-navy/5 p-8 rounded-3xl backdrop-blur-md flex flex-col sm:flex-row items-center justify-center gap-6 shadow-sm w-full max-w-md mx-auto mb-12">
                 <div className="w-12 h-12 rounded-2xl bg-brand-coral/10 text-brand-coral flex items-center justify-center shrink-0">
                   <User size={24} />
                 </div>
-                <div>
+                <div className={`text-center ${isRTL ? 'sm:text-right' : 'sm:text-left'}`}>
                   <span className="editorial-label text-[10px] text-brand-coral tracking-widest font-bold uppercase block mb-1">
                     {journeyT.guestLabel}
                   </span>
@@ -132,8 +132,8 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
               </div>
             </div>
 
-            {/* Right Photo Frame */}
-            <div className="flex-1 max-w-md w-full relative">
+            {/* Centered Photo Frame */}
+            <div className="max-w-md w-full relative mx-auto">
               <div className="absolute inset-0 bg-brand-coral/10 rounded-[3rem] rotate-3 translate-x-2 translate-y-2 scale-102 blur-sm pointer-events-none" />
               <div className="absolute inset-0 bg-brand-orange/10 rounded-[3rem] -rotate-3 -translate-x-2 -translate-y-2 scale-102 blur-sm pointer-events-none" />
               <div className="relative media-card border-none rounded-[3rem] overflow-hidden group shadow-2xl">
@@ -143,7 +143,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                   className="w-full h-auto object-cover aspect-square transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/60 via-transparent to-transparent opacity-90" />
-                <div className={`absolute bottom-8 left-8 right-8 ${isRTL ? 'text-right' : 'text-left'}`}>
+                <div className="absolute bottom-8 left-0 right-0 text-center">
                   <span className="font-mono text-[10px] text-white/50 tracking-widest block mb-1">PROGRAM HEADLINER</span>
                   <h4 className="font-display font-bold text-2xl text-white tracking-tight uppercase leading-none">{journeyT.guestName}</h4>
                 </div>
@@ -154,22 +154,22 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
         </div>
 
         {/* 2. PROGRAM OVERVIEW BANNER */}
-        <div className="w-full mb-24 relative z-10">
+        <div className="w-full mb-24 relative z-10 max-w-4xl mx-auto">
           <div className="media-card bg-white p-10 md:p-16 rounded-[2.5rem] relative overflow-hidden">
             <div className="absolute inset-0 pixel-grid opacity-10 pointer-events-none" />
             <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-brand-coral via-brand-orange to-brand-gold" />
-            <div className={`flex flex-col lg:flex-row gap-12 justify-between items-start lg:items-center relative z-10`}>
-              <div className="max-w-3xl">
+            <div className="flex flex-col items-center justify-center text-center gap-12 relative z-10 w-full">
+              <div className="max-w-3xl flex flex-col items-center text-center w-full">
                 <span className="editorial-label text-brand-coral mb-4 block">{journeyT.programTitle}</span>
-                <h2 className="text-3xl md:text-5xl font-display font-bold text-brand-navy uppercase mb-6 tracking-tighter leading-tight">
+                <h2 className="text-3xl md:text-5xl font-display font-bold text-brand-navy uppercase mb-6 tracking-tighter leading-tight text-center">
                   {journeyT.programSub}
                 </h2>
-                <p className="font-body text-lg text-brand-navy/60 leading-relaxed">
+                <p className="font-body text-lg text-brand-navy/60 leading-relaxed text-center">
                   {journeyT.programDesc}
                 </p>
               </div>
-              <div className="flex gap-4 shrink-0 w-full lg:w-auto">
-                <a href="#register" className="w-full lg:w-auto text-center px-8 py-4 bg-brand-navy text-white font-display font-bold text-xs uppercase tracking-widest rounded-2xl hover:bg-brand-coral hover:scale-102 transition-all shadow-md">
+              <div className="flex justify-center w-full">
+                <a href="#register" className="w-full sm:w-auto text-center px-8 py-4 bg-brand-navy text-white font-display font-bold text-xs uppercase tracking-widest rounded-2xl hover:bg-brand-coral hover:scale-102 transition-all shadow-md">
                   {journeyT.ctaReserve}
                 </a>
               </div>
@@ -178,18 +178,13 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
         </div>
 
         {/* 3. TIMELINE OF EVENTS */}
-        <div className="w-full mb-28 relative z-10">
-          <div className={`flex flex-col md:flex-row justify-between items-baseline mb-16 gap-4 ${isRTL ? 'md:flex-row-reverse' : ''}`}>
-            <div>
-              <span className="editorial-label text-brand-coral mb-2 block">// SCHEDULE SCHEDULE</span>
-              <h2 className="text-3xl md:text-5xl font-display font-bold text-brand-navy uppercase tracking-tighter">
-                {journeyT.eventsTitle}
-              </h2>
-            </div>
-            <div className="h-px bg-brand-navy/10 flex-1 mx-8 hidden md:block" />
-            <div className="font-mono text-xs text-brand-navy/40 uppercase tracking-[0.2em]">
-              Tripoli, Lebanon // 2026
-            </div>
+        <div className="w-full mb-28 relative z-10 flex flex-col items-center">
+          <div className="flex flex-col items-center text-center mb-16 gap-3 w-full">
+            <span className="editorial-label text-brand-coral mb-2 block">// SCHEDULE</span>
+            <h2 className="text-3xl md:text-5xl font-display font-bold text-brand-navy uppercase tracking-tighter text-center">
+              {journeyT.eventsTitle}
+            </h2>
+            <div className="w-12 h-0.5 bg-brand-coral mt-4" />
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
@@ -323,17 +318,12 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
         {/* 4. REGISTRATION AND TICKET OPTIONS */}
         <span id="register" className="block h-24 -mt-24 pointer-events-none" />
         <div className="w-full mb-24 relative z-10">
-          <div className={`flex flex-col md:flex-row justify-between items-baseline mb-16 gap-4 ${isRTL ? 'md:flex-row-reverse' : ''}`}>
-            <div>
-              <span className="editorial-label text-brand-coral mb-2 block">// ADMISSION PASSES</span>
-              <h2 className="text-3xl md:text-5xl font-display font-bold text-brand-navy uppercase tracking-tighter">
-                {journeyT.pricingTitle}
-              </h2>
-            </div>
-            <div className="h-px bg-brand-navy/10 flex-1 mx-8 hidden md:block" />
-            <div className="font-mono text-xs text-brand-navy/40 uppercase tracking-[0.2em]">
-              LIMITED TO 50 SEATS
-            </div>
+          <div className="flex flex-col items-center text-center mb-16 gap-3 w-full">
+            <span className="editorial-label text-brand-coral mb-2 block">// ADMISSION PASSES</span>
+            <h2 className="text-3xl md:text-5xl font-display font-bold text-brand-navy uppercase tracking-tighter text-center">
+              {journeyT.pricingTitle}
+            </h2>
+            <div className="w-12 h-0.5 bg-brand-coral mt-4" />
           </div>
 
           <div className="grid lg:grid-cols-5 gap-12 items-start">
