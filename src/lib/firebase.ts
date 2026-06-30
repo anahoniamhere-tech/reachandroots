@@ -20,6 +20,8 @@ import {
   getAuth, 
   onAuthStateChanged as fbOnAuthStateChanged, 
   signInWithEmailAndPassword, 
+  signInWithPopup,
+  GoogleAuthProvider,
   signOut as fbSignOut, 
   User 
 } from 'firebase/auth';
@@ -74,3 +76,13 @@ export const submitRegistration = async (data: any): Promise<void> => {
 };
 
 export type { User };
+
+export const signInWithGoogle = async (emailHint?: string): Promise<any> => {
+  const provider = new GoogleAuthProvider();
+  if (emailHint) {
+    provider.setCustomParameters({
+      login_hint: emailHint
+    });
+  }
+  return signInWithPopup(realAuth, provider);
+};

@@ -22,7 +22,7 @@ import { TrfAnahonPage } from './components/TrfAnahonPage';
 import { JourneyPage } from './components/JourneyPage';
 import { RegistrationForm } from './components/RegistrationForm';
 import { FloatingCountdown } from './components/FloatingCountdown';
-import { auth, db, onAuthStateChanged, signInWithEmailAndPassword, collection, getDocs, User as FirebaseUser } from './lib/firebase';
+import { auth, db, onAuthStateChanged, signInWithEmailAndPassword, signInWithGoogle, collection, getDocs, User as FirebaseUser } from './lib/firebase';
 import { TICKET_TIERS, EVENT_DAYS } from './constants';
 import { TicketTier, EventDay, Order, BuyerInfo, VipDetails } from './types';
 import { TicketService } from './services/ticketService';
@@ -1332,7 +1332,6 @@ const AdminDashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<FirebaseUser | null>(auth.currentUser);
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -1342,11 +1341,11 @@ const AdminDashboard = () => {
 
   const handleLogin = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (!email.trim() || !password.trim()) return;
+    if (!email.trim()) return;
     setIsLoading(true);
     setError(null);
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await signInWithGoogle(email);
     } catch (err: any) {
       setError(err.message || "Login failed");
       setIsLoading(false);
@@ -1402,35 +1401,26 @@ const AdminDashboard = () => {
             </div>
           )}
 
-          <form onSubmit={handleLogin} className="space-y-4">
-              <div>
-                <label className="block font-mono text-xs text-brand-navy/60 uppercase tracking-widest mb-2">Email Address</label>
-                <input 
-                  type="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  className="w-full bg-brand-navy/5 border border-brand-navy/10 rounded-xl px-4 py-3 text-brand-navy font-mono focus:outline-none focus:border-brand-coral transition-colors"
-                  placeholder="admin@rootsandreach.org"
-                  autoFocus
-                />
-              </div>
-              <div>
-                <label className="block font-mono text-xs text-brand-navy/60 uppercase tracking-widest mb-2">Password</label>
-                <input 
-                  type="password"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  className="w-full bg-brand-navy/5 border border-brand-navy/10 rounded-xl px-4 py-3 text-brand-navy font-mono tracking-[0.2em] focus:outline-none focus:border-brand-coral transition-colors"
-                  placeholder="••••••••"
-                />
-              </div>
-              <button 
-                type="submit"
-                className="w-full bg-brand-coral hover:bg-brand-orange text-white font-display font-bold py-3 rounded-xl transition-colors uppercase tracking-widest text-sm"
-              >
-                Authenticate
-              </button>
-            </form>
+          <form onSubmit={handleLogin} className="space-y-4 text-left">
+            <div>
+              <label className="block font-mono text-xs text-brand-navy/60 uppercase tracking-widest mb-2">Email Address</label>
+              <input 
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="w-full bg-brand-navy/5 border border-brand-navy/10 rounded-xl px-4 py-3 text-brand-navy font-mono focus:outline-none focus:border-brand-coral transition-colors"
+                placeholder="admin@rootsandreach.org"
+                autoFocus
+              />
+            </div>
+            <button 
+              type="submit"
+              disabled={!email.trim()}
+              className="w-full flex items-center justify-center gap-3 bg-brand-coral hover:bg-brand-orange text-white font-display font-bold py-3 rounded-xl transition-colors uppercase tracking-widest text-sm disabled:opacity-60"
+            >
+              Sign in with Google
+            </button>
+          </form>
         </div>
       </div>
     );

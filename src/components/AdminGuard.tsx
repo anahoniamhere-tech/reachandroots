@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { auth, onAuthStateChanged, signInWithEmailAndPassword, signOut, User } from '../lib/firebase';
+import { auth, onAuthStateChanged, signInWithGoogle, signOut, User } from '../lib/firebase';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Shield, Lock, LogIn, AlertCircle, LogOut, Loader2, ArrowRight } from 'lucide-react';
@@ -22,7 +22,6 @@ export const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [showInput, setShowInput] = useState(false);
 
   useEffect(() => {
@@ -35,12 +34,12 @@ export const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
 
   const handleLoginSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (!email.trim() || !password.trim()) return;
+    if (!email.trim()) return;
 
     setLoading(true);
     setError(null);
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await signInWithGoogle(email);
     } catch (err: any) {
       setError(err.message || 'Failed to authenticate');
       setLoading(false);
@@ -98,22 +97,12 @@ export const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
                   autoFocus
                 />
               </div>
-              <div>
-                <label className="block font-mono text-xs text-brand-navy/60 uppercase tracking-widest mb-2">Password</label>
-                <input 
-                  type="password"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  className="w-full bg-brand-navy/5 border border-brand-navy/10 rounded-xl px-4 py-3 text-brand-navy font-mono tracking-[0.2em] focus:outline-none focus:border-brand-coral transition-colors"
-                  placeholder="••••••••"
-                />
-              </div>
               <button 
                 type="submit"
-                disabled={!email.trim() || !password.trim()}
+                disabled={!email.trim()}
                 className="w-full mt-4 flex items-center justify-center gap-4 bg-brand-navy text-white px-8 py-5 rounded-full hover:bg-brand-coral transition-all duration-300 shadow-xl group disabled:opacity-60"
               >
-                <span className="editorial-label text-white tracking-[0.3em] font-medium uppercase">SIGN IN</span>
+                <span className="editorial-label text-white tracking-[0.3em] font-medium uppercase">SIGN IN WITH GOOGLE</span>
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </button>
             </form>
