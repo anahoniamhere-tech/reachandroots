@@ -10,7 +10,7 @@ export const translations = {
       portal: 'Join the Community',
       edition: 'Fayhaa Edition',
       sponsors: 'Sponsors',
-      journey: 'Journey'
+      journey: 'Journeys'
     },
     hero: {
       tagline: 'CULTURE x CREATION x DIGITAL',
@@ -428,7 +428,7 @@ export const translations = {
       portal: 'انضم إلى المجتمع',
       edition: 'نسخة الفيحاء',
       sponsors: 'الرعاة',
-      journey: 'الرحلة'
+      journey: 'الرحلات'
     },
     hero: {
       tagline: 'ثقافة x إبداع x رقمي',
