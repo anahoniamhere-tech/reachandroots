@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { BrandLogo } from './BrandingIcons';
-import { auth, onAuthStateChanged, signInWithPasscode, User } from '../lib/firebase';
+import { auth, onAuthStateChanged, signInWithEmailAndPassword, User } from '../lib/firebase';
 import { useNavigate } from 'react-router-dom';
 import { LogIn, ArrowRight, Loader2 } from 'lucide-react';
 
@@ -17,7 +17,8 @@ export const ComingSoon: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [passcode, setPasscode] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showInput, setShowInput] = useState(false);
   const navigate = useNavigate();
 
@@ -29,15 +30,15 @@ export const ComingSoon: React.FC = () => {
     return () => unsubscribe();
   }, []);
 
-  const handlePasscodeSubmit = async (e?: React.FormEvent) => {
+  const handleLoginSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (!passcode.trim()) return;
+    if (!email.trim() || !password.trim()) return;
 
     setActionLoading(true);
     setError(null);
     try {
-      const loggedUser = await signInWithPasscode(passcode);
-      if (APPROVED_EMAILS.includes(loggedUser.email || '')) {
+      const cred = await signInWithEmailAndPassword(auth, email, password);
+      if (APPROVED_EMAILS.includes(cred.user.email || '')) {
         navigate('/preview');
       } else {
         setError(`Access restricted.`);
@@ -93,21 +94,34 @@ export const ComingSoon: React.FC = () => {
               <ArrowRight size={14} />
             </motion.button>
           ) : showInput ? (
-            <form onSubmit={handlePasscodeSubmit} className="w-full">
-              <input
-                type="password"
-                value={passcode}
-                onChange={(e) => setPasscode(e.target.value)}
-                placeholder="ENTER ACCESS CODE"
-                autoFocus
-                className="w-full bg-white text-brand-navy border border-brand-navy/15 rounded-xl px-6 py-3.5 sm:py-4 font-mono uppercase tracking-[0.25em] text-center focus:outline-none focus:ring-1 focus:ring-brand-coral text-sm mb-4 shadow-sm"
-              />
+            <form onSubmit={handleLoginSubmit} className="w-full space-y-4 text-left">
+              <div>
+                <label className="block font-mono text-xs text-brand-navy/60 uppercase tracking-widest mb-2">Email Address</label>
+                <input 
+                  type="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  className="w-full bg-white border border-brand-navy/10 rounded-xl px-4 py-3 text-brand-navy font-mono focus:outline-none focus:border-brand-coral transition-colors shadow-sm"
+                  placeholder="admin@rootsandreach.org"
+                  autoFocus
+                />
+              </div>
+              <div>
+                <label className="block font-mono text-xs text-brand-navy/60 uppercase tracking-widest mb-2">Password</label>
+                <input 
+                  type="password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  className="w-full bg-white border border-brand-navy/10 rounded-xl px-4 py-3 text-brand-navy font-mono tracking-[0.2em] focus:outline-none focus:border-brand-coral transition-colors shadow-sm"
+                  placeholder="••••••••"
+                />
+              </div>
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                disabled={actionLoading || !passcode.trim()}
-                className="w-full flex items-center justify-center gap-3 bg-brand-navy hover:bg-brand-coral hover:text-white text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl transition-all font-display font-black uppercase text-xs tracking-wider cursor-pointer shadow-lg disabled:opacity-60"
+                disabled={actionLoading || !email.trim() || !password.trim()}
+                className="w-full mt-4 flex items-center justify-center gap-3 bg-brand-navy hover:bg-brand-coral hover:text-white text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl transition-all font-display font-black uppercase text-xs tracking-wider cursor-pointer shadow-lg disabled:opacity-60"
               >
                 {actionLoading ? (
                   <>

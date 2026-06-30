@@ -22,7 +22,7 @@ import { TrfAnahonPage } from './components/TrfAnahonPage';
 import { JourneyPage } from './components/JourneyPage';
 import { RegistrationForm } from './components/RegistrationForm';
 import { FloatingCountdown } from './components/FloatingCountdown';
-import { auth, db, onAuthStateChanged, signInWithPasscode, collection, getDocs, User as FirebaseUser } from './lib/firebase';
+import { auth, db, onAuthStateChanged, signInWithEmailAndPassword, collection, getDocs, User as FirebaseUser } from './lib/firebase';
 import { TICKET_TIERS, EVENT_DAYS } from './constants';
 import { TicketTier, EventDay, Order, BuyerInfo, VipDetails } from './types';
 import { TicketService } from './services/ticketService';
@@ -1323,7 +1323,8 @@ const AdminDashboard = () => {
   const [ticketBuyers, setTicketBuyers] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<FirebaseUser | null>(auth.currentUser);
-  const [passcode, setPasscode] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -1333,11 +1334,11 @@ const AdminDashboard = () => {
 
   const handleLogin = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (!passcode.trim()) return;
+    if (!email.trim() || !password.trim()) return;
     setIsLoading(true);
     setError(null);
     try {
-      await signInWithPasscode(passcode);
+      await signInWithEmailAndPassword(auth, email, password);
     } catch (err: any) {
       setError(err.message || "Login failed");
       setIsLoading(false);
@@ -1393,23 +1394,35 @@ const AdminDashboard = () => {
             </div>
           )}
 
-          <form onSubmit={handleLogin} className="w-full">
-            <input
-              type="password"
-              value={passcode}
-              onChange={(e) => setPasscode(e.target.value)}
-              placeholder="ENTER ACCESS CODE"
-              autoFocus
-              className="w-full bg-white text-brand-navy border border-brand-navy/15 rounded-xl px-6 py-3.5 sm:py-4 font-mono uppercase tracking-[0.25em] text-center focus:outline-none focus:ring-1 focus:ring-brand-coral text-sm mb-4 shadow-sm"
-            />
-            <button 
-              type="submit"
-              disabled={!passcode.trim()}
-              className="w-full py-5 bg-brand-navy text-white font-display font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-brand-coral transition-all shadow-2xl disabled:opacity-60"
-            >
-              Authenticate
-            </button>
-          </form>
+          <form onSubmit={handleLogin} className="space-y-4">
+              <div>
+                <label className="block font-mono text-xs text-brand-navy/60 uppercase tracking-widest mb-2">Email Address</label>
+                <input 
+                  type="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  className="w-full bg-brand-navy/5 border border-brand-navy/10 rounded-xl px-4 py-3 text-brand-navy font-mono focus:outline-none focus:border-brand-coral transition-colors"
+                  placeholder="admin@rootsandreach.org"
+                  autoFocus
+                />
+              </div>
+              <div>
+                <label className="block font-mono text-xs text-brand-navy/60 uppercase tracking-widest mb-2">Password</label>
+                <input 
+                  type="password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  className="w-full bg-brand-navy/5 border border-brand-navy/10 rounded-xl px-4 py-3 text-brand-navy font-mono tracking-[0.2em] focus:outline-none focus:border-brand-coral transition-colors"
+                  placeholder="••••••••"
+                />
+              </div>
+              <button 
+                type="submit"
+                className="w-full bg-brand-coral hover:bg-brand-orange text-white font-display font-bold py-3 rounded-xl transition-colors uppercase tracking-widest text-sm"
+              >
+                Authenticate
+              </button>
+            </form>
         </div>
       </div>
     );
