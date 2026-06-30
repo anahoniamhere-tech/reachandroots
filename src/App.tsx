@@ -34,9 +34,8 @@ import RootsLogo from './assets/roots_logo.png';
 
 // --- Components ---
 
-const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors' | 'trf-anahon' | 'journey' | 'registration') => void, onOpenTickets: () => void, currentView: string }) => {
+const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuOpen }: { onNavigate: (v: 'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors' | 'trf-anahon' | 'journey' | 'registration') => void, onOpenTickets: () => void, currentView: string, isMenuOpen: boolean, setIsMenuOpen: (b: boolean) => void }) => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, language, setLanguage, isRTL } = useLanguage();
   
   useEffect(() => {
@@ -541,6 +540,7 @@ export default function App() {
   );
   const [user, setUser] = useState<FirebaseUser | null>(auth.currentUser);
   const [showFloatingTab, setShowFloatingTab] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     // Handle URL routing simulation
@@ -700,7 +700,7 @@ export default function App() {
         <AdminDashboard />
       ) : (
         <>
-          <Navbar onNavigate={setView} onOpenTickets={() => setView('tickets')} currentView={view} />
+          <Navbar onNavigate={setView} onOpenTickets={() => setView('tickets')} currentView={view} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
           <main>
             {view === 'gallery' && <GalleryPage onNavigate={setView} />}
             {view === 'trf-anahon' && <TrfAnahonPage onNavigate={setView as any} />}
@@ -795,7 +795,7 @@ export default function App() {
       )}
 
       <div 
-        onClick={() => { setView('registration'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+        onClick={() => { setView('registration'); setIsMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
         className={`fixed z-[100] bg-brand-coral text-white font-bold uppercase py-2.5 px-6 rounded-t-xl hover:bg-brand-navy transition-all duration-500 shadow-2xl cursor-pointer flex items-center justify-center border-x border-t border-white/20 ${isRTL ? 'font-arabic tracking-normal text-sm md:text-base' : 'font-display tracking-widest text-xs md:text-sm'}`}
         style={{
           right: '0',
@@ -809,7 +809,7 @@ export default function App() {
         {isRTL ? 'انضم للمجتمع' : 'Join Community'}
       </div>
 
-      <FloatingCountdown onClick={() => { setView('journey'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
+      <FloatingCountdown onClick={() => { setView('journey'); setIsMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
     </div>
   );
 }
