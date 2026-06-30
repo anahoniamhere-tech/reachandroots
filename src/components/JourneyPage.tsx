@@ -45,7 +45,7 @@ const countriesList = [
 
 export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
   const { t, isRTL } = useLanguage();
-  const [selectedTicket, setSelectedTicket] = useState<'single' | 'package' | 'lecture'>('package');
+  const [selectedTicket, setSelectedTicket] = useState<'lecture' | 'ws1' | 'ws2' | 'package'>('package');
   const [copied, setCopied] = useState(false);
   const [showRegisterForm, setShowRegisterForm] = useState(false);
   const [formData, setFormData] = useState({ 
@@ -207,11 +207,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                   {journeyT.programDesc}
                 </p>
               </div>
-              <div className="flex gap-4 shrink-0 w-full lg:w-auto">
-                <a href="#register" className="w-full lg:w-auto text-center px-8 py-4 bg-brand-navy text-white font-display font-bold text-xs uppercase tracking-widest rounded-2xl hover:bg-brand-coral hover:scale-102 transition-all shadow-md">
-                  {journeyT.ctaReserve}
-                </a>
-              </div>
+              {/* Reservation button removed by request */}
             </div>
           </div>
         </div>
@@ -405,24 +401,41 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                       </div>
                     </div>
 
-                    {/* Option 2: Single Workshop */}
+                    {/* Option 2: Passion & Stress Management Workshop */}
                     <div 
-                      onClick={() => setSelectedTicket('single')}
-                      className={`glass-card p-6 sm:p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex gap-4 sm:gap-6 items-center ${selectedTicket === 'single' ? 'border-brand-coral bg-white shadow-md' : 'border-brand-navy/5 hover:border-brand-navy/20 bg-white/40'}`}
+                      onClick={() => setSelectedTicket('ws1')}
+                      className={`glass-card p-6 sm:p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex gap-4 sm:gap-6 items-center ${selectedTicket === 'ws1' ? 'border-brand-coral bg-white shadow-md' : 'border-brand-navy/5 hover:border-brand-navy/20 bg-white/40'}`}
                     >
-                      <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${selectedTicket === 'single' ? 'border-brand-coral text-brand-coral' : 'border-brand-navy/20'}`}>
-                        {selectedTicket === 'single' && <div className="w-3 h-3 bg-brand-coral rounded-full" />}
+                      <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${selectedTicket === 'ws1' ? 'border-brand-coral text-brand-coral' : 'border-brand-navy/20'}`}>
+                        {selectedTicket === 'ws1' && <div className="w-3 h-3 bg-brand-coral rounded-full" />}
                       </div>
                       <div className="flex-1">
                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 mb-2">
-                          <h3 className="font-display font-bold text-xl uppercase tracking-tight text-brand-navy">{journeyT.singleWs}</h3>
+                          <h3 className="font-display font-bold text-xl uppercase tracking-tight text-brand-navy">{journeyT.ws1Title}</h3>
                           <span className="font-display font-black text-2xl text-brand-navy">{journeyT.singleWsPrice}</span>
                         </div>
-                        <p className="font-body text-sm text-brand-navy/60 leading-normal">{journeyT.singleWsDesc}</p>
+                        <p className="font-body text-sm text-brand-navy/60 leading-normal">{journeyT.ws1Desc}</p>
                       </div>
                     </div>
 
-                    {/* Option 3: Double Package (Recommended) */}
+                    {/* Option 3: Mind Programming Workshop */}
+                    <div 
+                      onClick={() => setSelectedTicket('ws2')}
+                      className={`glass-card p-6 sm:p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex gap-4 sm:gap-6 items-center ${selectedTicket === 'ws2' ? 'border-brand-coral bg-white shadow-md' : 'border-brand-navy/5 hover:border-brand-navy/20 bg-white/40'}`}
+                    >
+                      <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${selectedTicket === 'ws2' ? 'border-brand-coral text-brand-coral' : 'border-brand-navy/20'}`}>
+                        {selectedTicket === 'ws2' && <div className="w-3 h-3 bg-brand-coral rounded-full" />}
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 mb-2">
+                          <h3 className="font-display font-bold text-xl uppercase tracking-tight text-brand-navy">{journeyT.ws2Title}</h3>
+                          <span className="font-display font-black text-2xl text-brand-navy">{journeyT.singleWsPrice}</span>
+                        </div>
+                        <p className="font-body text-sm text-brand-navy/60 leading-normal">{journeyT.ws2Desc}</p>
+                      </div>
+                    </div>
+
+                    {/* Option 4: Double Package (Recommended) */}
                     <div 
                       onClick={() => setSelectedTicket('package')}
                       className={`glass-card p-6 sm:p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex gap-4 sm:gap-6 items-center relative overflow-hidden ${selectedTicket === 'package' ? 'border-brand-coral bg-white shadow-md' : 'border-brand-navy/5 hover:border-brand-navy/20 bg-white/40'}`}
@@ -449,7 +462,8 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                     <button 
                       onClick={() => {
                         let choice = 'both';
-                        if (selectedTicket === 'single') choice = 'ws1';
+                        if (selectedTicket === 'ws1') choice = 'ws1';
+                        if (selectedTicket === 'ws2') choice = 'ws2';
                         if (selectedTicket === 'lecture') choice = 'lecture';
                         setFormData(prev => ({ ...prev, workshopChoice: choice }));
                         setShowRegisterForm(true);
@@ -457,7 +471,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                       className="w-full flex items-center justify-between bg-brand-navy hover:bg-brand-coral text-white p-6 rounded-2xl transition-all duration-300 font-display font-bold text-sm tracking-widest uppercase shadow-lg hover:scale-101 cursor-pointer"
                     >
                       <span>{isRTL ? 'سجل اهتمامك الآن' : 'Reserve & Book Ticket'}</span>
-                      <div className={`w-8 h-8 rounded-full bg-white/10 flex items-center justify-center transition-transform ${isRTL ? 'rotate-180' : ''}`}>
+                      <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center transition-transform">
                         <ArrowRight size={18} />
                       </div>
                     </button>
