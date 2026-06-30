@@ -801,9 +801,9 @@ export default function App() {
           right: '0',
           top: '50%',
           transformOrigin: 'center',
-          transform: showFloatingTab ? 'translate(calc(50% - 22px), -50%) rotate(-90deg)' : 'translate(100%, -50%) rotate(-90deg)',
-          opacity: showFloatingTab ? 1 : 0,
-          pointerEvents: showFloatingTab ? 'auto' : 'none'
+          transform: (showFloatingTab || isMenuOpen) ? 'translate(calc(50% - 22px), -50%) rotate(-90deg)' : 'translate(100%, -50%) rotate(-90deg)',
+          opacity: (showFloatingTab || isMenuOpen) ? 1 : 0,
+          pointerEvents: (showFloatingTab || isMenuOpen) ? 'auto' : 'none'
         }}
       >
         {isRTL ? 'انضم للمجتمع' : 'Join Community'}
