@@ -41,7 +41,7 @@ export const FloatingCountdown = ({ onClick }: { onClick?: () => void }) => {
        <div className="absolute inset-0 pixel-grid opacity-10 pointer-events-none" />
        
        <div className={`relative z-10 ${isRTL ? 'text-right' : 'text-left'}`}>
-         <span className="editorial-label text-brand-coral mb-0.5 block tracking-widest text-[8px] sm:text-[9px] md:text-[10px] uppercase font-bold leading-tight">
+         <span className={`editorial-label text-brand-coral mb-0.5 block tracking-widest uppercase font-bold leading-tight ${isRTL ? 'text-[11px] sm:text-xs md:text-sm' : 'text-[9px] sm:text-[10px] md:text-[11px]'}`}>
            {isRTL ? 'انضم لرحلة د. يزيد' : "Join Dr. Yazeed's Journey"}
          </span>
          <h3 className="font-display font-bold text-[11px] sm:text-sm md:text-xl uppercase tracking-tighter whitespace-nowrap">July 6, 2026</h3>
@@ -58,7 +58,7 @@ export const FloatingCountdown = ({ onClick }: { onClick?: () => void }) => {
                <div className="w-9 h-9 sm:w-10 sm:h-10 md:w-14 md:h-14 bg-white/10 rounded-lg md:rounded-xl flex items-center justify-center backdrop-blur-sm border border-white/5 mb-1 md:mb-2">
                   <span className="font-display font-bold text-sm sm:text-base md:text-2xl text-white">{item.value}</span>
                </div>
-               <span className="font-mono text-[7px] md:text-[10px] text-white/50 tracking-widest uppercase">{item.label}</span>
+               <span className={`font-mono text-white/50 tracking-widest uppercase ${isRTL ? 'text-[9px] md:text-[11px]' : 'text-[7px] md:text-[10px]'}`}>{item.label}</span>
             </div>
           ))}
        </div>
