@@ -1331,7 +1331,6 @@ const AdminDashboard = () => {
   const [ticketBuyers, setTicketBuyers] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<FirebaseUser | null>(auth.currentUser);
-  const [email, setEmail] = useState('');
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -1341,11 +1340,10 @@ const AdminDashboard = () => {
 
   const handleLogin = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (!email.trim()) return;
     setIsLoading(true);
     setError(null);
     try {
-      await signInWithGoogle(email);
+      await signInWithGoogle();
     } catch (err: any) {
       setError(err.message || "Login failed");
       setIsLoading(false);
@@ -1401,26 +1399,14 @@ const AdminDashboard = () => {
             </div>
           )}
 
-          <form onSubmit={handleLogin} className="space-y-4 text-left">
-            <div>
-              <label className="block font-mono text-xs text-brand-navy/60 uppercase tracking-widest mb-2">Email Address</label>
-              <input 
-                type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                className="w-full bg-brand-navy/5 border border-brand-navy/10 rounded-xl px-4 py-3 text-brand-navy font-mono focus:outline-none focus:border-brand-coral transition-colors"
-                placeholder="admin@rootsandreach.org"
-                autoFocus
-              />
-            </div>
+          <div className="space-y-4 text-left">
             <button 
-              type="submit"
-              disabled={!email.trim()}
-              className="w-full flex items-center justify-center gap-3 bg-brand-coral hover:bg-brand-orange text-white font-display font-bold py-3 rounded-xl transition-colors uppercase tracking-widest text-sm disabled:opacity-60"
+              onClick={handleLogin}
+              className="w-full flex items-center justify-center gap-3 bg-brand-coral hover:bg-brand-orange text-white font-display font-bold py-3 rounded-xl transition-colors uppercase tracking-widest text-sm"
             >
               Sign in with Google
             </button>
-          </form>
+          </div>
         </div>
       </div>
     );
