@@ -540,6 +540,7 @@ export default function App() {
     window.location.pathname.includes('/admin/')
   );
   const [user, setUser] = useState<FirebaseUser | null>(auth.currentUser);
+  const [showFloatingTab, setShowFloatingTab] = useState(false);
 
   useEffect(() => {
     // Handle URL routing simulation
@@ -566,6 +567,11 @@ export default function App() {
     const handleHash = () => setIsAdminMode(window.location.hash === '#admin' || window.location.pathname.endsWith('/admin'));
     window.addEventListener('hashchange', handleHash);
     
+    const handleScroll = () => {
+      setShowFloatingTab(window.scrollY > 80);
+    };
+    window.addEventListener('scroll', handleScroll);
+    
     // Listen for pops
     const handlePopState = () => {
       const path = window.location.pathname;
@@ -585,6 +591,7 @@ export default function App() {
       unsubscribe();
       window.removeEventListener('hashchange', handleHash);
       window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -789,12 +796,14 @@ export default function App() {
 
       <div 
         onClick={() => { setView('registration'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-        className={`fixed z-[100] bg-brand-coral text-white font-bold uppercase py-2.5 px-6 rounded-t-xl hover:bg-brand-navy transition-all duration-300 shadow-2xl cursor-pointer flex items-center justify-center border-x border-t border-white/20 ${isRTL ? 'font-arabic tracking-normal text-sm md:text-base' : 'font-display tracking-widest text-xs md:text-sm'}`}
+        className={`fixed z-[100] bg-brand-coral text-white font-bold uppercase py-2.5 px-6 rounded-t-xl hover:bg-brand-navy transition-all duration-500 shadow-2xl cursor-pointer flex items-center justify-center border-x border-t border-white/20 ${isRTL ? 'font-arabic tracking-normal text-sm md:text-base' : 'font-display tracking-widest text-xs md:text-sm'}`}
         style={{
           right: '0',
           top: '50%',
           transformOrigin: 'center',
-          transform: 'translate(calc(50% - 22px), -50%) rotate(-90deg)'
+          transform: showFloatingTab ? 'translate(calc(50% - 22px), -50%) rotate(-90deg)' : 'translate(100%, -50%) rotate(-90deg)',
+          opacity: showFloatingTab ? 1 : 0,
+          pointerEvents: showFloatingTab ? 'auto' : 'none'
         }}
       >
         {isRTL ? 'انضم للمجتمع' : 'Join Community'}
