@@ -338,76 +338,219 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
 
           <div className="grid lg:grid-cols-5 gap-12 items-start">
             
-            {/* Interactive Ticket Selector */}
-            <div className="lg:col-span-3 space-y-6">
-              
-              {/* Option 1: Free Lecture Entry */}
-              <div 
-                onClick={() => setSelectedTicket('lecture')}
-                className={`glass-card p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex gap-6 items-center ${selectedTicket === 'lecture' ? 'border-brand-coral bg-white shadow-md' : 'border-brand-navy/5 hover:border-brand-navy/20 bg-white/40'}`}
-              >
-                <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${selectedTicket === 'lecture' ? 'border-brand-coral text-brand-coral' : 'border-brand-navy/20'}`}>
-                  {selectedTicket === 'lecture' && <div className="w-3 h-3 bg-brand-coral rounded-full" />}
-                </div>
-                <div className="flex-1">
-                  <div className={`flex justify-between items-center mb-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                    <h3 className="font-display font-bold text-xl uppercase tracking-tight text-brand-navy">{journeyT.freeLecture}</h3>
-                    <span className="font-display font-black text-2xl text-brand-green">{journeyT.freeLecturePrice}</span>
-                  </div>
-                  <p className="font-body text-sm text-brand-navy/60 leading-normal">{journeyT.freeLectureDesc}</p>
-                </div>
-              </div>
+            {/* Interactive Ticket Selector OR Inline Registration Form */}
+            <div className="lg:col-span-3">
+              <AnimatePresence mode="wait">
+                {!showRegisterForm ? (
+                  <motion.div
+                    key="selector"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="space-y-6"
+                  >
+                    {/* Option 1: Free Lecture Entry */}
+                    <div 
+                      onClick={() => setSelectedTicket('lecture')}
+                      className={`glass-card p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex gap-6 items-center ${selectedTicket === 'lecture' ? 'border-brand-coral bg-white shadow-md' : 'border-brand-navy/5 hover:border-brand-navy/20 bg-white/40'}`}
+                    >
+                      <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${selectedTicket === 'lecture' ? 'border-brand-coral text-brand-coral' : 'border-brand-navy/20'}`}>
+                        {selectedTicket === 'lecture' && <div className="w-3 h-3 bg-brand-coral rounded-full" />}
+                      </div>
+                      <div className="flex-1">
+                        <div className={`flex justify-between items-center mb-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                          <h3 className="font-display font-bold text-xl uppercase tracking-tight text-brand-navy">{journeyT.freeLecture}</h3>
+                          <span className="font-display font-black text-2xl text-brand-green">{journeyT.freeLecturePrice}</span>
+                        </div>
+                        <p className="font-body text-sm text-brand-navy/60 leading-normal">{journeyT.freeLectureDesc}</p>
+                      </div>
+                    </div>
 
-              {/* Option 2: Single Workshop */}
-              <div 
-                onClick={() => setSelectedTicket('single')}
-                className={`glass-card p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex gap-6 items-center ${selectedTicket === 'single' ? 'border-brand-coral bg-white shadow-md' : 'border-brand-navy/5 hover:border-brand-navy/20 bg-white/40'}`}
-              >
-                <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${selectedTicket === 'single' ? 'border-brand-coral text-brand-coral' : 'border-brand-navy/20'}`}>
-                  {selectedTicket === 'single' && <div className="w-3 h-3 bg-brand-coral rounded-full" />}
-                </div>
-                <div className="flex-1">
-                  <div className={`flex justify-between items-center mb-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                    <h3 className="font-display font-bold text-xl uppercase tracking-tight text-brand-navy">{journeyT.singleWs}</h3>
-                    <span className="font-display font-black text-2xl text-brand-navy">{journeyT.singleWsPrice}</span>
-                  </div>
-                  <p className="font-body text-sm text-brand-navy/60 leading-normal">{journeyT.singleWsDesc}</p>
-                </div>
-              </div>
+                    {/* Option 2: Single Workshop */}
+                    <div 
+                      onClick={() => setSelectedTicket('single')}
+                      className={`glass-card p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex gap-6 items-center ${selectedTicket === 'single' ? 'border-brand-coral bg-white shadow-md' : 'border-brand-navy/5 hover:border-brand-navy/20 bg-white/40'}`}
+                    >
+                      <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${selectedTicket === 'single' ? 'border-brand-coral text-brand-coral' : 'border-brand-navy/20'}`}>
+                        {selectedTicket === 'single' && <div className="w-3 h-3 bg-brand-coral rounded-full" />}
+                      </div>
+                      <div className="flex-1">
+                        <div className={`flex justify-between items-center mb-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                          <h3 className="font-display font-bold text-xl uppercase tracking-tight text-brand-navy">{journeyT.singleWs}</h3>
+                          <span className="font-display font-black text-2xl text-brand-navy">{journeyT.singleWsPrice}</span>
+                        </div>
+                        <p className="font-body text-sm text-brand-navy/60 leading-normal">{journeyT.singleWsDesc}</p>
+                      </div>
+                    </div>
 
-              {/* Option 3: Double Package (Recommended) */}
-              <div 
-                onClick={() => setSelectedTicket('package')}
-                className={`glass-card p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex gap-6 items-center relative overflow-hidden ${selectedTicket === 'package' ? 'border-brand-coral bg-white shadow-md' : 'border-brand-navy/5 hover:border-brand-navy/20 bg-white/40'}`}
-              >
-                {/* Visual Accent */}
-                <div className="absolute top-0 right-0 w-24 h-24 bg-brand-coral/10 rounded-full blur-xl pointer-events-none" />
-                <div className="absolute top-3 right-6 bg-brand-coral text-white text-[8px] uppercase tracking-widest font-mono font-bold px-3 py-1 rounded-full">
-                  {isRTL ? 'الباقة الأفضل قيمة' : 'Best Value'}
-                </div>
+                    {/* Option 3: Double Package (Recommended) */}
+                    <div 
+                      onClick={() => setSelectedTicket('package')}
+                      className={`glass-card p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex gap-6 items-center relative overflow-hidden ${selectedTicket === 'package' ? 'border-brand-coral bg-white shadow-md' : 'border-brand-navy/5 hover:border-brand-navy/20 bg-white/40'}`}
+                    >
+                      {/* Visual Accent */}
+                      <div className="absolute top-0 right-0 w-24 h-24 bg-brand-coral/10 rounded-full blur-xl pointer-events-none" />
+                      <div className="absolute top-3 right-6 bg-brand-coral text-white text-[8px] uppercase tracking-widest font-mono font-bold px-3 py-1 rounded-full">
+                        {isRTL ? 'الباقة الأفضل قيمة' : 'Best Value'}
+                      </div>
 
-                <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${selectedTicket === 'package' ? 'border-brand-coral text-brand-coral' : 'border-brand-navy/20'}`}>
-                  {selectedTicket === 'package' && <div className="w-3 h-3 bg-brand-coral rounded-full" />}
-                </div>
-                <div className="flex-1">
-                  <div className={`flex justify-between items-center mb-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                    <h3 className="font-display font-bold text-xl uppercase tracking-tight text-brand-navy">{journeyT.packageWs}</h3>
-                    <span className="font-display font-black text-2xl text-brand-coral">{journeyT.packageWsPrice}</span>
-                  </div>
-                  <p className="font-body text-sm text-brand-navy/60 leading-normal">{journeyT.packageWsDesc}</p>
-                </div>
-              </div>
+                      <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${selectedTicket === 'package' ? 'border-brand-coral text-brand-coral' : 'border-brand-navy/20'}`}>
+                        {selectedTicket === 'package' && <div className="w-3 h-3 bg-brand-coral rounded-full" />}
+                      </div>
+                      <div className="flex-1">
+                        <div className={`flex justify-between items-center mb-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                          <h3 className="font-display font-bold text-xl uppercase tracking-tight text-brand-navy">{journeyT.packageWs}</h3>
+                          <span className="font-display font-black text-2xl text-brand-coral">{journeyT.packageWsPrice}</span>
+                        </div>
+                        <p className="font-body text-sm text-brand-navy/60 leading-normal">{journeyT.packageWsDesc}</p>
+                      </div>
+                    </div>
 
-              {/* Action Button */}
-              <button 
-                onClick={() => setShowRegisterForm(true)} 
-                className="w-full flex items-center justify-between bg-brand-navy hover:bg-brand-coral text-white p-6 rounded-2xl transition-all duration-300 font-display font-bold text-sm tracking-widest uppercase shadow-lg hover:scale-101 cursor-pointer"
-              >
-                <span>{isRTL ? 'سجل اهتمامك الآن' : 'Reserve & Book Ticket'}</span>
-                <div className={`w-8 h-8 rounded-full bg-white/10 flex items-center justify-center transition-transform ${isRTL ? 'rotate-180' : ''}`}>
-                  <ArrowRight size={18} />
-                </div>
-              </button>
+                    {/* Action Button */}
+                    <button 
+                      onClick={() => {
+                        let choice = 'both';
+                        if (selectedTicket === 'single') choice = 'ws1';
+                        if (selectedTicket === 'lecture') choice = 'lecture';
+                        setFormData(prev => ({ ...prev, workshopChoice: choice }));
+                        setShowRegisterForm(true);
+                      }} 
+                      className="w-full flex items-center justify-between bg-brand-navy hover:bg-brand-coral text-white p-6 rounded-2xl transition-all duration-300 font-display font-bold text-sm tracking-widest uppercase shadow-lg hover:scale-101 cursor-pointer"
+                    >
+                      <span>{isRTL ? 'سجل اهتمامك الآن' : 'Reserve & Book Ticket'}</span>
+                      <div className={`w-8 h-8 rounded-full bg-white/10 flex items-center justify-center transition-transform ${isRTL ? 'rotate-180' : ''}`}>
+                        <ArrowRight size={18} />
+                      </div>
+                    </button>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="form"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="bg-white rounded-[2.5rem] p-10 border border-brand-navy/5 shadow-xl relative overflow-hidden"
+                  >
+                    <div className="absolute inset-0 pixel-grid opacity-10 pointer-events-none" />
+                    <div className="absolute top-0 left-0 w-full h-2 bg-brand-coral" />
+
+                    {!isRegistered ? (
+                      <form onSubmit={handleFormSubmit} className="space-y-6 relative z-10">
+                        <div>
+                          <h3 className="font-display font-bold text-3xl text-brand-navy uppercase mb-2 tracking-tight">
+                            {isRTL ? 'طلب حجز مقعد' : 'Ticket Reservation'}
+                          </h3>
+                          <p className="font-body text-sm text-brand-navy/50">
+                            {isRTL ? 'أدخل معلوماتك وسنقوم بالتواصل معك لتأكيد التذاكر.' : 'Enter your details. We will contact you to finalize ticketing details.'}
+                          </p>
+                        </div>
+
+                        <div className="space-y-4">
+                          {/* Full Name */}
+                          <div className="space-y-2">
+                            <label className="editorial-label text-[10px] font-bold block">{isRTL ? 'الاسم الكامل' : 'Full Name'}</label>
+                            <input 
+                              type="text" 
+                              required
+                              value={formData.name}
+                              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                              className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
+                              placeholder={isRTL ? 'مثال: محمد أحمد' : 'e.g. Jean Doe'}
+                            />
+                          </div>
+
+                          {/* Phone Number */}
+                          <div className="space-y-2">
+                            <label className="editorial-label text-[10px] font-bold block">{isRTL ? 'رقم الهاتف (واتساب)' : 'Phone Number (WhatsApp)'}</label>
+                            <input 
+                              type="tel" 
+                              required
+                              value={formData.phone}
+                              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                              className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
+                              placeholder="e.g. +961 81 408 171"
+                            />
+                          </div>
+
+                          {/* Workshop Choice */}
+                          <div className="space-y-2">
+                            <label className="editorial-label text-[10px] font-bold block">{isRTL ? 'الفعاليات المطلوبة' : 'Selected Event Segment'}</label>
+                            <select 
+                              value={formData.workshopChoice}
+                              onChange={(e) => setFormData({ ...formData, workshopChoice: e.target.value })}
+                              className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
+                            >
+                              <option value="both">{isRTL ? 'باقة الورشتين معاً ($30)' : 'Double Workshop Package ($30)'}</option>
+                              <option value="ws1">{isRTL ? 'ورشة الشغف وإدارة التوتر فقط ($20)' : 'Passion & Stress Management Only ($20)'}</option>
+                              <option value="ws2">{isRTL ? 'ورشة برمجة العقل فقط ($20)' : 'Mind Programming Only ($20)'}</option>
+                              <option value="lecture">{isRTL ? 'المحاضرة العامة فقط (مجاني)' : 'Public Lecture Only (Free)'}</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div className={`flex gap-4 pt-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                          <button 
+                            type="button" 
+                            onClick={() => setShowRegisterForm(false)}
+                            className="flex-1 py-4 border border-brand-navy/10 hover:border-brand-coral rounded-xl text-brand-navy font-display font-bold text-xs uppercase tracking-widest transition-all cursor-pointer"
+                          >
+                            {isRTL ? 'إلغاء' : 'Cancel'}
+                          </button>
+                          <button 
+                            type="submit" 
+                            className="flex-1 py-4 bg-brand-navy hover:bg-brand-coral text-white rounded-xl font-display font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 cursor-pointer"
+                          >
+                            <span>{isRTL ? 'إرسال' : 'Submit'}</span>
+                            <Send size={12} className={isRTL ? 'rotate-180' : ''} />
+                          </button>
+                        </div>
+                      </form>
+                    ) : (
+                      <motion.div 
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="py-10 text-center space-y-6 relative z-10"
+                      >
+                        <div className="w-20 h-20 bg-brand-green/10 text-brand-green rounded-[1.5rem] flex items-center justify-center mx-auto">
+                          <CheckCircle2 size={40} />
+                        </div>
+                        
+                        <div className="space-y-2">
+                          <h3 className="font-display font-bold text-2xl text-brand-navy uppercase tracking-tight">
+                            {isRTL ? 'تم تسجيل اهتمامك بنجاح!' : 'Pre-Registration Saved!'}
+                          </h3>
+                          <p className="font-body text-sm text-brand-navy/60 leading-relaxed max-w-sm mx-auto">
+                            {formData.workshopChoice === 'lecture'
+                              ? (isRTL 
+                                ? 'طلبك لحضور المحاضرة العامة المجانية قيد المعالجة، وسنقوم بالتواصل معك قريباً لتأكيد مقعدك.'
+                                : 'Your request to attend the free public lecture is processing. We will contact you shortly to confirm your seat.')
+                              : (isRTL
+                                ? 'طلبك لحضور الفعالية قيد المعالجة. يرجى إتمام تحويل الرسوم عبر Wish Money للحساب: 81408171 لإتمام الحجز وسنقوم بالتواصل معك لتأكيد مقعدك.'
+                                : 'Your request is processing. Please transfer your tickets fee via Wish Money to account 81408171 to guarantee your seat. Our team will contact you shortly.')}
+                          </p>
+                        </div>
+
+                        {/* Copyable account number shown in popup once booking form is filled */}
+                        {formData.workshopChoice !== 'lecture' && (
+                          <div className="bg-warm-beige/35 p-4 rounded-xl border border-brand-navy/5 text-sm font-mono text-brand-navy font-bold max-w-xs mx-auto flex items-center justify-between">
+                            <span>Wish: 81408171</span>
+                            <button onClick={handleCopyAccount} className="p-1 hover:text-brand-coral cursor-pointer">
+                              {copied ? <Check size={14} className="text-brand-green" /> : <Copy size={14} />}
+                            </button>
+                          </div>
+                        )}
+
+                        <button 
+                          onClick={() => { setShowRegisterForm(false); setIsRegistered(false); }}
+                          className="mt-6 px-8 py-3 bg-brand-navy text-white text-xs font-display font-bold uppercase tracking-widest rounded-xl hover:bg-brand-coral transition-colors cursor-pointer"
+                        >
+                          {isRTL ? 'إغلاق' : 'Close'}
+                        </button>
+                      </motion.div>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             {/* Suggested Payment Details Box */}
@@ -434,20 +577,28 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                         {journeyT.wishDesc}
                       </p>
                       
-                      {/* Copyable Account Box */}
-                      <div className={`flex items-center justify-between p-4 bg-warm-beige/30 rounded-xl border border-brand-navy/5 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                        <div className="space-y-1">
-                          <span className="font-mono text-[9px] text-brand-navy/30 uppercase tracking-widest">WISH TRANSFER ACCOUNT</span>
-                          <p className="font-mono font-bold text-lg text-brand-navy">81408171</p>
+                      {/* Copyable Account Box - Revealed only after user registers/fills the buying form */}
+                      {isRegistered && formData.workshopChoice !== 'lecture' ? (
+                        <div className={`flex items-center justify-between p-4 bg-warm-beige/30 rounded-xl border border-brand-navy/5 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                          <div className="space-y-1">
+                            <span className="font-mono text-[9px] text-brand-navy/30 uppercase tracking-widest">WISH TRANSFER ACCOUNT</span>
+                            <p className="font-mono font-bold text-lg text-brand-navy">81408171</p>
+                          </div>
+                          <button 
+                            onClick={handleCopyAccount}
+                            className="p-3 bg-white border border-brand-navy/5 hover:border-brand-coral hover:text-brand-coral rounded-lg transition-all active:scale-95 text-brand-navy/60 cursor-pointer"
+                            title="Copy Account Number"
+                          >
+                            {copied ? <Check size={16} className="text-brand-green" /> : <Copy size={16} />}
+                          </button>
                         </div>
-                        <button 
-                          onClick={handleCopyAccount}
-                          className="p-3 bg-white border border-brand-navy/5 hover:border-brand-coral hover:text-brand-coral rounded-lg transition-all active:scale-95 text-brand-navy/60 cursor-pointer"
-                          title="Copy Account Number"
-                        >
-                          {copied ? <Check size={16} className="text-brand-green" /> : <Copy size={16} />}
-                        </button>
-                      </div>
+                      ) : (
+                        <div className="p-6 bg-brand-coral/5 rounded-xl border border-brand-coral/10 text-xs text-brand-navy/60 text-center leading-relaxed">
+                          {isRTL 
+                            ? 'سيتم عرض رقم الحساب لإتمام التحويل بعد تعبئة استمارة الحجز.' 
+                            : 'Wish account details will be revealed here after completing the booking form.'}
+                        </div>
+                      )}
                     </div>
 
                     {/* Method 2: At the Door */}
@@ -481,135 +632,8 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
 
       </div>
 
-      {/* Dynamic Registration Modal */}
-      <AnimatePresence>
-        {showRegisterForm && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-6">
-            
-            {/* Backdrop */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => { if (!isRegistered) setShowRegisterForm(false); }}
-              className="absolute inset-0 bg-brand-navy/70 backdrop-blur-md cursor-pointer"
-            />
-
-            {/* Modal Box */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white max-w-lg w-full rounded-[2.5rem] p-10 shadow-2xl relative z-10 overflow-hidden"
-            >
-              <div className="absolute inset-0 pixel-grid opacity-10 pointer-events-none" />
-              <div className="absolute top-0 left-0 w-full h-2 bg-brand-coral" />
-              
-              {!isRegistered ? (
-                <form onSubmit={handleFormSubmit} className="space-y-6">
-                  <div>
-                    <h3 className="font-display font-bold text-3xl text-brand-navy uppercase mb-2 tracking-tight">
-                      {isRTL ? 'طلب حجز مقعد' : 'Ticket Reservation'}
-                    </h3>
-                    <p className="font-body text-sm text-brand-navy/50">
-                      {isRTL ? 'أدخل معلوماتك وسنقوم بالتواصل معك لتأكيد التذاكر.' : 'Enter your details. We will contact you to finalize ticketing details.'}
-                    </p>
-                  </div>
-
-                  <div className="space-y-4">
-                    
-                    {/* Full Name */}
-                    <div className="space-y-2">
-                      <label className="editorial-label text-[10px] font-bold block">{isRTL ? 'الاسم الكامل' : 'Full Name'}</label>
-                      <input 
-                        type="text" 
-                        required
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
-                        placeholder={isRTL ? 'مثال: محمد أحمد' : 'e.g. Jean Doe'}
-                      />
-                    </div>
-
-                    {/* Phone Number */}
-                    <div className="space-y-2">
-                      <label className="editorial-label text-[10px] font-bold block">{isRTL ? 'رقم الهاتف (واتساب)' : 'Phone Number (WhatsApp)'}</label>
-                      <input 
-                        type="tel" 
-                        required
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
-                        placeholder="e.g. +961 81 408 171"
-                      />
-                    </div>
-
-                    {/* Workshop Choice */}
-                    <div className="space-y-2">
-                      <label className="editorial-label text-[10px] font-bold block">{isRTL ? 'الفعاليات المطلوبة' : 'Selected Event Segment'}</label>
-                      <select 
-                        value={formData.workshopChoice}
-                        onChange={(e) => setFormData({ ...formData, workshopChoice: e.target.value })}
-                        className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
-                      >
-                        <option value="both">{isRTL ? 'باقة الورشتين معاً ($30)' : 'Double Workshop Package ($30)'}</option>
-                        <option value="ws1">{isRTL ? 'ورشة الشغف وإدارة التوتر فقط ($20)' : 'Passion & Stress Management Only ($20)'}</option>
-                        <option value="ws2">{isRTL ? 'ورشة برمجة العقل فقط ($20)' : 'Mind Programming Only ($20)'}</option>
-                        <option value="lecture">{isRTL ? 'المحاضرة العامة فقط (مجاني)' : 'Public Lecture Only (Free)'}</option>
-                      </select>
-                    </div>
-
-                  </div>
-
-                  <div className={`flex gap-4 pt-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                    <button 
-                      type="button" 
-                      onClick={() => setShowRegisterForm(false)}
-                      className="flex-1 py-4 border border-brand-navy/10 hover:border-brand-coral rounded-xl text-brand-navy font-display font-bold text-xs uppercase tracking-widest transition-all cursor-pointer"
-                    >
-                      {isRTL ? 'إلغاء' : 'Cancel'}
-                    </button>
-                    <button 
-                      type="submit" 
-                      className="flex-1 py-4 bg-brand-navy hover:bg-brand-coral text-white rounded-xl font-display font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 cursor-pointer"
-                    >
-                      <span>{isRTL ? 'إرسال' : 'Submit'}</span>
-                      <Send size={12} className={isRTL ? 'rotate-180' : ''} />
-                    </button>
-                  </div>
-                </form>
-              ) : (
-                <motion.div 
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="py-10 text-center space-y-6"
-                >
-                  <div className="w-20 h-20 bg-brand-green/10 text-brand-green rounded-[1.5rem] flex items-center justify-center mx-auto">
-                    <CheckCircle2 size={40} />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <h3 className="font-display font-bold text-2xl text-brand-navy uppercase tracking-tight">
-                      {isRTL ? 'تم تسجيل اهتمامك بنجاح!' : 'Pre-Registration Saved!'}
-                    </h3>
-                    <p className="font-body text-sm text-brand-navy/60 leading-relaxed max-w-sm mx-auto">
-                      {formData.workshopChoice === 'lecture'
-                        ? (isRTL 
-                          ? 'طلبك لحضور المحاضرة العامة المجانية قيد المعالجة، وسنقوم بالتواصل معك قريباً لتأكيد مقعدك.'
-                          : 'Your request to attend the free public lecture is processing. We will contact you shortly to confirm your seat.')
-                        : (isRTL
-                          ? 'طلبك لحضور الفعالية قيد المعالجة. يرجى إتمام تحويل الرسوم عبر Wish Money للحساب: 81408171 لإتمام الحجز وسنقوم بالتواصل معك لتأكيد مقعدك.'
-                          : 'Your request is processing. Please transfer your tickets fee via Wish Money to account 81408171 to guarantee your seat. Our team will contact you shortly.')}
-                    </p>
-                  </div>
-                </motion.div>
-              )}
-
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-      
     </div>
   );
 };
+
+export default JourneyPage;
