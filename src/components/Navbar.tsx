@@ -5,9 +5,8 @@ import { BrandLogo } from './BrandingIcons';
 import { useLanguage } from '../lib/LanguageContext';
 import RootsLogo from '../assets/roots_logo.png';
 
-export const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors' | 'trf-anahon' | 'journey') => void, onOpenTickets: () => void, currentView: string }) => {
+export const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuOpen }: { onNavigate: (v: 'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors' | 'trf-anahon' | 'journey') => void, onOpenTickets: () => void, currentView: string, isMenuOpen: boolean, setIsMenuOpen: (v: boolean) => void }) => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, language, setLanguage, isRTL } = useLanguage();
   
   useEffect(() => {
