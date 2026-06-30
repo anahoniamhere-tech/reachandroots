@@ -59,7 +59,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'l
         </div>
         
         <div className="hidden lg:flex items-center gap-8">
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-6" dir={isRTL ? 'rtl' : 'ltr'}>
             {navLinks.map(link => (
               link.type === 'view' ? (
                 <button 
