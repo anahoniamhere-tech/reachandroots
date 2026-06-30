@@ -77,13 +77,10 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
     e.preventDefault();
     if (formData.name && formData.phone) {
       setIsRegistered(true);
-      setTimeout(() => {
-        setShowRegisterForm(false);
-        setIsRegistered(false);
-        setFormData({ name: '', phone: '', workshopChoice: 'both' });
-      }, 5000);
     }
   };
+
+  const showPaymentCard = isRegistered && formData.workshopChoice !== 'lecture';
 
   return (
     <div className={`min-h-screen bg-warm-beige/35 backdrop-blur-3xl pt-32 pb-40 ${isRTL ? 'text-right font-arabic' : 'text-left'}`} dir={isRTL ? 'rtl' : 'ltr'}>
@@ -336,10 +333,10 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-5 gap-12 items-start">
+          <div className={showPaymentCard ? "grid lg:grid-cols-5 gap-12 items-start" : "max-w-3xl mx-auto w-full"}>
             
             {/* Interactive Ticket Selector OR Inline Registration Form */}
-            <div className="lg:col-span-3">
+            <div className={showPaymentCard ? "lg:col-span-3" : "w-full"}>
               <AnimatePresence mode="wait">
                 {!showRegisterForm ? (
                   <motion.div
@@ -554,31 +551,35 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
             </div>
 
             {/* Suggested Payment Details Box */}
-            <div className="lg:col-span-2">
-              <div className="bg-white/70 border border-brand-navy/5 rounded-[2rem] p-8 md:p-10 shadow-sm backdrop-blur-xl relative overflow-hidden">
-                <div className="absolute inset-0 pixel-grid opacity-[0.02] pointer-events-none" />
-                <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-8">
-                    <Wallet size={20} className="text-brand-coral" />
-                    <span className="editorial-label text-brand-navy/80 font-bold uppercase tracking-wider">
-                      {journeyT.paymentTitle}
-                    </span>
-                  </div>
+            {showPaymentCard && (
+              <motion.div 
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="lg:col-span-2"
+              >
+                <div className="bg-white/70 border border-brand-navy/5 rounded-[2rem] p-8 md:p-10 shadow-sm backdrop-blur-xl relative overflow-hidden">
+                  <div className="absolute inset-0 pixel-grid opacity-[0.02] pointer-events-none" />
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-3 mb-8">
+                      <Wallet size={20} className="text-brand-coral" />
+                      <span className="editorial-label text-brand-navy/80 font-bold uppercase tracking-wider">
+                        {journeyT.paymentTitle}
+                      </span>
+                    </div>
 
-                  <div className="space-y-8">
-                    
-                    {/* Method 1: Wish Money */}
-                    <div className="space-y-3 pb-8 border-b border-brand-navy/5">
-                      <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                        <span className="w-6 h-6 rounded-full bg-brand-coral/10 text-brand-coral text-xs font-mono font-bold flex items-center justify-center">1</span>
-                        <h4 className="font-display font-bold text-lg text-brand-navy uppercase">{journeyT.wishTitle}</h4>
-                      </div>
-                      <p className="font-body text-sm text-brand-navy/60 leading-relaxed">
-                        {journeyT.wishDesc}
-                      </p>
+                    <div className="space-y-8">
                       
-                      {/* Copyable Account Box - Revealed only after user registers/fills the buying form */}
-                      {isRegistered && formData.workshopChoice !== 'lecture' ? (
+                      {/* Method 1: Wish Money */}
+                      <div className="space-y-3 pb-8 border-b border-brand-navy/5">
+                        <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                          <span className="w-6 h-6 rounded-full bg-brand-coral/10 text-brand-coral text-xs font-mono font-bold flex items-center justify-center">1</span>
+                          <h4 className="font-display font-bold text-lg text-brand-navy uppercase">{journeyT.wishTitle}</h4>
+                        </div>
+                        <p className="font-body text-sm text-brand-navy/60 leading-relaxed">
+                          {journeyT.wishDesc}
+                        </p>
+                        
+                        {/* Copyable Account Box */}
                         <div className={`flex items-center justify-between p-4 bg-warm-beige/30 rounded-xl border border-brand-navy/5 ${isRTL ? 'flex-row-reverse' : ''}`}>
                           <div className="space-y-1">
                             <span className="font-mono text-[9px] text-brand-navy/30 uppercase tracking-widest">WISH TRANSFER ACCOUNT</span>
@@ -592,47 +593,38 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                             {copied ? <Check size={16} className="text-brand-green" /> : <Copy size={16} />}
                           </button>
                         </div>
-                      ) : (
-                        <div className="p-6 bg-brand-coral/5 rounded-xl border border-brand-coral/10 text-xs text-brand-navy/60 text-center leading-relaxed">
-                          {isRTL 
-                            ? 'سيتم عرض رقم الحساب لإتمام التحويل بعد تعبئة استمارة الحجز.' 
-                            : 'Wish account details will be revealed here after completing the booking form.'}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Method 2: At the Door */}
-                    <div className="space-y-3">
-                      <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                        <span className="w-6 h-6 rounded-full bg-brand-coral/10 text-brand-coral text-xs font-mono font-bold flex items-center justify-center">2</span>
-                        <h4 className="font-display font-bold text-lg text-brand-navy uppercase">{journeyT.doorTitle}</h4>
                       </div>
-                      <p className="font-body text-sm text-brand-navy/60 leading-relaxed">
-                        {journeyT.doorDesc}
-                      </p>
-                    </div>
 
-                    {/* Gatekeeping Check */}
-                    <div className="bg-brand-gold/20 border border-brand-gold/30 p-4 rounded-xl flex items-start gap-4 text-xs text-brand-navy/70 mt-6">
-                      <ShieldCheck size={18} className="text-brand-coral shrink-0 mt-0.5" />
-                      <p className="leading-relaxed">
-                        {isRTL 
-                          ? 'بمجرد حجزك للتذكرة، سيقوم فريقنا بالتواصل معك هاتفياً أو عبر الواتساب لتأكيد الدفع وضمان مقعدك في ورشتي العمل التخصصيتين.'
-                          : 'After registration, our organizing committee will follow up with you via WhatsApp or phone call to confirm payment details and secure your workshop seat.'}
-                      </p>
-                    </div>
+                      {/* Method 2: At the Door */}
+                      <div className="space-y-3">
+                        <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                          <span className="w-6 h-6 rounded-full bg-brand-coral/10 text-brand-coral text-xs font-mono font-bold flex items-center justify-center">2</span>
+                          <h4 className="font-display font-bold text-lg text-brand-navy uppercase">{journeyT.doorTitle}</h4>
+                        </div>
+                        <p className="font-body text-sm text-brand-navy/60 leading-relaxed">
+                          {journeyT.doorDesc}
+                        </p>
+                      </div>
 
+                      {/* Gatekeeping Check */}
+                      <div className="bg-brand-gold/20 border border-brand-gold/30 p-4 rounded-xl flex items-start gap-4 text-xs text-brand-navy/70 mt-6">
+                        <ShieldCheck size={18} className="text-brand-coral shrink-0 mt-0.5" />
+                        <p className="leading-relaxed">
+                          {isRTL 
+                            ? 'بمجرد حجزك للتذكرة، سيقوم فريقنا بالتواصل معك هاتفياً أو عبر الواتساب لتأكيد الدفع وضمان مقعدك في ورشتي العمل التخصصيتين.'
+                            : 'After registration, our organizing committee will follow up with you via WhatsApp or phone call to confirm payment details and secure your workshop seat.'}
+                        </p>
+                      </div>
+
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-
-          </div>
+              </motion.div>
+            )}
         </div>
-
       </div>
-
     </div>
+  </div>
   );
 };
 
