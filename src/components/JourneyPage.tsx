@@ -13,7 +13,14 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
   const [selectedTicket, setSelectedTicket] = useState<'single' | 'package' | 'lecture'>('package');
   const [copied, setCopied] = useState(false);
   const [showRegisterForm, setShowRegisterForm] = useState(false);
-  const [formData, setFormData] = useState({ name: '', phone: '', workshopChoice: 'both' });
+  const [formData, setFormData] = useState({ 
+    name: '', 
+    phone: '', 
+    email: '', 
+    age: '', 
+    nationality: '', 
+    workshopChoice: 'both' 
+  });
   const [isRegistered, setIsRegistered] = useState(false);
 
   // Fallback values if context translations are loading or missing
@@ -75,7 +82,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.name && formData.phone) {
+    if (formData.name && formData.phone && formData.email && formData.age && formData.nationality) {
       setIsRegistered(true);
     }
   };
@@ -456,20 +463,69 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                             />
                           </div>
 
-                          {/* Phone Number */}
-                          <div className="space-y-2">
-                            <label className="editorial-label text-[10px] font-bold block">{isRTL ? 'رقم الهاتف (واتساب)' : 'Phone Number (WhatsApp)'}</label>
-                            <input 
-                              type="tel" 
-                              required
-                              value={formData.phone}
-                              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                              className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
-                              placeholder="e.g. +961 81 408 171"
-                            />
+                          {/* Phone Number & Email */}
+                          <div className="grid sm:grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <label className="editorial-label text-[10px] font-bold block">{isRTL ? 'رقم الهاتف (واتساب)' : 'Phone Number (WhatsApp)'}</label>
+                              <input 
+                                type="tel" 
+                                required
+                                value={formData.phone}
+                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
+                                placeholder="e.g. +961 81 408 171"
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="editorial-label text-[10px] font-bold block">{isRTL ? 'البريد الإلكتروني' : 'Email Address'}</label>
+                              <input 
+                                type="email" 
+                                required
+                                value={formData.email}
+                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
+                                placeholder="e.g. jean.doe@example.com"
+                              />
+                            </div>
                           </div>
 
-                          {/* Workshop Choice */}
+                          {/* Age & Nationality */}
+                          <div className="grid sm:grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <label className="editorial-label text-[10px] font-bold block">{isRTL ? 'العمر' : 'Age'}</label>
+                              <select 
+                                required
+                                value={formData.age}
+                                onChange={(e) => setFormData({ ...formData, age: e.target.value })}
+                                className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
+                              >
+                                <option value="" disabled hidden>{isRTL ? 'اختر العمر' : 'Select Age'}</option>
+                                {Array.from({ length: 55 }, (_, i) => 16 + i).map(age => (
+                                  <option key={age} value={age}>{age}</option>
+                                ))}
+                                <option value="70+">70+</option>
+                              </select>
+                            </div>
+                            <div className="space-y-2">
+                              <label className="editorial-label text-[10px] font-bold block">{isRTL ? 'الجنسية' : 'Nationality'}</label>
+                              <select 
+                                required
+                                value={formData.nationality}
+                                onChange={(e) => setFormData({ ...formData, nationality: e.target.value })}
+                                className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
+                              >
+                                <option value="" disabled hidden>{isRTL ? 'اختر الجنسية' : 'Select Nationality'}</option>
+                                <option value="Lebanese">{isRTL ? 'لبناني' : 'Lebanese'}</option>
+                                <option value="Syrian">{isRTL ? 'سوري' : 'Syrian'}</option>
+                                <option value="Palestinian">{isRTL ? 'فلسطيني' : 'Palestinian'}</option>
+                                <option value="Jordanian">{isRTL ? 'أردني' : 'Jordanian'}</option>
+                                <option value="Egyptian">{isRTL ? 'مصري' : 'Egyptian'}</option>
+                                <option value="Other">{isRTL ? 'أخرى' : 'Other'}</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          {/* Selected Event Segment */}
                           <div className="space-y-2">
                             <label className="editorial-label text-[10px] font-bold block">{isRTL ? 'الفعاليات المطلوبة' : 'Selected Event Segment'}</label>
                             <select 
@@ -488,7 +544,10 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                         <div className={`flex gap-4 pt-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
                           <button 
                             type="button" 
-                            onClick={() => setShowRegisterForm(false)}
+                            onClick={() => {
+                              setShowRegisterForm(false);
+                              setFormData({ name: '', phone: '', email: '', age: '', nationality: '', workshopChoice: 'both' });
+                            }}
                             className="flex-1 py-4 border border-brand-navy/10 hover:border-brand-coral rounded-xl text-brand-navy font-display font-bold text-xs uppercase tracking-widest transition-all cursor-pointer"
                           >
                             {isRTL ? 'إلغاء' : 'Cancel'}
@@ -538,7 +597,11 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                         )}
 
                         <button 
-                          onClick={() => { setShowRegisterForm(false); setIsRegistered(false); }}
+                          onClick={() => { 
+                            setShowRegisterForm(false); 
+                            setIsRegistered(false); 
+                            setFormData({ name: '', phone: '', email: '', age: '', nationality: '', workshopChoice: 'both' });
+                          }}
                           className="mt-6 px-8 py-3 bg-brand-navy text-white text-xs font-display font-bold uppercase tracking-widest rounded-xl hover:bg-brand-coral transition-colors cursor-pointer"
                         >
                           {isRTL ? 'إغلاق' : 'Close'}
