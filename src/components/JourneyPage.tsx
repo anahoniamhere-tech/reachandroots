@@ -682,6 +682,9 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                             setShowRegisterForm(false); 
                             setIsRegistered(false); 
                             setFormData({ name: '', phone: '', email: '', age: '', nationality: '', workshopChoice: 'both' });
+                            setTimeout(() => {
+                              document.getElementById('register')?.scrollIntoView({ behavior: 'smooth' });
+                            }, 100);
                           }}
                           className="mt-6 px-8 py-3 bg-brand-navy text-white text-xs font-display font-bold uppercase tracking-widest rounded-xl hover:bg-brand-coral transition-colors cursor-pointer"
                         >
