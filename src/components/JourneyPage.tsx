@@ -8,6 +8,41 @@ import {
 import { useLanguage } from '../lib/LanguageContext';
 import YazeedPhoto from '../assets/yazeed_mousa_real.jpg';
 
+const countryTranslations: Record<string, string> = {
+  "Lebanon": "لبنان",
+  "Syria": "سوريا",
+  "Palestine": "فلسطين",
+  "Jordan": "الأردن",
+  "Egypt": "مصر",
+  "Iraq": "العراق",
+  "Saudi Arabia": "المملكة العربية السعودية",
+  "United Arab Emirates": "الإمارات العربية المتحدة"
+};
+
+const countriesList = [
+  "Lebanon", "Syria", "Palestine", "Jordan", "Egypt", "Iraq", "Saudi Arabia", "United Arab Emirates",
+  "---",
+  "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria",
+  "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan",
+  "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cabo Verde", "Cambodia",
+  "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Costa Rica",
+  "Croatia", "Cuba", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador",
+  "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland", "France",
+  "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau",
+  "Guyana", "Haiti", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Ireland", "Italy",
+  "Ivory Coast", "Jamaica", "Japan", "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan", "Laos", "Latvia",
+  "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Madagascar", "Malawi", "Malaysia", "Maldives",
+  "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia",
+  "Montenegro", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua",
+  "Niger", "Nigeria", "North Korea", "North Macedonia", "Norway", "Oman", "Pakistan", "Palau", "Panama", "Papua New Guinea",
+  "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Saint Kitts and Nevis",
+  "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Senegal", "Serbia", "Seychelles",
+  "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain",
+  "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo",
+  "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Kingdom", "United States of America",
+  "Uruguay", "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
+];
+
 export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
   const { t, isRTL } = useLanguage();
   const [selectedTicket, setSelectedTicket] = useState<'single' | 'package' | 'lecture'>('package');
@@ -515,12 +550,17 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                                 className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
                               >
                                 <option value="" disabled hidden>{isRTL ? 'اختر الجنسية' : 'Select Nationality'}</option>
-                                <option value="Lebanese">{isRTL ? 'لبناني' : 'Lebanese'}</option>
-                                <option value="Syrian">{isRTL ? 'سوري' : 'Syrian'}</option>
-                                <option value="Palestinian">{isRTL ? 'فلسطيني' : 'Palestinian'}</option>
-                                <option value="Jordanian">{isRTL ? 'أردني' : 'Jordanian'}</option>
-                                <option value="Egyptian">{isRTL ? 'مصري' : 'Egyptian'}</option>
-                                <option value="Other">{isRTL ? 'أخرى' : 'Other'}</option>
+                                {countriesList.map((country, idx) => (
+                                  <option 
+                                    key={idx} 
+                                    value={country === "---" ? "" : country} 
+                                    disabled={country === "---"}
+                                  >
+                                    {country === "---" 
+                                      ? "────────────────" 
+                                      : (isRTL && countryTranslations[country] ? countryTranslations[country] : country)}
+                                  </option>
+                                ))}
                               </select>
                             </div>
                           </div>
