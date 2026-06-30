@@ -57,8 +57,8 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
     freeLecturePrice: 'Free',
     freeLectureDesc: 'Free admission to the general lecture on July 6 (prior registration required).',
     paymentTitle: 'Suggested Payment Methods',
-    wishTitle: 'Wish Money Transfer',
-    wishDesc: 'Transfer the amount to the Wish Money account below. Keep your transaction receipt to present it at the entrance.',
+    wishTitle: 'Whish Money Transfer',
+    wishDesc: 'Transfer the amount to the Whish Money account below. Keep your transaction receipt to present it at the entrance.',
     wishAccount: 'Account number: 81408171',
     doorTitle: 'Payment at the Door',
     doorDesc: 'You can also secure your spot and pay cash in USD or LBP at the door upon arrival (subject to venue capacity).',
@@ -522,15 +522,15 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                                 ? 'طلبك لحضور المحاضرة العامة المجانية قيد المعالجة، وسنقوم بالتواصل معك قريباً لتأكيد مقعدك.'
                                 : 'Your request to attend the free public lecture is processing. We will contact you shortly to confirm your seat.')
                               : (isRTL
-                                ? 'طلبك لحضور الفعالية قيد المعالجة. يرجى إتمام تحويل الرسوم عبر Wish Money للحساب: 81408171 لإتمام الحجز وسنقوم بالتواصل معك لتأكيد مقعدك.'
-                                : 'Your request is processing. Please transfer your tickets fee via Wish Money to account 81408171 to guarantee your seat. Our team will contact you shortly.')}
+                                ? 'طلبك لحضور الفعالية قيد المعالجة. يرجى إتمام تحويل الرسوم عبر Whish Money للحساب: 81408171 لإتمام الحجز وسنقوم بالتواصل معك لتأكيد مقعدك.'
+                                : 'Your request is processing. Please transfer your tickets fee via Whish Money to account 81408171 to guarantee your seat. Our team will contact you shortly.')}
                           </p>
                         </div>
 
                         {/* Copyable account number shown in popup once booking form is filled */}
                         {formData.workshopChoice !== 'lecture' && (
                           <div className="bg-warm-beige/35 p-4 rounded-xl border border-brand-navy/5 text-sm font-mono text-brand-navy font-bold max-w-xs mx-auto flex items-center justify-between">
-                            <span>Wish: 81408171</span>
+                            <span>Whish: 81408171</span>
                             <button onClick={handleCopyAccount} className="p-1 hover:text-brand-coral cursor-pointer">
                               {copied ? <Check size={14} className="text-brand-green" /> : <Copy size={14} />}
                             </button>
@@ -582,7 +582,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                         {/* Copyable Account Box */}
                         <div className={`flex items-center justify-between p-4 bg-warm-beige/30 rounded-xl border border-brand-navy/5 ${isRTL ? 'flex-row-reverse' : ''}`}>
                           <div className="space-y-1">
-                            <span className="font-mono text-[9px] text-brand-navy/30 uppercase tracking-widest">WISH TRANSFER ACCOUNT</span>
+                            <span className="font-mono text-[9px] text-brand-navy/30 uppercase tracking-widest">WHISH TRANSFER ACCOUNT</span>
                             <p className="font-mono font-bold text-lg text-brand-navy">81408171</p>
                           </div>
                           <button 
