@@ -23,7 +23,7 @@ export const OurStory = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
     <div id="about" className="relative overflow-hidden w-full">
 
       {/* 1. Who We Are (Yellow) */}
-      <section className="relative min-h-screen py-32 px-6 md:px-12 w-full flex flex-col justify-center bg-[#fcd07a]" dir={isRTL ? 'rtl' : 'ltr'}>
+      <section className="relative min-h-screen py-32 px-6 md:px-12 w-full flex flex-col justify-center bg-warm-beige" dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="absolute top-12 left-12 md:top-16 md:left-16 z-20 pointer-events-none opacity-20">
           <div className="grid grid-cols-4 gap-4">
             {[...Array(16)].map((_, i) => <div key={i} className="w-1 h-1 bg-brand-coral rounded-full" />)}
