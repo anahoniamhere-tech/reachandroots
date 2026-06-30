@@ -51,7 +51,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'l
   ];
 
   return (
-    <div className="overflow-x-hidden w-full relative">
+    <>
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${isScrolled ? 'bg-warm-beige/95 backdrop-blur-xl border-brand-navy/10 py-4' : 'bg-transparent border-transparent py-8'}`} dir="ltr">
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex justify-between items-center">
         <div className="cursor-pointer group" onClick={() => { onNavigate('landing'); setIsMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
@@ -688,7 +688,7 @@ export default function App() {
   };
 
   return (
-    <div className={`min-h-screen ${isRTL ? 'font-arabic' : ''}`}>
+    <div className={`min-h-screen overflow-x-hidden w-full relative ${isRTL ? 'font-arabic' : ''}`}>
       {isAdminMode ? (
         <AdminDashboard />
       ) : (
