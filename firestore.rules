@@ -91,6 +91,12 @@ service cloud.firestore {
       }
     }
 
+    // --- Registrations ---
+    match /registrations/{regId} {
+      allow create: if incoming().keys().hasAny(['fullName', 'email', 'createdAt']) && incoming().createdAt == request.time;
+      allow read: if isAdmin();
+    }
+
     // --- Admins ---
     match /admins/{userId} {
       allow read: if isSignedIn() && request.auth.uid == userId;
