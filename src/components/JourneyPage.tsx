@@ -573,10 +573,20 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                               onChange={(e) => setFormData({ ...formData, workshopChoice: e.target.value })}
                               className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
                             >
-                              <option value="both">{isRTL ? 'باقة الورشتين معاً ($30)' : 'Double Workshop Package ($30)'}</option>
-                              <option value="ws1">{isRTL ? 'ورشة الشغف وإدارة التوتر فقط ($20)' : 'Passion & Stress Management Only ($20)'}</option>
-                              <option value="ws2">{isRTL ? 'ورشة برمجة العقل فقط ($20)' : 'Mind Programming Only ($20)'}</option>
-                              <option value="lecture">{isRTL ? 'المحاضرة العامة فقط (مجاني)' : 'Public Lecture Only (Free)'}</option>
+                              <option value="both">
+                                {isRTL 
+                                  ? `باقة الورشتين معاً: ${journeyT.ws1Title} + ${journeyT.ws2Title} ($30)` 
+                                  : `Double Workshop Package: ${journeyT.ws1Title} + ${journeyT.ws2Title} ($30)`}
+                              </option>
+                              <option value="ws1">
+                                {journeyT.ws1Title} ($20)
+                              </option>
+                              <option value="ws2">
+                                {journeyT.ws2Title} ($20)
+                              </option>
+                              <option value="lecture">
+                                {journeyT.lectureTitle} ({isRTL ? 'مجاني' : 'Free'})
+                              </option>
                             </select>
                           </div>
                         </div>
