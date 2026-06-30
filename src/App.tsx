@@ -787,10 +787,9 @@ export default function App() {
         </>
       )}
 
-      {/* Floating Elements */}
       <div 
         onClick={() => { setView('registration'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-        className="fixed z-[100] bg-brand-coral text-white font-display font-bold uppercase tracking-widest text-xs md:text-sm px-6 py-2.5 rounded-t-xl hover:bg-brand-navy transition-all duration-300 shadow-2xl cursor-pointer flex items-center justify-center border-x border-t border-white/20"
+        className={`fixed z-[100] bg-brand-coral text-white font-bold uppercase py-2.5 px-6 rounded-t-xl hover:bg-brand-navy transition-all duration-300 shadow-2xl cursor-pointer flex items-center justify-center border-x border-t border-white/20 ${isRTL ? 'font-arabic tracking-normal text-sm md:text-base' : 'font-display tracking-widest text-xs md:text-sm'}`}
         style={{
           right: '0',
           top: '50%',
