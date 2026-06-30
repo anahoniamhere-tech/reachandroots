@@ -53,50 +53,37 @@ export const TicketService = {
     });
   },
 
-  // Create Order with Transaction for Inventory Isolation
+  // Create Order via Secure Backend API
   async placeOrder(orderData: Partial<Order>): Promise<string> {
-    const orderId = doc(collection(db, 'orders')).id;
-    const inventoryPath = `inventory/${orderData.tierId}_${orderData.day}`;
-    const tierPath = `ticketTiers/${orderData.tierId}`;
-
     try {
-      await runTransaction(db, async (transaction) => {
-        const invRef = doc(db, 'inventory', `${orderData.tierId}_${orderData.day}`);
-        const tierRef = doc(db, 'ticketTiers', orderData.tierId!);
-        
-        const invSnap = await transaction.get(invRef);
-        const tierSnap = await transaction.get(tierRef);
+      const user = auth.currentUser;
+      if (!user) throw new Error("Must be logged in to place an order");
+      const idToken = await user.getIdToken();
 
-        if (!invSnap.exists()) throw new Error("Inventory record not found");
-        const invData = invSnap.data() as Inventory;
-        
-        if (invData.available < orderData.quantity!) {
-          throw new Error("Sold out or insufficient stock");
-        }
-
-        // Update inventory
-        transaction.update(invRef, {
-          available: increment(-orderData.quantity!)
-        });
-
-        // Update tier sold count
-        transaction.update(tierRef, {
-          soldCount: increment(orderData.quantity!)
-        });
-
-        // Create order
-        const orderRef = doc(db, 'orders', orderId);
-        transaction.set(orderRef, {
-          ...orderData,
-          status: 'paid', // For demo, we mark as paid immediately
-          createdAt: new Date().toISOString(),
-          paymentId: `mock_${Date.now()}`
-        });
+      const response = await fetch('/api/checkout/create-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${idToken}`
+        },
+        body: JSON.stringify({
+          tierId: orderData.tierId,
+          quantity: orderData.quantity,
+          day: orderData.day,
+          buyerInfo: orderData.buyerInfo,
+          vipDetails: orderData.vipDetails
+        })
       });
 
-      return orderId;
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Checkout failed");
+      }
+
+      const result = await response.json();
+      return result.orderId;
     } catch (error) {
-      handleFirestoreError(error, 'WRITE', 'orders');
+      console.error("Order placement failed:", error);
       throw error;
     }
   }

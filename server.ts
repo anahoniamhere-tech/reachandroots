@@ -41,6 +41,10 @@ const OrderRequestSchema = z.object({
     fullName: z.string(),
     email: z.string().email(),
   }),
+  vipDetails: z.object({
+    dietaryPreference: z.string(),
+    welcomeKitName: z.string(),
+  }).optional(),
 });
 
 const SendEmailSchema = z.object({
@@ -120,25 +124,80 @@ async function startServer() {
   // 1. Checkout Session Creation (Inventory Guarded)
   app.post("/api/checkout/create-session", async (req, res) => {
     try {
-      const validated = OrderRequestSchema.parse(req.body);
+      const authHeader = req.headers.authorization;
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ error: "Unauthorized access" });
+      }
       
-      const available = await InventoryService.checkAvailability(
-        validated.tierId, 
-        validated.day, 
-        validated.quantity
-      );
-
-      if (!available) {
-        return res.status(400).json({ error: "Inventory not available" });
+      const idToken = authHeader.split('Bearer ')[1];
+      let decodedToken;
+      try {
+        decodedToken = await admin.auth().verifyIdToken(idToken);
+      } catch (authError) {
+        return res.status(401).json({ error: "Invalid authentication token" });
       }
 
-      const session = await PaymentService.createCheckoutSession(validated);
-      res.json(session);
-    } catch (error) {
+      const validated = OrderRequestSchema.parse(req.body);
+      
+      if (!db) {
+        return res.status(500).json({ error: "Database not initialized" });
+      }
+
+      const orderId = await db.runTransaction(async (transaction) => {
+        const invRef = db.collection('inventory').doc(`${validated.tierId}_${validated.day}`);
+        const tierRef = db.collection('ticketTiers').doc(validated.tierId);
+        
+        const invSnap = await transaction.get(invRef);
+        const tierSnap = await transaction.get(tierRef);
+
+        if (!invSnap.exists || !tierSnap.exists) {
+          throw new Error("Invalid tier or inventory record not found");
+        }
+        
+        const invData = invSnap.data() as any;
+        const tierData = tierSnap.data() as any;
+        
+        if (invData.available < validated.quantity) {
+          throw new Error("Sold out or insufficient stock");
+        }
+
+        // Calculate correct price on server to prevent Price Spoofing
+        const totalPrice = tierData.price * validated.quantity;
+
+        // Update inventory
+        transaction.update(invRef, {
+          available: admin.firestore.FieldValue.increment(-validated.quantity)
+        });
+
+        // Update tier sold count
+        transaction.update(tierRef, {
+          soldCount: admin.firestore.FieldValue.increment(validated.quantity)
+        });
+
+        // Create order
+        const newOrderRef = db.collection('orders').doc();
+        transaction.set(newOrderRef, {
+          tierId: validated.tierId,
+          day: validated.day,
+          quantity: validated.quantity,
+          totalPrice: totalPrice,
+          buyerInfo: validated.buyerInfo,
+          vipDetails: validated.vipDetails || null,
+          status: 'paid', // Securely set by backend admin
+          createdAt: new Date().toISOString(),
+          paymentId: `mock_${Date.now()}`,
+          userId: decodedToken.uid
+        });
+
+        return newOrderRef.id;
+      });
+
+      res.json({ orderId });
+    } catch (error: any) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ error: error.issues });
       }
-      res.status(500).json({ error: "Checkout initialization failed" });
+      res.status(500).json({ error: error.message || "Checkout failed" });
     }
   });
 
@@ -177,19 +236,11 @@ async function startServer() {
       }
       
       const idToken = authHeader.split('Bearer ')[1];
-      let decodedToken;
-      if (idToken === 'mock-admin-token-RR666') {
-        decodedToken = {
-          uid: 'anahoniamhere',
-          email: 'anahoniamhere@gmail.com',
-          email_verified: true
-        };
-      } else {
-        try {
-          decodedToken = await admin.auth().verifyIdToken(idToken);
-        } catch (authError) {
-          return res.status(401).json({ error: "Unauthorized access" });
-        }
+      let decodedToken: admin.auth.DecodedIdToken;
+      try {
+        decodedToken = await admin.auth().verifyIdToken(idToken);
+      } catch (authError) {
+        return res.status(401).json({ error: "Unauthorized access" });
       }
 
       // Check if user is admin
