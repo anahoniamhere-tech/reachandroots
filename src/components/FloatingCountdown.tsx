@@ -40,11 +40,11 @@ export const FloatingCountdown = ({ onClick }: { onClick?: () => void }) => {
     >
        <div className="absolute inset-0 pixel-grid opacity-10 pointer-events-none" />
        
-       <div className={`relative z-10 text-center ${isRTL ? 'md:text-right' : 'md:text-left'} hidden md:block`}>
-         <span className="editorial-label text-brand-coral mb-1 block tracking-widest text-[10px] uppercase">
-           {isRTL ? 'رحلة د. يزيد موسى' : "Dr. Yazeed's Journey"}
+       <div className={`relative z-10 text-center ${isRTL ? 'md:text-right' : 'md:text-left'} block`}>
+         <span className="editorial-label text-brand-coral mb-0.5 block tracking-widest text-[9px] md:text-[10px] uppercase font-bold">
+           {isRTL ? 'انضم لرحلة د. يزيد' : "Join Dr. Yazeed's Journey"}
          </span>
-         <h3 className="font-display font-bold text-xl uppercase tracking-tighter whitespace-nowrap">July 6, 2026</h3>
+         <h3 className="font-display font-bold text-sm md:text-xl uppercase tracking-tighter whitespace-nowrap">July 6, 2026</h3>
        </div>
        
        <div className="relative z-10 flex gap-2 md:gap-4 text-center" dir="ltr">
