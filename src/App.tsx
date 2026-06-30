@@ -52,7 +52,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'l
 
   return (
     <>
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${isScrolled ? 'bg-warm-beige/95 backdrop-blur-xl border-brand-navy/10 py-4' : 'bg-transparent border-transparent py-8'}`} dir={isRTL ? 'rtl' : 'ltr'}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${isScrolled ? 'bg-warm-beige/95 backdrop-blur-xl border-brand-navy/10 py-4' : 'bg-transparent border-transparent py-8'}`} dir="ltr">
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex justify-between items-center">
         <div className="cursor-pointer group" onClick={() => { onNavigate('landing'); setIsMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
           <img src={RootsLogo} alt="Roots and Reach Logo" className="h-16 sm:h-20 w-auto object-contain transition-transform group-hover:scale-105 select-none" />
@@ -199,7 +199,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'l
 const Hero = () => {
   const { t, isRTL } = useLanguage();
   return (
-    <section className="relative min-h-[110vh] flex items-center justify-center pt-32 overflow-hidden bg-warm-beige">
+    <section className="relative min-h-[80vh] md:min-h-[110vh] flex items-center justify-center pt-32 overflow-hidden bg-warm-beige">
       {/* Background Media Elements */}
       <div className={`absolute top-0 ${isRTL ? 'left-0 scale-x-[-1]' : 'right-0'} w-[60%] h-full opacity-[0.03] pointer-events-none`}>
         <TripoliHeritage className="w-full h-full text-brand-navy" />
