@@ -590,7 +590,7 @@ export default function App() {
 
   // Update URL on view change
   useEffect(() => {
-    const prefix = '/preview';
+    const prefix = '';
     const path = window.location.pathname;
     
     if (isAdminMode) {
@@ -611,8 +611,8 @@ export default function App() {
       window.history.pushState({}, '', `${prefix}/trf-anahon`);
     } else if (view === 'journey' && !path.endsWith('/journey')) {
       window.history.pushState({}, '', `${prefix}/journey`);
-    } else if (view === 'landing' && path !== prefix && !['program', 'sanctuary', 'sanctuary-apply', 'gallery', 'sponsors', 'trf-anahon', 'journey'].includes(view)) {
-      window.history.pushState({}, '', prefix);
+    } else if (view === 'landing' && path !== '/' && !['program', 'sanctuary', 'sanctuary-apply', 'gallery', 'sponsors', 'trf-anahon', 'journey'].includes(view)) {
+      window.history.pushState({}, '', '/');
     }
     window.scrollTo(0, 0);
   }, [view, isAdminMode]);
