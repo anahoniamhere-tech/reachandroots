@@ -550,7 +550,7 @@ export default function App() {
     const isGallery = p.endsWith('/gallery') || p.includes('/gallery/');
     const isSponsors = p.endsWith('/sponsors') || p.includes('/sponsors/') || p.endsWith('/sponsores') || p.includes('/sponsores/');
     const isTrfAnahon = p.endsWith('/trf-anahon') || p.includes('/trf-anahon/');
-    const isJourney = p.endsWith('/journey') || p.includes('/journey/');
+    const isJourney = p.endsWith('/journey') || p.includes('/journey/') || p.endsWith('/journeys') || p.includes('/journeys/');
     const isAdmin = p.endsWith('/admin') || p.includes('/admin/');
 
     if (isProgram) setView('program');
@@ -575,7 +575,7 @@ export default function App() {
       else if (path.endsWith('/gallery')) { setView('gallery'); setIsAdminMode(false); }
       else if (path.endsWith('/sponsors') || path.endsWith('/sponsores')) { setView('sponsors'); setIsAdminMode(false); }
       else if (path.endsWith('/trf-anahon')) { setView('trf-anahon'); setIsAdminMode(false); }
-      else if (path.endsWith('/journey')) { setView('journey'); setIsAdminMode(false); }
+      else if (path.endsWith('/journey') || path.endsWith('/journeys')) { setView('journey'); setIsAdminMode(false); }
       else if (path.endsWith('/admin')) { setIsAdminMode(true); }
       else { setView('landing'); setIsAdminMode(false); }
     };
@@ -609,8 +609,8 @@ export default function App() {
       window.history.pushState({}, '', `${prefix}/sponsors`);
     } else if (view === 'trf-anahon' && !path.endsWith('/trf-anahon')) {
       window.history.pushState({}, '', `${prefix}/trf-anahon`);
-    } else if (view === 'journey' && !path.endsWith('/journey')) {
-      window.history.pushState({}, '', `${prefix}/journey`);
+    } else if (view === 'journey' && !path.endsWith('/journeys')) {
+      window.history.pushState({}, '', `${prefix}/journeys`);
     } else if (view === 'landing' && path !== '/' && !['program', 'sanctuary', 'sanctuary-apply', 'gallery', 'sponsors', 'trf-anahon', 'journey'].includes(view)) {
       window.history.pushState({}, '', '/');
     }
