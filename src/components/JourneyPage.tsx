@@ -14,13 +14,11 @@ const countryTranslations: Record<string, string> = {
   "Palestine": "فلسطين",
   "Jordan": "الأردن",
   "Egypt": "مصر",
-  "Iraq": "العراق",
-  "Saudi Arabia": "المملكة العربية السعودية",
-  "United Arab Emirates": "الإمارات العربية المتحدة"
+  "Iraq": "العراق"
 };
 
 const countriesList = [
-  "Lebanon", "Syria", "Palestine", "Jordan", "Egypt", "Iraq", "Saudi Arabia", "United Arab Emirates",
+  "Lebanon", "Syria", "Palestine", "Jordan", "Egypt", "Iraq",
   "---",
   "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria",
   "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan",
@@ -47,6 +45,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
   const { t, isRTL } = useLanguage();
   const [selectedTicket, setSelectedTicket] = useState<'lecture' | 'ws1' | 'ws2' | 'package'>('package');
   const [copied, setCopied] = useState(false);
+  const [copiedDetails, setCopiedDetails] = useState(false);
   const [showRegisterForm, setShowRegisterForm] = useState(false);
   const [formData, setFormData] = useState({ 
     name: '', 
@@ -108,11 +107,23 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
     badgeCapacity: '50 Seats Max',
     badgeFree: 'Registration Required'
   };
-
   const handleCopyAccount = () => {
     navigator.clipboard.writeText('81408171');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const getBookingSummary = () => {
+    if (formData.workshopChoice === 'both') return isRTL ? 'تذكرة ورشتين: الشغف والضغوط + برمجة العقل' : 'Double Workshop: Passion & Stress + Mind Programming';
+    if (formData.workshopChoice === 'ws1') return isRTL ? 'تذكرة ورشة واحدة: إدارة الشغف والضغوط' : 'Single Workshop: Passion & Stress Management';
+    if (formData.workshopChoice === 'ws2') return isRTL ? 'تذكرة ورشة واحدة: برمجة العقل' : 'Single Workshop: Mind Programming';
+    return isRTL ? 'تذكرة محاضرة عامة' : 'Public Lecture Ticket';
+  };
+
+  const handleCopyDetails = () => {
+    navigator.clipboard.writeText(`Name: ${formData.name} - Ticket: ${getBookingSummary()}`);
+    setCopiedDetails(true);
+    setTimeout(() => setCopiedDetails(false), 2000);
   };
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -212,8 +223,10 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
           </div>
         </div>
 
+
+
         {/* 3. TIMELINE OF EVENTS */}
-        <div className="w-full mb-28 relative z-10 max-w-6xl mx-auto">
+        <div className="w-full mb-28 relative z-10 max-w-4xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-baseline mb-16 gap-4">
             <div>
               <span className="editorial-label text-brand-coral mb-2 block">// SCHEDULE</span>
@@ -227,131 +240,143 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="relative">
+            {/* Vertical Line */}
+            <div className={`absolute top-0 bottom-0 w-1 bg-brand-navy/10 ${isRTL ? 'right-8 md:right-12' : 'left-8 md:left-12'} rounded-full`} />
             
-            {/* Event 1: Public Event */}
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="glass-card p-10 rounded-[2rem] flex flex-col justify-between hover:shadow-xl transition-all duration-300 border border-brand-navy/5 relative overflow-hidden group min-h-[420px]"
-            >
-              <div>
-                <div className="flex justify-between items-start mb-10">
-                  <span className="px-4 py-1.5 bg-brand-navy/5 text-brand-navy text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
-                    {journeyT.publicEvent}
-                  </span>
-                  <span className="px-4 py-1.5 bg-brand-green/10 text-brand-green text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
-                    {isRTL ? 'مجاني' : 'Free Entry'}
-                  </span>
+            <div className="space-y-12">
+              {/* Event 1: Public Event */}
+              <motion.div 
+                initial={{ opacity: 0, x: isRTL ? 30 : -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className={`relative ${isRTL ? 'pr-20 md:pr-32' : 'pl-20 md:pl-32'}`}
+              >
+                {/* Timeline Node */}
+                <div className={`absolute top-8 ${isRTL ? 'right-6 md:right-10' : 'left-6 md:left-10'} w-5 h-5 rounded-full bg-brand-navy border-4 border-warm-beige shadow-lg z-10`} />
+                
+                <div className="glass-card p-8 md:p-10 rounded-[2rem] hover:shadow-xl transition-all duration-300 border border-brand-navy/5 group">
+                  <div className="flex justify-between items-start mb-6">
+                    <span className="px-4 py-1.5 bg-brand-navy/5 text-brand-navy text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
+                      {journeyT.publicEvent}
+                    </span>
+                    <span className="px-4 py-1.5 bg-brand-green/10 text-brand-green text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
+                      {isRTL ? 'مجاني' : 'Free Entry'}
+                    </span>
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-display font-bold text-brand-navy uppercase mb-4 tracking-tight group-hover:text-brand-coral transition-colors">
+                    {journeyT.lectureTitle}
+                  </h3>
+                  <p className="font-body text-sm text-brand-navy/60 leading-relaxed mb-6">
+                    {journeyT.lectureDesc}
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-6 pt-6 border-t border-brand-navy/5 text-sm text-brand-navy/70">
+                    <div className="flex items-center gap-3">
+                      <Calendar size={16} className="text-brand-coral shrink-0" />
+                      <span className="font-mono text-[13px]">{journeyT.lectureDate}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Clock size={16} className="text-brand-coral shrink-0" />
+                      <span className="font-mono text-[13px]">{journeyT.lectureTime}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <MapPin size={16} className="text-brand-coral shrink-0" />
+                      <span className="font-body text-[13px]">{journeyT.lectureLoc}</span>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-display font-bold text-brand-navy uppercase mb-4 tracking-tight group-hover:text-brand-coral transition-colors">
-                  {journeyT.lectureTitle}
-                </h3>
-                <p className="font-body text-sm text-brand-navy/60 leading-relaxed mb-8">
-                  {journeyT.lectureDesc}
-                </p>
-              </div>
+              </motion.div>
 
-              <div className="space-y-4 pt-6 border-t border-brand-navy/5 text-sm text-brand-navy/70">
-                <div className="flex items-center gap-3">
-                  <Calendar size={16} className="text-brand-coral shrink-0" />
-                  <span className="font-mono text-[13px]">{journeyT.lectureDate}</span>
+              {/* Event 2: Workshop 1 */}
+              <motion.div 
+                initial={{ opacity: 0, x: isRTL ? 30 : -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className={`relative ${isRTL ? 'pr-20 md:pr-32' : 'pl-20 md:pl-32'}`}
+              >
+                {/* Timeline Node */}
+                <div className={`absolute top-8 ${isRTL ? 'right-6 md:right-10' : 'left-6 md:left-10'} w-5 h-5 rounded-full bg-brand-coral border-4 border-warm-beige shadow-lg z-10`} />
+                
+                <div className="glass-card p-8 md:p-10 rounded-[2rem] hover:shadow-xl transition-all duration-300 border border-brand-navy/5 group">
+                  <div className="flex justify-between items-start mb-6">
+                    <span className="px-4 py-1.5 bg-brand-coral/10 text-brand-coral text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
+                      {journeyT.workshop} 01
+                    </span>
+                    <span className="px-4 py-1.5 bg-brand-navy text-white text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
+                      {journeyT.badgeCapacity}
+                    </span>
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-display font-bold text-brand-navy uppercase mb-4 tracking-tight group-hover:text-brand-coral transition-colors">
+                    {journeyT.ws1Title}
+                  </h3>
+                  <p className="font-body text-sm text-brand-navy/60 leading-relaxed mb-6">
+                    {journeyT.ws1Desc}
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-6 pt-6 border-t border-brand-navy/5 text-sm text-brand-navy/70">
+                    <div className="flex items-center gap-3">
+                      <Calendar size={16} className="text-brand-coral shrink-0" />
+                      <span className="font-mono text-[13px]">{journeyT.ws1Date}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Clock size={16} className="text-brand-coral shrink-0" />
+                      <span className="font-mono text-[13px]">{journeyT.ws1Time}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <MapPin size={16} className="text-brand-coral shrink-0" />
+                      <span className="font-body text-[13px]">{journeyT.ws1Loc}</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Clock size={16} className="text-brand-coral shrink-0" />
-                  <span className="font-mono text-[13px]">{journeyT.lectureTime}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <MapPin size={16} className="text-brand-coral shrink-0" />
-                  <span className="font-body text-[13px]">{journeyT.lectureLoc}</span>
-                </div>
-              </div>
-            </motion.div>
+              </motion.div>
 
-            {/* Event 2: Workshop 1 */}
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="glass-card p-10 rounded-[2rem] flex flex-col justify-between hover:shadow-xl transition-all duration-300 border border-brand-navy/5 relative overflow-hidden group min-h-[420px]"
-            >
-              <div>
-                <div className="flex justify-between items-start mb-10">
-                  <span className="px-4 py-1.5 bg-brand-coral/10 text-brand-coral text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
-                    {journeyT.workshop} 01
-                  </span>
-                  <span className="px-4 py-1.5 bg-brand-navy text-white text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
-                    {journeyT.badgeCapacity}
-                  </span>
+              {/* Event 3: Workshop 2 */}
+              <motion.div 
+                initial={{ opacity: 0, x: isRTL ? 30 : -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className={`relative ${isRTL ? 'pr-20 md:pr-32' : 'pl-20 md:pl-32'}`}
+              >
+                {/* Timeline Node */}
+                <div className={`absolute top-8 ${isRTL ? 'right-6 md:right-10' : 'left-6 md:left-10'} w-5 h-5 rounded-full bg-brand-orange border-4 border-warm-beige shadow-lg z-10`} />
+                
+                <div className="glass-card p-8 md:p-10 rounded-[2rem] hover:shadow-xl transition-all duration-300 border border-brand-navy/5 group">
+                  <div className="flex justify-between items-start mb-6">
+                    <span className="px-4 py-1.5 bg-brand-coral/10 text-brand-coral text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
+                      {journeyT.workshop} 02
+                    </span>
+                    <span className="px-4 py-1.5 bg-brand-navy text-white text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
+                      {journeyT.badgeCapacity}
+                    </span>
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-display font-bold text-brand-navy uppercase mb-4 tracking-tight group-hover:text-brand-coral transition-colors">
+                    {journeyT.ws2Title}
+                  </h3>
+                  <p className="font-body text-sm text-brand-navy/60 leading-relaxed mb-6">
+                    {journeyT.ws2Desc}
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-6 pt-6 border-t border-brand-navy/5 text-sm text-brand-navy/70">
+                    <div className="flex items-center gap-3">
+                      <Calendar size={16} className="text-brand-coral shrink-0" />
+                      <span className="font-mono text-[13px]">{journeyT.ws2Date}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Clock size={16} className="text-brand-coral shrink-0" />
+                      <span className="font-mono text-[13px]">{journeyT.ws2Time}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <MapPin size={16} className="text-brand-coral shrink-0" />
+                      <span className="font-body text-[13px]">{journeyT.ws2Loc}</span>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-display font-bold text-brand-navy uppercase mb-4 tracking-tight group-hover:text-brand-coral transition-colors">
-                  {journeyT.ws1Title}
-                </h3>
-                <p className="font-body text-sm text-brand-navy/60 leading-relaxed mb-8">
-                  {journeyT.ws1Desc}
-                </p>
-              </div>
-
-              <div className="space-y-4 pt-6 border-t border-brand-navy/5 text-sm text-brand-navy/70">
-                <div className="flex items-center gap-3">
-                  <Calendar size={16} className="text-brand-coral shrink-0" />
-                  <span className="font-mono text-[13px]">{journeyT.ws1Date}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Clock size={16} className="text-brand-coral shrink-0" />
-                  <span className="font-mono text-[13px]">{journeyT.ws1Time}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <MapPin size={16} className="text-brand-coral shrink-0" />
-                  <span className="font-body text-[13px]">{journeyT.ws1Loc}</span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Event 3: Workshop 2 */}
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="glass-card p-10 rounded-[2rem] flex flex-col justify-between hover:shadow-xl transition-all duration-300 border border-brand-navy/5 relative overflow-hidden group min-h-[420px]"
-            >
-              <div>
-                <div className="flex justify-between items-start mb-10">
-                  <span className="px-4 py-1.5 bg-brand-coral/10 text-brand-coral text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
-                    {journeyT.workshop} 02
-                  </span>
-                  <span className="px-4 py-1.5 bg-brand-navy text-white text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
-                    {journeyT.badgeCapacity}
-                  </span>
-                </div>
-                <h3 className="text-2xl md:text-3xl font-display font-bold text-brand-navy uppercase mb-4 tracking-tight group-hover:text-brand-coral transition-colors">
-                  {journeyT.ws2Title}
-                </h3>
-                <p className="font-body text-sm text-brand-navy/60 leading-relaxed mb-8">
-                  {journeyT.ws2Desc}
-                </p>
-              </div>
-
-              <div className="space-y-4 pt-6 border-t border-brand-navy/5 text-sm text-brand-navy/70">
-                <div className="flex items-center gap-3">
-                  <Calendar size={16} className="text-brand-coral shrink-0" />
-                  <span className="font-mono text-[13px]">{journeyT.ws2Date}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Clock size={16} className="text-brand-coral shrink-0" />
-                  <span className="font-mono text-[13px]">{journeyT.ws2Time}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <MapPin size={16} className="text-brand-coral shrink-0" />
-                  <span className="font-body text-[13px]">{journeyT.ws2Loc}</span>
-                </div>
-              </div>
-            </motion.div>
-
+              </motion.div>
+            </div>
           </div>
         </div>
 
@@ -645,20 +670,12 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                                 ? 'طلبك لحضور المحاضرة العامة المجانية قيد المعالجة، وسنقوم بالتواصل معك قريباً لتأكيد مقعدك.'
                                 : 'Your request to attend the free public lecture is processing. We will contact you shortly to confirm your seat.')
                               : (isRTL
-                                ? 'طلبك لحضور الفعالية قيد المعالجة. يرجى إتمام تحويل الرسوم عبر Whish Money للحساب: 81408171 لإتمام الحجز وسنقوم بالتواصل معك لتأكيد مقعدك.'
-                                : 'Your request is processing. Please transfer your tickets fee via Whish Money to account 81408171 to guarantee your seat. Our team will contact you shortly.')}
+                                ? 'طلبك لحضور الفعالية قيد المعالجة. يرجى إتمام تحويل الرسوم عبر Whish Money للحساب: 81408171 لإتمام الحجز، مع كتابة نوع التذكرة وعناوين الورش المطلوبة في ملاحظات التحويل. وسنقوم بالتواصل معك لتأكيد مقعدك.'
+                                : 'Your request is processing. Please transfer your tickets fee via Whish Money to account 81408171 to guarantee your seat, and include the ticket type and workshop titles in the transfer description. Our team will contact you shortly.')}
                           </p>
                         </div>
 
-                        {/* Copyable account number shown in popup once booking form is filled */}
-                        {formData.workshopChoice !== 'lecture' && (
-                          <div className="bg-warm-beige/35 p-4 rounded-xl border border-brand-navy/5 text-sm font-mono text-brand-navy font-bold max-w-xs mx-auto flex items-center justify-between">
-                            <span>Whish: 81408171</span>
-                            <button onClick={handleCopyAccount} className="p-1 hover:text-brand-coral cursor-pointer">
-                              {copied ? <Check size={14} className="text-brand-green" /> : <Copy size={14} />}
-                            </button>
-                          </div>
-                        )}
+
 
                         <button 
                           onClick={() => { 
@@ -714,12 +731,30 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                           </div>
                           <button 
                             onClick={handleCopyAccount}
-                            className="p-3 bg-white border border-brand-navy/5 hover:border-brand-coral hover:text-brand-coral rounded-lg transition-all active:scale-95 text-brand-navy/60 cursor-pointer"
+                            className="p-3 bg-white border border-brand-navy/5 hover:border-brand-coral hover:text-brand-coral rounded-lg transition-all active:scale-95 text-brand-navy/60 cursor-pointer shrink-0"
                             title="Copy Account Number"
                           >
                             {copied ? <Check size={16} className="text-brand-green" /> : <Copy size={16} />}
                           </button>
                         </div>
+
+                        {/* Copyable Ticket Details Box */}
+                        <div className="flex items-center justify-between p-4 bg-brand-coral/10 rounded-xl border border-brand-coral/20 mt-3">
+                          <div className="space-y-1">
+                            <span className="font-mono text-[9px] text-brand-coral uppercase tracking-widest">{isRTL ? 'تفاصيل التذكرة للتحويل' : 'TICKET DETAILS FOR TRANSFER'}</span>
+                            <p className="font-mono font-bold text-xs sm:text-sm text-brand-navy truncate max-w-[200px] sm:max-w-xs">{getBookingSummary()}</p>
+                          </div>
+                          <button 
+                            onClick={handleCopyDetails}
+                            className="p-3 bg-brand-coral text-white hover:bg-brand-navy rounded-lg transition-all active:scale-95 cursor-pointer shrink-0"
+                            title={isRTL ? 'نسخ تفاصيل التذكرة' : 'Copy Ticket Details'}
+                          >
+                            {copiedDetails ? <Check size={16} /> : <Copy size={16} />}
+                          </button>
+                        </div>
+                        <p className="text-xs font-bold text-brand-coral mt-2">
+                           {isRTL ? '↑ يرجى نسخ تفاصيل التذكرة ولصقها في ملاحظات تحويل Whish' : '↑ Please copy your ticket details and paste them into your Whish transfer notes'}
+                        </p>
                       </div>
 
                       {/* Method 2: At the Door */}

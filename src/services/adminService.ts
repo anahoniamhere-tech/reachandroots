@@ -63,6 +63,28 @@ export const AdminService = {
     }
   },
 
+  async getCommunityJoins() {
+    const path = 'registrations';
+    try {
+      const snap = await getDocs(collection(db, path));
+      return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    } catch (error) {
+      handleFirestoreError(error, 'LIST', path);
+      return [];
+    }
+  },
+
+  async getTicketBuyers() {
+    const path = 'orders';
+    try {
+      const snap = await getDocs(collection(db, path));
+      return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    } catch (error) {
+      handleFirestoreError(error, 'LIST', path);
+      return [];
+    }
+  },
+
   async seedDatabase() {
     const batch = writeBatch(db);
     

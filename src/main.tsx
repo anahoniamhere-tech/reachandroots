@@ -15,12 +15,8 @@ createRoot(document.getElementById('root')!).render(
     <LanguageProvider>
       <BrowserRouter>
         <Routes>
-          {/* Public Landing Page */}
-          <Route path="/" element={<ComingSoon />} />
-          
-          {/* Direct Redirects for easier access */}
-          <Route path="/gallery" element={<Navigate to="/preview/gallery" replace />} />
-          <Route path="/admin" element={<Navigate to="/preview/admin" replace />} />
+          {/* Main Website */}
+          <Route path="/*" element={<App />} />
           
           {/* Public Content Creators Invitation Page */}
           <Route path="/icontent_Creators" element={<ContentCreatorsInvitation />} />
@@ -32,19 +28,6 @@ createRoot(document.getElementById('root')!).render(
           
           {/* TRF Anahon Presentation Page */}
           <Route path="/TRF-anahon" element={<TrfAnahonPage />} />
-          
-          {/* Full Site (Protected) */}
-          <Route 
-            path="/preview/*" 
-            element={
-              <AdminGuard>
-                <App />
-              </AdminGuard>
-            } 
-          />
-
-          {/* Catch-all: Redirect to public landing */}
-          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
     </LanguageProvider>

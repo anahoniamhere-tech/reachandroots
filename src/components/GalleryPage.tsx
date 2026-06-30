@@ -387,7 +387,7 @@ const GALLERY_PHOTOS = [
     id: 'omar_farooq',
     url: '/gallery/gallery_omar_farooq.jpg',
     title: { en: "Omar Farooq", ar: 'عمر فاروق' },
-    description: { en: "Bahraini filmmaker and content creator known for social experiments, travel storytelling, and immersive cultural experiences across the Arab world.", ar: "صانع أفلام ومحتوى بحريني معروف بالتجارب الاجتماعية، سرد قصص السفر، والتجارب الثقافية الغامرة في جميع أنحاء العالم العربي." }
+    description: { en: "Bahraini filmmaker and content creator known for social experiments, travel storytelling, and immersive cultural experiences across the Levant.", ar: "صانع أفلام ومحتوى بحريني معروف بالتجارب الاجتماعية، سرد قصص السفر، والتجارب الثقافية الغامرة في بلاد الشام." }
   },
   {
     id: 'joe_hattab',
@@ -417,7 +417,7 @@ const GALLERY_PHOTOS = [
     id: 'ibnhattuta',
     url: '/gallery/gallery_ibnhattuta.jpg',
     title: { en: "Ibn Hatutta", ar: 'ابن بطوطة' },
-    description: { en: "One of the Arab world’s most prominent travel vloggers and digital nomads. He shares immersive, off-the-beaten-path cultural experiences and global adventures.", ar: "أحد أبرز مدوني السفر والرحالة الرقميين في العالم العربي. يشارك تجارب ثقافية غامرة ومغامرات عالمية خارجة عن المألوف." }
+    description: { en: "One of the Levant's most prominent travel vloggers and digital nomads. He shares immersive, off-the-beaten-path cultural experiences and global adventures.", ar: "أحد أبرز مدوني السفر والرحالة الرقميين في بلاد الشام. يشارك تجارب ثقافية غامرة ومغامرات عالمية خارجة عن المألوف." }
   },
   {
     id: 'alkhmyaai',
@@ -465,7 +465,7 @@ const GALLERY_PHOTOS = [
     id: 'hasan_asmaeel',
     url: '/gallery/gallery_hasan_asmaeel.jpg?v=3',
     title: { en: "Hasan asmaeel", ar: 'حسن إسماعيل' },
-    description: { en: "An Arab lifestyle and visual content creator who produces high-engagement aesthetic reels, vlogs, and personal reflections.", ar: "صانع محتوى بصري ونمط حياة عربي ينتج مقاطع فيديو وريلز جمالية وتدوينات مرئية عالية التفاعل وتأملات شخصية." }
+    description: { en: "A Levantine lifestyle and visual content creator who produces high-engagement aesthetic reels, vlogs, and personal reflections.", ar: "صانع محتوى بصري ونمط حياة من بلاد الشام ينتج مقاطع فيديو وريلز جمالية وتدوينات مرئية عالية التفاعل وتأملات شخصية." }
   },
   {
     id: 'raffijarrouj',

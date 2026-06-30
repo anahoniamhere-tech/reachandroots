@@ -21,6 +21,7 @@ import { GalleryPage } from './components/GalleryPage';
 import { TrfAnahonPage } from './components/TrfAnahonPage';
 import { JourneyPage } from './components/JourneyPage';
 import { RegistrationForm } from './components/RegistrationForm';
+import { FloatingCountdown } from './components/FloatingCountdown';
 import { auth, db, onAuthStateChanged, signInWithPasscode, collection, getDocs, User as FirebaseUser } from './lib/firebase';
 import { TICKET_TIERS, EVENT_DAYS } from './constants';
 import { TicketTier, EventDay, Order, BuyerInfo, VipDetails } from './types';
@@ -108,14 +109,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'l
             </button>
           </div>
 
-          <div className="h-4 w-px bg-brand-navy/10" />
-          <button 
-            onClick={() => onNavigate('registration')}
-            className="flex items-center gap-3 bg-brand-navy text-white px-8 py-3.5 rounded-full hover:bg-brand-coral transition-all duration-300 group cursor-pointer"
-          >
-            <span className="editorial-label text-white tracking-[0.3em] font-medium">{t.nav.portal}</span>
-            <ChevronRight size={14} className={`${isRTL ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'} transition-transform shrink-0`} />
-          </button>
+
         </div>
 
         <div className="flex items-center gap-4 lg:hidden">
@@ -142,11 +136,16 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'l
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.98 }}
-          className="fixed inset-0 z-[45] lg:hidden bg-white pt-32 px-6 flex flex-col"
+          className="fixed inset-0 z-[45] lg:hidden bg-brand-navy text-white pt-32 px-6 flex flex-col overflow-hidden"
           dir={isRTL ? 'rtl' : 'ltr'}
         >
-          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white to-transparent" />
-          <div className={`flex flex-col gap-10 sm:gap-12 relative z-10 ${isRTL ? 'items-start' : 'items-start'}`}>
+          {/* Background Textures */}
+          <div className="absolute inset-0 pixel-grid opacity-10 pointer-events-none" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-brand-coral rounded-full soft-glow pointer-events-none" />
+          
+          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-brand-navy to-transparent z-10" />
+          
+          <div className={`flex flex-col gap-8 sm:gap-10 relative z-20 mt-10 ${isRTL ? 'items-start' : 'items-start'}`}>
             {navLinks.map((link, i) => (
               <motion.div
                 key={link.id}
@@ -160,8 +159,8 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'l
                     onClick={() => { onNavigate(link.id as any); setIsMenuOpen(false); }}
                     className={`flex flex-col group w-full ${isRTL ? 'text-right' : 'text-left'}`}
                   >
-                    <span className="editorial-label text-brand-coral mb-2">0{i+1} // </span>
-                    <span className={`font-display font-bold text-4xl sm:text-5xl uppercase tracking-tighter text-brand-navy group-hover:text-brand-coral transition-colors ${isRTL ? 'tracking-normal' : ''}`}>{link.name}</span>
+                    <span className="editorial-label text-brand-coral mb-2 opacity-80">0{i+1} // </span>
+                    <span className={`font-display font-bold text-5xl sm:text-6xl lowercase tracking-tighter text-white group-hover:text-brand-coral transition-colors ${isRTL ? 'tracking-normal' : ''}`}>{link.name}</span>
                   </button>
                 ) : (
                   <a 
@@ -178,25 +177,15 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView }: { onNavigate: (v: 'l
                     }}
                     className={`flex flex-col group w-full ${isRTL ? 'text-right' : 'text-left'}`}
                   >
-                    <span className="editorial-label text-brand-coral mb-2">0{i+1} // </span>
-                    <span className={`font-display font-bold text-4xl sm:text-5xl uppercase tracking-tighter text-brand-navy group-hover:text-brand-coral transition-colors ${isRTL ? 'tracking-normal' : ''}`}>{link.name}</span>
+                    <span className="editorial-label text-brand-coral mb-2 opacity-80">0{i+1} // </span>
+                    <span className={`font-display font-bold text-5xl sm:text-6xl lowercase tracking-tighter text-white group-hover:text-brand-coral transition-colors ${isRTL ? 'tracking-normal' : ''}`}>{link.name}</span>
                   </a>
                 )}
               </motion.div>
             ))}
           </div>
 
-          <div className="mt-auto mb-10">
-            <button 
-              onClick={() => { onNavigate('registration'); setIsMenuOpen(false); }}
-              className={`w-full flex items-center justify-between bg-brand-navy text-white p-6 sm:p-8 rounded-[2rem] hover:bg-brand-coral transition-all cursor-pointer`}
-            >
-              <span className="font-display font-bold text-xl sm:text-2xl uppercase tracking-widest">{t.nav.portal}</span>
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white flex items-center justify-center rounded-full text-brand-navy shrink-0 transition-transform group-hover:scale-110">
-                 <ArrowRight size={20} className={isRTL ? 'rotate-180' : ''} />
-              </div>
-            </button>
-          </div>
+
 
 
           <div className="pixel-grid absolute inset-0 opacity-[0.05] pointer-events-none" />
@@ -718,11 +707,32 @@ export default function App() {
 
       </main>
 
-      <footer className="py-20 sm:py-40 bg-warm-beige border-t border-brand-navy/5 relative overflow-hidden" dir={isRTL ? 'rtl' : 'ltr'}>
-        <div className={`absolute top-0 ${isRTL ? 'left-0' : 'right-0'} w-[500px] h-[500px] bg-brand-coral/5 soft-glow petal-shape`} />
+      <footer className="bg-brand-navy pt-32 sm:pt-48 pb-12 relative overflow-hidden text-white" dir={isRTL ? 'rtl' : 'ltr'}>
+        <div className={`absolute top-0 ${isRTL ? 'left-0' : 'right-0'} w-[800px] h-[800px] bg-brand-coral/10 soft-glow petal-shape pointer-events-none`} />
+        <div className="absolute inset-0 pixel-grid opacity-10 pointer-events-none" />
         
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 relative z-10">
-          <div className="grid lg:grid-cols-12 gap-12 sm:gap-20 mb-20 sm:mb-32 items-start">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
+          
+          {/* CTA Zone */}
+          <div className="flex flex-col items-center text-center mb-32">
+            <h2 className="font-display font-bold text-6xl md:text-8xl lg:text-[10rem] lowercase tracking-tighter text-white leading-[0.8] mb-8">
+              {isRTL ? 'هل أنت مستعد' : 'ready to tell'} <br/>
+              <span className="text-brand-coral italic font-normal">{isRTL ? 'لتروي قصتك؟' : 'your story?'}</span>
+            </h2>
+            <p className="font-body text-xl md:text-2xl text-white/60 max-w-2xl mb-12">
+              {isRTL ? 'انضم إلى مجتمع Roots & Reach وكن جزءاً من الحراك الثقافي الإبداعي في طرابلس.' : 'Join the Roots & Reach community and become part of the creative cultural movement in Tripoli.'}
+            </p>
+            <button 
+              onClick={() => { setView('registration'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+              className="bg-brand-coral text-white font-display font-bold uppercase tracking-widest text-lg md:text-xl px-12 py-5 rounded-full hover:bg-white hover:text-brand-navy transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-brand-coral/20 cursor-pointer"
+            >
+              {isRTL ? 'سجل الآن' : 'Join Now'}
+            </button>
+          </div>
+
+
+
+          <div className="grid lg:grid-cols-12 gap-12 sm:gap-20 mb-20 sm:mb-32 items-start border-t border-white/10 pt-20">
             <div className="lg:col-span-5">
               <div className={`flex items-center gap-4 sm:gap-6 mb-6 sm:mb-12 ${isRTL ? 'flex-row-reverse' : ''}`}>
                 <BrandLogo className="w-12 h-12 sm:w-16 sm:h-16" />
@@ -731,7 +741,7 @@ export default function App() {
             <span className="editorial-label text-[8px] sm:text-[11px] text-brand-coral tracking-[0.5em] mt-1">{t.nav.edition}</span>
                 </div>
               </div>
-              <p className={`font-body text-base sm:text-xl text-brand-navy/40 leading-relaxed max-w-sm mb-8 sm:mb-12 ${isRTL ? 'text-right' : 'text-left'}`}>
+              <p className={`font-body text-base sm:text-xl text-white/40 leading-relaxed max-w-sm mb-8 sm:mb-12 ${isRTL ? 'text-right' : 'text-left'}`}>
                 {t.footer.tagline}
               </p>
               <div className={`flex flex-wrap gap-4 sm:gap-8 ${isRTL ? 'flex-row-reverse' : ''}`}>
@@ -740,7 +750,7 @@ export default function App() {
                    { name: t.footer.social.linkedin, id: 'linkedin' },
                    { name: t.footer.social.vimeo, id: 'vimeo' }
                  ].map(social => (
-                   <a key={social.id} href="#" className="editorial-label text-brand-navy/40 hover:text-brand-coral transition-colors tracking-widest uppercase font-bold">{social.name}</a>
+                   <a key={social.id} href="#" className="editorial-label text-white/40 hover:text-brand-coral transition-colors tracking-widest uppercase font-bold">{social.name}</a>
                  ))}
               </div>
             </div>
@@ -749,33 +759,49 @@ export default function App() {
               <div className="min-w-0">
                 <span className="editorial-label text-brand-coral mb-4 sm:mb-8 block uppercase font-bold tracking-[0.4em]">{t.footer.narrative}</span>
                 <ul className="space-y-3 sm:space-y-4">
-                  <li><a href="#" onClick={(e) => { e.preventDefault(); setView('landing'); setTimeout(() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }), 100); }} className="font-display font-bold text-sm sm:text-lg text-brand-navy/50 hover:text-brand-navy transition-colors uppercase tracking-tight block truncate sm:whitespace-normal">{t.footer.story}</a></li>
+                  <li><a href="#" onClick={(e) => { e.preventDefault(); setView('landing'); setTimeout(() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }), 100); }} className="font-display font-bold text-sm sm:text-lg text-white/50 hover:text-white transition-colors uppercase tracking-tight block truncate sm:whitespace-normal">{t.footer.story}</a></li>
                 </ul>
               </div>
               <div className="min-w-0">
                 <span className="editorial-label text-brand-coral mb-4 sm:mb-8 block uppercase font-bold tracking-[0.4em]">{t.footer.protocols}</span>
-                <p className="font-display font-bold text-sm sm:text-lg text-brand-navy/60 mb-2 uppercase tracking-tight break-all sm:break-words">contact@rootsandreach.org</p>
-                <p className="font-display font-bold text-sm sm:text-lg text-brand-navy/60 uppercase tracking-tight">{isRTL ? 'طرابلس، لبنان' : 'Tripoli, Lebanon'}</p>
+                <p className="font-display font-bold text-xs sm:text-sm md:text-base text-white/60 mb-2 lowercase tracking-tight whitespace-nowrap">contact@rootsandreach.org</p>
+                <p className="font-display font-bold text-sm sm:text-lg text-white/60 uppercase tracking-tight">{isRTL ? 'طرابلس، لبنان' : 'Tripoli, Lebanon'}</p>
               </div>
               <div className="xs:col-span-2 md:col-span-1">
                 <span className="editorial-label text-brand-coral mb-4 sm:mb-8 block uppercase font-bold tracking-[0.4em]">{t.footer.registry}</span>
-                <p className="font-body text-[10px] sm:text-sm text-brand-navy/30 leading-relaxed">{isRTL ? 'نسخة الفيحاء — ٢٠٢٦.' : 'Fayhaa Edition — 2026.'} <br className="hidden sm:block" /> {t.footer.rights}</p>
+                <p className="font-body text-[10px] sm:text-sm text-white/30 leading-relaxed">{isRTL ? 'نسخة الفيحاء — ٢٠٢٦.' : 'Fayhaa Edition — 2026.'} <br className="hidden sm:block" /> {t.footer.rights}</p>
               </div>
             </div>
           </div>
           
-          <div className="pt-12 sm:pt-20 border-t border-brand-navy/5 flex flex-col md:flex-row justify-between items-center gap-8 md:gap-10">
-             <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-10 text-[8px] sm:text-[9px] uppercase tracking-[0.3em] sm:tracking-[0.4em] font-bold text-brand-navy/20">
+          <div className="pt-12 sm:pt-20 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-8 md:gap-10">
+             <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-10 text-[8px] sm:text-[9px] uppercase tracking-[0.3em] sm:tracking-[0.4em] font-bold text-white/30">
                 <span>Privacy Manifesto</span>
                 <span>Entry Terms</span>
                 <span>Accessibility</span>
              </div>
-             <span className="font-mono text-[8px] sm:text-[9px] opacity-20 tracking-widest text-brand-navy uppercase text-center">ARCH-PRV: RR-26-FAYHAA</span>
+             <span className="font-mono text-[8px] sm:text-[9px] opacity-30 tracking-widest text-white uppercase text-center">ARCH-PRV: RR-26-FAYHAA</span>
           </div>
         </div>
       </footer>
         </>
       )}
+
+      {/* Floating Elements */}
+      <div 
+        onClick={() => { setView('registration'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+        className="fixed z-[100] bg-brand-coral text-white font-display font-bold uppercase tracking-widest text-xs md:text-sm px-6 py-2.5 rounded-t-xl hover:bg-brand-navy transition-all duration-300 shadow-2xl cursor-pointer flex items-center justify-center border-x border-t border-white/20"
+        style={{
+          right: '0',
+          top: '50%',
+          transformOrigin: 'center',
+          transform: 'translate(calc(50% - 22px), -50%) rotate(-90deg)'
+        }}
+      >
+        {isRTL ? 'انضم للمجتمع' : 'Join Community'}
+      </div>
+
+      <FloatingCountdown onClick={() => { setView('journey'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
     </div>
   );
 }
@@ -1291,7 +1317,10 @@ const CreatorInvitationPortal = () => {
 };
 
 const AdminDashboard = () => {
+  const [activeTab, setActiveTab] = useState<'overview' | 'invitations' | 'community' | 'tickets' | 'settings'>('overview');
   const [stats, setStats] = useState({ orders: 0, revenue: 0, tiers: [] as any[] });
+  const [communityJoins, setCommunityJoins] = useState<any[]>([]);
+  const [ticketBuyers, setTicketBuyers] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<FirebaseUser | null>(auth.currentUser);
   const [passcode, setPasscode] = useState('');
@@ -1331,6 +1360,12 @@ const AdminDashboard = () => {
         const revenue = orders.reduce((acc, curr) => acc + curr.totalPrice, 0);
         
         setStats({ orders: orders.length, revenue, tiers });
+        
+        const joins = await AdminService.getCommunityJoins();
+        setCommunityJoins(joins);
+        
+        const buyers = await AdminService.getTicketBuyers();
+        setTicketBuyers(buyers);
       } catch (e) {
         console.error("Failed to load admin stats", e);
       } finally {
@@ -1393,12 +1428,33 @@ const AdminDashboard = () => {
           </div>
           <h1 className="editorial-h1 lowercase tracking-tighter">System <br /> <span className="text-brand-coral italic">Interface.</span></h1>
         </div>
-        <button onClick={() => window.location.hash = ''} className="px-10 py-5 bg-brand-navy text-white font-display font-bold text-xs uppercase tracking-widest transition-all hover:bg-brand-coral shadow-2xl rounded-xl">
-          Public Gateway
+        <button onClick={() => window.location.href = '/'} className="px-10 py-5 bg-brand-navy text-white font-display font-bold text-xs uppercase tracking-widest transition-all hover:bg-brand-coral shadow-2xl rounded-xl">
+          Back to Website
         </button>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-8 mb-32 relative z-10">
+      <div className="flex gap-2 overflow-x-auto pb-4 mb-12 relative z-10 scrollbar-hide">
+        {[
+          { id: 'overview', label: 'Overview' },
+          { id: 'community', label: 'Community Joins' },
+          { id: 'tickets', label: 'Ticket Buyers' },
+          { id: 'invitations', label: 'Invitations' },
+          { id: 'settings', label: 'Settings' }
+        ].map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id as any)}
+            className={`px-6 py-3 font-display font-bold text-sm uppercase tracking-widest transition-all whitespace-nowrap rounded-full ${activeTab === tab.id ? 'bg-brand-navy text-white shadow-lg' : 'bg-brand-navy/5 text-brand-navy/40 hover:bg-brand-navy/10 hover:text-brand-navy'}`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {activeTab === 'overview' && (
+        <>
+
+      <div className="grid md:grid-cols-3 gap-8 mb-16 relative z-10">
         <div className="media-card p-12 bg-warm-beige/30 border-none relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-8 pixel-grid w-24 h-24 opacity-20" />
           <span className="editorial-label text-brand-navy/30 mb-8 block uppercase font-bold tracking-[0.2em]">Live Transmissions</span>
@@ -1423,7 +1479,7 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      <div className="space-y-12 relative z-10 mb-32">
+      <div className="space-y-12 relative z-10 mb-16">
         <div className="flex items-center gap-6 border-b border-brand-navy/5 pb-8">
            <span className="editorial-label text-brand-coral font-bold italic">01 //</span>
            <h2 className="editorial-label text-brand-navy/30 tracking-[0.4em] uppercase font-bold text-[10px]">Registry Monitoring</h2>
@@ -1459,15 +1515,90 @@ const AdminDashboard = () => {
           ))}
         </div>
       </div>
+        </>
+      )}
 
-      <div className="space-y-12 relative z-10 mb-32">
+      {activeTab === 'invitations' && (
+      <div className="space-y-12 relative z-10 mb-16">
         <div className="flex items-center gap-6 border-b border-brand-navy/5 pb-8">
            <span className="editorial-label text-brand-coral font-bold italic">02 //</span>
            <h2 className="editorial-label text-brand-navy/30 tracking-[0.4em] uppercase font-bold text-[10px]">Creator Invitation Portal</h2>
         </div>
         <CreatorInvitationPortal />
       </div>
+      )}
+
+      {activeTab === 'community' && (
+      <div className="space-y-12 relative z-10 mb-16">
+        <div className="flex items-center gap-6 border-b border-brand-navy/5 pb-8">
+           <span className="editorial-label text-brand-coral font-bold italic">03 //</span>
+           <h2 className="editorial-label text-brand-navy/30 tracking-[0.4em] uppercase font-bold text-[10px]">Community Joins</h2>
+        </div>
+        <div className="bg-white border border-brand-navy/5 rounded-[2rem] p-8 overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="border-b border-brand-navy/5 text-brand-navy/40 font-mono text-xs uppercase tracking-widest">
+                <th className="py-4 font-normal">Name</th>
+                <th className="py-4 font-normal">Email</th>
+                <th className="py-4 font-normal">Phone</th>
+                <th className="py-4 font-normal">Role</th>
+                <th className="py-4 font-normal">City</th>
+              </tr>
+            </thead>
+            <tbody className="font-body text-brand-navy">
+              {communityJoins.length > 0 ? communityJoins.map((join, i) => (
+                <tr key={join.id || i} className="border-b border-brand-navy/5 last:border-0 hover:bg-brand-navy/5 transition-colors">
+                  <td className="py-4">{join.fullName || join.name || 'N/A'}</td>
+                  <td className="py-4">{join.email || 'N/A'}</td>
+                  <td className="py-4">{join.phone || 'N/A'}</td>
+                  <td className="py-4 capitalize">{join.role || 'N/A'}</td>
+                  <td className="py-4">{join.city || 'N/A'}</td>
+                </tr>
+              )) : (
+                <tr><td colSpan={5} className="py-8 text-center text-brand-navy/40">No registrations found.</td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      )}
+
+      {activeTab === 'tickets' && (
+      <div className="space-y-12 relative z-10 mb-16">
+        <div className="flex items-center gap-6 border-b border-brand-navy/5 pb-8">
+           <span className="editorial-label text-brand-coral font-bold italic">04 //</span>
+           <h2 className="editorial-label text-brand-navy/30 tracking-[0.4em] uppercase font-bold text-[10px]">Ticket Buyers</h2>
+        </div>
+        <div className="bg-white border border-brand-navy/5 rounded-[2rem] p-8 overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="border-b border-brand-navy/5 text-brand-navy/40 font-mono text-xs uppercase tracking-widest">
+                <th className="py-4 font-normal">Name</th>
+                <th className="py-4 font-normal">Email</th>
+                <th className="py-4 font-normal">Tier</th>
+                <th className="py-4 font-normal">Qty</th>
+                <th className="py-4 font-normal">Total</th>
+              </tr>
+            </thead>
+            <tbody className="font-body text-brand-navy">
+              {ticketBuyers.length > 0 ? ticketBuyers.map((buyer, i) => (
+                <tr key={buyer.id || i} className="border-b border-brand-navy/5 last:border-0 hover:bg-brand-navy/5 transition-colors">
+                  <td className="py-4">{buyer.customerInfo?.name || buyer.name || 'N/A'}</td>
+                  <td className="py-4">{buyer.customerInfo?.email || buyer.email || 'N/A'}</td>
+                  <td className="py-4">{buyer.tierId || 'N/A'}</td>
+                  <td className="py-4">{buyer.quantity || 1}</td>
+                  <td className="py-4 text-brand-coral font-display font-bold">${buyer.totalPrice || 0}</td>
+                </tr>
+              )) : (
+                <tr><td colSpan={5} className="py-8 text-center text-brand-navy/40">No ticket orders found.</td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      )}
       
+      {activeTab === 'settings' && (
       <div className="media-card rounded-[3rem] p-16 md:p-24 flex flex-col md:flex-row justify-between items-center gap-12 relative overflow-hidden bg-warm-beige/30 border-none">
          <div className="absolute inset-0 pixel-grid opacity-[0.05]" />
          <div className="relative z-10 max-w-lg text-center md:text-left">
@@ -1481,6 +1612,7 @@ const AdminDashboard = () => {
            Execute Protocol
          </button>
       </div>
+      )}
     </div>
   );
 };
