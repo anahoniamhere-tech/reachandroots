@@ -48,7 +48,10 @@ export const OurStory = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
              animate={{ opacity: 1, scale: 1, y: 0 }}
              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
            >
-             <h1 className="font-display font-bold text-6xl md:text-8xl lg:text-[12rem] text-warm-beige lowercase tracking-tighter leading-[0.8] mb-8">
+             <h1 
+               className="font-bold text-6xl md:text-8xl lg:text-[12rem] text-warm-beige lowercase tracking-tighter leading-[0.8] mb-8"
+               style={{ fontFamily: '"Space Grotesk", sans-serif' }}
+             >
                 roots <br className="md:hidden" /><span className="text-brand-coral italic font-normal">&</span> reach
              </h1>
              <p className="font-body text-xl md:text-3xl text-warm-beige/80 max-w-2xl mx-auto leading-relaxed">
