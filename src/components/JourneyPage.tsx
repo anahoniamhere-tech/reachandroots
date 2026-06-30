@@ -583,17 +583,14 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                       {isRTL ? 'تم تسجيل اهتمامك بنجاح!' : 'Pre-Registration Saved!'}
                     </h3>
                     <p className="font-body text-sm text-brand-navy/60 leading-relaxed max-w-sm mx-auto">
-                      {isRTL 
-                        ? `طلبك لحضور الفعالية قيد المعالجة. يرجى إتمام تحويل الرسوم عبر Wish Money للحساب: 81408171 لإتمام الحجز وسنقوم بالتواصل معك لتأكيد مقعدك.`
-                        : `Your request is processing. Please transfer your tickets fee via Wish Money to account 81408171 to guarantee your seat. Our team will contact you shortly.`}
+                      {formData.workshopChoice === 'lecture'
+                        ? (isRTL 
+                          ? 'طلبك لحضور المحاضرة العامة المجانية قيد المعالجة، وسنقوم بالتواصل معك قريباً لتأكيد مقعدك.'
+                          : 'Your request to attend the free public lecture is processing. We will contact you shortly to confirm your seat.')
+                        : (isRTL
+                          ? 'طلبك لحضور الفعالية قيد المعالجة. يرجى إتمام تحويل الرسوم عبر Wish Money للحساب: 81408171 لإتمام الحجز وسنقوم بالتواصل معك لتأكيد مقعدك.'
+                          : 'Your request is processing. Please transfer your tickets fee via Wish Money to account 81408171 to guarantee your seat. Our team will contact you shortly.')}
                     </p>
-                  </div>
-
-                  <div className="bg-warm-beige/35 p-4 rounded-xl border border-brand-navy/5 text-sm font-mono text-brand-navy font-bold max-w-xs mx-auto flex items-center justify-between">
-                    <span>Wish: 81408171</span>
-                    <button onClick={handleCopyAccount} className="p-1 hover:text-brand-coral cursor-pointer">
-                      {copied ? <Check size={14} className="text-brand-green" /> : <Copy size={14} />}
-                    </button>
                   </div>
                 </motion.div>
               )}
