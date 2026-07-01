@@ -428,7 +428,7 @@ export const translations = {
       portal: 'انضم إلى المجتمع',
       edition: 'نسخة الفيحاء',
       sponsors: 'الرعاة',
-      journey: 'التحوّل'
+      journey: 'رحلات'
     },
     hero: {
       tagline: 'ثقافة x إبداع x رقمي',
