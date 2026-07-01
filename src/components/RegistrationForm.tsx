@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Check, ArrowRight, X } from 'lucide-react';
+import { ArrowRight, Check, X } from 'lucide-react';
 import { useLanguage } from '../lib/LanguageContext';
 import { submitRegistration } from '../lib/firebase';
+import { countryCodes } from '../lib/countries';
 
 export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
   const { t, isRTL } = useLanguage();
@@ -153,19 +154,11 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
                     name="phoneCode" value={formData.phoneCode} onChange={handleChange}
                     className="bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-4 py-4 focus:outline-none focus:border-brand-coral transition-all font-body text-brand-navy appearance-none w-28 shrink-0 text-center"
                   >
-                    <option value="+961">🇱🇧 +961</option>
-                    <option value="+971">🇦🇪 +971</option>
-                    <option value="+966">🇸🇦 +966</option>
-                    <option value="+962">🇯🇴 +962</option>
-                    <option value="+20">🇪🇬 +20</option>
-                    <option value="+964">🇮🇶 +964</option>
-                    <option value="+968">🇴🇲 +968</option>
-                    <option value="+974">🇶🇦 +974</option>
-                    <option value="+965">🇰🇼 +965</option>
-                    <option value="+973">🇧🇭 +973</option>
-                    <option value="+1">🇺🇸 +1</option>
-                    <option value="+44">🇬🇧 +44</option>
-                    <option value="+33">🇫🇷 +33</option>
+                    {countryCodes.map((country) => (
+                      <option key={`${country.name}-${country.code}`} value={country.code}>
+                        {country.flag} {country.code}
+                      </option>
+                    ))}
                     <option value="other">Other</option>
                   </select>
                   <input 
