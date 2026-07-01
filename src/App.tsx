@@ -1411,61 +1411,6 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    const forceSync = async () => {
-      if (!user) return;
-      const lock = localStorage.getItem('forceSync_v7');
-      if (lock) return;
-      localStorage.setItem('forceSync_v7', 'true');
-      try {
-        const snap = await getDocs(collection(db, 'orders'));
-        const orders = snap.docs.map(d => ({ ...d.data(), id: d.id }));
-
-        // Delete all paid tickets and fix public lecture tags
-        for (const order of orders) {
-          const price = Number(order.totalPrice) || 0;
-          if (price > 0) {
-            await deleteDoc(doc(db, 'orders', order.id));
-          } else if (order.tierId === 'Public Lecture' || order.tierId === 'Single Workshop 1' || order.tierId === 'Single Workshop 2') {
-            await updateDoc(doc(db, 'orders', order.id), { tierId: 'Public Lecture: The Five Inner Thoughts' });
-          }
-        }
-
-        const template = {
-          tierId: 'Double Workshop: Passion & Stress + Mind Programming',
-          totalPrice: 30,
-          quantity: 1,
-          status: 'paid',
-          createdAt: serverTimestamp()
-        };
-
-        await setDoc(doc(collection(db, 'orders')), {
-          ...template,
-          name: 'Boushra', email: 'bushra.dardasawi22@gmail.com', phone: '+961 3 682 339',
-          customerInfo: { name: 'Boushra', email: 'bushra.dardasawi22@gmail.com', phone: '+961 3 682 339' }
-        });
-
-        await setDoc(doc(collection(db, 'orders')), {
-          ...template,
-          name: 'Hanane Assoum', email: 'hanane.assoum@hotmail.com', phone: '+961 76 595 816',
-          customerInfo: { name: 'Hanane Assoum', email: 'hanane.assoum@hotmail.com', phone: '+961 76 595 816', age: 27, nationality: 'Lebanon' }
-        });
-
-        await setDoc(doc(collection(db, 'orders')), {
-          ...template,
-          name: 'Mariam Raad', email: 'mariamraad51@gmail.com', phone: '71261318',
-          customerInfo: { name: 'Mariam Raad', email: 'mariamraad51@gmail.com', phone: '71261318', age: 26, nationality: 'Lebanon' }
-        });
-
-        alert("Database synced perfectly! Tags aligned. V7");
-        window.location.reload();
-      } catch (e) {
-        console.error(e);
-      }
-    };
-    forceSync();
-  }, [user]);
-
-  useEffect(() => {
     const loadStats = async () => {
       if (!user) {
         setIsLoading(false);
