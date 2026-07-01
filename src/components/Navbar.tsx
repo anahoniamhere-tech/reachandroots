@@ -38,7 +38,7 @@ export const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, set
                 <button 
                   key={link.id} 
                   onClick={() => onNavigate(link.id as any)}
-                  className={`editorial-label ${currentView === link.id ? 'text-brand-coral' : 'text-brand-navy/50'} hover:text-brand-coral transition-all flex items-center gap-2 group whitespace-nowrap`}
+                  className={`editorial-label ${currentView === link.id ? 'text-brand-coral' : (useDarkIcons ? 'text-brand-orange hover:text-brand-gold' : 'text-brand-navy/50 hover:text-brand-navy')} transition-all flex items-center gap-2 group whitespace-nowrap`}
                 >
                   <span className={`${currentView === link.id ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100 transition-opacity`}>{link.icon}</span>
                   {link.name}
@@ -57,7 +57,7 @@ export const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, set
                       }, 100);
                     }
                   }}
-                  className="editorial-label text-brand-navy/50 hover:text-brand-coral transition-all flex items-center gap-2 group whitespace-nowrap"
+                  className={`editorial-label ${useDarkIcons ? 'text-brand-orange hover:text-brand-gold' : 'text-brand-navy/50 hover:text-brand-navy'} transition-all flex items-center gap-2 group whitespace-nowrap`}
                 >
                   <span className="opacity-0 group-hover:opacity-100 transition-opacity">{link.icon}</span>
                   {link.name}
@@ -66,28 +66,28 @@ export const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, set
             ))}
           </div>
 
-          <div className="flex items-center gap-4 px-4 py-1.5 bg-brand-navy/5 rounded-full border border-brand-navy/5">
+          <div className={`flex items-center gap-4 px-4 py-1.5 rounded-full border transition-colors ${useDarkIcons ? 'bg-brand-orange/10 border-brand-orange/20' : 'bg-brand-navy/5 border-brand-navy/5'}`}>
               <button 
                 onClick={() => setLanguage('en')}
-                className={`editorial-label translation-all ${language === 'en' ? 'text-brand-coral font-bold' : 'text-brand-navy/30 hover:text-brand-navy'}`}
+                className={`editorial-label transition-colors ${language === 'en' ? 'text-brand-coral font-bold' : (useDarkIcons ? 'text-brand-orange/60 hover:text-brand-orange' : 'text-brand-navy/30 hover:text-brand-navy')}`}
               >
                 EN
               </button>
-            <div className="w-px h-3 bg-brand-navy/10" />
+            <div className={`w-px h-3 ${useDarkIcons ? 'bg-brand-orange/20' : 'bg-brand-navy/10'}`} />
             <button 
               onClick={() => setLanguage('ar')}
-              className={`font-arabic text-sm transition-all leading-none ${language === 'ar' ? 'text-brand-coral font-bold' : 'text-brand-navy/30 hover:text-brand-navy'}`}
+              className={`font-arabic text-sm transition-colors leading-none ${language === 'ar' ? 'text-brand-coral font-bold' : (useDarkIcons ? 'text-brand-orange/60 hover:text-brand-orange' : 'text-brand-navy/30 hover:text-brand-navy')}`}
             >
               العربية
             </button>
           </div>
 
-          <div className="h-4 w-px bg-brand-navy/10" />
+          <div className={`h-4 w-px ${useDarkIcons ? 'bg-brand-orange/20' : 'bg-brand-navy/10'}`} />
           <button 
             onClick={() => onNavigate('tickets')}
-            className="flex items-center gap-3 bg-brand-navy text-white px-8 py-3.5 rounded-full hover:bg-brand-coral transition-all duration-300 group"
+            className={`flex items-center gap-3 px-8 py-3.5 rounded-full transition-all duration-300 group ${useDarkIcons ? 'bg-brand-orange text-brand-navy hover:bg-brand-gold' : 'bg-brand-navy text-white hover:bg-brand-coral'}`}
           >
-            <span className="editorial-label text-white tracking-[0.3em] font-medium">{t.nav.portal}</span>
+            <span className={`editorial-label tracking-[0.3em] font-medium ${useDarkIcons ? 'text-brand-navy' : 'text-white'}`}>{t.nav.portal}</span>
             <ChevronRight size={14} className={`${isRTL ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'} transition-transform shrink-0`} />
           </button>
         </div>
@@ -95,13 +95,13 @@ export const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, set
         <div className="flex items-center gap-4 lg:hidden">
           <button 
             onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
-            className={`px-3 py-1.5 rounded-lg border editorial-label ${language === 'ar' ? 'font-arabic text-sm leading-none' : ''} transition-colors ${useDarkIcons ? 'text-white border-white/20 hover:bg-white/10' : 'text-brand-navy border-brand-navy/10 hover:bg-brand-navy/5'}`}
+            className={`px-3 py-1.5 rounded-lg border editorial-label ${language === 'ar' ? 'font-arabic text-sm leading-none' : ''} transition-colors ${useDarkIcons ? 'text-brand-orange border-brand-orange/20 hover:bg-brand-orange/10' : 'text-brand-navy border-brand-navy/10 hover:bg-brand-navy/5'}`}
           >
             {language === 'en' ? 'AR' : 'EN'}
           </button>
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`p-2 backdrop-blur-md rounded-xl transition-all active:scale-95 hover:bg-white/20 ${useDarkIcons ? 'text-white bg-white/10' : 'text-brand-navy bg-white/50 hover:bg-white'}`}
+            className={`p-2 backdrop-blur-md rounded-xl transition-all active:scale-95 hover:bg-brand-navy/5 ${useDarkIcons ? 'text-brand-orange bg-brand-orange/10' : 'text-brand-navy bg-white/50 hover:bg-white'}`}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
