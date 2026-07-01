@@ -11,7 +11,7 @@ import { useLanguage } from '../lib/LanguageContext';
 
 // New richer imagery
 import Tripoli_Souks from '../assets/Tripoli_Souks.png';
-import WhoAreWe1 from '../assets/Whoarewe_image1.webp';
+import WhoAreWe1 from '../assets/Whoarewe_image1_0.webp';
 import WhoAreWe2 from '../assets/Whoarewe_image2.webp';
 import Vision1 from '../assets/Vision_image1.webp';
 import Vision2 from '../assets/Vision_Image2.webp';
