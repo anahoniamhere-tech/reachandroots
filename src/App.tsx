@@ -125,12 +125,21 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
         </div>
 
         <div className="flex items-center gap-1 lg:hidden">
-          <button 
-            onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
-            className={`h-10 w-10 flex items-center justify-center font-bold text-base md:text-lg transition-colors ${language === 'ar' ? 'font-mono pt-0.5' : 'font-arabic'} ${useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy hover:text-brand-coral'}`}
-          >
-            {language === 'en' ? 'AR' : 'EN'}
-          </button>
+          <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-colors ${useDarkIcons ? 'bg-warm-beige/10 border-warm-beige/20' : 'bg-brand-navy/5 border-transparent'}`}>
+            <button 
+              onClick={() => setLanguage('en')}
+              className={`font-mono text-xs transition-colors font-bold ${language === 'en' ? 'text-brand-coral' : (useDarkIcons ? 'text-warm-beige/60 hover:text-warm-beige' : 'text-brand-navy/30 hover:text-brand-navy')}`}
+            >
+              EN
+            </button>
+            <div className={`w-px h-3 ${useDarkIcons ? 'bg-warm-beige/20' : 'bg-brand-navy/10'}`} />
+            <button 
+              onClick={() => setLanguage('ar')}
+              className={`font-arabic text-[11px] transition-colors leading-none font-bold ${language === 'ar' ? 'text-brand-coral' : (useDarkIcons ? 'text-warm-beige/60 hover:text-warm-beige' : 'text-brand-navy/30 hover:text-brand-navy')}`}
+            >
+              العربية
+            </button>
+          </div>
           <a 
             href="https://www.instagram.com/rootsndreach/" 
             target="_blank" 
