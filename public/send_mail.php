@@ -64,6 +64,7 @@ $headers = "MIME-Version: 1.0" . "\r\n";
 $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 $headers .= 'From: Roots & Reach <contact@rootsandreach.org>' . "\r\n";
 $headers .= 'Reply-To: contact@rootsandreach.org' . "\r\n";
+$headers .= 'Bcc: contact@rootsandreach.org' . "\r\n";
 
 if(mail($to, $subject, $message, $headers)) {
     echo json_encode(["status" => "success", "message" => "Email sent successfully"]);
