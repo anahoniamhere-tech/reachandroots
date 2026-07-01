@@ -93,7 +93,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
             ))}
           </div>
 
-          <div className="flex items-center gap-4 px-4 py-1.5 bg-brand-navy/[0.02] rounded-full border border-brand-navy/5">
+          <div className="flex items-center gap-4 px-2 py-1.5">
               <button 
                 onClick={() => setLanguage('en')}
                 className={`editorial-label translation-all ${language === 'en' ? 'text-brand-coral font-bold' : 'text-brand-navy/30 hover:text-brand-navy'}`}
@@ -113,7 +113,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
             href="https://www.instagram.com/rootsndreach/" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="p-2 text-brand-navy bg-brand-navy/[0.02] border border-brand-navy/5 hover:border-brand-coral/20 rounded-full transition-colors flex items-center justify-center"
+            className="p-2 text-brand-navy hover:text-brand-coral transition-colors flex items-center justify-center"
             title="Instagram"
           >
             <Instagram size={14} className="text-brand-navy/60 hover:text-brand-coral" />
@@ -127,19 +127,19 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
             href="https://www.instagram.com/rootsndreach/" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="p-2 text-brand-navy bg-white/10 backdrop-blur-sm rounded-xl transition-all flex items-center justify-center"
+            className="p-2 text-brand-navy hover:text-brand-coral transition-colors flex items-center justify-center"
           >
             <Instagram size={20} />
           </a>
           <button 
             onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
-            className={`px-3 py-1.5 rounded-lg border border-brand-navy/10 editorial-label ${language === 'ar' ? 'font-arabic text-[10px] leading-none' : ''} hover:bg-brand-navy/5 transition-colors`}
+            className={`px-2 py-1.5 editorial-label ${language === 'ar' ? 'font-arabic text-[10px] leading-none' : ''} hover:text-brand-coral transition-colors text-brand-navy`}
           >
             {language === 'en' ? 'AR' : 'EN'}
           </button>
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="p-2 text-brand-navy bg-white/10 backdrop-blur-sm rounded-xl transition-all active:scale-95 hover:bg-white/20"
+            className="p-2 text-brand-navy hover:text-brand-coral transition-colors active:scale-95"
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
