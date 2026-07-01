@@ -144,7 +144,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
       try {
         let price = 0;
         let tierName = '';
-        if (formData.workshopChoice === 'both') { price = 40; tierName = 'Double Workshop'; }
+        if (formData.workshopChoice === 'both') { price = 30; tierName = 'Double Workshop'; }
         else if (formData.workshopChoice === 'ws1') { price = 25; tierName = 'Single Workshop 1'; }
         else if (formData.workshopChoice === 'ws2') { price = 25; tierName = 'Single Workshop 2'; }
         else { price = 0; tierName = 'Public Lecture'; }
