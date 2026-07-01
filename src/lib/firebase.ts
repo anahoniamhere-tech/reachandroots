@@ -23,6 +23,7 @@ import {
   onAuthStateChanged as fbOnAuthStateChanged, 
   signInWithEmailAndPassword, 
   signInWithPopup,
+  signInWithRedirect,
   GoogleAuthProvider,
   signOut as fbSignOut, 
   User 
@@ -109,5 +110,5 @@ export const signInWithGoogle = async (emailHint?: string): Promise<any> => {
       login_hint: emailHint
     });
   }
-  return signInWithPopup(realAuth, provider);
+  return signInWithRedirect(realAuth, provider);
 };
