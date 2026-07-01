@@ -149,5 +149,23 @@ export const AdminService = {
     } catch (error) {
       handleFirestoreError(error, 'DELETE', path);
     }
+  },
+
+  async updateCommunityJoin(id: string, data: any) {
+    const path = `registrations/${id}`;
+    try {
+      await updateDoc(doc(db, 'registrations', id), data);
+    } catch (error) {
+      handleFirestoreError(error, 'UPDATE', path);
+    }
+  },
+
+  async updateTicketBuyer(id: string, data: any) {
+    const path = `orders/${id}`;
+    try {
+      await updateDoc(doc(db, 'orders', id), data);
+    } catch (error) {
+      handleFirestoreError(error, 'UPDATE', path);
+    }
   }
 };

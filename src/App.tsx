@@ -1372,6 +1372,9 @@ const AdminDashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<FirebaseUser | null>(auth.currentUser);
   const [selectedItem, setSelectedItem] = useState<{ type: 'ticket' | 'community'; data: any } | null>(null);
+  const [isEditingItem, setIsEditingItem] = useState(false);
+  const [editItemData, setEditItemData] = useState<any>({});
+  const [isSavingItem, setIsSavingItem] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -1442,22 +1445,48 @@ const AdminDashboard = () => {
   };
 
   const handleDeleteItem = async () => {
-    if (!selectedItem) return;
-    const { id } = selectedItem.data;
-    if (!window.confirm("Are you sure you want to delete this registration? This action is irreversible.")) return;
-
+    if (!selectedItem || !window.confirm("Are you sure you want to delete this record?")) return;
     try {
-      if (selectedItem.type === 'community') {
-        await AdminService.deleteCommunityJoin(id);
-        setCommunityJoins(prev => prev.filter(item => item.id !== id));
+      if (selectedItem.type === 'ticket') {
+        await AdminService.deleteTicketBuyer(selectedItem.data.id);
+        setTicketBuyers(prev => prev.filter(t => t.id !== selectedItem.data.id));
       } else {
-        await AdminService.deleteTicketBuyer(id);
-        setTicketBuyers(prev => prev.filter(item => item.id !== id));
+        await AdminService.deleteCommunityJoin(selectedItem.data.id);
+        setCommunityJoins(prev => prev.filter(t => t.id !== selectedItem.data.id));
       }
       setSelectedItem(null);
     } catch (e) {
-      console.error("Failed to delete record", e);
-      alert("Failed to delete record from the database.");
+      console.error("Failed to delete item", e);
+    }
+  };
+
+  const handleEditItem = () => {
+    setIsEditingItem(true);
+    const data = { ...selectedItem?.data };
+    if (selectedItem?.type === 'ticket') {
+      data.paymentStatus = data.paymentStatus || 'unpaid';
+    }
+    setEditItemData(data);
+  };
+
+  const handleSaveItem = async () => {
+    if (!selectedItem) return;
+    setIsSavingItem(true);
+    try {
+      if (selectedItem.type === 'ticket') {
+        await AdminService.updateTicketBuyer(selectedItem.data.id, editItemData);
+        setTicketBuyers(prev => prev.map(t => t.id === selectedItem.data.id ? { ...t, ...editItemData } : t));
+      } else {
+        await AdminService.updateCommunityJoin(selectedItem.data.id, editItemData);
+        setCommunityJoins(prev => prev.map(t => t.id === selectedItem.data.id ? { ...t, ...editItemData } : t));
+      }
+      setSelectedItem({ type: selectedItem.type, data: editItemData });
+      setIsEditingItem(false);
+    } catch (e) {
+      console.error("Failed to save item", e);
+      alert("Failed to save. Check console for details.");
+    } finally {
+      setIsSavingItem(false);
     }
   };
 
@@ -1806,7 +1835,7 @@ const AdminDashboard = () => {
             </div>
 
             <div className="space-y-4 border-t border-b border-brand-navy/5 py-6 font-body text-brand-navy">
-              {Object.entries(selectedItem.data).map(([key, val]: [string, any]) => {
+              {Object.entries(isEditingItem ? editItemData : selectedItem.data).map(([key, val]: [string, any]) => {
                 if (key === 'id' || val === undefined || val === null) return null;
                 
                 let displayVal = typeof val === 'object' ? JSON.stringify(val) : String(val);
@@ -1820,6 +1849,31 @@ const AdminDashboard = () => {
                 const label = key
                   .replace(/([A-Z])/g, ' $1')
                   .replace(/^./, str => str.toUpperCase());
+
+                if (isEditingItem && key !== 'id' && key !== 'createdAt' && key !== 'tierId' && key !== 'totalPrice') {
+                  return (
+                    <div key={key} className="flex flex-col sm:flex-row justify-between sm:items-center gap-1 border-b border-brand-navy/[0.02] pb-3 last:border-0">
+                      <span className="text-[10px] editorial-label text-brand-navy/40 font-bold uppercase tracking-wider">{label}</span>
+                      {key === 'paymentStatus' ? (
+                        <select 
+                          value={editItemData[key] || 'unpaid'}
+                          onChange={e => setEditItemData({...editItemData, [key]: e.target.value})}
+                          className="border border-brand-navy/10 rounded-lg p-2 text-sm font-semibold w-full sm:w-2/3 outline-none focus:border-brand-coral"
+                        >
+                          <option value="unpaid">Unpaid</option>
+                          <option value="paid">Paid</option>
+                        </select>
+                      ) : (
+                        <input
+                          type={typeof val === 'number' ? 'number' : 'text'}
+                          value={editItemData[key] || ''}
+                          onChange={e => setEditItemData({...editItemData, [key]: e.target.value})}
+                          className="border border-brand-navy/10 rounded-lg p-2 text-sm font-semibold w-full sm:w-2/3 outline-none focus:border-brand-coral"
+                        />
+                      )}
+                    </div>
+                  );
+                }
 
                 return (
                   <div key={key} className="flex flex-col sm:flex-row justify-between sm:items-center gap-1 border-b border-brand-navy/[0.02] pb-3 last:border-0">
@@ -1839,14 +1893,33 @@ const AdminDashboard = () => {
               </button>
               
               <div className="flex flex-col sm:flex-row gap-3">
+                {isEditingItem ? (
+                  <button 
+                    onClick={handleSaveItem}
+                    disabled={isSavingItem}
+                    className="flex items-center justify-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white text-xs font-display font-bold uppercase tracking-widest rounded-xl transition-all cursor-pointer disabled:opacity-50"
+                  >
+                    {isSavingItem ? 'Saving...' : 'Save Changes'}
+                  </button>
+                ) : (
+                  <button 
+                    onClick={handleEditItem}
+                    className="flex items-center justify-center gap-2 px-6 py-3 bg-brand-coral hover:bg-brand-orange text-white text-xs font-display font-bold uppercase tracking-widest rounded-xl transition-all cursor-pointer"
+                  >
+                    Edit
+                  </button>
+                )}
+                
+                {!isEditingItem && (
+                  <button 
+                    onClick={() => handlePrintPDF(selectedItem)}
+                    className="flex items-center justify-center gap-2 px-6 py-3 bg-brand-coral hover:bg-brand-orange text-white text-xs font-display font-bold uppercase tracking-widest rounded-xl transition-all cursor-pointer"
+                  >
+                    <FileDown size={14} /> Download PDF
+                  </button>
+                )}
                 <button 
-                  onClick={() => handlePrintPDF(selectedItem)}
-                  className="flex items-center justify-center gap-2 px-6 py-3 bg-brand-coral hover:bg-brand-orange text-white text-xs font-display font-bold uppercase tracking-widest rounded-xl transition-all cursor-pointer"
-                >
-                  <FileDown size={14} /> Download PDF
-                </button>
-                <button 
-                  onClick={() => setSelectedItem(null)}
+                  onClick={() => { setSelectedItem(null); setIsEditingItem(false); }}
                   className="px-6 py-3 bg-brand-navy hover:bg-brand-coral text-white text-xs font-display font-bold uppercase tracking-widest rounded-xl transition-all cursor-pointer"
                 >
                   Close
