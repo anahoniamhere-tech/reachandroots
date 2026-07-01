@@ -49,7 +49,7 @@ export const OurStory = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
            >
              <h1 
-               className="font-bold text-6xl md:text-8xl lg:text-[12rem] text-warm-beige tracking-tighter leading-[0.8] mb-8"
+               className="font-bold text-6xl md:text-8xl lg:text-[12rem] text-warm-beige tracking-tighter leading-[0.8] mb-8 force-english-font"
                style={{ fontFamily: '"Space Grotesk", sans-serif' }}
                dir="ltr"
              >
