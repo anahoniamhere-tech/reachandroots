@@ -237,9 +237,9 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                     href="https://www.instagram.com/dr.yazedmousa/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-2.5 inline-flex items-center gap-2 text-xs font-display font-bold uppercase tracking-wider text-brand-coral hover:text-brand-navy transition-colors cursor-pointer leading-none"
+                    className="mt-4 inline-flex flex-row items-center gap-2.5 px-5 py-2.5 bg-brand-coral hover:bg-brand-navy text-white rounded-full font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 cursor-pointer leading-none"
                   >
-                    <Instagram size={12} className="shrink-0" />
+                    <Instagram size={18} className="shrink-0" />
                     <span className="leading-none">{isRTL ? 'تابع على إنستغرام' : 'Follow on Instagram'}</span>
                   </a>
                 </div>

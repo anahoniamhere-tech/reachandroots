@@ -104,7 +104,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
             className={`p-2 transition-colors flex items-center justify-center ${useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy hover:text-brand-coral'}`}
             title="Instagram"
           >
-            <Instagram size={16} className={useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy/60 hover:text-brand-coral'} />
+            <Instagram size={20} className={useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy/60 hover:text-brand-coral'} />
           </a>
 
           <div className={`flex items-center gap-4 px-2.5 py-2 rounded-full border transition-colors ${useDarkIcons ? 'bg-warm-beige/10 border-warm-beige/20' : 'bg-brand-navy/5 border-transparent'}`}>
@@ -127,7 +127,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
         <div className="flex items-center gap-3 lg:hidden">
           <button 
             onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
-            className={`px-2.5 py-1.5 font-bold text-sm md:text-base ${language === 'ar' ? 'font-arabic text-[12px] leading-none' : 'font-mono tracking-wider'} transition-colors ${useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy hover:text-brand-coral'}`}
+            className={`h-10 w-10 flex items-center justify-center font-bold text-base md:text-lg ${language === 'ar' ? 'font-arabic' : 'font-mono'} transition-colors ${useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy hover:text-brand-coral'}`}
           >
             {language === 'en' ? 'AR' : 'EN'}
           </button>
@@ -135,15 +135,15 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
             href="https://www.instagram.com/rootsndreach/" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className={`p-2 transition-colors flex items-center justify-center ${useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy hover:text-brand-coral'}`}
+            className={`h-10 w-10 transition-colors flex items-center justify-center ${useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy hover:text-brand-coral'}`}
           >
-            <Instagram size={20} />
+            <Instagram size={22} />
           </a>
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`p-2 transition-colors active:scale-95 ${useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy hover:text-brand-coral'}`}
+            className={`h-10 w-10 transition-colors flex items-center justify-center active:scale-95 ${useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy hover:text-brand-coral'}`}
           >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMenuOpen ? <X size={26} /> : <Menu size={26} />}
           </button>
         </div>
       </div>
