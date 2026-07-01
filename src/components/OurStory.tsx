@@ -340,7 +340,7 @@ export const OurStory = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
         {/* Ticker */}
         <div className="flex whitespace-nowrap overflow-hidden mb-20 opacity-40">
            <motion.div 
-             className="flex gap-8 text-5xl md:text-7xl font-display font-bold uppercase tracking-widest text-warm-beige"
+             className={`flex gap-8 text-5xl md:text-7xl font-bold uppercase tracking-widest text-warm-beige ${isRTL ? 'font-arabic' : 'font-display'}`}
              animate={{ x: ["0%", "-50%"] }}
              transition={{ ease: "linear", duration: 30, repeat: Infinity }}
            >
