@@ -97,6 +97,24 @@ export const submitRegistration = async (data: any): Promise<void> => {
       ...data,
       createdAt: serverTimestamp()
     });
+
+    // Send the welcome email
+    if (data.email) {
+      try {
+        await fetch('https://rootsandreach.org/send_community_mail.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: data.email,
+            name: data.fullName || data.name || '',
+            role: data.role || []
+          })
+        });
+      } catch (mailError) {
+        console.error("Failed to trigger welcome email:", mailError);
+        // We don't throw here because registration was successful
+      }
+    }
   } catch (error) {
     console.error("Error adding document: ", error);
     throw error;
