@@ -1457,8 +1457,25 @@ const AdminDashboard = () => {
     const csvContent = [
       headers.join(','),
       ...data.map(row => headers.map(h => {
-        let val = row[h] || '';
-        if (typeof val === 'object') val = JSON.stringify(val);
+        let val = row[h];
+        if (val === undefined || val === null) val = '';
+        
+        // Handle specific columns
+        if (h === 'totalPrice' && val === '') val = '0';
+        if (h === 'phone' && typeof val === 'string') val = val.replace(/\s+/g, '');
+        if (h === 'name' && typeof val === 'string') val = val.trim();
+        
+        // Handle firestore timestamp objects
+        if (typeof val === 'object' && val !== null) {
+          if (val.seconds !== undefined) {
+            val = new Date(val.seconds * 1000).toLocaleString();
+          } else if (val.toDate && typeof val.toDate === 'function') {
+            val = val.toDate().toLocaleString();
+          } else {
+            val = JSON.stringify(val);
+          }
+        }
+        
         return `"${val.toString().replace(/"/g, '""')}"`;
       }).join(','))
     ].join('\n');
