@@ -410,14 +410,15 @@ export const translations = {
       successTitle: 'Welcome to the Community!',
       successDesc: 'Thank you for joining our community! We will keep you updated on upcoming meetups and opportunities.',
       backToHome: 'Back to Home',
-      optional: '(Optional)',
       ageOptions: ['Under 18', '18 – 24', '25 – 35', '36 – 45', 'Over 45'],
+      cityOptions: ['Tripoli / North', 'Akkar', 'Beirut', 'Mount Lebanon', 'South', 'Bekaa', 'Nabatieh', 'Baalbek-Hermel', 'Outside Lebanon', 'Other'],
       roleOptions: ['Content Creator', 'Storyteller / Writer', 'Photographer / Videographer', 'Podcaster / Speaker', 'Designer / Artist', 'Journalist / Media Worker', 'Student', 'Employee / Professional', 'Entrepreneur / Brand Owner', 'Teacher / Trainer', 'NGO / Community Worker', 'Mental Health / Self-Development Practitioner', 'Supporter / Audience Member', 'Other'],
       howDidYouHearOptions: ['Instagram', 'Facebook', 'WhatsApp', 'Friend / Relative', 'University / Work', 'Ad / Partner Page', 'Other'],
       attendedBeforeOptions: ['Yes', 'No'],
       topicOfInterestOptions: ['Self-understanding', 'Stress management', 'Relationships', 'Preventive mental health', 'Thought management', 'Passion and purpose', 'Decision making', 'Personal growth', 'Content creation', 'Storytelling', 'Community building'],
       knowMoreOptions: ['Yes, I would like to know the details', 'Maybe', 'No'],
-      consentOptions: ['I agree to allow Roots & Reach to use my contact details to send community updates and news.']
+      consentOptions: ['I agree to allow Roots & Reach to use my contact details to send community updates and news.'],
+      phoneError: 'Please enter a valid WhatsApp number with country code.'
     }
   },
   ar: {
@@ -830,12 +831,14 @@ export const translations = {
       backToHome: 'العودة للصفحة الرئيسية',
       optional: '(اختياري)',
       ageOptions: ['أقل من 18', '18 – 24', '25 – 35', '36 – 45', 'أكثر من 45'],
+      cityOptions: ['طرابلس / الشمال', 'عكار', 'بيروت', 'جبل لبنان', 'الجنوب', 'البقاع', 'النبطية', 'بعلبك - الهرمل', 'خارج لبنان', 'غير ذلك'],
       roleOptions: ['صانع/ة محتوى', 'راوٍ/راوية قصص أو كاتب/ة', 'مصوّر/ة أو صانع/ة فيديو', 'بودكاستر أو متحدث/ة', 'مصمّم/ة أو فنان/ة', 'صحافي/ة أو عامل/ة في الإعلام', 'طالب/ة', 'موظف/ة أو مهني/ة', 'رائد/ة أعمال أو صاحب/ة علامة تجارية', 'أستاذ/ة أو مدرّب/ة', 'عامل/ة في المجتمع أو المنظمات', 'مختص/ة في الصحة النفسية أو التطوير الذاتي', 'مهتم/ة أو داعم/ة للمجتمع', 'غير ذلك'],
       howDidYouHearOptions: ['إنستغرام', 'فيسبوك', 'واتساب', 'صديق/ة أو قريب/ة', 'الجامعة / العمل', 'إعلان أو صفحة شريكة', 'أخرى'],
       attendedBeforeOptions: ['نعم', 'لا'],
       topicOfInterestOptions: ['فهم الذات', 'إدارة التوتر', 'العلاقات', 'الصحة النفسية الوقائية', 'إدارة الأفكار', 'الشغف والهدف', 'اتخاذ القرار', 'النمو الشخصي', 'صناعة المحتوى', 'رواية القصص', 'بناء المجتمع'],
       knowMoreOptions: ['نعم، أود معرفة التفاصيل', 'ربما', 'لا'],
-      consentOptions: ['أوافق على استخدام معلوماتي للتواصل معي وإرسال تحديثات وأخبار مجتمع Roots & Reach.']
+      consentOptions: ['أوافق على استخدام معلوماتي للتواصل معي وإرسال تحديثات وأخبار مجتمع Roots & Reach.'],
+      phoneError: 'يرجى إدخال رقم واتساب صحيح مع رمز الدولة.'
     }
   }
 };

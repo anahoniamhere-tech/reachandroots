@@ -8,6 +8,7 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
   const { t, isRTL } = useLanguage();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [phoneError, setPhoneError] = useState('');
   
   const [formData, setFormData] = useState({
     fullName: '',
@@ -46,10 +47,33 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setPhoneError('');
     setIsSubmitting(true);
     try {
-      const { phoneCode, ...rest } = formData;
-      const submissionData = { ...rest, phone: `${phoneCode} ${formData.phone}` };
+      const { phoneCode, phone, ...rest } = formData;
+      
+      // Clean phone number: remove non-digits
+      let national = phone.replace(/[^\d]/g, '');
+      if (national.startsWith('0')) {
+        national = national.substring(1);
+      }
+      
+      if (national.length < 7 || national.length > 15) {
+        setPhoneError(t.registration?.phoneError || 'Please enter a valid WhatsApp number with country code.');
+        setIsSubmitting(false);
+        return;
+      }
+      
+      const phone_e164 = `${phoneCode}${national}`;
+      
+      const submissionData = { 
+        ...rest, 
+        phone: phone_e164, // Keep original property but updated
+        phone_e164: phone_e164,
+        phone_country_code: phoneCode,
+        phone_national: national
+      };
+      
       await submitRegistration(submissionData);
       setIsSuccess(true);
       setTimeout(() => {
@@ -146,9 +170,12 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
                   </select>
                   <input 
                     type="tel" required name="phone" value={formData.phone} onChange={handleChange} placeholder="e.g. 71 000 000"
-                    className="flex-1 min-w-0 bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy"
+                    className={`flex-1 min-w-0 bg-warm-beige/50 border rounded-2xl px-6 py-4 focus:outline-none transition-all font-body text-brand-navy ${phoneError ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500' : 'border-brand-navy/10 focus:border-brand-coral focus:ring-1 focus:ring-brand-coral'}`}
                   />
                 </div>
+                {phoneError && (
+                  <p className="text-red-500 text-xs mt-1 font-body">{phoneError}</p>
+                )}
               </div>
 
               <div className="space-y-2">
