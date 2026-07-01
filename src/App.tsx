@@ -825,7 +825,7 @@ export default function App() {
             className={`fixed z-[100] bg-brand-coral text-white font-bold uppercase py-2.5 px-6 rounded-t-xl hover:bg-brand-navy transition-all duration-500 shadow-2xl cursor-pointer flex items-center justify-center border-x border-t border-white/20 ${isRTL ? 'font-arabic tracking-normal text-sm md:text-base' : 'font-display tracking-widest text-xs md:text-sm'}`}
             style={{
               right: '0',
-              top: '50%',
+              top: isMenuOpen ? '70%' : '50%',
               transformOrigin: 'center',
               transform: (showFloatingTab || isMenuOpen) ? 'translate(calc(50% - 22px), -50%) rotate(-90deg)' : 'translate(100%, -50%) rotate(-90deg)',
               opacity: (showFloatingTab || isMenuOpen) ? 1 : 0,

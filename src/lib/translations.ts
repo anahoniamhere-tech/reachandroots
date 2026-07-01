@@ -114,7 +114,7 @@ export const translations = {
         whoWeAre: {
           title: 'WHO ARE WE',
           subtitle: 'A COMMUNITY FOR CREATORS & STORYTELLERS ACROSS THE LEVANT REGION',
-          desc: 'Born in Tripoli, the Gateway of the Levant, Roots & Reach supports creators and storytellers across the region, amplifying their voices and connecting them with platforms, audiences, and opportunities.',
+          desc: 'We are a community launched from Tripoli, the Gateway of the Levant, where creators and storytellers meet, exchange experiences, develop ideas, and connect with audiences, platforms. We create healthy spaces where authentic voices reach further and creativity grows into impact.',
           pillars: { p1: 'COMMUNITY', p2: 'VOICES', p3: 'STORIES', p4: 'OPPORTUNITY' }
         },
         mission: {
@@ -452,7 +452,7 @@ export const translations = {
       returnArchive: 'العودة إلى الأرشيف'
     },
     footer: {
-      tagline: 'مجتمع لصنّاع المحتوى ورواة القصص في العالم العربي، يجمع الريل توك، الابتكار، وصناعة المحتوى في مكان واحد.',
+      tagline: 'مجتمع لصنّاع المحتوى ورواة القصص في منطقة المشرق، يجمع الريل توك، الابتكار، وصناعة المحتوى في مكان واحد.',
       narrative: 'السرد',
       story: 'القصة',
       access: 'فئات الدخول',
@@ -532,7 +532,7 @@ export const translations = {
         whoWeAre: {
           title: 'من نحن',
           subtitle: 'مجتمع لصنّاع المحتوى ورواة القصص في منطقة المشرق',
-          desc: 'من طرابلس، بوابة المشرق، انطلقت Roots & Reach كمجتمع يرافق صُنّاع المحتوى ورواة القصص في المنطقة، ويُضخّم أصواتهم، ويربطهم بالمنصات والجمهور والفرص.',
+          desc: 'نحن مجتمع انطلق من طرابلس، بوابة المشرق، يلتقي فيه صُنّاع المحتوى ورواة القصص لتبادل الخبرات، تطوير الأفكار، والتواصل مع الجمهور. نخلق مساحات صحية تصل فيها الأصوات الأصيلة إلى مدى أوسع وينمو فيها الإبداع نحو أثر حقيقي.',
           pillars: { p1: 'الأصوات', p2: 'العلاقات', p3: 'الجمهور', p4: 'الأثر' }
         },
         mission: {

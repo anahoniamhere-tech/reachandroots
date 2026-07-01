@@ -108,7 +108,7 @@ export const sponsorshipTranslations = {
         { title: "Youth & Young Adults", desc: "Digital-native Gen Z and Millennial audiences seeking cultural inspiration." },
         { title: "Families", desc: "Local and visiting families attending the weekend food court and activities." },
         { title: "Local Communities", desc: "Engaged residents from Tripoli and North Lebanon supporting local growth." },
-        { title: "Regional Creator Fans", desc: "Millions of digital followers across Lebanon and the Arab world." },
+        { title: "Regional Creator Fans", desc: "Millions of digital followers across Lebanon and the Levant." },
         { title: "Culture & Tourism Enthusiasts", desc: "Travelers and history buffs exploring heritage sites." },
         { title: "Food & Lifestyle Lovers", desc: "A key demographic following culinary and lifestyle storytellers." },
         { title: "Professionals & Industry Guests", desc: "Marketers, agencies, cultural attachés, and creative leaders." },

@@ -95,11 +95,11 @@ export const seoConfig = {
   gallery: {
     en: {
       title: 'Gallery — Roots & Reach',
-      description: 'Browse our gallery of creators, storytellers, and community members shaping culture across the Arab world.',
+      description: 'Browse our gallery of creators, storytellers, and community members shaping culture across the Levant.',
     },
     ar: {
       title: 'المعرض — Roots & Reach',
-      description: 'تصفّح معرض المبدعين ورواة القصص وأفراد المجتمع الذين يصنعون الثقافة في العالم العربي.',
+      description: 'تصفّح معرض المبدعين ورواة القصص وأفراد المجتمع الذين يصنعون الثقافة في منطقة المشرق.',
     },
   },
   sponsors: {
