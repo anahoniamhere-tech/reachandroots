@@ -1806,7 +1806,9 @@ const AdminDashboard = () => {
                 <th className="py-4 font-normal">Email</th>
                 <th className="py-4 font-normal">Phone</th>
                 <th className="py-4 font-normal">Role</th>
-                <th className="py-4 font-normal">City</th>
+                <th className="py-4 font-normal">Gender</th>
+                <th className="py-4 font-normal">Nationality</th>
+                <th className="py-4 font-normal">Country</th>
               </tr>
             </thead>
             <tbody className="font-body text-brand-navy">
@@ -1822,10 +1824,12 @@ const AdminDashboard = () => {
                   <td className="py-4">{join.email || 'N/A'}</td>
                   <td className="py-4">{join.phone || 'N/A'}</td>
                   <td className="py-4 capitalize">{Array.isArray(join.role) ? join.role.join(', ') : (join.role || 'N/A')}</td>
-                  <td className="py-4">{join.city || 'N/A'}</td>
+                  <td className="py-4 capitalize">{join.gender || 'N/A'}</td>
+                  <td className="py-4">{join.nationality || 'N/A'}</td>
+                  <td className="py-4">{join.countryOfResidence || join.city || 'N/A'}</td>
                 </tr>
               )) : (
-                <tr><td colSpan={7} className="py-8 text-center text-brand-navy/40">No registrations found.</td></tr>
+                <tr><td colSpan={9} className="py-8 text-center text-brand-navy/40">No registrations found.</td></tr>
               )}
             </tbody>
           </table>

@@ -17,7 +17,9 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
     phone: '',
     email: '',
     age: '',
-    city: '',
+    gender: '',
+    nationality: '',
+    countryOfResidence: '',
     role: [] as string[],
     howDidYouHear: '',
     whyAttend: '',
@@ -195,15 +197,46 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
               </div>
 
               <div className="space-y-2">
-                <label className="font-display font-bold text-sm uppercase text-brand-navy">{t.registration?.city} *</label>
+                <label className="font-display font-bold text-sm uppercase text-brand-navy">{t.registration?.gender} *</label>
                 <select 
-                  required name="city" value={formData.city} onChange={handleChange}
+                  required name="gender" value={formData.gender} onChange={handleChange}
                   className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy appearance-none"
                 >
                   <option value="" disabled>---</option>
-                  {t.registration?.cityOptions?.map((opt: string) => (
+                  {t.registration?.genderOptions?.map((opt: string) => (
                     <option key={opt} value={opt}>{opt}</option>
                   ))}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="font-display font-bold text-sm uppercase text-brand-navy">{t.registration?.nationality} *</label>
+                <select 
+                  required name="nationality" value={formData.nationality} onChange={handleChange}
+                  className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy appearance-none"
+                >
+                  <option value="" disabled>---</option>
+                  {countryCodes.map((country) => (
+                    <option key={`nat-${country.name}`} value={country.name}>{country.name}</option>
+                  ))}
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="font-display font-bold text-sm uppercase text-brand-navy">
+                  {t.registration?.countryOfResidence} *
+                  <span className="block text-xs font-normal normal-case opacity-60 mt-1">{t.registration?.countryOfResidenceHint}</span>
+                </label>
+                <select 
+                  required name="countryOfResidence" value={formData.countryOfResidence} onChange={handleChange}
+                  className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy appearance-none"
+                >
+                  <option value="" disabled>---</option>
+                  {countryCodes.map((country) => (
+                    <option key={`res-${country.name}`} value={country.name}>{country.name}</option>
+                  ))}
+                  <option value="Other">Other</option>
                 </select>
               </div>
 
