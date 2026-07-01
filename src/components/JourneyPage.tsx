@@ -149,7 +149,8 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
         else if (formData.workshopChoice === 'ws2') { price = 25; tierName = 'Single Workshop 2'; }
         else { price = 0; tierName = 'Public Lecture'; }
 
-        await setDoc(doc(collection(db, 'orders')), {
+        const orderRef = doc(collection(db, 'orders'));
+        await setDoc(orderRef, {
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
@@ -159,6 +160,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
           quantity: 1,
           totalPrice: price,
           status: 'pending',
+          emailStatus: 'sending',
           createdAt: serverTimestamp()
         });
         
@@ -173,8 +175,20 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
               tierName: tierName,
               price: price
             })
-          }).catch(err => console.error('Failed to trigger email:', err));
-        } catch (e) {
+          })
+          .then(async (response) => {
+            const resData = await response.json();
+            if (resData.status === 'success') {
+              updateDoc(orderRef, { emailStatus: 'sent' }).catch(err => console.error(err));
+            } else {
+              updateDoc(orderRef, { emailStatus: 'failed', emailError: resData.message || 'Server error' }).catch(err => console.error(err));
+            }
+          })
+          .catch(err => {
+            console.error('Failed to trigger email:', err);
+            updateDoc(orderRef, { emailStatus: 'failed', emailError: err.message || 'Fetch failed' }).catch(e => console.error(e));
+          });
+        } catch (e: any) {
           // Ignore fetch errors so it doesn't block the success screen
         }
         
