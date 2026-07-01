@@ -644,6 +644,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                               className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
                               placeholder={isRTL ? 'مثال: محمد أحمد' : 'e.g. Jean Doe'}
+                              maxLength={100}
                             />
                           </div>
 
@@ -671,6 +672,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                                   className={`flex-1 min-w-0 bg-warm-beige/25 border rounded-xl p-4 text-brand-navy font-body focus:outline-none transition-colors ${phoneError ? 'border-red-500 focus:border-red-500' : 'border-brand-navy/10 focus:border-brand-coral'}`}
                                   placeholder="e.g. 71 000 000"
+                                  maxLength={30}
                                 />
                               </div>
                               {phoneError && (
@@ -686,6 +688,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                 className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
                                 placeholder="e.g. jean.doe@example.com"
+                                maxLength={100}
                               />
                             </div>
                           </div>

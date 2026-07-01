@@ -163,7 +163,7 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
               <div className="space-y-2">
                 <label className="font-display font-bold text-sm uppercase text-brand-navy">{t.registration?.fullName} *</label>
                 <input 
-                  type="text" required name="fullName" value={formData.fullName} onChange={handleChange}
+                  type="text" required name="fullName" value={formData.fullName} onChange={handleChange} maxLength={100}
                   className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy"
                 />
               </div>
@@ -185,7 +185,7 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
                     <option value="other">Other</option>
                   </select>
                   <input 
-                    type="tel" required name="phone" value={formData.phone} onChange={handleChange} placeholder="e.g. 71 000 000"
+                    type="tel" required name="phone" value={formData.phone} onChange={handleChange} placeholder="e.g. 71 000 000" maxLength={30}
                     className={`flex-1 min-w-0 bg-warm-beige/50 border rounded-2xl px-6 py-4 focus:outline-none transition-all font-body text-brand-navy ${phoneError ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500' : 'border-brand-navy/10 focus:border-brand-coral focus:ring-1 focus:ring-brand-coral'}`}
                   />
                 </div>
@@ -199,7 +199,7 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
                   {t.registration?.email} *
                 </label>
                 <input 
-                  type="email" required name="email" value={formData.email} onChange={handleChange}
+                  type="email" required name="email" value={formData.email} onChange={handleChange} maxLength={100}
                   className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy"
                 />
               </div>
@@ -301,7 +301,7 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
                 {t.registration?.whyAttend} <span className="text-brand-navy/40 font-normal normal-case">{t.registration?.optional}</span>
               </label>
               <textarea 
-                name="whyAttend" rows={3} value={formData.whyAttend} onChange={handleChange}
+                name="whyAttend" rows={3} value={formData.whyAttend} onChange={handleChange} maxLength={1000}
                 className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy resize-none"
               />
             </div>
@@ -349,6 +349,7 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
                   value={topicOtherText} 
                   onChange={handleOtherTextChange}
                   placeholder={t.registration?.otherPlaceholder}
+                  maxLength={100}
                   className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy mt-3"
                 />
               )}
