@@ -789,10 +789,11 @@ export default function App() {
                     href="https://www.instagram.com/rootsndreach/" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className={`editorial-label text-white/40 hover:text-brand-coral transition-colors uppercase font-bold ${isRTL ? 'tracking-normal' : 'tracking-widest'}`}
+                    className={`inline-flex items-center gap-2 editorial-label text-white/40 hover:text-brand-coral transition-colors uppercase font-bold leading-none ${isRTL ? 'tracking-normal' : 'tracking-widest'}`}
+                    dir="ltr"
                   >
-                    <Instagram className="w-6 h-6 inline-block mr-2" />
-                    Instagram
+                    <Instagram className="w-6 h-6 shrink-0" />
+                    <span className="leading-none mt-0.5">INSTAGRAM</span>
                   </a>
               </div>
             </div>
