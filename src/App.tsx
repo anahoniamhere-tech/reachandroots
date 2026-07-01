@@ -6,7 +6,7 @@ import {
   Sparkles, Coffee, Mic2, Palmtree, Utensils, Theater, PlayCircle,
   Loader2, Video, Play, Mic, Radio, Smartphone, Activity, Mail,
   Grid, Award, Share2, MessageSquare, Zap, Waves, Signal, 
-  Search, Users, Globe, Target, Clock, Filter, ExternalLink, Copy, Download, FileDown
+  Search, Users, Globe, Target, Clock, Filter, ExternalLink, Copy, Download, FileDown, Instagram
 } from 'lucide-react';
 import { 
   TripoliHeritage, FayhaaFlow, DigitalCreativity, 
@@ -109,10 +109,28 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
             </button>
           </div>
 
+          <a 
+            href="https://www.instagram.com/rootsndreach/" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="p-2 text-brand-navy bg-brand-navy/5 border border-brand-navy/5 hover:border-brand-coral/20 rounded-full transition-colors flex items-center justify-center"
+            title="Instagram"
+          >
+            <Instagram size={14} className="text-brand-navy/60 hover:text-brand-coral" />
+          </a>
+
 
         </div>
 
-        <div className="flex items-center gap-4 lg:hidden">
+        <div className="flex items-center gap-3 lg:hidden">
+          <a 
+            href="https://www.instagram.com/rootsndreach/" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="p-2 text-brand-navy bg-white/50 backdrop-blur-md rounded-xl transition-all flex items-center justify-center"
+          >
+            <Instagram size={20} />
+          </a>
           <button 
             onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
             className={`px-3 py-1.5 rounded-lg border border-brand-navy/10 editorial-label ${language === 'ar' ? 'font-arabic text-[10px] leading-none' : ''} hover:bg-brand-navy/5 transition-colors`}
@@ -746,38 +764,39 @@ export default function App() {
                 <BrandLogo className="w-12 h-12 sm:w-16 sm:h-16" />
                 <div className={`flex flex-col ${isRTL ? 'items-end' : 'items-start'}`}>
                   <span className="font-display text-xl sm:text-3xl tracking-tighter uppercase font-bold leading-none">Roots & Reach</span>
-            <span className="editorial-label text-[8px] sm:text-[11px] text-brand-coral tracking-[0.5em] mt-1">{t.nav.edition}</span>
                 </div>
               </div>
               <p className={`font-body text-base sm:text-xl text-white/40 leading-relaxed max-w-sm mb-8 sm:mb-12 ${isRTL ? 'text-right' : 'text-left'}`}>
                 {t.footer.tagline}
               </p>
               <div className={`flex flex-wrap gap-4 sm:gap-8 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                 {[
-                   { name: t.footer.social.instagram, id: 'instagram' },
-                   { name: t.footer.social.linkedin, id: 'linkedin' },
-                   { name: t.footer.social.vimeo, id: 'vimeo' }
-                 ].map(social => (
-                   <a key={social.id} href="#" className="editorial-label text-white/40 hover:text-brand-coral transition-colors tracking-widest uppercase font-bold">{social.name}</a>
-                 ))}
+                  <a 
+                    href="https://www.instagram.com/rootsndreach/" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className={`editorial-label text-white/40 hover:text-brand-coral transition-colors uppercase font-bold ${isRTL ? 'tracking-normal' : 'tracking-widest'}`}
+                  >
+                    <Instagram className="w-6 h-6 inline-block mr-2" />
+                    Instagram
+                  </a>
               </div>
             </div>
             
             <div className="lg:col-span-7 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-16">
-              <div className="min-w-0">
-                <span className="editorial-label text-brand-coral mb-4 sm:mb-8 block uppercase font-bold tracking-[0.4em]">{t.footer.narrative}</span>
-                <ul className="space-y-3 sm:space-y-4">
-                  <li><a href="#" onClick={(e) => { e.preventDefault(); setView('landing'); setTimeout(() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }), 100); }} className="font-display font-bold text-sm sm:text-lg text-white/50 hover:text-white transition-colors uppercase tracking-tight block truncate sm:whitespace-normal">{t.footer.story}</a></li>
-                </ul>
-              </div>
-              <div className="min-w-0">
-                <span className="editorial-label text-brand-coral mb-4 sm:mb-8 block uppercase font-bold tracking-[0.4em]">{t.footer.protocols}</span>
-                <p className="font-display font-bold text-xs sm:text-sm md:text-base text-white/60 mb-2 lowercase tracking-tight whitespace-nowrap">contact@rootsandreach.org</p>
-                <p className="font-display font-bold text-sm sm:text-lg text-white/60 uppercase tracking-tight">{isRTL ? 'طرابلس، لبنان' : 'Tripoli, Lebanon'}</p>
-              </div>
-              <div className="xs:col-span-2 md:col-span-1">
-                <span className="editorial-label text-brand-coral mb-4 sm:mb-8 block uppercase font-bold tracking-[0.4em]">{t.footer.registry}</span>
-                <p className="font-body text-[10px] sm:text-sm text-white/30 leading-relaxed">{isRTL ? 'نسخة الفيحاء — ٢٠٢٦.' : 'Fayhaa Edition — 2026.'} <br className="hidden sm:block" /> {t.footer.rights}</p>
+               <div className="min-w-0">
+                 <span className={`editorial-label text-brand-coral mb-4 sm:mb-8 block uppercase font-bold ${isRTL ? 'tracking-normal' : 'tracking-[0.4em]'}`}>{t.footer.narrative}</span>
+                 <ul className="space-y-3 sm:space-y-4">
+                   <li><a href="#" onClick={(e) => { e.preventDefault(); setView('landing'); setTimeout(() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }), 100); }} className="font-display font-bold text-sm sm:text-lg text-white/50 hover:text-white transition-colors uppercase tracking-tight block truncate sm:whitespace-normal">{t.footer.story}</a></li>
+                 </ul>
+               </div>
+               <div className="min-w-0">
+                 <span className={`editorial-label text-brand-coral mb-4 sm:mb-8 block uppercase font-bold ${isRTL ? 'tracking-normal' : 'tracking-[0.4em]'}`}>{t.footer.protocols}</span>
+                 <p className="font-display font-bold text-xs sm:text-sm md:text-base text-white/60 mb-2 lowercase tracking-tight whitespace-nowrap">contact@rootsandreach.org</p>
+                 <p className="font-display font-bold text-sm sm:text-lg text-white/60 uppercase tracking-tight">{isRTL ? 'طرابلس، لبنان' : 'Tripoli, Lebanon'}</p>
+               </div>
+               <div className="xs:col-span-2 md:col-span-1">
+                 <span className={`editorial-label text-brand-coral mb-4 sm:mb-8 block uppercase font-bold ${isRTL ? 'tracking-normal' : 'tracking-[0.4em]'}`}>{t.footer.registry}</span>
+                 <p className="font-body text-[10px] sm:text-sm text-white/30 leading-relaxed">{t.footer.rights}</p>
               </div>
             </div>
           </div>
