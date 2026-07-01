@@ -1413,12 +1413,12 @@ const AdminDashboard = () => {
   useEffect(() => {
     const forceSync = async () => {
       if (!user) return;
-      const lock = localStorage.getItem('forceSync_v6');
+      const lock = localStorage.getItem('forceSync_v7');
       if (lock) return;
-      localStorage.setItem('forceSync_v6', 'true');
+      localStorage.setItem('forceSync_v7', 'true');
       try {
         const snap = await getDocs(collection(db, 'orders'));
-        const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const orders = snap.docs.map(d => ({ ...d.data(), id: d.id }));
 
         // Delete all paid tickets and fix public lecture tags
         for (const order of orders) {
@@ -1456,7 +1456,7 @@ const AdminDashboard = () => {
           customerInfo: { name: 'Mariam Raad', email: 'mariamraad51@gmail.com', phone: '71261318', age: 26, nationality: 'Lebanon' }
         });
 
-        alert("Database synced perfectly! Tags aligned. V6");
+        alert("Database synced perfectly! Tags aligned. V7");
         window.location.reload();
       } catch (e) {
         console.error(e);
@@ -1475,7 +1475,7 @@ const AdminDashboard = () => {
         const ordersSnap = await getDocs(collection(db, 'orders'));
         const tiersSnap = await getDocs(collection(db, 'ticketTiers'));
         
-        const orders = ordersSnap.docs.map(d => ({ id: d.id, ...d.data() }) as Order);
+        const orders = ordersSnap.docs.map(d => ({ ...d.data(), id: d.id }) as Order);
         const tiers = tiersSnap.docs.map(d => {
           const tierData = d.data();
           const soldCount = orders.filter(o => {

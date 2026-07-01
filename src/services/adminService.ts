@@ -67,7 +67,7 @@ export const AdminService = {
     const path = 'registrations';
     try {
       const snap = await getDocs(collection(db, path));
-      return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      return snap.docs.map(d => ({ ...d.data(), id: d.id }));
     } catch (error) {
       handleFirestoreError(error, 'LIST', path);
       return [];
@@ -78,7 +78,7 @@ export const AdminService = {
     const path = 'orders';
     try {
       const snap = await getDocs(collection(db, path));
-      return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      return snap.docs.map(d => ({ ...d.data(), id: d.id }));
     } catch (error) {
       handleFirestoreError(error, 'LIST', path);
       return [];
