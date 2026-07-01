@@ -794,22 +794,26 @@ export default function App() {
         </>
       )}
 
-      <div 
-        onClick={() => { setView('registration'); setIsMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-        className={`fixed z-[100] bg-brand-coral text-white font-bold uppercase py-2.5 px-6 rounded-t-xl hover:bg-brand-navy transition-all duration-500 shadow-2xl cursor-pointer flex items-center justify-center border-x border-t border-white/20 ${isRTL ? 'font-arabic tracking-normal text-sm md:text-base' : 'font-display tracking-widest text-xs md:text-sm'}`}
-        style={{
-          right: '0',
-          top: '50%',
-          transformOrigin: 'center',
-          transform: (showFloatingTab || isMenuOpen) ? 'translate(calc(50% - 22px), -50%) rotate(-90deg)' : 'translate(100%, -50%) rotate(-90deg)',
-          opacity: (showFloatingTab || isMenuOpen) ? 1 : 0,
-          pointerEvents: (showFloatingTab || isMenuOpen) ? 'auto' : 'none'
-        }}
-      >
-        {isRTL ? 'انضم للمجتمع' : 'Join Community'}
-      </div>
+      {view !== 'admin' && (
+        <>
+          <div 
+            onClick={() => { setView('registration'); setIsMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            className={`fixed z-[100] bg-brand-coral text-white font-bold uppercase py-2.5 px-6 rounded-t-xl hover:bg-brand-navy transition-all duration-500 shadow-2xl cursor-pointer flex items-center justify-center border-x border-t border-white/20 ${isRTL ? 'font-arabic tracking-normal text-sm md:text-base' : 'font-display tracking-widest text-xs md:text-sm'}`}
+            style={{
+              right: '0',
+              top: '50%',
+              transformOrigin: 'center',
+              transform: (showFloatingTab || isMenuOpen) ? 'translate(calc(50% - 22px), -50%) rotate(-90deg)' : 'translate(100%, -50%) rotate(-90deg)',
+              opacity: (showFloatingTab || isMenuOpen) ? 1 : 0,
+              pointerEvents: (showFloatingTab || isMenuOpen) ? 'auto' : 'none'
+            }}
+          >
+            {isRTL ? 'انضم للمجتمع' : 'Join Community'}
+          </div>
 
-      <FloatingCountdown onClick={() => { setView('journey'); setIsMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
+          <FloatingCountdown onClick={() => { setView('journey'); setIsMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
+        </>
+      )}
     </div>
   );
 }
@@ -1381,6 +1385,25 @@ const AdminDashboard = () => {
     loadStats();
   }, [user]);
 
+  const downloadCSV = (data: any[], filename: string) => {
+    if (data.length === 0) return;
+    const headers = Array.from(new Set(data.flatMap(row => Object.keys(row)))).filter(k => k !== 'id');
+    const csvContent = [
+      headers.join(','),
+      ...data.map(row => headers.map(h => {
+        let val = row[h] || '';
+        if (typeof val === 'object') val = JSON.stringify(val);
+        return `"${val.toString().replace(/"/g, '""')}"`;
+      }).join(','))
+    ].join('\n');
+    
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+  };
+
   if (isLoading) return <div className="min-h-screen flex flex-col items-center justify-center bg-white gap-4"><Loader2 className="animate-spin text-brand-coral" size={32} /><span className="text-xs text-brand-navy/40 font-mono">Loading system telemetry...</span></div>;
 
   if (!user) {
@@ -1527,9 +1550,17 @@ const AdminDashboard = () => {
 
       {activeTab === 'community' && (
       <div className="space-y-12 relative z-10 mb-16">
-        <div className="flex items-center gap-6 border-b border-brand-navy/5 pb-8">
-           <span className="editorial-label text-brand-coral font-bold italic">03 //</span>
-           <h2 className="editorial-label text-brand-navy/30 tracking-[0.4em] uppercase font-bold text-[10px]">Community Joins</h2>
+        <div className="flex justify-between items-center border-b border-brand-navy/5 pb-8">
+          <div className="flex items-center gap-6">
+             <span className="editorial-label text-brand-coral font-bold italic">03 //</span>
+             <h2 className="editorial-label text-brand-navy/30 tracking-[0.4em] uppercase font-bold text-[10px]">Community Joins</h2>
+          </div>
+          <button 
+            onClick={() => downloadCSV(communityJoins, 'community_joins.csv')}
+            className="flex items-center gap-2 px-4 py-2 bg-brand-navy/5 hover:bg-brand-navy/10 text-brand-navy text-xs font-bold uppercase tracking-widest rounded-lg transition-colors"
+          >
+            <Download size={14} /> Export CSV
+          </button>
         </div>
         <div className="bg-white border border-brand-navy/5 rounded-[2rem] p-8 overflow-x-auto">
           <table className="w-full text-left border-collapse">
@@ -1562,9 +1593,17 @@ const AdminDashboard = () => {
 
       {activeTab === 'tickets' && (
       <div className="space-y-12 relative z-10 mb-16">
-        <div className="flex items-center gap-6 border-b border-brand-navy/5 pb-8">
-           <span className="editorial-label text-brand-coral font-bold italic">04 //</span>
-           <h2 className="editorial-label text-brand-navy/30 tracking-[0.4em] uppercase font-bold text-[10px]">Ticket Buyers</h2>
+        <div className="flex justify-between items-center border-b border-brand-navy/5 pb-8">
+          <div className="flex items-center gap-6">
+             <span className="editorial-label text-brand-coral font-bold italic">04 //</span>
+             <h2 className="editorial-label text-brand-navy/30 tracking-[0.4em] uppercase font-bold text-[10px]">Ticket Buyers</h2>
+          </div>
+          <button 
+            onClick={() => downloadCSV(ticketBuyers, 'ticket_buyers.csv')}
+            className="flex items-center gap-2 px-4 py-2 bg-brand-navy/5 hover:bg-brand-navy/10 text-brand-navy text-xs font-bold uppercase tracking-widest rounded-lg transition-colors"
+          >
+            <Download size={14} /> Export CSV
+          </button>
         </div>
         <div className="bg-white border border-brand-navy/5 rounded-[2rem] p-8 overflow-x-auto">
           <table className="w-full text-left border-collapse">
