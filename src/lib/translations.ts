@@ -107,7 +107,7 @@ export const translations = {
       companyInfo: {
         vision: {
           title: 'VISION',
-          subtitle: 'A CONNECTED ARAB CREATIVE COMMUNITY',
+          subtitle: 'A CONNECTED CREATIVE COMMUNITY',
           desc: 'Our vision is a connected creative community where creators and storytellers meet, exchange experiences, develop ideas, and bring authentic voices to wider audiences. We believe creativity grows when it finds healthy spaces for collaboration, learning, and shared value.',
           pillars: { p1: 'BELONGING', p2: 'COLLABORATION', p3: 'CULTURE', p4: 'GROWTH' }
         },
