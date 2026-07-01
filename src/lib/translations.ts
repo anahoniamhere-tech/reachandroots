@@ -419,7 +419,7 @@ export const translations = {
       howDidYouHearOptions: ['Instagram', 'Facebook', 'WhatsApp', 'Friend / Relative', 'University / Work', 'Ad / Partner Page', 'Other'],
       attendedBeforeOptions: ['Yes', 'No'],
       topicOfInterestOptions: ['Self-understanding', 'Stress management', 'Relationships', 'Preventive mental health', 'Thought management', 'Passion and purpose', 'Decision making', 'Personal growth', 'Content creation', 'Storytelling', 'Community building'],
-      knowMoreOptions: ['Yes, I would like to know the details', 'Maybe', 'No'],
+      knowMoreOptions: ['Yes, I would like to know the details', 'No'],
       consentOptions: ['I agree to allow Roots & Reach to use my contact details to send community updates and news.'],
       phoneError: 'Please enter a valid WhatsApp number with country code.'
     }
@@ -842,7 +842,7 @@ export const translations = {
       howDidYouHearOptions: ['إنستغرام', 'فيسبوك', 'واتساب', 'صديق/ة أو قريب/ة', 'الجامعة / العمل', 'إعلان أو صفحة شريكة', 'أخرى'],
       attendedBeforeOptions: ['نعم', 'لا'],
       topicOfInterestOptions: ['فهم الذات', 'إدارة التوتر', 'العلاقات', 'الصحة النفسية الوقائية', 'إدارة الأفكار', 'الشغف والهدف', 'اتخاذ القرار', 'النمو الشخصي', 'صناعة المحتوى', 'رواية القصص', 'بناء المجتمع'],
-      knowMoreOptions: ['نعم، أود معرفة التفاصيل', 'ربما', 'لا'],
+      knowMoreOptions: ['نعم، أود معرفة التفاصيل', 'لا'],
       consentOptions: ['أوافق على استخدام معلوماتي للتواصل معي وإرسال تحديثات وأخبار مجتمع Roots & Reach.'],
       phoneError: 'يرجى إدخال رقم واتساب صحيح مع رمز الدولة.'
     }
