@@ -1405,7 +1405,11 @@ const AdminDashboard = () => {
         const tiersSnap = await getDocs(collection(db, 'ticketTiers'));
         
         const orders = ordersSnap.docs.map(d => d.data() as Order);
-        const tiers = tiersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const tiers = tiersSnap.docs.map(d => {
+          const tierData = d.data();
+          const soldCount = orders.filter(o => o.tierId === tierData.id || o.tierId === tierData.name).reduce((acc, curr) => acc + (curr.quantity || 1), 0);
+          return { id: d.id, ...tierData, soldCount };
+        });
         
         const revenue = orders.reduce((acc, curr) => acc + curr.totalPrice, 0);
         
