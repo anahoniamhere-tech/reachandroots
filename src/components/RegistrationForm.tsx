@@ -11,6 +11,7 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
   
   const [formData, setFormData] = useState({
     fullName: '',
+    phoneCode: '+961',
     phone: '',
     email: '',
     age: '',
@@ -47,7 +48,9 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await submitRegistration(formData);
+      const { phoneCode, ...rest } = formData;
+      const submissionData = { ...rest, phone: `${phoneCode} ${formData.phone}` };
+      await submitRegistration(submissionData);
       setIsSuccess(true);
       setTimeout(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -118,19 +121,42 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
               </div>
 
               <div className="space-y-2">
-                <label className="font-display font-bold text-sm uppercase text-brand-navy">{t.registration?.phone} *</label>
-                <input 
-                  type="tel" required name="phone" value={formData.phone} onChange={handleChange}
-                  className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy"
-                />
+                <label className="font-display font-bold text-sm uppercase text-brand-navy">
+                  {t.registration?.phone} *
+                </label>
+                <div className="flex gap-2">
+                  <select 
+                    name="phoneCode" value={formData.phoneCode} onChange={handleChange}
+                    className="bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-4 py-4 focus:outline-none focus:border-brand-coral transition-all font-body text-brand-navy appearance-none w-28 shrink-0 text-center"
+                  >
+                    <option value="+961">🇱🇧 +961</option>
+                    <option value="+971">🇦🇪 +971</option>
+                    <option value="+966">🇸🇦 +966</option>
+                    <option value="+962">🇯🇴 +962</option>
+                    <option value="+20">🇪🇬 +20</option>
+                    <option value="+964">🇮🇶 +964</option>
+                    <option value="+968">🇴🇲 +968</option>
+                    <option value="+974">🇶🇦 +974</option>
+                    <option value="+965">🇰🇼 +965</option>
+                    <option value="+973">🇧🇭 +973</option>
+                    <option value="+1">🇺🇸 +1</option>
+                    <option value="+44">🇬🇧 +44</option>
+                    <option value="+33">🇫🇷 +33</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <input 
+                    type="tel" required name="phone" value={formData.phone} onChange={handleChange} placeholder="e.g. 71 000 000"
+                    className="flex-1 min-w-0 bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy"
+                  />
+                </div>
               </div>
 
               <div className="space-y-2">
                 <label className="font-display font-bold text-sm uppercase text-brand-navy">
-                  {t.registration?.email} <span className="text-brand-navy/40 font-normal normal-case">{t.registration?.optional}</span>
+                  {t.registration?.email} *
                 </label>
                 <input 
-                  type="email" name="email" value={formData.email} onChange={handleChange}
+                  type="email" required name="email" value={formData.email} onChange={handleChange}
                   className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy"
                 />
               </div>
@@ -150,10 +176,15 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
 
               <div className="space-y-2">
                 <label className="font-display font-bold text-sm uppercase text-brand-navy">{t.registration?.city} *</label>
-                <input 
-                  type="text" required name="city" value={formData.city} onChange={handleChange}
-                  className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy"
-                />
+                <select 
+                  required name="city" value={formData.city} onChange={handleChange}
+                  className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy appearance-none"
+                >
+                  <option value="" disabled>---</option>
+                  {t.registration?.cityOptions?.map((opt: string) => (
+                    <option key={opt} value={opt}>{opt}</option>
+                  ))}
+                </select>
               </div>
 
             </div>
