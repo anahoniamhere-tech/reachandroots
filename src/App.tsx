@@ -1900,12 +1900,88 @@ const AdminDashboard = () => {
             <h4 className="editorial-h2 mb-4">Environment Reset</h4>
             <p className="font-body text-brand-navy/40 text-lg leading-snug">Initialize the database architecture with original seed configuration. All records will be synchronized.</p>
          </div>
-         <button 
-           onClick={() => AdminService.seedDatabase()}
-           className="relative z-10 px-12 py-5 bg-brand-navy text-white font-display font-bold text-xs uppercase tracking-widest transition-all duration-700 hover:bg-brand-coral shadow-2xl rounded-xl"
-         >
-           Execute Protocol
-         </button>
+         <div className="flex gap-4 relative z-10">
+           <button 
+             onClick={async () => {
+               if (!window.confirm("Run data cleanup?")) return;
+               try {
+                 const { collection, getDocs, updateDoc, deleteDoc, setDoc, doc, serverTimestamp } = await import('firebase/firestore');
+                 const { db } = await import('./lib/firebase');
+                 const snap = await getDocs(collection(db, 'orders'));
+                 const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+                 let keptHanane30 = false;
+                 let keptMariam30 = false;
+                 let keptBoushra = false;
+
+                 for (const order of orders) {
+                   const price = Number(order.totalPrice) || 0;
+                   if (price === 0) continue;
+
+                   let shouldDelete = true;
+                   const email = (order.customerInfo?.email || order.email || '').toLowerCase();
+                   
+                   if (email.includes('bushra')) {
+                     if (!keptBoushra) {
+                       keptBoushra = true;
+                       shouldDelete = false;
+                       await updateDoc(doc(db, 'orders', order.id), { tierId: 'Double Workshop: Passion & Stress + Mind Programming', totalPrice: 30 });
+                     }
+                   } else if (email.includes('hanane.assoum')) {
+                     if (price === 30 && !keptHanane30) {
+                       keptHanane30 = true;
+                       shouldDelete = false;
+                       await updateDoc(doc(db, 'orders', order.id), { tierId: 'Double Workshop: Passion & Stress + Mind Programming' });
+                     }
+                   } else if (email.includes('mariamraad51')) {
+                     if (price === 30 && !keptMariam30) {
+                       keptMariam30 = true;
+                       shouldDelete = false;
+                       await updateDoc(doc(db, 'orders', order.id), { tierId: 'Double Workshop: Passion & Stress + Mind Programming' });
+                     }
+                   }
+
+                   if (shouldDelete) {
+                     await deleteDoc(doc(db, 'orders', order.id));
+                   }
+                 }
+
+                 if (!keptBoushra) {
+                   await setDoc(doc(collection(db, 'orders')), {
+                     tierId: 'Double Workshop: Passion & Stress + Mind Programming',
+                     totalPrice: 30,
+                     quantity: 1,
+                     status: 'paid',
+                     createdAt: serverTimestamp(),
+                     name: 'Boushra',
+                     email: 'bushra.dardasawi22@gmail.com',
+                     phone: '+961 3 682 339',
+                     customerInfo: {
+                       name: 'Boushra',
+                       email: 'bushra.dardasawi22@gmail.com',
+                       phone: '+961 3 682 339'
+                     }
+                   });
+                 }
+
+                 alert("Data Cleanup Complete! Refreshing...");
+                 window.location.reload();
+               } catch (e) {
+                 console.error("Cleanup failed", e);
+                 alert("Cleanup failed. Check console.");
+               }
+             }}
+             className="px-6 py-4 bg-green-600 text-white font-display font-bold text-xs uppercase tracking-widest hover:bg-green-700 rounded-xl"
+           >
+             Cleanup Data
+           </button>
+           <button 
+             onClick={() => AdminService.seedDatabase()}
+             className="px-12 py-5 bg-brand-navy text-white font-display font-bold text-xs uppercase tracking-widest transition-all duration-700 hover:bg-brand-coral shadow-2xl rounded-xl"
+           >
+             Execute Protocol
+           </button>
+         </div>
       </div>
       )}
 
