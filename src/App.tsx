@@ -93,7 +93,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
             ))}
           </div>
 
-          <div className="flex items-center gap-4 px-4 py-1.5 bg-brand-navy/5 rounded-full border border-brand-navy/5">
+          <div className="flex items-center gap-4 px-4 py-1.5 bg-brand-navy/[0.02] rounded-full border border-brand-navy/5">
               <button 
                 onClick={() => setLanguage('en')}
                 className={`editorial-label translation-all ${language === 'en' ? 'text-brand-coral font-bold' : 'text-brand-navy/30 hover:text-brand-navy'}`}
@@ -113,7 +113,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
             href="https://www.instagram.com/rootsndreach/" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="p-2 text-brand-navy bg-brand-navy/5 border border-brand-navy/5 hover:border-brand-coral/20 rounded-full transition-colors flex items-center justify-center"
+            className="p-2 text-brand-navy bg-brand-navy/[0.02] border border-brand-navy/5 hover:border-brand-coral/20 rounded-full transition-colors flex items-center justify-center"
             title="Instagram"
           >
             <Instagram size={14} className="text-brand-navy/60 hover:text-brand-coral" />
@@ -127,7 +127,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
             href="https://www.instagram.com/rootsndreach/" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="p-2 text-brand-navy bg-white/50 backdrop-blur-md rounded-xl transition-all flex items-center justify-center"
+            className="p-2 text-brand-navy bg-white/10 backdrop-blur-sm rounded-xl transition-all flex items-center justify-center"
           >
             <Instagram size={20} />
           </a>
@@ -139,7 +139,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
           </button>
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="p-2 text-brand-navy bg-white/50 backdrop-blur-md rounded-xl transition-all active:scale-95 hover:bg-white"
+            className="p-2 text-brand-navy bg-white/10 backdrop-blur-sm rounded-xl transition-all active:scale-95 hover:bg-white/20"
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
