@@ -13,6 +13,7 @@ import {
   ContentStorytelling, CommunityConnection, BrandLogo 
 } from './components/BrandingIcons';
 import { SanctuaryPage } from './components/SanctuaryPage';
+import { CookieBanner } from './components/CookieBanner';
 import { SanctuaryApplyPage } from './components/SanctuaryApplyPage';
 import { SponsorsLandingPage } from './components/SponsorsLandingPage';
 import { OurStory } from './components/OurStory';
@@ -814,6 +815,8 @@ export default function App() {
           <FloatingCountdown onClick={() => { setView('journey'); setIsMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
         </>
       )}
+
+      <CookieBanner />
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app';
+import { getAnalytics } from 'firebase/analytics';
 import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 import { 
   getFirestore, 
@@ -44,6 +45,21 @@ if (typeof window !== 'undefined') {
     provider: new ReCaptchaV3Provider('6LcenT4tAAAAAEDXtuLJxxjW57zW2TLIOPYvjvBr'),
     isTokenAutoRefreshEnabled: true
   });
+  
+  // Set up global function to initialize analytics after cookie consent
+  (window as any).initializeAnalytics = () => {
+    try {
+      getAnalytics(app);
+      console.log('Google Analytics initialized.');
+    } catch (e) {
+      console.error('Failed to initialize Google Analytics:', e);
+    }
+  };
+  
+  // Auto-initialize if consent was already granted
+  if (localStorage.getItem('cookie_consent') === 'accepted') {
+    (window as any).initializeAnalytics();
+  }
 }
 
 const realAuth = getAuth(app);
