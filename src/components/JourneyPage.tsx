@@ -143,7 +143,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setPhoneError('');
-    if (formData.name && formData.phone && formData.email && formData.age && formData.nationality) {
+    if (formData.name && formData.phone && formData.email) {
       // Clean phone number: remove non-digits
       let national = formData.phone.replace(/[^\d]/g, '');
       if (national.startsWith('0')) {
@@ -696,24 +696,25 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                           {/* Age & Nationality */}
                           <div className="grid sm:grid-cols-2 gap-4">
                             <div className="space-y-2">
-                              <label className="editorial-label text-[10px] font-bold block">{isRTL ? 'العمر' : 'Age'}</label>
+                              <label className="editorial-label text-[10px] font-bold block">
+                                {isRTL ? 'العمر' : 'Age'} <span className="opacity-50 font-normal">({isRTL ? 'اختياري' : 'Optional'})</span>
+                              </label>
                               <select 
-                                required
                                 value={formData.age}
                                 onChange={(e) => setFormData({ ...formData, age: e.target.value })}
                                 className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
                               >
                                 <option value="" disabled hidden>{isRTL ? 'اختر العمر' : 'Select Age'}</option>
-                                {Array.from({ length: 55 }, (_, i) => 16 + i).map(age => (
-                                  <option key={age} value={age}>{age}</option>
+                                {(t.registration?.ageOptions as string[] || ['Under 18', '18 – 24', '25 – 35', '36 – 45', 'Over 45']).map(ageRange => (
+                                  <option key={ageRange} value={ageRange}>{ageRange}</option>
                                 ))}
-                                <option value="70+">70+</option>
                               </select>
                             </div>
                             <div className="space-y-2">
-                              <label className="editorial-label text-[10px] font-bold block">{isRTL ? 'الجنسية' : 'Nationality'}</label>
+                              <label className="editorial-label text-[10px] font-bold block">
+                                {isRTL ? 'الجنسية' : 'Nationality'} <span className="opacity-50 font-normal">({isRTL ? 'اختياري' : 'Optional'})</span>
+                              </label>
                               <select 
-                                required
                                 value={formData.nationality}
                                 onChange={(e) => setFormData({ ...formData, nationality: e.target.value })}
                                 className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
