@@ -23,7 +23,7 @@ import { TrfAnahonPage } from './components/TrfAnahonPage';
 import { JourneyPage } from './components/JourneyPage';
 import { RegistrationForm } from './components/RegistrationForm';
 import { FloatingCountdown } from './components/FloatingCountdown';
-import { auth, db, onAuthStateChanged, signInWithEmailAndPassword, signInWithGoogle, collection, getDocs, User as FirebaseUser } from './lib/firebase';
+import { auth, db, onAuthStateChanged, signInWithEmailAndPassword, signInWithGoogle, collection, getDocs, User as FirebaseUser, deleteDoc, updateDoc, setDoc, doc, serverTimestamp } from './lib/firebase';
 import { TICKET_TIERS, EVENT_DAYS } from './constants';
 import { TicketTier, EventDay, Order, BuyerInfo, VipDetails } from './types';
 import { TicketService } from './services/ticketService';
@@ -1413,9 +1413,9 @@ const AdminDashboard = () => {
   useEffect(() => {
     const forceSync = async () => {
       if (!user) return;
-      const lock = localStorage.getItem('forceSync_v3');
+      const lock = localStorage.getItem('forceSync_v4');
       if (lock) return;
-      localStorage.setItem('forceSync_v3', 'true');
+      localStorage.setItem('forceSync_v4', 'true');
       try {
         const snap = await getDocs(collection(db, 'orders'));
         const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
