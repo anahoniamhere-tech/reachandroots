@@ -19,7 +19,7 @@ const seoConfig = {
   '/journeys': {
     title: "Dr. Yazeed's Journey — Roots & Reach",
     description: 'Join Dr. Yazeed Mousa for an exclusive developmental journey in Tripoli, Lebanon. Lectures, workshops, and transformative experiences.',
-    image: 'https://rootsandreach.org/yazeed.jpg'
+    image: 'https://rootsandreach.org/OG-Journey.png'
   },
   '/program': {
     title: 'Event Program — Roots & Reach',
