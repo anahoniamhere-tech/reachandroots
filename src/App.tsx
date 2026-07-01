@@ -1821,7 +1821,7 @@ const AdminDashboard = () => {
                   <td className="py-4 font-bold">{join.fullName || join.name || 'N/A'}</td>
                   <td className="py-4">{join.email || 'N/A'}</td>
                   <td className="py-4">{join.phone || 'N/A'}</td>
-                  <td className="py-4 capitalize">{join.role || 'N/A'}</td>
+                  <td className="py-4 capitalize">{Array.isArray(join.role) ? join.role.join(', ') : (join.role || 'N/A')}</td>
                   <td className="py-4">{join.city || 'N/A'}</td>
                 </tr>
               )) : (

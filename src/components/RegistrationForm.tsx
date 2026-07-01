@@ -15,7 +15,7 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
     email: '',
     age: '',
     city: '',
-    role: '',
+    role: [] as string[],
     howDidYouHear: '',
     whyAttend: '',
     attendedBefore: '',
@@ -156,21 +156,30 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
                 />
               </div>
 
-              <div className="space-y-2">
-                <label className="font-display font-bold text-sm uppercase text-brand-navy">{t.registration?.role} *</label>
-                <select 
-                  required name="role" value={formData.role} onChange={handleChange}
-                  className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy appearance-none"
-                >
-                  <option value="" disabled>---</option>
-                  {t.registration?.roleOptions?.map((opt: string) => (
-                    <option key={opt} value={opt}>{opt}</option>
-                  ))}
-                </select>
+            </div>
+
+            <div className="space-y-4 pt-4">
+              <label className="font-display font-bold text-sm uppercase text-brand-navy">{t.registration?.role} *</label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-warm-beige/50 p-6 rounded-2xl border border-brand-navy/10">
+                {t.registration?.roleOptions?.map((opt: string) => (
+                  <label key={opt} className="flex items-start gap-4 cursor-pointer group">
+                    <div className="relative flex items-center justify-center w-6 h-6 shrink-0 mt-0.5">
+                      <input 
+                        type="checkbox" 
+                        name="role"
+                        checked={((formData.role as unknown as string[]) || []).includes(opt)} 
+                        onChange={(e) => handleCheckboxArrayChange('role', opt, e.target.checked)}
+                        className="peer appearance-none w-6 h-6 border-2 border-brand-navy/20 rounded-md checked:bg-brand-coral checked:border-brand-coral transition-all" 
+                      />
+                      <Check size={14} className="absolute text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none" />
+                    </div>
+                    <span className="font-body text-brand-navy/80 leading-relaxed group-hover:text-brand-navy transition-colors">{opt}</span>
+                  </label>
+                ))}
               </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 pt-4">
               <label className="font-display font-bold text-sm uppercase text-brand-navy">{t.registration?.howDidYouHear} *</label>
               <select 
                 required name="howDidYouHear" value={formData.howDidYouHear} onChange={handleChange}
