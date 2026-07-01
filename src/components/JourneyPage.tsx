@@ -6,7 +6,7 @@ import {
   Users, CheckCircle2, Copy, Send
 } from 'lucide-react';
 import { useLanguage } from '../lib/LanguageContext';
-import { db, collection, addDoc, serverTimestamp } from '../lib/firebase';
+import { db, collection, doc, setDoc, serverTimestamp } from '../lib/firebase';
 import YazeedPhoto from '../assets/yazeed_mousa_real.jpg';
 
 const countryTranslations: Record<string, string> = {
@@ -57,6 +57,8 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
     workshopChoice: 'both' 
   });
   const [isRegistered, setIsRegistered] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Fallback values if context translations are loading or missing
   const journeyT = (t as any).sanctuary?.journey || {
@@ -130,6 +132,8 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.name && formData.phone && formData.email && formData.age && formData.nationality) {
+      setSubmitting(true);
+      setSubmitError(null);
       try {
         let price = 0;
         let tierName = '';
@@ -138,7 +142,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
         else if (formData.workshopChoice === 'ws2') { price = 25; tierName = 'Single Workshop 2'; }
         else { price = 0; tierName = 'Public Lecture'; }
 
-        await addDoc(collection(db, 'orders'), {
+        await setDoc(doc(collection(db, 'orders')), {
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
@@ -150,10 +154,13 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
           status: 'pending',
           createdAt: serverTimestamp()
         });
-      } catch (err) {
+        setIsRegistered(true);
+      } catch (err: any) {
         console.error("Failed to save order to database", err);
+        setSubmitError(err?.message || "Failed to submit. Please check your internet connection.");
+      } finally {
+        setSubmitting(false);
       }
-      setIsRegistered(true);
     }
   };
 
@@ -654,23 +661,32 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                           </div>
                         </div>
 
+                        {submitError && (
+                          <div className="p-4 bg-brand-coral/10 border border-brand-coral/25 rounded-xl text-brand-coral text-xs font-body text-center leading-relaxed">
+                            {submitError}
+                          </div>
+                        )}
+
                         <div className="flex gap-4 pt-4">
                           <button 
                             type="button" 
+                            disabled={submitting}
                             onClick={() => {
                               setShowRegisterForm(false);
                               setFormData({ name: '', phone: '', email: '', age: '', nationality: '', workshopChoice: 'both' });
+                              setSubmitError(null);
                             }}
-                            className="flex-1 py-4 border border-brand-navy/10 hover:border-brand-coral rounded-xl text-brand-navy font-display font-bold text-xs uppercase tracking-widest transition-all cursor-pointer"
+                            className="flex-1 py-4 border border-brand-navy/10 hover:border-brand-coral rounded-xl text-brand-navy font-display font-bold text-xs uppercase tracking-widest transition-all cursor-pointer disabled:opacity-50"
                           >
                             {isRTL ? 'إلغاء' : 'Cancel'}
                           </button>
                           <button 
                             type="submit" 
-                            className="flex-1 py-4 bg-brand-navy hover:bg-brand-coral text-white rounded-xl font-display font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 cursor-pointer"
+                            disabled={submitting}
+                            className="flex-1 py-4 bg-brand-navy hover:bg-brand-coral text-white rounded-xl font-display font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                           >
-                            <span>{isRTL ? 'إرسال' : 'Submit'}</span>
-                            <Send size={12} className={isRTL ? 'rotate-180' : ''} />
+                            <span>{submitting ? (isRTL ? 'جاري الإرسال...' : 'Submitting...') : (isRTL ? 'إرسال' : 'Submit')}</span>
+                            {!submitting && <Send size={12} className={isRTL ? 'rotate-180' : ''} />}
                           </button>
                         </div>
                       </form>
