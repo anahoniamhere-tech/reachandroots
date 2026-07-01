@@ -418,10 +418,11 @@ export const translations = {
       roleOptions: ['Content Creator', 'Storyteller / Writer', 'Photographer / Videographer', 'Podcaster / Speaker', 'Designer / Artist', 'Journalist / Media Worker', 'Student', 'Employee / Professional', 'Entrepreneur / Brand Owner', 'Teacher / Trainer', 'NGO / Community Worker', 'Mental Health / Self-Development Practitioner', 'Supporter / Audience Member', 'Other'],
       howDidYouHearOptions: ['Instagram', 'Facebook', 'WhatsApp', 'Friend / Relative', 'University / Work', 'Ad / Partner Page', 'Other'],
       attendedBeforeOptions: ['Yes', 'No'],
-      topicOfInterestOptions: ['Self-understanding', 'Stress management', 'Relationships', 'Preventive mental health', 'Thought management', 'Passion and purpose', 'Decision making', 'Personal growth', 'Content creation', 'Storytelling', 'Community building'],
+      topicOfInterestOptions: ['Self-understanding', 'Stress management', 'Relationships', 'Preventive mental health', 'Thought management', 'Passion and purpose', 'Decision making', 'Personal growth', 'Content creation', 'Storytelling', 'Community building', 'Other'],
       knowMoreOptions: ['Yes, I would like to know the details', 'No'],
       consentOptions: ['I agree to allow Roots & Reach to use my contact details to send community updates and news.'],
-      phoneError: 'Please enter a valid WhatsApp number with country code.'
+      phoneError: 'Please enter a valid WhatsApp number with country code.',
+      otherPlaceholder: 'Describe your interest (max 3 words)'
     }
   },
   ar: {
@@ -841,10 +842,11 @@ export const translations = {
       roleOptions: ['صانع/ة محتوى', 'راوٍ/راوية قصص أو كاتب/ة', 'مصوّر/ة أو صانع/ة فيديو', 'بودكاستر أو متحدث/ة', 'مصمّم/ة أو فنان/ة', 'صحافي/ة أو عامل/ة في الإعلام', 'طالب/ة', 'موظف/ة أو مهني/ة', 'رائد/ة أعمال أو صاحب/ة علامة تجارية', 'أستاذ/ة أو مدرّب/ة', 'عامل/ة في المجتمع أو المنظمات', 'مختص/ة في الصحة النفسية أو التطوير الذاتي', 'مهتم/ة أو داعم/ة للمجتمع', 'غير ذلك'],
       howDidYouHearOptions: ['إنستغرام', 'فيسبوك', 'واتساب', 'صديق/ة أو قريب/ة', 'الجامعة / العمل', 'إعلان أو صفحة شريكة', 'أخرى'],
       attendedBeforeOptions: ['نعم', 'لا'],
-      topicOfInterestOptions: ['فهم الذات', 'إدارة التوتر', 'العلاقات', 'الصحة النفسية الوقائية', 'إدارة الأفكار', 'الشغف والهدف', 'اتخاذ القرار', 'النمو الشخصي', 'صناعة المحتوى', 'رواية القصص', 'بناء المجتمع'],
+      topicOfInterestOptions: ['فهم الذات', 'إدارة التوتر', 'العلاقات', 'الصحة النفسية الوقائية', 'إدارة الأفكار', 'الشغف والهدف', 'اتخاذ القرار', 'النمو الشخصي', 'صناعة المحتوى', 'رواية القصص', 'بناء المجتمع', 'أخرى'],
       knowMoreOptions: ['نعم، أود معرفة التفاصيل', 'لا'],
       consentOptions: ['أوافق على استخدام معلوماتي للتواصل معي وإرسال تحديثات وأخبار مجتمع Roots & Reach.'],
-      phoneError: 'يرجى إدخال رقم واتساب صحيح مع رمز الدولة.'
+      phoneError: 'يرجى إدخال رقم واتساب صحيح مع رمز الدولة.',
+      otherPlaceholder: 'صف اهتمامك (٣ كلمات كحد أقصى)'
     }
   }
 };

@@ -10,6 +10,7 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [phoneError, setPhoneError] = useState('');
+  const [topicOtherText, setTopicOtherText] = useState('');
   
   const [formData, setFormData] = useState({
     fullName: '',
@@ -48,6 +49,17 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
     });
   };
 
+  const handleOtherTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    const words = val.trim().split(/\s+/).filter(Boolean);
+    if (words.length <= 3) {
+      setTopicOtherText(val);
+    } else {
+      const truncated = val.split(/\s+/).slice(0, 3).join(' ');
+      setTopicOtherText(truncated);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setPhoneError('');
@@ -69,8 +81,17 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
       
       const phone_e164 = `${phoneCode}${national}`;
       
+      const cleanedTopics = formData.topicOfInterest.map(topic => {
+        if (topic === 'Other' || topic === 'أخرى') {
+          return `${topic}: ${topicOtherText}`;
+        }
+        return topic;
+      });
+      
       const submissionData = { 
         ...rest, 
+        topicOfInterest: cleanedTopics,
+        topicOtherText: topicOtherText || '',
         phone: phone_e164, // Keep original property but updated
         phone_e164: phone_e164,
         phone_country_code: phoneCode,
@@ -321,6 +342,16 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
                   </label>
                 ))}
               </div>
+              {(formData.topicOfInterest.includes('Other') || formData.topicOfInterest.includes('أخرى')) && (
+                <input 
+                  type="text" 
+                  required 
+                  value={topicOtherText} 
+                  onChange={handleOtherTextChange}
+                  placeholder={t.registration?.otherPlaceholder}
+                  className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy mt-3"
+                />
+              )}
             </div>
 
             <div className="space-y-4 pt-4 border-t border-brand-navy/10">
