@@ -6,7 +6,7 @@ import {
   Users, CheckCircle2, Copy, Send, Instagram
 } from 'lucide-react';
 import { useLanguage } from '../lib/LanguageContext';
-import { db, collection, doc, setDoc, serverTimestamp } from '../lib/firebase';
+import { db, collection, doc, setDoc, updateDoc, serverTimestamp } from '../lib/firebase';
 import YazeedPhoto from '../assets/yazeed_mousa_real.jpg';
 
 const countryTranslations: Record<string, string> = {
@@ -144,10 +144,22 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
       try {
         let price = 0;
         let tierName = '';
-        if (formData.workshopChoice === 'both') { price = 30; tierName = 'Double Workshop'; }
-        else if (formData.workshopChoice === 'ws1') { price = 25; tierName = 'Single Workshop 1'; }
-        else if (formData.workshopChoice === 'ws2') { price = 25; tierName = 'Single Workshop 2'; }
-        else { price = 0; tierName = 'Public Lecture'; }
+        if (formData.workshopChoice === 'both') { 
+          price = 30; 
+          tierName = 'Double Workshop: Passion & Stress + Mind Programming'; 
+        }
+        else if (formData.workshopChoice === 'ws1') { 
+          price = 20; 
+          tierName = 'Single Workshop: Passion & Stress Management'; 
+        }
+        else if (formData.workshopChoice === 'ws2') { 
+          price = 20; 
+          tierName = 'Single Workshop: Mind Programming'; 
+        }
+        else { 
+          price = 0; 
+          tierName = 'Public Lecture: The Five Inner Thoughts'; 
+        }
 
         const orderRef = doc(collection(db, 'orders'));
         await setDoc(orderRef, {
