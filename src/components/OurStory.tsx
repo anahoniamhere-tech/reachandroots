@@ -302,7 +302,7 @@ export const OurStory = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-              className={`absolute top-[-2rem] ${isRTL ? 'right-10' : 'left-10'} w-32 h-32 bg-[#759078] rounded-full z-0 opacity-80 blur-xl`} 
+              className={`absolute top-[-3rem] ${isRTL ? 'right-10' : 'left-10'} w-44 h-44 bg-brand-coral rounded-full z-0 opacity-80 blur-2xl`} 
             />
           </div>
         </div>
@@ -338,7 +338,7 @@ export const OurStory = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
       {/* 4. Social Proof & Community */}
       <section className="relative py-24 md:py-32 w-full bg-brand-navy overflow-hidden">
         {/* Ticker */}
-        <div className="flex whitespace-nowrap overflow-hidden mb-20 opacity-40">
+        <div className="flex whitespace-nowrap overflow-hidden py-6 mb-20 opacity-40" dir="ltr">
            <motion.div 
              className={`flex gap-8 text-5xl md:text-7xl font-bold uppercase tracking-widest text-warm-beige ${isRTL ? 'font-arabic' : 'font-display'}`}
              animate={{ x: ["0%", "-50%"] }}
