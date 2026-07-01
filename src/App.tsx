@@ -1918,7 +1918,7 @@ const AdminDashboard = () => {
                   .replace(/([A-Z])/g, ' $1')
                   .replace(/^./, str => str.toUpperCase());
 
-                if (isEditingItem && key !== 'id' && key !== 'createdAt' && key !== 'tierId' && key !== 'totalPrice') {
+                if (isEditingItem && key !== 'id' && key !== 'createdAt') {
                   return (
                     <div key={key} className="flex flex-col sm:flex-row justify-between sm:items-center gap-1 border-b border-brand-navy/[0.02] pb-3 last:border-0">
                       <span className="text-[10px] editorial-label text-brand-navy/40 font-bold uppercase tracking-wider">{label}</span>
@@ -1931,11 +1931,24 @@ const AdminDashboard = () => {
                           <option value="unpaid">Unpaid</option>
                           <option value="paid">Paid</option>
                         </select>
+                      ) : key === 'tierId' ? (
+                        <select 
+                          value={editItemData[key] || ''}
+                          onChange={e => setEditItemData({...editItemData, [key]: e.target.value})}
+                          className="border border-brand-navy/10 rounded-lg p-2 text-sm font-semibold w-full sm:w-2/3 outline-none focus:border-brand-coral"
+                        >
+                          {stats.tiers.map(t => (
+                            <option key={t.id} value={t.id}>{t.name}</option>
+                          ))}
+                          <option value="Single Workshop 1">Single Workshop 1 (Legacy)</option>
+                          <option value="Single Workshop 2">Single Workshop 2 (Legacy)</option>
+                          <option value="Double Workshop">Double Workshop (Legacy)</option>
+                        </select>
                       ) : (
                         <input
                           type={typeof val === 'number' ? 'number' : 'text'}
-                          value={editItemData[key] || ''}
-                          onChange={e => setEditItemData({...editItemData, [key]: e.target.value})}
+                          value={editItemData[key] !== undefined ? editItemData[key] : ''}
+                          onChange={e => setEditItemData({...editItemData, [key]: typeof val === 'number' ? Number(e.target.value) : e.target.value})}
                           className="border border-brand-navy/10 rounded-lg p-2 text-sm font-semibold w-full sm:w-2/3 outline-none focus:border-brand-coral"
                         />
                       )}
