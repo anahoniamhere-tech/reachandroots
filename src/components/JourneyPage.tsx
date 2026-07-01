@@ -373,7 +373,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                     </div>
                     <div className="flex items-center gap-3">
                       <MapPin size={16} className="text-brand-coral shrink-0" />
-                      <span className="font-body text-[13px]">{journeyT.lectureLoc}</span>
+                      <a href="https://share.google/docrsjHr6HxCaqw1k" target="_blank" rel="noopener noreferrer" className="font-body text-[13px] hover:text-brand-coral hover:underline transition-colors">{journeyT.lectureLoc}</a>
                     </div>
                   </div>
                 </div>
@@ -417,7 +417,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                     </div>
                     <div className="flex items-center gap-3">
                       <MapPin size={16} className="text-brand-coral shrink-0" />
-                      <span className="font-body text-[13px]">{journeyT.ws1Loc}</span>
+                      <a href="https://share.google/vXjuEugq6J3n8YY9N" target="_blank" rel="noopener noreferrer" className="font-body text-[13px] hover:text-brand-coral hover:underline transition-colors">{journeyT.ws1Loc}</a>
                     </div>
                   </div>
                 </div>
@@ -461,7 +461,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                     </div>
                     <div className="flex items-center gap-3">
                       <MapPin size={16} className="text-brand-coral shrink-0" />
-                      <span className="font-body text-[13px]">{journeyT.ws2Loc}</span>
+                      <a href="https://share.google/vXjuEugq6J3n8YY9N" target="_blank" rel="noopener noreferrer" className="font-body text-[13px] hover:text-brand-coral hover:underline transition-colors">{journeyT.ws2Loc}</a>
                     </div>
                   </div>
                 </div>
