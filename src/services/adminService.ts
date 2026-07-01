@@ -1,5 +1,5 @@
 import { 
-  db, auth, collection, getDocs, query, where, writeBatch, doc
+  db, auth, collection, getDocs, query, where, writeBatch, doc, deleteDoc
 } from '../lib/firebase';
 import { Order, TicketTier } from '../types';
 import { TICKET_TIERS, EVENT_DAYS } from '../constants';
@@ -122,6 +122,24 @@ export const AdminService = {
       console.log('Database seeded successfully');
     } catch (error) {
       handleFirestoreError(error, 'WRITE', 'batch_seed');
+    }
+  },
+
+  async deleteCommunityJoin(id: string) {
+    const path = `registrations/${id}`;
+    try {
+      await deleteDoc(doc(db, 'registrations', id));
+    } catch (error) {
+      handleFirestoreError(error, 'DELETE', path);
+    }
+  },
+
+  async deleteTicketBuyer(id: string) {
+    const path = `orders/${id}`;
+    try {
+      await deleteDoc(doc(db, 'orders', id));
+    } catch (error) {
+      handleFirestoreError(error, 'DELETE', path);
     }
   }
 };

@@ -6,7 +6,7 @@ import {
   Sparkles, Coffee, Mic2, Palmtree, Utensils, Theater, PlayCircle,
   Loader2, Video, Play, Mic, Radio, Smartphone, Activity, Mail,
   Grid, Award, Share2, MessageSquare, Zap, Waves, Signal, 
-  Search, Users, Globe, Target, Clock, Filter, ExternalLink, Copy, Download, FileDown, Instagram
+  Search, Users, Globe, Target, Clock, Filter, ExternalLink, Copy, Download, FileDown, Instagram, Trash2
 } from 'lucide-react';
 import { 
   TripoliHeritage, FayhaaFlow, DigitalCreativity, 
@@ -1441,6 +1441,94 @@ const AdminDashboard = () => {
     link.click();
   };
 
+  const handleDeleteItem = async () => {
+    if (!selectedItem) return;
+    const { id } = selectedItem.data;
+    if (!window.confirm("Are you sure you want to delete this registration? This action is irreversible.")) return;
+
+    try {
+      if (selectedItem.type === 'community') {
+        await AdminService.deleteCommunityJoin(id);
+        setCommunityJoins(prev => prev.filter(item => item.id !== id));
+      } else {
+        await AdminService.deleteTicketBuyer(id);
+        setTicketBuyers(prev => prev.filter(item => item.id !== id));
+      }
+      setSelectedItem(null);
+    } catch (e) {
+      console.error("Failed to delete record", e);
+      alert("Failed to delete record from the database.");
+    }
+  };
+
+  const handlePrintPDF = (item: { type: 'ticket' | 'community'; data: any }) => {
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
+
+    const title = item.type === 'ticket' ? 'Ticket Booking Confirmation' : 'Community Registration';
+    const name = item.type === 'ticket' 
+      ? (item.data.customerInfo?.name || item.data.name || 'N/A')
+      : (item.data.fullName || item.data.name || 'N/A');
+
+    let rowsHtml = '';
+    Object.entries(item.data).forEach(([key, val]: [string, any]) => {
+      if (key === 'id' || val === undefined || val === null) return;
+      
+      let displayVal = typeof val === 'object' ? JSON.stringify(val) : String(val);
+      if (key === 'createdAt' && val && typeof val === 'object' && 'seconds' in val) {
+        displayVal = new Date(val.seconds * 1000).toLocaleString();
+      } else if (key === 'createdAt' && typeof val === 'string') {
+        displayVal = new Date(val).toLocaleString();
+      }
+      
+      const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+      rowsHtml += `
+        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 12px 0;">
+          <span style="font-weight: bold; text-transform: uppercase; font-size: 11px; color: #666; width: 40%; text-align: left;">${label}</span>
+          <span style="font-size: 14px; color: #111; width: 60%; text-align: right; word-break: break-all;">${displayVal}</span>
+        </div>
+      `;
+    });
+
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>${name} - Details</title>
+          <style>
+            body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; padding: 40px; color: #333; line-height: 1.5; }
+            .header { border-bottom: 3px solid #FF8072; padding-bottom: 20px; margin-bottom: 30px; }
+            .title { font-size: 12px; letter-spacing: 2px; color: #FF8072; text-transform: uppercase; font-weight: bold; margin-bottom: 5px; }
+            .name { font-size: 28px; font-weight: bold; margin: 0; color: #000; }
+            .content { margin-bottom: 40px; }
+            .footer { font-size: 11px; color: #999; border-top: 1px solid #eee; padding-top: 20px; text-align: center; }
+            @media print {
+              body { padding: 20px; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <div class="title">${title}</div>
+            <h1 class="name">${name}</h1>
+          </div>
+          <div class="content">
+            ${rowsHtml}
+          </div>
+          <div class="footer">
+            Roots & Reach — Culture × Creation × Digital<br>Generated on ${new Date().toLocaleDateString()}
+          </div>
+          <script>
+            window.onload = function() {
+              window.print();
+              setTimeout(function() { window.close(); }, 500);
+            };
+          </script>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+  };
+
   if (isLoading) return <div className="min-h-screen flex flex-col items-center justify-center bg-white gap-4"><Loader2 className="animate-spin text-brand-coral" size={32} /><span className="text-xs text-brand-navy/40 font-mono">Loading system telemetry...</span></div>;
 
   if (!user) {
@@ -1742,13 +1830,28 @@ const AdminDashboard = () => {
               })}
             </div>
 
-            <div className="mt-8 flex justify-end">
+            <div className="mt-8 flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4">
               <button 
-                onClick={() => setSelectedItem(null)}
-                className="px-8 py-3 bg-brand-navy hover:bg-brand-coral text-white text-xs font-display font-bold uppercase tracking-widest rounded-xl transition-all cursor-pointer"
+                onClick={handleDeleteItem}
+                className="flex items-center justify-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 text-white text-xs font-display font-bold uppercase tracking-widest rounded-xl transition-all cursor-pointer"
               >
-                Close
+                <Trash2 size={14} /> Delete Record
               </button>
+              
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button 
+                  onClick={() => handlePrintPDF(selectedItem)}
+                  className="flex items-center justify-center gap-2 px-6 py-3 bg-brand-coral hover:bg-brand-orange text-white text-xs font-display font-bold uppercase tracking-widest rounded-xl transition-all cursor-pointer"
+                >
+                  <FileDown size={14} /> Download PDF
+                </button>
+                <button 
+                  onClick={() => setSelectedItem(null)}
+                  className="px-6 py-3 bg-brand-navy hover:bg-brand-coral text-white text-xs font-display font-bold uppercase tracking-widest rounded-xl transition-all cursor-pointer"
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         </div>

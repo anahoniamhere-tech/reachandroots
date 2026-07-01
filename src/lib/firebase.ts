@@ -16,7 +16,8 @@ import {
   increment, 
   serverTimestamp, 
   runTransaction, 
-  writeBatch 
+  writeBatch,
+  deleteDoc
 } from 'firebase/firestore';
 import { 
   getAuth, 
@@ -85,7 +86,8 @@ export {
   increment,
   serverTimestamp,
   runTransaction,
-  writeBatch
+  writeBatch,
+  deleteDoc
 };
 
 export const submitRegistration = async (data: any): Promise<void> => {
