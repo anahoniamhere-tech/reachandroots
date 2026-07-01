@@ -54,17 +54,19 @@ async function prerender() {
     // Get the fully rendered HTML
     const html = await page.content();
     
-    // Save to dist/route.html
-    // E.g. /journeys -> dist/journeys.html
+    // Save to dist/route/index.html
+    // E.g. /journeys -> dist/journeys/index.html
     // Special case for root '/' -> dist/index.html
-    let filePath;
-    if (route === '/') {
-      filePath = path.join('dist', 'index.html');
-    } else {
-      // Remove leading slash and append .html
-      filePath = path.join('dist', `${route.slice(1)}.html`);
+    let dir = 'dist';
+    if (route !== '/') {
+      // Remove leading slash for folder name
+      dir = path.join('dist', route.slice(1));
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
     }
     
+    const filePath = path.join(dir, 'index.html');
     fs.writeFileSync(filePath, html);
     console.log(`Saved ${filePath}`);
   }
