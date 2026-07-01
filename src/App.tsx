@@ -33,6 +33,7 @@ import { useLanguage } from './lib/LanguageContext';
 import { CREATORS_EMAIL_DATA } from './constants/creatorsData';
 import RootsLogo from './assets/roots_logo.png';
 import YellowLogo from './assets/WordsLogo_yellow.png';
+import YazeedPhoto from './assets/yazeed_mousa_real.jpg';
 import { SEOHead, seoConfig } from './lib/seo';
 
 // --- Components ---
@@ -730,7 +731,7 @@ export default function App() {
           <main>
             {/* Per-route SEO head tags */}
             {view === 'landing' && <SEOHead title={seoConfig.home[language === 'ar' ? 'ar' : 'en'].title} description={seoConfig.home[language === 'ar' ? 'ar' : 'en'].description} path="/" locale={language === 'ar' ? 'ar_AR' : 'en_US'} />}
-            {view === 'journey' && <SEOHead title={seoConfig.journeys[language === 'ar' ? 'ar' : 'en'].title} description={seoConfig.journeys[language === 'ar' ? 'ar' : 'en'].description} path="/journeys" locale={language === 'ar' ? 'ar_AR' : 'en_US'} />}
+            {view === 'journey' && <SEOHead title={seoConfig.journeys[language === 'ar' ? 'ar' : 'en'].title} description={seoConfig.journeys[language === 'ar' ? 'ar' : 'en'].description} image={`https://rootsandreach.org${YazeedPhoto}`} path="/journeys" locale={language === 'ar' ? 'ar_AR' : 'en_US'} />}
             {view === 'program' && <SEOHead title={seoConfig.program[language === 'ar' ? 'ar' : 'en'].title} description={seoConfig.program[language === 'ar' ? 'ar' : 'en'].description} path="/program" locale={language === 'ar' ? 'ar_AR' : 'en_US'} />}
             {(view === 'sanctuary' || view === 'sanctuary-apply') && <SEOHead title={seoConfig.sanctuary[language === 'ar' ? 'ar' : 'en'].title} description={seoConfig.sanctuary[language === 'ar' ? 'ar' : 'en'].description} path="/sanctuary" locale={language === 'ar' ? 'ar_AR' : 'en_US'} />}
             {view === 'gallery' && <SEOHead title={seoConfig.gallery[language === 'ar' ? 'ar' : 'en'].title} description={seoConfig.gallery[language === 'ar' ? 'ar' : 'en'].description} path="/gallery" locale={language === 'ar' ? 'ar_AR' : 'en_US'} />}
