@@ -6,7 +6,7 @@ import {
   Users, CheckCircle2, Copy, Send
 } from 'lucide-react';
 import { useLanguage } from '../lib/LanguageContext';
-import { db, collection, addDoc } from '../lib/firebase';
+import { db, collection, addDoc, serverTimestamp } from '../lib/firebase';
 import YazeedPhoto from '../assets/yazeed_mousa_real.jpg';
 
 const countryTranslations: Record<string, string> = {
@@ -148,7 +148,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
           quantity: 1,
           totalPrice: price,
           status: 'pending',
-          createdAt: new Date().toISOString()
+          createdAt: serverTimestamp()
         });
       } catch (err) {
         console.error("Failed to save order to database", err);

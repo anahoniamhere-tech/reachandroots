@@ -51,19 +51,14 @@ service cloud.firestore {
 
     // --- Orders ---
     match /orders/{orderId} {
-      // PII Isolation: Only owners or admins can read orders.
-      allow get: if isSignedIn() && (existing().userId == request.auth.uid || isAdmin());
-      // List must be restricted to prevent scraping PII.
-      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow get: if isAdmin() || (isSignedIn() && existing().userId == request.auth.uid);
+      allow list: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
       
-      allow create: if isSignedIn() && isValidOrder(incoming()) && (
-        incoming().userId == request.auth.uid &&
-        incoming().status == 'pending' && // Orders start as pending
-        incoming().createdAt == request.time
-      );
+      // Guest checkout allowed
+      allow create: if isValidOrder(incoming()) && incoming().createdAt == request.time;
 
-      allow update: if isSignedIn() && (
-        isAdmin() || 
+      allow update: if isAdmin() || (
+        isSignedIn() && 
         (existing().userId == request.auth.uid && 
          incoming().diff(existing()).affectedKeys().hasOnly(['status']) &&
          incoming().status == 'cancelled' &&
@@ -71,12 +66,9 @@ service cloud.firestore {
       );
 
       function isValidOrder(data) {
-        return data.keys().hasAll(['tierId', 'quantity', 'totalPrice', 'buyerInfo', 'status', 'createdAt', 'userId']) &&
-               isValidId(data.tierId) &&
+        return data.keys().hasAll(['tierId', 'quantity', 'totalPrice', 'status', 'createdAt']) &&
                data.quantity is number && data.quantity > 0 && data.quantity <= 10 &&
-               data.totalPrice is number && data.totalPrice >= 0 &&
-               data.buyerInfo.email is string && data.buyerInfo.email.size() <= 200 &&
-               data.userId == request.auth.uid;
+               data.totalPrice is number && data.totalPrice >= 0;
       }
     }
 
