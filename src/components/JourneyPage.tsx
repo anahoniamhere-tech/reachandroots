@@ -6,6 +6,7 @@ import {
   Users, CheckCircle2, Copy, Send
 } from 'lucide-react';
 import { useLanguage } from '../lib/LanguageContext';
+import { db, collection, addDoc } from '../lib/firebase';
 import YazeedPhoto from '../assets/yazeed_mousa_real.jpg';
 
 const countryTranslations: Record<string, string> = {
@@ -126,9 +127,32 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
     setTimeout(() => setCopiedDetails(false), 2000);
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.name && formData.phone && formData.email && formData.age && formData.nationality) {
+      try {
+        let price = 0;
+        let tierName = '';
+        if (formData.workshopChoice === 'both') { price = 40; tierName = 'Double Workshop'; }
+        else if (formData.workshopChoice === 'ws1') { price = 25; tierName = 'Single Workshop 1'; }
+        else if (formData.workshopChoice === 'ws2') { price = 25; tierName = 'Single Workshop 2'; }
+        else { price = 0; tierName = 'Public Lecture'; }
+
+        await addDoc(collection(db, 'orders'), {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          age: formData.age,
+          nationality: formData.nationality,
+          tierId: tierName,
+          quantity: 1,
+          totalPrice: price,
+          status: 'pending',
+          createdAt: new Date().toISOString()
+        });
+      } catch (err) {
+        console.error("Failed to save order to database", err);
+      }
       setIsRegistered(true);
     }
   };
