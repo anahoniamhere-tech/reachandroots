@@ -1413,9 +1413,9 @@ const AdminDashboard = () => {
   useEffect(() => {
     const forceSync = async () => {
       if (!user) return;
-      const lock = localStorage.getItem('forceSync_v5');
+      const lock = localStorage.getItem('forceSync_v6');
       if (lock) return;
-      localStorage.setItem('forceSync_v5', 'true');
+      localStorage.setItem('forceSync_v6', 'true');
       try {
         const snap = await getDocs(collection(db, 'orders'));
         const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -1425,7 +1425,7 @@ const AdminDashboard = () => {
           const price = Number(order.totalPrice) || 0;
           if (price > 0) {
             await deleteDoc(doc(db, 'orders', order.id));
-          } else if (order.tierId === 'Public Lecture') {
+          } else if (order.tierId === 'Public Lecture' || order.tierId === 'Single Workshop 1' || order.tierId === 'Single Workshop 2') {
             await updateDoc(doc(db, 'orders', order.id), { tierId: 'Public Lecture: The Five Inner Thoughts' });
           }
         }
@@ -1456,7 +1456,7 @@ const AdminDashboard = () => {
           customerInfo: { name: 'Mariam Raad', email: 'mariamraad51@gmail.com', phone: '71261318', age: 26, nationality: 'Lebanon' }
         });
 
-        alert("Public Lecture tags synced! Database perfectly aligned.");
+        alert("Database synced perfectly! Tags aligned. V6");
         window.location.reload();
       } catch (e) {
         console.error(e);
