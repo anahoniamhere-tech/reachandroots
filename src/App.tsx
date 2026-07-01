@@ -774,22 +774,22 @@ export default function App() {
 
 
           <div className="grid lg:grid-cols-12 gap-12 sm:gap-20 mb-20 sm:mb-32 items-start border-t border-white/10 pt-20">
-            <div className="lg:col-span-5">
-              <div className={`flex items-center gap-4 sm:gap-6 mb-6 sm:mb-12 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                <BrandLogo className="w-12 h-12 sm:w-16 sm:h-16" />
-                <div className={`flex flex-col ${isRTL ? 'items-end' : 'items-start'}`}>
-                  <span className="font-display text-xl sm:text-3xl tracking-tighter uppercase font-bold leading-none">Roots & Reach</span>
+            <div className="lg:col-span-5 flex flex-col items-center lg:items-start">
+              <div className={`flex items-center justify-center lg:justify-start gap-4 sm:gap-6 mb-6 sm:mb-12 w-full ${isRTL ? 'lg:flex-row-reverse' : ''}`}>
+                <BrandLogo className="w-12 h-12 sm:w-16 sm:h-16 shrink-0" />
+                <div className={`flex flex-col ${isRTL ? 'lg:items-end items-center' : 'lg:items-start items-center'}`}>
+                  <span className="font-display text-xl sm:text-3xl tracking-tighter uppercase font-bold leading-none text-center">Roots & Reach</span>
                 </div>
               </div>
-              <p className={`font-body text-base sm:text-xl text-white/40 leading-relaxed max-w-sm mb-8 sm:mb-12 ${isRTL ? 'text-right' : 'text-left'}`}>
+              <p className={`font-body text-base sm:text-xl text-white/40 leading-relaxed max-w-sm mb-8 sm:mb-12 text-center ${isRTL ? 'lg:text-right' : 'lg:text-left'}`}>
                 {t.footer.tagline}
               </p>
-              <div className={`flex flex-wrap gap-4 sm:gap-8 ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <div className={`flex flex-wrap justify-center lg:justify-start gap-4 sm:gap-8 w-full ${isRTL ? 'lg:flex-row-reverse' : ''}`}>
                   <a 
                     href="https://www.instagram.com/rootsndreach/" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className={`inline-flex items-center gap-2 editorial-label text-white/40 hover:text-brand-coral transition-colors uppercase font-bold leading-none ${isRTL ? 'tracking-normal' : 'tracking-widest'}`}
+                    className={`inline-flex items-center justify-center gap-2 editorial-label text-white/40 hover:text-brand-coral transition-colors uppercase font-bold leading-none ${isRTL ? 'tracking-normal' : 'tracking-widest'}`}
                     dir="ltr"
                   >
                     <Instagram className="w-6 h-6 shrink-0" />

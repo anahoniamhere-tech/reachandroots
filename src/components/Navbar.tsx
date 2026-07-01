@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, ChevronRight, ArrowRight, Activity, Target, Award, Globe, User } from 'lucide-react';
 import { BrandLogo } from './BrandingIcons';
 import { useLanguage } from '../lib/LanguageContext';
+import YellowLogo from '../assets/Yellow_Header_logo.png';
 import RootsLogo from '../assets/roots_logo.png';
 
 export const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuOpen }: { onNavigate: (v: 'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors' | 'trf-anahon' | 'journey') => void, onOpenTickets: () => void, currentView: string, isMenuOpen: boolean, setIsMenuOpen: (v: boolean) => void }) => {
@@ -20,12 +21,14 @@ export const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, set
     { name: (t.nav as any).journey || 'Journey', id: 'journey', icon: <User size={10} />, type: 'view' },
   ];
 
+  const useDarkIcons = !isScrolled || isMenuOpen;
+
   return (
     <>
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${isScrolled ? 'bg-warm-beige/95 backdrop-blur-xl border-brand-navy/10 py-4' : 'bg-transparent border-transparent py-8'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex justify-between items-center">
         <div className="cursor-pointer group" onClick={() => { onNavigate('landing'); setIsMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
-          <img src={RootsLogo} alt="Roots and Reach Logo" className="h-16 sm:h-20 w-auto object-contain transition-transform group-hover:scale-105 select-none" />
+          <img src={useDarkIcons ? YellowLogo : RootsLogo} alt="Roots and Reach Logo" className="h-16 sm:h-20 w-auto object-contain transition-transform group-hover:scale-105 select-none" />
         </div>
         
         <div className="hidden lg:flex items-center gap-8">
@@ -98,7 +101,7 @@ export const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, set
           </button>
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="p-2 text-brand-navy bg-white/50 backdrop-blur-md rounded-xl transition-all active:scale-95 hover:bg-white"
+            className={`p-2 backdrop-blur-md rounded-xl transition-all active:scale-95 hover:bg-white/20 ${useDarkIcons ? 'text-white bg-white/10' : 'text-brand-navy bg-white/50 hover:bg-white'}`}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -113,10 +116,10 @@ export const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, set
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.98 }}
-          className="fixed inset-0 z-[45] lg:hidden bg-white pt-32 px-6 flex flex-col"
+          className="fixed inset-0 z-[45] lg:hidden bg-brand-navy pt-32 px-6 flex flex-col"
           dir={isRTL ? 'rtl' : 'ltr'}
         >
-          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-brand-navy to-transparent" />
           <div className={`flex flex-col gap-10 sm:gap-12 relative z-10 ${isRTL ? 'items-start' : 'items-start'}`}>
             {navLinks.map((link, i) => (
               <motion.div
@@ -132,7 +135,7 @@ export const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, set
                     className={`flex flex-col group w-full ${isRTL ? 'text-right' : 'text-left'}`}
                   >
                     <span className="editorial-label text-brand-coral mb-2">0{i+1} // </span>
-                    <span className={`font-display font-bold text-4xl sm:text-5xl uppercase tracking-tighter text-brand-navy group-hover:text-brand-coral transition-colors ${isRTL ? 'tracking-normal' : ''}`}>{link.name}</span>
+                    <span className={`font-display font-bold text-4xl sm:text-5xl uppercase tracking-tighter text-white group-hover:text-brand-coral transition-colors ${isRTL ? 'tracking-normal' : ''}`}>{link.name}</span>
                   </button>
                 ) : (
                   <a 
@@ -150,7 +153,7 @@ export const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, set
                     className={`flex flex-col group w-full ${isRTL ? 'text-right' : 'text-left'}`}
                   >
                     <span className="editorial-label text-brand-coral mb-2">0{i+1} // </span>
-                    <span className={`font-display font-bold text-4xl sm:text-5xl uppercase tracking-tighter text-brand-navy group-hover:text-brand-coral transition-colors ${isRTL ? 'tracking-normal' : ''}`}>{link.name}</span>
+                    <span className={`font-display font-bold text-4xl sm:text-5xl uppercase tracking-tighter text-white group-hover:text-brand-coral transition-colors ${isRTL ? 'tracking-normal' : ''}`}>{link.name}</span>
                   </a>
                 )}
               </motion.div>
