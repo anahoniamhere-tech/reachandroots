@@ -1413,17 +1413,20 @@ const AdminDashboard = () => {
   useEffect(() => {
     const forceSync = async () => {
       if (!user) return;
-      const lock = localStorage.getItem('forceSync_v4');
+      const lock = localStorage.getItem('forceSync_v5');
       if (lock) return;
-      localStorage.setItem('forceSync_v4', 'true');
+      localStorage.setItem('forceSync_v5', 'true');
       try {
         const snap = await getDocs(collection(db, 'orders'));
         const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
 
-        // Delete all paid tickets
+        // Delete all paid tickets and fix public lecture tags
         for (const order of orders) {
-          if (Number(order.totalPrice) > 0) {
+          const price = Number(order.totalPrice) || 0;
+          if (price > 0) {
             await deleteDoc(doc(db, 'orders', order.id));
+          } else if (order.tierId === 'Public Lecture') {
+            await updateDoc(doc(db, 'orders', order.id), { tierId: 'Public Lecture: The Five Inner Thoughts' });
           }
         }
 
@@ -1453,7 +1456,7 @@ const AdminDashboard = () => {
           customerInfo: { name: 'Mariam Raad', email: 'mariamraad51@gmail.com', phone: '71261318', age: 26, nationality: 'Lebanon' }
         });
 
-        alert("Database synced perfectly! $90 and 3 Double entries.");
+        alert("Public Lecture tags synced! Database perfectly aligned.");
         window.location.reload();
       } catch (e) {
         console.error(e);
