@@ -52,7 +52,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
     { name: (t.nav as any).journey || 'Journey', id: 'journey', icon: <User size={10} />, type: 'view' },
   ];
 
-  const useDarkIcons = !isScrolled;
+  const useDarkIcons = !isScrolled && currentView === 'landing';
 
   return (
     <>
