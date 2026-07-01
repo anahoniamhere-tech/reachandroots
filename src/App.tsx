@@ -1364,6 +1364,17 @@ const CreatorInvitationPortal = () => {
   );
 };
 
+const formatDate = (val: any) => {
+  if (!val) return 'N/A';
+  if (typeof val === 'object' && 'seconds' in val) {
+    return new Date(val.seconds * 1000).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+  if (typeof val === 'string') {
+    return new Date(val).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+  return 'N/A';
+};
+
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState<'overview' | 'invitations' | 'community' | 'tickets' | 'settings'>('overview');
   const [stats, setStats] = useState({ orders: 0, revenue: 0, tiers: [] as any[] });
@@ -1760,6 +1771,8 @@ const AdminDashboard = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-brand-navy/5 text-brand-navy/40 font-mono text-xs uppercase tracking-widest">
+                <th className="py-4 font-normal w-12 text-center">#</th>
+                <th className="py-4 font-normal">Date</th>
                 <th className="py-4 font-normal">Name</th>
                 <th className="py-4 font-normal">Email</th>
                 <th className="py-4 font-normal">Phone</th>
@@ -1774,6 +1787,8 @@ const AdminDashboard = () => {
                   onClick={() => setSelectedItem({ type: 'community', data: join })}
                   className="border-b border-brand-navy/5 last:border-0 hover:bg-brand-navy/5 transition-colors cursor-pointer"
                 >
+                  <td className="py-4 text-center text-brand-navy/30 text-sm font-mono">{i + 1}</td>
+                  <td className="py-4 text-sm whitespace-nowrap">{formatDate(join.createdAt)}</td>
                   <td className="py-4 font-bold">{join.fullName || join.name || 'N/A'}</td>
                   <td className="py-4">{join.email || 'N/A'}</td>
                   <td className="py-4">{join.phone || 'N/A'}</td>
@@ -1781,7 +1796,7 @@ const AdminDashboard = () => {
                   <td className="py-4">{join.city || 'N/A'}</td>
                 </tr>
               )) : (
-                <tr><td colSpan={5} className="py-8 text-center text-brand-navy/40">No registrations found.</td></tr>
+                <tr><td colSpan={7} className="py-8 text-center text-brand-navy/40">No registrations found.</td></tr>
               )}
             </tbody>
           </table>
@@ -1835,6 +1850,8 @@ const AdminDashboard = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-brand-navy/5 text-brand-navy/40 font-mono text-xs uppercase tracking-widest">
+                <th className="py-4 font-normal w-12 text-center">#</th>
+                <th className="py-4 font-normal">Date</th>
                 <th className="py-4 font-normal">Name</th>
                 <th className="py-4 font-normal">Email</th>
                 <th className="py-4 font-normal">Tier</th>
@@ -1849,6 +1866,8 @@ const AdminDashboard = () => {
                   onClick={() => setSelectedItem({ type: 'ticket', data: buyer })}
                   className="border-b border-brand-navy/5 last:border-0 hover:bg-brand-navy/5 transition-colors cursor-pointer"
                 >
+                  <td className="py-4 text-center text-brand-navy/30 text-sm font-mono">{i + 1}</td>
+                  <td className="py-4 text-sm whitespace-nowrap">{formatDate(buyer.createdAt)}</td>
                   <td className="py-4 font-bold">{buyer.customerInfo?.name || buyer.name || 'N/A'}</td>
                   <td className="py-4">{buyer.customerInfo?.email || buyer.email || 'N/A'}</td>
                   <td className="py-4">{buyer.tierId || 'N/A'}</td>
@@ -1856,7 +1875,7 @@ const AdminDashboard = () => {
                   <td className="py-4 text-brand-coral font-display font-bold">${buyer.totalPrice || 0}</td>
                 </tr>
               )) : (
-                <tr><td colSpan={5} className="py-8 text-center text-brand-navy/40">No ticket orders found.</td></tr>
+                <tr><td colSpan={7} className="py-8 text-center text-brand-navy/40">No ticket orders found.</td></tr>
               )}
             </tbody>
           </table>
