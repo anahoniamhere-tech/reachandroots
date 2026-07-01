@@ -1376,6 +1376,10 @@ const AdminDashboard = () => {
   const [editItemData, setEditItemData] = useState<any>({});
   const [isSavingItem, setIsSavingItem] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  const [ticketSearch, setTicketSearch] = useState('');
+  const [ticketFilter, setTicketFilter] = useState('all');
+  const [communitySearch, setCommunitySearch] = useState('');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, setUser);
@@ -1517,23 +1521,17 @@ const AdminDashboard = () => {
       const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
       rowsHtml += `
         <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 12px 0;">
-          <span style="font-weight: bold; text-transform: uppercase; font-size: 11px; color: #666; width: 40%; text-align: left;">${label}</span>
-          <span style="font-size: 14px; color: #111; width: 60%; text-align: right; word-break: break-all;">${displayVal}</span>
+          <strong style="color: #666; text-transform: uppercase; font-size: 12px;">${label}</strong>
+          <span style="font-weight: 500;">${displayVal}</span>
         </div>
       `;
     });
 
-    printWindow.document.write(`
+    const html = `
       <html>
         <head>
-          <title>${name} - Details</title>
+          <title>${title} - ${name}</title>
           <style>
-            body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; padding: 40px; color: #333; line-height: 1.5; }
-            .header { border-bottom: 3px solid #FF8072; padding-bottom: 20px; margin-bottom: 30px; }
-            .title { font-size: 12px; letter-spacing: 2px; color: #FF8072; text-transform: uppercase; font-weight: bold; margin-bottom: 5px; }
-            .name { font-size: 28px; font-weight: bold; margin: 0; color: #000; }
-            .content { margin-bottom: 40px; }
-            .footer { font-size: 11px; color: #999; border-top: 1px solid #eee; padding-top: 20px; text-align: center; }
             @media print {
               body { padding: 20px; }
             }
@@ -1708,17 +1706,26 @@ const AdminDashboard = () => {
 
       {activeTab === 'community' && (
       <div className="space-y-12 relative z-10 mb-16">
-        <div className="flex justify-between items-center border-b border-brand-navy/5 pb-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-brand-navy/5 pb-8">
           <div className="flex items-center gap-6">
              <span className="editorial-label text-brand-coral font-bold italic">03 //</span>
              <h2 className="editorial-label text-brand-navy/30 tracking-[0.4em] uppercase font-bold text-[10px]">Community Joins</h2>
           </div>
-          <button 
-            onClick={() => downloadCSV(communityJoins, 'community_joins.csv')}
-            className="flex items-center gap-2 px-4 py-2 bg-brand-navy/5 hover:bg-brand-navy/10 text-brand-navy text-xs font-bold uppercase tracking-widest rounded-lg transition-colors"
-          >
-            <Download size={14} /> Export CSV
-          </button>
+          <div className="flex items-center gap-3 w-full md:w-auto">
+            <input 
+              type="text" 
+              placeholder="Search by name, email, or phone..." 
+              value={communitySearch}
+              onChange={e => setCommunitySearch(e.target.value)}
+              className="px-4 py-2 bg-brand-navy/5 border border-brand-navy/10 rounded-lg text-sm w-full md:w-64 focus:outline-none focus:border-brand-coral"
+            />
+            <button 
+              onClick={() => downloadCSV(filteredCommunity, 'community_joins.csv')}
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-brand-navy/5 hover:bg-brand-navy/10 text-brand-navy text-xs font-bold uppercase tracking-widest rounded-lg transition-colors whitespace-nowrap"
+            >
+              <Download size={14} /> Export
+            </button>
+          </div>
         </div>
         <div className="bg-white border border-brand-navy/5 rounded-[2rem] p-8 overflow-x-auto">
           <table className="w-full text-left border-collapse">
@@ -1732,7 +1739,7 @@ const AdminDashboard = () => {
               </tr>
             </thead>
             <tbody className="font-body text-brand-navy">
-              {communityJoins.length > 0 ? communityJoins.map((join, i) => (
+              {filteredCommunity.length > 0 ? filteredCommunity.map((join, i) => (
                 <tr 
                   key={join.id || i} 
                   onClick={() => setSelectedItem({ type: 'community', data: join })}
@@ -1755,17 +1762,36 @@ const AdminDashboard = () => {
 
       {activeTab === 'tickets' && (
       <div className="space-y-12 relative z-10 mb-16">
-        <div className="flex justify-between items-center border-b border-brand-navy/5 pb-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-brand-navy/5 pb-8">
           <div className="flex items-center gap-6">
              <span className="editorial-label text-brand-coral font-bold italic">04 //</span>
              <h2 className="editorial-label text-brand-navy/30 tracking-[0.4em] uppercase font-bold text-[10px]">Ticket Buyers</h2>
           </div>
-          <button 
-            onClick={() => downloadCSV(ticketBuyers, 'ticket_buyers.csv')}
-            className="flex items-center gap-2 px-4 py-2 bg-brand-navy/5 hover:bg-brand-navy/10 text-brand-navy text-xs font-bold uppercase tracking-widest rounded-lg transition-colors"
-          >
-            <Download size={14} /> Export CSV
-          </button>
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+            <input 
+              type="text" 
+              placeholder="Search by name, email, phone..." 
+              value={ticketSearch}
+              onChange={e => setTicketSearch(e.target.value)}
+              className="px-4 py-2 bg-brand-navy/5 border border-brand-navy/10 rounded-lg text-sm w-full sm:w-48 focus:outline-none focus:border-brand-coral"
+            />
+            <select
+              value={ticketFilter}
+              onChange={e => setTicketFilter(e.target.value)}
+              className="px-4 py-2 bg-brand-navy/5 border border-brand-navy/10 rounded-lg text-sm w-full sm:w-auto focus:outline-none focus:border-brand-coral"
+            >
+              <option value="all">All Tiers</option>
+              {stats.tiers.map(t => (
+                <option key={t.id} value={t.id}>{t.name}</option>
+              ))}
+            </select>
+            <button 
+              onClick={() => downloadCSV(filteredTickets, 'ticket_buyers.csv')}
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-brand-navy/5 hover:bg-brand-navy/10 text-brand-navy text-xs font-bold uppercase tracking-widest rounded-lg transition-colors whitespace-nowrap"
+            >
+              <Download size={14} /> Export
+            </button>
+          </div>
         </div>
         <div className="bg-white border border-brand-navy/5 rounded-[2rem] p-8 overflow-x-auto">
           <table className="w-full text-left border-collapse">
@@ -1779,7 +1805,7 @@ const AdminDashboard = () => {
               </tr>
             </thead>
             <tbody className="font-body text-brand-navy">
-              {ticketBuyers.length > 0 ? ticketBuyers.map((buyer, i) => (
+              {filteredTickets.length > 0 ? filteredTickets.map((buyer, i) => (
                 <tr 
                   key={buyer.id || i} 
                   onClick={() => setSelectedItem({ type: 'ticket', data: buyer })}
