@@ -82,10 +82,10 @@ export const BrandLogo = ({ className = "w-12 h-12", variant = "transparent" }: 
   // For wide written banners / wordmarks (banner, yellow-header, written-black, written-yellow)
   return (
     <svg viewBox="0 0 600 140" className={`${colorClass} ${className}`} fill="none" xmlns="http://www.w3.org/2000/svg">
-      <text x="300" y="80" fontFamily="Space Grotesk, Tajawal, sans-serif" fontWeight="900" fontSize="68" fill="currentColor" textAnchor="middle" letterSpacing="-0.03em">
+      <text x="300" y="80" className="force-english-font" fontFamily="Space Grotesk, Tajawal, sans-serif" fontWeight="900" fontSize="68" fill="currentColor" textAnchor="middle" letterSpacing="-0.03em">
         ROOTS &amp; REACH
       </text>
-      <text x="300" y="115" fontFamily="Space Grotesk, Tajawal, sans-serif" fontWeight="700" fontSize="13" fill={subtitleColor} textAnchor="middle" letterSpacing="0.4em">
+      <text x="300" y="115" className="force-english-font" fontFamily="Space Grotesk, Tajawal, sans-serif" fontWeight="700" fontSize="13" fill={subtitleColor} textAnchor="middle" letterSpacing="0.4em">
         CULTURE · CREATION · DIGITAL
       </text>
     </svg>

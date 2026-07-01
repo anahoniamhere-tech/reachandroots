@@ -53,7 +53,7 @@ export const OurStory = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
                style={{ fontFamily: '"Space Grotesk", sans-serif' }}
                dir="ltr"
              >
-                Roots <br className="md:hidden" /><span className="text-brand-coral italic font-normal">&</span> Reach
+                Roots <br className="md:hidden" /><span className="text-brand-coral italic font-normal force-english-font">&</span> Reach
              </h1>
              <p className="font-body text-xl md:text-3xl text-warm-beige/80 max-w-2xl mx-auto leading-relaxed">
                {isRTL ? 'مجتمع إبداعي يروي القصص ويصنع التأثير.' : 'A creative community telling stories and making an impact.'}
