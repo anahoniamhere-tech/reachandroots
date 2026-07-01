@@ -215,9 +215,9 @@ export const OurStory = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
           <div className={`absolute top-0 bottom-0 w-1 bg-brand-navy/10 ${isRTL ? 'right-10 translate-x-[4px]' : 'left-10 -translate-x-[4px]'} md:left-1/2 md:-translate-x-1/2 rounded-full`} />
           
           {[
-            { icon: Users, text: t.story.companyInfo?.vision?.pillars?.p1, color: 'text-brand-navy', bg: 'bg-[#fcd07a]', desc: isRTL ? 'خلق مساحة للإبداع والابتكار في طرابلس' : 'Fostering spaces for creativity and innovation in Tripoli' },
-            { icon: Palette, text: t.story.companyInfo?.vision?.pillars?.p2, color: 'text-brand-navy', bg: 'bg-[#FF8072]', desc: isRTL ? 'دعم وتمكين المواهب المحلية الشابة' : 'Supporting and empowering young local talents' },
-            { icon: Globe, text: t.story.companyInfo?.vision?.pillars?.p3, color: 'text-brand-navy', bg: 'bg-[#80AEF4]', desc: isRTL ? 'تعزيز الحضور الثقافي وتبادل الخبرات' : 'Enhancing cultural presence and knowledge exchange' },
+            { icon: Heart, text: t.story.companyInfo?.vision?.pillars?.p1, color: 'text-brand-navy', bg: 'bg-[#fcd07a]', desc: isRTL ? 'خلق مساحة للإبداع والابتكار في طرابلس' : 'Fostering spaces for creativity and innovation in Tripoli' },
+            { icon: Users, text: t.story.companyInfo?.vision?.pillars?.p2, color: 'text-brand-navy', bg: 'bg-[#FF8072]', desc: isRTL ? 'دعم وتمكين المواهب المحلية الشابة' : 'Supporting and empowering young local talents' },
+            { icon: Palette, text: t.story.companyInfo?.vision?.pillars?.p3, color: 'text-brand-navy', bg: 'bg-[#80AEF4]', desc: isRTL ? 'تعزيز الحضور الثقافي وتبادل الخبرات' : 'Enhancing cultural presence and knowledge exchange' },
             { icon: Sparkles, text: t.story.companyInfo?.vision?.pillars?.p4, color: 'text-brand-navy', bg: 'bg-[#7A9178]', desc: isRTL ? 'بناء مسار نحو نمو مستدام وتأثير إيجابي' : 'Building a path toward sustainable growth and impact' },
           ].map((item, i) => (
             <motion.div 

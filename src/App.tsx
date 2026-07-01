@@ -97,22 +97,6 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
             ))}
           </div>
 
-          <div className={`flex items-center gap-4 px-2 py-1.5 rounded-full border transition-colors ${useDarkIcons ? 'bg-warm-beige/10 border-warm-beige/20' : 'bg-brand-navy/5 border-transparent'}`}>
-              <button 
-                onClick={() => setLanguage('en')}
-                className={`editorial-label transition-colors ${language === 'en' ? 'text-brand-coral font-bold' : (useDarkIcons ? 'text-warm-beige/60 hover:text-warm-beige' : 'text-brand-navy/30 hover:text-brand-navy')}`}
-              >
-                EN
-              </button>
-            <div className={`w-px h-3 ${useDarkIcons ? 'bg-warm-beige/20' : 'bg-brand-navy/10'}`} />
-            <button 
-              onClick={() => setLanguage('ar')}
-              className={`font-arabic text-[10px] transition-colors leading-none ${language === 'ar' ? 'text-brand-coral font-bold' : (useDarkIcons ? 'text-warm-beige/60 hover:text-warm-beige' : 'text-brand-navy/30 hover:text-brand-navy')}`}
-            >
-              العربية
-            </button>
-          </div>
-
           <a 
             href="https://www.instagram.com/rootsndreach/" 
             target="_blank" 
@@ -120,11 +104,33 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
             className={`p-2 transition-colors flex items-center justify-center ${useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy hover:text-brand-coral'}`}
             title="Instagram"
           >
-            <Instagram size={14} className={useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy/60 hover:text-brand-coral'} />
+            <Instagram size={16} className={useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy/60 hover:text-brand-coral'} />
           </a>
+
+          <div className={`flex items-center gap-4 px-2.5 py-2 rounded-full border transition-colors ${useDarkIcons ? 'bg-warm-beige/10 border-warm-beige/20' : 'bg-brand-navy/5 border-transparent'}`}>
+              <button 
+                onClick={() => setLanguage('en')}
+                className={`editorial-label !text-xs md:!text-sm lg:!text-base transition-colors ${language === 'en' ? 'text-brand-coral font-bold' : (useDarkIcons ? 'text-warm-beige/60 hover:text-warm-beige' : 'text-brand-navy/30 hover:text-brand-navy')}`}
+              >
+                EN
+              </button>
+            <div className={`w-px h-3.5 ${useDarkIcons ? 'bg-warm-beige/20' : 'bg-brand-navy/10'}`} />
+            <button 
+              onClick={() => setLanguage('ar')}
+              className={`font-arabic text-[12px] md:text-[14px] lg:text-[16px] transition-colors leading-none ${language === 'ar' ? 'text-brand-coral font-bold' : (useDarkIcons ? 'text-warm-beige/60 hover:text-warm-beige' : 'text-brand-navy/30 hover:text-brand-navy')}`}
+            >
+              العربية
+            </button>
+          </div>
         </div>
 
         <div className="flex items-center gap-3 lg:hidden">
+          <button 
+            onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
+            className={`px-2.5 py-1.5 font-bold text-sm md:text-base ${language === 'ar' ? 'font-arabic text-[12px] leading-none' : 'font-mono tracking-wider'} transition-colors ${useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy hover:text-brand-coral'}`}
+          >
+            {language === 'en' ? 'AR' : 'EN'}
+          </button>
           <a 
             href="https://www.instagram.com/rootsndreach/" 
             target="_blank" 
@@ -133,12 +139,6 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
           >
             <Instagram size={20} />
           </a>
-          <button 
-            onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
-            className={`px-2 py-1.5 editorial-label ${language === 'ar' ? 'font-arabic text-[10px] leading-none' : ''} transition-colors ${useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy hover:text-brand-coral'}`}
-          >
-            {language === 'en' ? 'AR' : 'EN'}
-          </button>
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className={`p-2 transition-colors active:scale-95 ${useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy hover:text-brand-coral'}`}
