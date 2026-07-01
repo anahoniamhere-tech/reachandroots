@@ -301,11 +301,11 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                 <div className={`absolute top-8 ${isRTL ? 'right-6 md:right-10' : 'left-6 md:left-10'} w-5 h-5 rounded-full bg-brand-coral border-4 border-warm-beige shadow-lg z-10`} />
                 
                 <div className="glass-card p-8 md:p-10 rounded-[2rem] hover:shadow-xl transition-all duration-300 border border-brand-navy/5 group">
-                  <div className="flex justify-between items-start mb-6">
-                    <span className="px-4 py-1.5 bg-brand-coral/10 text-brand-coral text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
+                  <div className="flex flex-wrap gap-2 justify-between items-start mb-6">
+                    <span className="px-3 md:px-4 py-1.5 bg-brand-coral/10 text-brand-coral text-[9px] md:text-[10px] uppercase font-bold tracking-widest font-mono rounded-full whitespace-nowrap">
                       {journeyT.workshop} 01
                     </span>
-                    <span className="px-4 py-1.5 bg-brand-navy text-white text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
+                    <span className="px-3 md:px-4 py-1.5 bg-brand-navy text-white text-[9px] md:text-[10px] uppercase font-bold tracking-widest font-mono rounded-full whitespace-nowrap">
                       {journeyT.badgeCapacity}
                     </span>
                   </div>
@@ -345,11 +345,11 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                 <div className={`absolute top-8 ${isRTL ? 'right-6 md:right-10' : 'left-6 md:left-10'} w-5 h-5 rounded-full bg-brand-orange border-4 border-warm-beige shadow-lg z-10`} />
                 
                 <div className="glass-card p-8 md:p-10 rounded-[2rem] hover:shadow-xl transition-all duration-300 border border-brand-navy/5 group">
-                  <div className="flex justify-between items-start mb-6">
-                    <span className="px-4 py-1.5 bg-brand-coral/10 text-brand-coral text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
+                  <div className="flex flex-wrap gap-2 justify-between items-start mb-6">
+                    <span className="px-3 md:px-4 py-1.5 bg-brand-coral/10 text-brand-coral text-[9px] md:text-[10px] uppercase font-bold tracking-widest font-mono rounded-full whitespace-nowrap">
                       {journeyT.workshop} 02
                     </span>
-                    <span className="px-4 py-1.5 bg-brand-navy text-white text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
+                    <span className="px-3 md:px-4 py-1.5 bg-brand-navy text-white text-[9px] md:text-[10px] uppercase font-bold tracking-widest font-mono rounded-full whitespace-nowrap">
                       {journeyT.badgeCapacity}
                     </span>
                   </div>
@@ -391,7 +391,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
               </h2>
             </div>
             <div className="h-px bg-brand-navy/10 flex-1 mx-8 hidden md:block" />
-            <div className="font-mono text-xs text-brand-navy/40 uppercase tracking-[0.2em]">
+            <div className="font-mono text-[10px] md:text-xs text-brand-navy/40 uppercase tracking-[0.2em] whitespace-nowrap">
               LIMITED TO 50 SEATS
             </div>
           </div>
