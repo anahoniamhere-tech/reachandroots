@@ -124,10 +124,10 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
           </div>
         </div>
 
-        <div className="flex items-center gap-3 lg:hidden">
+        <div className="flex items-center gap-1 lg:hidden">
           <button 
             onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
-            className={`h-10 w-10 flex items-center justify-center font-bold text-base md:text-lg ${language === 'ar' ? 'font-arabic' : 'font-mono'} transition-colors ${useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy hover:text-brand-coral'}`}
+            className={`h-10 w-10 flex items-center justify-center font-bold text-base md:text-lg transition-colors ${language === 'ar' ? 'font-mono pt-0.5' : 'font-arabic'} ${useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy hover:text-brand-coral'}`}
           >
             {language === 'en' ? 'AR' : 'EN'}
           </button>
