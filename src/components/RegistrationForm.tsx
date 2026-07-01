@@ -226,7 +226,6 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
               <div className="space-y-2">
                 <label className="font-display font-bold text-sm uppercase text-brand-navy">
                   {t.registration?.countryOfResidence} *
-                  <span className="block text-xs font-normal normal-case opacity-60 mt-1">{t.registration?.countryOfResidenceHint}</span>
                 </label>
                 <select 
                   required name="countryOfResidence" value={formData.countryOfResidence} onChange={handleChange}
