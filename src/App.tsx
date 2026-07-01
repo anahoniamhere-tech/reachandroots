@@ -1379,6 +1379,7 @@ const AdminDashboard = () => {
   
   const [ticketSearch, setTicketSearch] = useState('');
   const [ticketFilter, setTicketFilter] = useState('all');
+  const [paymentFilter, setPaymentFilter] = useState('all');
   const [communitySearch, setCommunitySearch] = useState('');
 
   useEffect(() => {
@@ -1559,6 +1560,34 @@ const AdminDashboard = () => {
     `);
     printWindow.document.close();
   };
+  const filteredCommunity = communityJoins.filter(join => {
+    if (!communitySearch) return true;
+    const s = communitySearch.toLowerCase();
+    return (join.fullName || join.name || '').toLowerCase().includes(s) || 
+           (join.email || '').toLowerCase().includes(s) ||
+           (join.phone || '').includes(s);
+  });
+
+  const filteredTickets = ticketBuyers.filter(buyer => {
+    let matchSearch = true;
+    if (ticketSearch) {
+      const s = ticketSearch.toLowerCase();
+      const name = buyer.customerInfo?.name || buyer.name || '';
+      const email = buyer.customerInfo?.email || buyer.email || '';
+      const phone = buyer.customerInfo?.phone || buyer.phone || '';
+      matchSearch = name.toLowerCase().includes(s) || email.toLowerCase().includes(s) || phone.includes(s);
+    }
+    let matchFilter = true;
+    if (ticketFilter !== 'all') {
+      matchFilter = buyer.tierId === ticketFilter;
+    }
+    let matchPayment = true;
+    if (paymentFilter !== 'all') {
+      const pStatus = buyer.paymentStatus || 'unpaid';
+      matchPayment = pStatus === paymentFilter;
+    }
+    return matchSearch && matchFilter && matchPayment;
+  });
 
   if (isLoading) return <div className="min-h-screen flex flex-col items-center justify-center bg-white gap-4"><Loader2 className="animate-spin text-brand-coral" size={32} /><span className="text-xs text-brand-navy/40 font-mono">Loading system telemetry...</span></div>;
 
@@ -1784,6 +1813,15 @@ const AdminDashboard = () => {
               {stats.tiers.map(t => (
                 <option key={t.id} value={t.id}>{t.name}</option>
               ))}
+            </select>
+            <select
+              value={paymentFilter}
+              onChange={e => setPaymentFilter(e.target.value)}
+              className="px-4 py-2 bg-brand-navy/5 border border-brand-navy/10 rounded-lg text-sm w-full sm:w-auto focus:outline-none focus:border-brand-coral"
+            >
+              <option value="all">All Statuses</option>
+              <option value="paid">Paid</option>
+              <option value="unpaid">Unpaid</option>
             </select>
             <button 
               onClick={() => downloadCSV(filteredTickets, 'ticket_buyers.csv')}
