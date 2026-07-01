@@ -1,9 +1,6 @@
-import puppeteer from 'puppeteer';
-import express from 'express';
 import fs from 'fs';
 import path from 'path';
 
-// The routes we want to prerender for SEO
 const routes = [
   '/',
   '/journeys',
@@ -13,53 +10,70 @@ const routes = [
   '/sponsors'
 ];
 
-async function prerender() {
-  console.log('Starting prerender...');
-  
-  // 1. Start a local server hosting the dist folder
-  const app = express();
-  
-  // Read the original index.html ONCE into memory before it gets modified
+const seoConfig = {
+  '/': {
+    title: 'Roots & Reach — Culture × Creation × Digital',
+    description: 'Born in Tripoli, Lebanon — Roots & Reach is a creative community telling stories and making an impact. Culture × Creation × Digital.',
+    image: 'https://rootsandreach.org/og-image.png'
+  },
+  '/journeys': {
+    title: "Dr. Yazeed's Journey — Roots & Reach",
+    description: 'Join Dr. Yazeed Mousa for an exclusive developmental journey in Tripoli, Lebanon. Lectures, workshops, and transformative experiences.',
+    image: 'https://rootsandreach.org/yazeed.jpg'
+  },
+  '/program': {
+    title: 'Event Program — Roots & Reach',
+    description: 'Explore the 3-day event schedule for Roots & Reach. Workshops, panels, and creative sessions in Tripoli, Lebanon.',
+    image: 'https://rootsandreach.org/og-image.png'
+  },
+  '/sanctuary': {
+    title: 'Creator Sanctuary — Roots & Reach',
+    description: 'Apply for the Roots & Reach Creator Sanctuary. An exclusive accreditation for content creators and storytellers.',
+    image: 'https://rootsandreach.org/og-image.png'
+  },
+  '/gallery': {
+    title: 'Gallery — Roots & Reach',
+    description: 'Browse our gallery of creators, storytellers, and community members shaping culture across the Levant.',
+    image: 'https://rootsandreach.org/og-image.png'
+  },
+  '/sponsors': {
+    title: 'Sponsors — Roots & Reach',
+    description: 'Partner with Roots & Reach. Discover sponsorship opportunities for our cultural and creative events in Lebanon.',
+    image: 'https://rootsandreach.org/og-image.png'
+  }
+};
+
+function prerender() {
+  console.log('Starting static metadata injection...');
   const originalIndexHtml = fs.readFileSync(path.resolve('dist/index.html'), 'utf8');
-  
-  app.use(express.static('dist', { index: false })); // Don't auto-serve index.html
-  
-  // Fallback to the original index.html for SPA routing
-  app.use((req, res) => {
-    res.send(originalIndexHtml);
-  });
 
-  const server = await new Promise((resolve) => {
-    const s = app.listen(3000, () => resolve(s));
-  });
-
-  console.log('Local server started on port 3000');
-
-  // 2. Launch Puppeteer
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  });
-  
-  const page = await browser.newPage();
-
-  // 3. Visit each route and save the HTML
   for (const route of routes) {
-    console.log(`Prerendering ${route}...`);
-    // Wait until network is idle to ensure React and react-helmet-async have finished loading
-    await page.goto(`http://localhost:3000${route}`, { waitUntil: 'networkidle2', timeout: 60000 });
-    // Add a small explicit wait to let React Helmet finish injecting tags
-    await new Promise(r => setTimeout(r, 2000));
+    const config = seoConfig[route];
+    const canonicalUrl = `https://rootsandreach.org${route === '/' ? '' : route}`;
     
-    // Get the fully rendered HTML
-    const html = await page.content();
-    
-    // Save to dist/route/index.html
-    // E.g. /journeys -> dist/journeys/index.html
-    // Special case for root '/' -> dist/index.html
+    const metaTags = `
+    <title>${config.title}</title>
+    <meta name="description" content="${config.description}" />
+    <link rel="canonical" href="${canonicalUrl}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="${canonicalUrl}" />
+    <meta property="og:title" content="${config.title}" />
+    <meta property="og:description" content="${config.description}" />
+    <meta property="og:image" content="${config.image}" />
+    <meta property="og:site_name" content="Roots & Reach" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="ar_AR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="${config.title}" />
+    <meta name="twitter:description" content="${config.description}" />
+    <meta name="twitter:image" content="${config.image}" />
+    `;
+
+    // Inject meta tags right after the <head> tag
+    const modifiedHtml = originalIndexHtml.replace('<head>', `<head>\n${metaTags}`);
+
     let dir = 'dist';
     if (route !== '/') {
-      // Remove leading slash for folder name
       dir = path.join('dist', route.slice(1));
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
@@ -67,17 +81,16 @@ async function prerender() {
     }
     
     const filePath = path.join(dir, 'index.html');
-    fs.writeFileSync(filePath, html);
-    console.log(`Saved ${filePath}`);
+    fs.writeFileSync(filePath, modifiedHtml);
+    console.log(`Saved injected HTML to ${filePath}`);
   }
-
-  await browser.close();
-  server.close();
-  console.log('Prerendering complete!');
+  
+  console.log('Static metadata injection complete!');
 }
 
-prerender().catch(err => {
+try {
+  prerender();
+} catch (err) {
   console.error('Prerendering failed:', err);
-  // Exit with 0 so the build does not fail on Hostinger
-  process.exit(0);
-});
+  process.exit(1);
+}
