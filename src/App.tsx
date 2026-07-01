@@ -32,7 +32,7 @@ import { PROGRAM_DATA, DayProgram, Session } from './constants/programData';
 import { useLanguage } from './lib/LanguageContext';
 import { CREATORS_EMAIL_DATA } from './constants/creatorsData';
 import RootsLogo from './assets/roots_logo.png';
-import YellowLogo from './assets/HON-LOGO---02-1440-T_Yellow.png';
+import YellowLogo from './assets/WordsLogo_yellow.png';
 import { SEOHead, seoConfig } from './lib/seo';
 
 // --- Components ---
@@ -69,7 +69,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
                 <button 
                   key={link.id} 
                   onClick={() => onNavigate(link.id as any)}
-                  className={`editorial-label ${currentView === link.id ? 'text-brand-coral' : (useDarkIcons ? 'text-brand-orange hover:text-brand-gold' : 'text-brand-navy/50 hover:text-brand-navy')} transition-all flex items-center gap-2 group whitespace-nowrap`}
+                  className={`editorial-label ${currentView === link.id ? 'text-brand-coral' : (useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy/50 hover:text-brand-navy')} transition-all flex items-center gap-2 group whitespace-nowrap`}
                 >
                   <span className={`${currentView === link.id ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100 transition-opacity`}>{link.icon}</span>
                   {link.name}
@@ -88,7 +88,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
                       }, 100);
                     }
                   }}
-                  className={`editorial-label ${useDarkIcons ? 'text-brand-orange hover:text-brand-gold' : 'text-brand-navy/50 hover:text-brand-navy'} transition-all flex items-center gap-2 group whitespace-nowrap`}
+                  className={`editorial-label ${useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy/50 hover:text-brand-navy'} transition-all flex items-center gap-2 group whitespace-nowrap`}
                 >
                   <span className="opacity-0 group-hover:opacity-100 transition-opacity">{link.icon}</span>
                   {link.name}
@@ -97,17 +97,17 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
             ))}
           </div>
 
-          <div className={`flex items-center gap-4 px-2 py-1.5 rounded-full border transition-colors ${useDarkIcons ? 'bg-brand-orange/10 border-brand-orange/20' : 'bg-brand-navy/5 border-transparent'}`}>
+          <div className={`flex items-center gap-4 px-2 py-1.5 rounded-full border transition-colors ${useDarkIcons ? 'bg-warm-beige/10 border-warm-beige/20' : 'bg-brand-navy/5 border-transparent'}`}>
               <button 
                 onClick={() => setLanguage('en')}
-                className={`editorial-label transition-colors ${language === 'en' ? 'text-brand-coral font-bold' : (useDarkIcons ? 'text-brand-orange/60 hover:text-brand-orange' : 'text-brand-navy/30 hover:text-brand-navy')}`}
+                className={`editorial-label transition-colors ${language === 'en' ? 'text-brand-coral font-bold' : (useDarkIcons ? 'text-warm-beige/60 hover:text-warm-beige' : 'text-brand-navy/30 hover:text-brand-navy')}`}
               >
                 EN
               </button>
-            <div className={`w-px h-3 ${useDarkIcons ? 'bg-brand-orange/20' : 'bg-brand-navy/10'}`} />
+            <div className={`w-px h-3 ${useDarkIcons ? 'bg-warm-beige/20' : 'bg-brand-navy/10'}`} />
             <button 
               onClick={() => setLanguage('ar')}
-              className={`font-arabic text-[10px] transition-colors leading-none ${language === 'ar' ? 'text-brand-coral font-bold' : (useDarkIcons ? 'text-brand-orange/60 hover:text-brand-orange' : 'text-brand-navy/30 hover:text-brand-navy')}`}
+              className={`font-arabic text-[10px] transition-colors leading-none ${language === 'ar' ? 'text-brand-coral font-bold' : (useDarkIcons ? 'text-warm-beige/60 hover:text-warm-beige' : 'text-brand-navy/30 hover:text-brand-navy')}`}
             >
               العربية
             </button>
@@ -117,10 +117,10 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
             href="https://www.instagram.com/rootsndreach/" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className={`p-2 transition-colors flex items-center justify-center ${useDarkIcons ? 'text-brand-orange hover:text-brand-gold' : 'text-brand-navy hover:text-brand-coral'}`}
+            className={`p-2 transition-colors flex items-center justify-center ${useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy hover:text-brand-coral'}`}
             title="Instagram"
           >
-            <Instagram size={14} className={useDarkIcons ? 'text-brand-orange hover:text-brand-gold' : 'text-brand-navy/60 hover:text-brand-coral'} />
+            <Instagram size={14} className={useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy/60 hover:text-brand-coral'} />
           </a>
         </div>
 
@@ -129,19 +129,19 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
             href="https://www.instagram.com/rootsndreach/" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className={`p-2 transition-colors flex items-center justify-center ${useDarkIcons ? 'text-brand-orange hover:text-brand-gold' : 'text-brand-navy hover:text-brand-coral'}`}
+            className={`p-2 transition-colors flex items-center justify-center ${useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy hover:text-brand-coral'}`}
           >
             <Instagram size={20} />
           </a>
           <button 
             onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
-            className={`px-2 py-1.5 editorial-label ${language === 'ar' ? 'font-arabic text-[10px] leading-none' : ''} transition-colors ${useDarkIcons ? 'text-brand-orange hover:text-brand-gold' : 'text-brand-navy hover:text-brand-coral'}`}
+            className={`px-2 py-1.5 editorial-label ${language === 'ar' ? 'font-arabic text-[10px] leading-none' : ''} transition-colors ${useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy hover:text-brand-coral'}`}
           >
             {language === 'en' ? 'AR' : 'EN'}
           </button>
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`p-2 transition-colors active:scale-95 ${useDarkIcons ? 'text-brand-orange hover:text-brand-gold' : 'text-brand-navy hover:text-brand-coral'}`}
+            className={`p-2 transition-colors active:scale-95 ${useDarkIcons ? 'text-warm-beige hover:text-warm-beige/80' : 'text-brand-navy hover:text-brand-coral'}`}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
