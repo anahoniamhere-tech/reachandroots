@@ -1700,7 +1700,7 @@ const AdminDashboard = () => {
         <>
 
       <div className="grid md:grid-cols-3 gap-8 mb-16 relative z-10">
-        <div className="media-card p-12 bg-warm-beige/30 border-none relative overflow-hidden group">
+        <div className="media-card p-8 md:p-12 bg-warm-beige/30 border-none relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-8 pixel-grid w-24 h-24 opacity-20" />
           <span className="editorial-label text-brand-navy/30 mb-8 block uppercase font-bold tracking-[0.2em]">Live Transmissions</span>
           <p className="text-7xl font-display font-bold tracking-tighter text-brand-navy">{stats.orders}</p>
@@ -1709,13 +1709,13 @@ const AdminDashboard = () => {
              Active Stream
           </div>
         </div>
-        <div className="media-card p-12 bg-white ring-1 ring-brand-navy/5 relative overflow-hidden group">
+        <div className="media-card p-8 md:p-12 bg-white ring-1 ring-brand-navy/5 relative overflow-hidden group">
            <div className="absolute top-0 right-0 p-8 pixel-grid w-24 h-24 opacity-20" />
           <span className="editorial-label text-brand-navy/30 mb-8 block uppercase font-bold tracking-[0.2em]">Curation Revenue</span>
           <p className="text-7xl font-display font-bold tracking-tighter text-brand-coral">${stats.revenue}</p>
           <span className="mt-8 block font-mono text-[8px] text-brand-navy/20 uppercase tracking-[0.4em]">Protocol: USD</span>
         </div>
-        <div className="media-card p-12 bg-brand-navy text-white relative overflow-hidden group border-none">
+        <div className="media-card p-8 md:p-12 bg-brand-navy text-white relative overflow-hidden group border-none">
           <div className="absolute inset-0 pixel-grid opacity-10" />
           <div className="absolute top-[-20%] right-[-10%] w-[60%] h-[60%] bg-brand-gold/20 soft-glow petal-shape" />
           <span className="editorial-label text-brand-gold mb-8 block uppercase font-bold tracking-[0.2em]">Security Status</span>
@@ -1731,7 +1731,7 @@ const AdminDashboard = () => {
         </div>
         <div className="grid gap-6">
           {stats.tiers.sort((a,b) => a.sortOrder - b.sortOrder).map(tier => (
-            <div key={tier.id} className="p-8 bg-white border border-brand-navy/5 rounded-[2rem] flex flex-col md:flex-row justify-between items-center group hover:shadow-2xl transition-all duration-700">
+            <div key={tier.id} className="p-6 md:p-8 bg-white border border-brand-navy/5 rounded-[2rem] flex flex-col md:flex-row justify-between items-center group hover:shadow-2xl transition-all duration-700">
               <div className="mb-8 md:mb-0">
                 <h3 className="font-display font-bold text-3xl text-brand-navy mb-2 uppercase tracking-tighter group-hover:text-brand-coral transition-colors">{tier.name}</h3>
                 <div className="flex items-center gap-6">
@@ -1740,17 +1740,17 @@ const AdminDashboard = () => {
                   <span className="editorial-label text-brand-navy/30 uppercase font-bold tracking-[0.2em]">ID: {tier.wristband}</span>
                 </div>
               </div>
-              <div className="flex gap-16 text-center items-center">
+              <div className="flex flex-col md:flex-row gap-6 md:gap-16 text-center items-center w-full md:w-auto">
                 <div className="space-y-1">
                   <span className="editorial-label text-brand-navy/20 uppercase font-bold tracking-widest text-center block">Manifested</span>
                   <span className="font-mono text-2xl text-brand-navy">{tier.soldCount}</span>
                 </div>
-                <div className="h-12 w-[1px] bg-brand-navy/5" />
+                <div className="hidden md:block h-12 w-[1px] bg-brand-navy/5" />
                 <div className="space-y-1">
                   <span className="editorial-label text-brand-navy/20 uppercase font-bold tracking-widest text-center block">Max Capacity</span>
                   <span className="font-mono text-2xl text-brand-navy/30">{tier.capacity}</span>
                 </div>
-                <div className="h-12 w-[1px] bg-brand-navy/5" />
+                <div className="hidden md:block h-12 w-[1px] bg-brand-navy/5" />
                 <div className="min-w-[120px] space-y-1">
                   <span className="editorial-label text-brand-navy/20 uppercase font-bold tracking-widest text-center block">Saturation</span>
                   <span className="font-display font-bold text-3xl text-brand-coral">{Math.round((tier.soldCount / tier.capacity) * 100)}%</span>
@@ -1796,7 +1796,7 @@ const AdminDashboard = () => {
             </button>
           </div>
         </div>
-        <div className="bg-white border border-brand-navy/5 rounded-[2rem] p-8 overflow-x-auto">
+        <div className="bg-white border border-brand-navy/5 rounded-[2rem] p-4 md:p-8 overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-brand-navy/5 text-brand-navy/40 font-mono text-xs uppercase tracking-widest">
@@ -1875,7 +1875,7 @@ const AdminDashboard = () => {
             </button>
           </div>
         </div>
-        <div className="bg-white border border-brand-navy/5 rounded-[2rem] p-8 overflow-x-auto">
+        <div className="bg-white border border-brand-navy/5 rounded-[2rem] p-4 md:p-8 overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-brand-navy/5 text-brand-navy/40 font-mono text-xs uppercase tracking-widest">
