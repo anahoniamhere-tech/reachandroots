@@ -43,10 +43,14 @@
     letter-spacing: 0;
   }
   
-  .font-arabic, .font-arabic *,
-  [dir="rtl"], [dir="rtl"] * {
+  .font-arabic *:not(.force-english-font),
+  [dir="rtl"] *:not(.force-english-font) {
     font-family: var(--font-arabic) !important;
     letter-spacing: 0 !important;
+  }
+
+  .force-english-font {
+    font-family: "Space Grotesk", sans-serif !important;
   }
 }
 

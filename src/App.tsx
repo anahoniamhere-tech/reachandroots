@@ -777,7 +777,7 @@ export default function App() {
           <div className="grid lg:grid-cols-12 gap-12 sm:gap-20 mb-20 sm:mb-32 items-start border-t border-white/10 pt-20">
             <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left">
               <div className="flex flex-col items-center justify-center lg:justify-start lg:items-start mb-6 sm:mb-12 w-full">
-                <span className="font-display text-2xl sm:text-4xl tracking-tighter uppercase font-bold leading-none">Roots & Reach</span>
+                <span className="font-display text-2xl sm:text-4xl tracking-tighter uppercase font-bold leading-none force-english-font">Roots & Reach</span>
               </div>
               <div className="flex justify-center lg:justify-start w-full mb-8 sm:mb-12">
                   <a 
