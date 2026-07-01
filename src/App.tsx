@@ -51,6 +51,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
   const navLinks = [
     { name: t.nav.story, id: 'about', icon: <Globe size={10} />, type: 'anchor' },
     { name: (t.nav as any).journey || 'Journey', id: 'journey', icon: <User size={10} />, type: 'view' },
+    { name: t.nav.portal || 'Join Community', id: 'registration', icon: <Users size={10} />, type: 'view' },
   ];
 
   const useDarkIcons = (!isScrolled && currentView === 'landing') || isMenuOpen;
