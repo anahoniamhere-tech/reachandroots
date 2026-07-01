@@ -42,11 +42,8 @@
     letter-spacing: 0;
   }
   
-  .font-arabic .tracking-tighter,
-  .font-arabic .tracking-tight,
-  .font-arabic .tracking-widest,
-  .font-arabic .tracking-wider {
-    letter-spacing: 0;
+  .font-arabic, .font-arabic * {
+    letter-spacing: 0 !important;
   }
 }
 
