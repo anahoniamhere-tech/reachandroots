@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   Calendar, MapPin, Clock, ArrowRight, User, 
   Check, Sparkles, Award, Wallet, ShieldCheck, 
-  Users, CheckCircle2, Copy, Send
+  Users, CheckCircle2, Copy, Send, Instagram
 } from 'lucide-react';
 import { useLanguage } from '../lib/LanguageContext';
 import { db, collection, doc, setDoc, serverTimestamp } from '../lib/firebase';
@@ -221,6 +221,15 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                   <p className="font-body text-sm text-brand-navy/50">
                     {journeyT.guestTitle}
                   </p>
+                  <a 
+                    href="https://www.instagram.com/dr.yazedmousa/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2.5 inline-flex items-center gap-2 text-xs font-display font-bold uppercase tracking-wider text-brand-coral hover:text-brand-navy transition-colors cursor-pointer"
+                  >
+                    <Instagram size={12} />
+                    <span>{isRTL ? 'تابع على إنستغرام' : 'Follow on Instagram'}</span>
+                  </a>
                 </div>
               </div>
             </div>
