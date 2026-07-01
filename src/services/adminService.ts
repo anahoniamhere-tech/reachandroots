@@ -86,9 +86,17 @@ export const AdminService = {
   },
 
   async seedDatabase() {
-    const batch = writeBatch(db);
-    
     try {
+      // Clear old tiers
+      const oldTiersSnap = await getDocs(collection(db, 'ticketTiers'));
+      const deleteBatch = writeBatch(db);
+      oldTiersSnap.docs.forEach(d => {
+        deleteBatch.delete(d.ref);
+      });
+      await deleteBatch.commit();
+
+      const batch = writeBatch(db);
+      
       // Seed Tiers
       TICKET_TIERS.forEach(tier => {
         const tierRef = doc(db, 'ticketTiers', tier.id);
