@@ -1420,14 +1420,20 @@ const AdminDashboard = () => {
         const ordersSnap = await getDocs(collection(db, 'orders'));
         const tiersSnap = await getDocs(collection(db, 'ticketTiers'));
         
-        const orders = ordersSnap.docs.map(d => d.data() as Order);
+        const orders = ordersSnap.docs.map(d => ({ id: d.id, ...d.data() }) as Order);
         const tiers = tiersSnap.docs.map(d => {
           const tierData = d.data();
-          const soldCount = orders.filter(o => o.tierId === tierData.id || o.tierId === tierData.name).reduce((acc, curr) => acc + (curr.quantity || 1), 0);
+          const soldCount = orders.filter(o => {
+            const isExactMatch = o.tierId === tierData.id || o.tierId === tierData.name;
+            const isLegacyWorkshop1 = tierData.id.includes('Passion & Stress Management') && o.tierId === 'Single Workshop 1';
+            const isLegacyWorkshop2 = tierData.id.includes('Mind Programming') && !tierData.id.includes('Double') && o.tierId === 'Single Workshop 2';
+            const isLegacyDouble = tierData.id.includes('Double') && o.tierId === 'Double Workshop';
+            return isExactMatch || isLegacyWorkshop1 || isLegacyWorkshop2 || isLegacyDouble;
+          }).reduce((acc, curr) => acc + (curr.quantity || 1), 0);
           return { id: d.id, ...tierData, soldCount };
         });
         
-        const revenue = orders.reduce((acc, curr) => acc + curr.totalPrice, 0);
+        const revenue = orders.reduce((acc, curr) => acc + Number(curr.totalPrice), 0);
         
         setStats({ orders: orders.length, revenue, tiers });
         
