@@ -32,6 +32,7 @@ import { PROGRAM_DATA, DayProgram, Session } from './constants/programData';
 import { useLanguage } from './lib/LanguageContext';
 import { CREATORS_EMAIL_DATA } from './constants/creatorsData';
 import RootsLogo from './assets/roots_logo.png';
+import YellowLogo from './assets/HON-LOGO---02-1440-T_Yellow.png';
 import { SEOHead, seoConfig } from './lib/seo';
 
 // --- Components ---
@@ -51,12 +52,14 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
     { name: (t.nav as any).journey || 'Journey', id: 'journey', icon: <User size={10} />, type: 'view' },
   ];
 
+  const useDarkIcons = !isScrolled || isMenuOpen;
+
   return (
     <>
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${isScrolled ? 'bg-warm-beige/95 backdrop-blur-xl border-brand-navy/10 py-4' : 'bg-transparent border-transparent py-8'}`} dir="ltr">
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${isMenuOpen ? 'bg-transparent border-transparent py-8' : (isScrolled ? 'bg-warm-beige/95 backdrop-blur-xl border-brand-navy/10 py-4' : 'bg-transparent border-transparent py-8')}`} dir="ltr">
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex justify-between items-center">
         <div className="cursor-pointer group" onClick={() => { onNavigate('landing'); setIsMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
-          <img src={RootsLogo} alt="Roots and Reach Logo" className="h-16 sm:h-20 w-auto object-contain transition-transform group-hover:scale-105 select-none" />
+          <img src={useDarkIcons ? YellowLogo : RootsLogo} alt="Roots and Reach Logo" className="h-16 sm:h-20 w-auto object-contain transition-transform group-hover:scale-105 select-none" />
         </div>
         
         <div className="hidden lg:flex items-center gap-8">
@@ -66,7 +69,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
                 <button 
                   key={link.id} 
                   onClick={() => onNavigate(link.id as any)}
-                  className={`editorial-label ${currentView === link.id ? 'text-brand-coral' : 'text-brand-navy/50'} hover:text-brand-coral transition-all flex items-center gap-2 group whitespace-nowrap`}
+                  className={`editorial-label ${currentView === link.id ? 'text-brand-coral' : (useDarkIcons ? 'text-brand-orange hover:text-brand-gold' : 'text-brand-navy/50 hover:text-brand-navy')} transition-all flex items-center gap-2 group whitespace-nowrap`}
                 >
                   <span className={`${currentView === link.id ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100 transition-opacity`}>{link.icon}</span>
                   {link.name}
@@ -85,7 +88,7 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
                       }, 100);
                     }
                   }}
-                  className="editorial-label text-brand-navy/50 hover:text-brand-coral transition-all flex items-center gap-2 group whitespace-nowrap"
+                  className={`editorial-label ${useDarkIcons ? 'text-brand-orange hover:text-brand-gold' : 'text-brand-navy/50 hover:text-brand-navy'} transition-all flex items-center gap-2 group whitespace-nowrap`}
                 >
                   <span className="opacity-0 group-hover:opacity-100 transition-opacity">{link.icon}</span>
                   {link.name}
@@ -94,17 +97,17 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
             ))}
           </div>
 
-          <div className="flex items-center gap-4 px-2 py-1.5">
+          <div className={`flex items-center gap-4 px-2 py-1.5 rounded-full border transition-colors ${useDarkIcons ? 'bg-brand-orange/10 border-brand-orange/20' : 'bg-brand-navy/5 border-transparent'}`}>
               <button 
                 onClick={() => setLanguage('en')}
-                className={`editorial-label translation-all ${language === 'en' ? 'text-brand-coral font-bold' : 'text-brand-navy/30 hover:text-brand-navy'}`}
+                className={`editorial-label transition-colors ${language === 'en' ? 'text-brand-coral font-bold' : (useDarkIcons ? 'text-brand-orange/60 hover:text-brand-orange' : 'text-brand-navy/30 hover:text-brand-navy')}`}
               >
                 EN
               </button>
-            <div className="w-px h-3 bg-brand-navy/10" />
+            <div className={`w-px h-3 ${useDarkIcons ? 'bg-brand-orange/20' : 'bg-brand-navy/10'}`} />
             <button 
               onClick={() => setLanguage('ar')}
-              className={`font-arabic text-[10px] transition-all leading-none ${language === 'ar' ? 'text-brand-coral font-bold' : 'text-brand-navy/30 hover:text-brand-navy'}`}
+              className={`font-arabic text-[10px] transition-colors leading-none ${language === 'ar' ? 'text-brand-coral font-bold' : (useDarkIcons ? 'text-brand-orange/60 hover:text-brand-orange' : 'text-brand-navy/30 hover:text-brand-navy')}`}
             >
               العربية
             </button>
@@ -114,13 +117,11 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
             href="https://www.instagram.com/rootsndreach/" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="p-2 text-brand-navy hover:text-brand-coral transition-colors flex items-center justify-center"
+            className={`p-2 transition-colors flex items-center justify-center ${useDarkIcons ? 'text-brand-orange hover:text-brand-gold' : 'text-brand-navy hover:text-brand-coral'}`}
             title="Instagram"
           >
-            <Instagram size={14} className="text-brand-navy/60 hover:text-brand-coral" />
+            <Instagram size={14} className={useDarkIcons ? 'text-brand-orange hover:text-brand-gold' : 'text-brand-navy/60 hover:text-brand-coral'} />
           </a>
-
-
         </div>
 
         <div className="flex items-center gap-3 lg:hidden">
@@ -128,19 +129,19 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
             href="https://www.instagram.com/rootsndreach/" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="p-2 text-brand-navy hover:text-brand-coral transition-colors flex items-center justify-center"
+            className={`p-2 transition-colors flex items-center justify-center ${useDarkIcons ? 'text-brand-orange hover:text-brand-gold' : 'text-brand-navy hover:text-brand-coral'}`}
           >
             <Instagram size={20} />
           </a>
           <button 
             onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
-            className={`px-2 py-1.5 editorial-label ${language === 'ar' ? 'font-arabic text-[10px] leading-none' : ''} hover:text-brand-coral transition-colors text-brand-navy`}
+            className={`px-2 py-1.5 editorial-label ${language === 'ar' ? 'font-arabic text-[10px] leading-none' : ''} transition-colors ${useDarkIcons ? 'text-brand-orange hover:text-brand-gold' : 'text-brand-navy hover:text-brand-coral'}`}
           >
             {language === 'en' ? 'AR' : 'EN'}
           </button>
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="p-2 text-brand-navy hover:text-brand-coral transition-colors active:scale-95"
+            className={`p-2 transition-colors active:scale-95 ${useDarkIcons ? 'text-brand-orange hover:text-brand-gold' : 'text-brand-navy hover:text-brand-coral'}`}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
