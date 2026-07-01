@@ -52,11 +52,11 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
     { name: (t.nav as any).journey || 'Journey', id: 'journey', icon: <User size={10} />, type: 'view' },
   ];
 
-  const useDarkIcons = !isScrolled && currentView === 'landing';
+  const useDarkIcons = (!isScrolled && currentView === 'landing') || isMenuOpen;
 
   return (
     <>
-    <nav className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-500 border-b ${isScrolled ? 'bg-warm-beige border-brand-navy/10 py-4' : 'bg-transparent border-transparent py-8'}`} dir="ltr">
+    <nav className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-500 border-b ${isScrolled && !isMenuOpen ? 'bg-warm-beige border-brand-navy/10 py-4' : 'bg-transparent border-transparent py-8'}`} dir="ltr">
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex justify-between items-center">
         <div className="cursor-pointer group" onClick={() => { onNavigate('landing'); setIsMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
           <img src={useDarkIcons ? YellowLogo : RootsLogo} alt="Roots and Reach Logo" className="h-16 sm:h-20 w-auto object-contain transition-transform group-hover:scale-105 select-none" />
