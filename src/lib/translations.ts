@@ -422,7 +422,8 @@ export const translations = {
       knowMoreOptions: ['Yes, I would like to know the details', 'No'],
       consentOptions: ['I agree to allow Roots & Reach to use my contact details to send community updates and news.'],
       phoneError: 'Please enter a valid WhatsApp number with country code.',
-      otherPlaceholder: 'Describe your interest (max 3 words)'
+      otherPlaceholder: 'Describe your interest (max 3 words)',
+      roleOtherPlaceholder: 'Describe your role (max 3 words)'
     }
   },
   ar: {
@@ -846,7 +847,8 @@ export const translations = {
       knowMoreOptions: ['نعم، أود معرفة التفاصيل', 'لا'],
       consentOptions: ['أوافق على استخدام معلوماتي للتواصل معي وإرسال تحديثات وأخبار مجتمع Roots & Reach.'],
       phoneError: 'يرجى إدخال رقم واتساب صحيح مع رمز الدولة.',
-      otherPlaceholder: 'صف اهتمامك (٣ كلمات كحد أقصى)'
+      otherPlaceholder: 'صف اهتمامك (٣ كلمات كحد أقصى)',
+      roleOtherPlaceholder: 'صف دورك (٣ كلمات كحد أقصى)'
     }
   }
 };

@@ -11,6 +11,7 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
   const [isSuccess, setIsSuccess] = useState(false);
   const [phoneError, setPhoneError] = useState('');
   const [topicOtherText, setTopicOtherText] = useState('');
+  const [roleOtherText, setRoleOtherText] = useState('');
   
   const [formData, setFormData] = useState({
     fullName: '',
@@ -60,6 +61,17 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
     }
   };
 
+  const handleRoleOtherTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    const words = val.trim().split(/\s+/).filter(Boolean);
+    if (words.length <= 3) {
+      setRoleOtherText(val);
+    } else {
+      const truncated = val.split(/\s+/).slice(0, 3).join(' ');
+      setRoleOtherText(truncated);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setPhoneError('');
@@ -81,6 +93,13 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
       
       const phone_e164 = `${phoneCode}${national}`;
       
+      const cleanedRoles = formData.role.map(role => {
+        if (role === 'Other' || role === 'غير ذلك') {
+          return `${role}: ${roleOtherText}`;
+        }
+        return role;
+      });
+      
       const cleanedTopics = formData.topicOfInterest.map(topic => {
         if (topic === 'Other' || topic === 'أخرى') {
           return `${topic}: ${topicOtherText}`;
@@ -90,6 +109,8 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
       
       const submissionData = { 
         ...rest, 
+        role: cleanedRoles,
+        roleOtherText: roleOtherText || '',
         topicOfInterest: cleanedTopics,
         topicOtherText: topicOtherText || '',
         phone: phone_e164, // Keep original property but updated
@@ -281,6 +302,17 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
                   </label>
                 ))}
               </div>
+              {((formData.role as string[]).includes('Other') || (formData.role as string[]).includes('غير ذلك')) && (
+                <input 
+                  type="text" 
+                  required 
+                  value={roleOtherText} 
+                  onChange={handleRoleOtherTextChange}
+                  placeholder={t.registration?.roleOtherPlaceholder}
+                  maxLength={100}
+                  className="w-full bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-coral focus:ring-1 focus:ring-brand-coral transition-all font-body text-brand-navy mt-3"
+                />
+              )}
             </div>
 
             <div className="space-y-2 pt-4">
