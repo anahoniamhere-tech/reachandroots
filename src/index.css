@@ -37,12 +37,15 @@
     --font-sans: "Tajawal", sans-serif;
     --font-display: "Tajawal", sans-serif;
     --font-body: "Tajawal", sans-serif;
+    --font-mono: "Tajawal", sans-serif;
     font-family: var(--font-arabic);
     line-height: 1.6;
     letter-spacing: 0;
   }
   
-  .font-arabic, .font-arabic * {
+  .font-arabic, .font-arabic *,
+  [dir="rtl"], [dir="rtl"] * {
+    font-family: var(--font-arabic) !important;
     letter-spacing: 0 !important;
   }
 }
