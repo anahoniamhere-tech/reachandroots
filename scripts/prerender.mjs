@@ -18,10 +18,15 @@ async function prerender() {
   
   // 1. Start a local server hosting the dist folder
   const app = express();
-  app.use(express.static('dist'));
-  // Fallback to index.html for SPA routing
+  
+  // Read the original index.html ONCE into memory before it gets modified
+  const originalIndexHtml = fs.readFileSync(path.resolve('dist/index.html'), 'utf8');
+  
+  app.use(express.static('dist', { index: false })); // Don't auto-serve index.html
+  
+  // Fallback to the original index.html for SPA routing
   app.use((req, res) => {
-    res.sendFile(path.resolve('dist/index.html'));
+    res.send(originalIndexHtml);
   });
 
   const server = await new Promise((resolve) => {
@@ -42,7 +47,9 @@ async function prerender() {
   for (const route of routes) {
     console.log(`Prerendering ${route}...`);
     // Wait until network is idle to ensure React and react-helmet-async have finished loading
-    await page.goto(`http://localhost:3000${route}`, { waitUntil: 'networkidle0' });
+    await page.goto(`http://localhost:3000${route}`, { waitUntil: 'networkidle2', timeout: 60000 });
+    // Add a small explicit wait to let React Helmet finish injecting tags
+    await new Promise(r => setTimeout(r, 2000));
     
     // Get the fully rendered HTML
     const html = await page.content();

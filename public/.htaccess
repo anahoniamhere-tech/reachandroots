@@ -5,7 +5,12 @@
   # Route the send-email API endpoint to the PHP script
   RewriteRule ^api/admin/send-email/?$ api/send-email.php [L]
   
-  RewriteRule ^index\.html$ - [L]
+  # Serve prerendered HTML without trailing slash redirect
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteCond %{REQUEST_URI} !(.*)/$
+  RewriteRule ^(.*)$ $1/index.html [L]
+  
+  # SPA Fallback
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]

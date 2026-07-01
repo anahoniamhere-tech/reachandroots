@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, ChevronRight, ArrowRight, Activity, Target, Award, Globe, User } from 'lucide-react';
 import { BrandLogo } from './BrandingIcons';
 import { useLanguage } from '../lib/LanguageContext';
-import YellowLogo from '../assets/Yellow_Header_logo.png';
+import YellowLogo from '../assets/HON-LOGO---02-1440-T_Yellow.png';
 import RootsLogo from '../assets/roots_logo.png';
 
 export const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuOpen }: { onNavigate: (v: 'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors' | 'trf-anahon' | 'journey') => void, onOpenTickets: () => void, currentView: string, isMenuOpen: boolean, setIsMenuOpen: (v: boolean) => void }) => {
@@ -25,7 +25,7 @@ export const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, set
 
   return (
     <>
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${isScrolled ? 'bg-warm-beige/95 backdrop-blur-xl border-brand-navy/10 py-4' : 'bg-transparent border-transparent py-8'}`} dir={isRTL ? 'rtl' : 'ltr'}>
+    <nav className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-500 border-b ${isMenuOpen ? 'bg-transparent border-transparent py-8' : (isScrolled ? 'bg-warm-beige/95 backdrop-blur-xl border-brand-navy/10 py-4' : 'bg-transparent border-transparent py-8')}`} dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex justify-between items-center">
         <div className="cursor-pointer group" onClick={() => { onNavigate('landing'); setIsMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
           <img src={useDarkIcons ? YellowLogo : RootsLogo} alt="Roots and Reach Logo" className="h-16 sm:h-20 w-auto object-contain transition-transform group-hover:scale-105 select-none" />
@@ -76,7 +76,7 @@ export const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, set
             <div className="w-px h-3 bg-brand-navy/10" />
             <button 
               onClick={() => setLanguage('ar')}
-              className={`font-arabic text-[10px] transition-all leading-none ${language === 'ar' ? 'text-brand-coral font-bold' : 'text-brand-navy/30 hover:text-brand-navy'}`}
+              className={`font-arabic text-sm transition-all leading-none ${language === 'ar' ? 'text-brand-coral font-bold' : 'text-brand-navy/30 hover:text-brand-navy'}`}
             >
               العربية
             </button>
@@ -95,7 +95,7 @@ export const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, set
         <div className="flex items-center gap-4 lg:hidden">
           <button 
             onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
-            className={`px-3 py-1.5 rounded-lg border border-brand-navy/10 editorial-label ${language === 'ar' ? 'font-arabic text-[10px] leading-none' : ''} hover:bg-brand-navy/5 transition-colors`}
+            className={`px-3 py-1.5 rounded-lg border editorial-label ${language === 'ar' ? 'font-arabic text-sm leading-none' : ''} transition-colors ${useDarkIcons ? 'text-white border-white/20 hover:bg-white/10' : 'text-brand-navy border-brand-navy/10 hover:bg-brand-navy/5'}`}
           >
             {language === 'en' ? 'AR' : 'EN'}
           </button>

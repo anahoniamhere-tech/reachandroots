@@ -557,38 +557,28 @@ export default function App() {
     document.documentElement.lang = language === 'ar' ? 'ar' : 'en';
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
   }, [language]);
-  const [view, setView] = useState<'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors' | 'trf-anahon' | 'journey' | 'registration'>('landing');
+  const [view, setView] = useState<'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors' | 'trf-anahon' | 'journey' | 'registration'>(() => {
+    if (typeof window === 'undefined') return 'landing';
+    const p = window.location.pathname;
+    if (p.endsWith('/program') || p.includes('/program/')) return 'program';
+    if (p.endsWith('/sanctuary/apply')) return 'sanctuary-apply';
+    if ((p.endsWith('/sanctuary') || p.includes('/sanctuary/')) && !p.endsWith('/sanctuary/apply')) return 'sanctuary';
+    if (p.endsWith('/gallery') || p.includes('/gallery/')) return 'gallery';
+    if (p.endsWith('/sponsors') || p.includes('/sponsors/') || p.endsWith('/sponsores') || p.includes('/sponsores/')) return 'sponsors';
+    if (p.endsWith('/trf-anahon') || p.includes('/trf-anahon/')) return 'trf-anahon';
+    if (p.endsWith('/journey') || p.includes('/journey/') || p.endsWith('/journeys') || p.includes('/journeys/')) return 'journey';
+    return 'landing';
+  });
   const [selectedTrack, setSelectedTrack] = useState<string | null>(null);
-  const [isAdminMode, setIsAdminMode] = useState(
-    window.location.hash === '#admin' || 
-    window.location.pathname.endsWith('/admin') || 
-    window.location.pathname.includes('/admin/')
-  );
+  const [isAdminMode, setIsAdminMode] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.location.hash === '#admin' || window.location.pathname.endsWith('/admin') || window.location.pathname.includes('/admin/');
+  });
   const [user, setUser] = useState<FirebaseUser | null>(auth.currentUser);
   const [showFloatingTab, setShowFloatingTab] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    // Handle URL routing simulation
-    const p = window.location.pathname;
-    const isProgram = p.endsWith('/program') || p.includes('/program/');
-    const isSanctuaryApply = p.endsWith('/sanctuary/apply');
-    const isSanctuary = (p.endsWith('/sanctuary') || p.includes('/sanctuary/')) && !isSanctuaryApply;
-    const isGallery = p.endsWith('/gallery') || p.includes('/gallery/');
-    const isSponsors = p.endsWith('/sponsors') || p.includes('/sponsors/') || p.endsWith('/sponsores') || p.includes('/sponsores/');
-    const isTrfAnahon = p.endsWith('/trf-anahon') || p.includes('/trf-anahon/');
-    const isJourney = p.endsWith('/journey') || p.includes('/journey/') || p.endsWith('/journeys') || p.includes('/journeys/');
-    const isAdmin = p.endsWith('/admin') || p.includes('/admin/');
-
-    if (isProgram) setView('program');
-    else if (isSanctuaryApply) setView('sanctuary-apply');
-    else if (isSanctuary) setView('sanctuary');
-    else if (isGallery) setView('gallery');
-    else if (isSponsors) setView('sponsors');
-    else if (isTrfAnahon) setView('trf-anahon');
-    else if (isJourney) setView('journey');
-    else if (isAdmin) setIsAdminMode(true);
-    
     const unsubscribe = onAuthStateChanged(auth, setUser);
     const handleHash = () => setIsAdminMode(window.location.hash === '#admin' || window.location.pathname.endsWith('/admin'));
     window.addEventListener('hashchange', handleHash);
