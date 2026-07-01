@@ -1597,7 +1597,12 @@ const AdminDashboard = () => {
     }
     let matchFilter = true;
     if (ticketFilter !== 'all') {
-      matchFilter = buyer.tierId === ticketFilter;
+      const isExactMatch = buyer.tierId === ticketFilter;
+      const isLegacyPublicLecture = ticketFilter.includes('The Five Inner Thoughts') && buyer.tierId === 'Public Lecture';
+      const isLegacyWorkshop1 = ticketFilter.includes('Passion & Stress Management') && buyer.tierId === 'Single Workshop 1';
+      const isLegacyWorkshop2 = ticketFilter.includes('Mind Programming') && !ticketFilter.includes('Double') && buyer.tierId === 'Single Workshop 2';
+      const isLegacyDouble = ticketFilter.includes('Double') && buyer.tierId === 'Double Workshop';
+      matchFilter = isExactMatch || isLegacyPublicLecture || isLegacyWorkshop1 || isLegacyWorkshop2 || isLegacyDouble;
     }
     let matchPayment = true;
     if (paymentFilter !== 'all') {
