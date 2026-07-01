@@ -1855,7 +1855,6 @@ const AdminDashboard = () => {
                 <th className="py-4 font-normal">Name</th>
                 <th className="py-4 font-normal">Email</th>
                 <th className="py-4 font-normal">Tier</th>
-                <th className="py-4 font-normal">Qty</th>
                 <th className="py-4 font-normal">Total</th>
               </tr>
             </thead>
@@ -1871,11 +1870,10 @@ const AdminDashboard = () => {
                   <td className="py-4 font-bold">{buyer.customerInfo?.name || buyer.name || 'N/A'}</td>
                   <td className="py-4">{buyer.customerInfo?.email || buyer.email || 'N/A'}</td>
                   <td className="py-4">{buyer.tierId || 'N/A'}</td>
-                  <td className="py-4">{buyer.quantity || 1}</td>
                   <td className="py-4 text-brand-coral font-display font-bold">${buyer.totalPrice || 0}</td>
                 </tr>
               )) : (
-                <tr><td colSpan={7} className="py-8 text-center text-brand-navy/40">No ticket orders found.</td></tr>
+                <tr><td colSpan={6} className="py-8 text-center text-brand-navy/40">No ticket orders found.</td></tr>
               )}
             </tbody>
           </table>
