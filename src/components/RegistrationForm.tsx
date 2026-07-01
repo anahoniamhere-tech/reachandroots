@@ -148,7 +148,7 @@ export const RegistrationForm = ({ onNavigate }: { onNavigate: (v: any) => void 
                 <label className="font-display font-bold text-sm uppercase text-brand-navy">
                   {t.registration?.phone} *
                 </label>
-                <div className="flex gap-2">
+                <div className="flex gap-2" dir="ltr">
                   <select 
                     name="phoneCode" value={formData.phoneCode} onChange={handleChange}
                     className="bg-warm-beige/50 border border-brand-navy/10 rounded-2xl px-4 py-4 focus:outline-none focus:border-brand-coral transition-all font-body text-brand-navy appearance-none w-28 shrink-0 text-center"
