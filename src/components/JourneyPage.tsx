@@ -161,6 +161,23 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
           status: 'pending',
           createdAt: serverTimestamp()
         });
+        
+        // Trigger the Hostinger PHP script to send the confirmation email
+        try {
+          fetch('/send_mail.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: formData.email,
+              name: formData.name,
+              tierName: tierName,
+              price: price
+            })
+          }).catch(err => console.error('Failed to trigger email:', err));
+        } catch (e) {
+          // Ignore fetch errors so it doesn't block the success screen
+        }
+        
         setIsRegistered(true);
         try {
           window.open(getWhatsAppLink(), '_blank');
