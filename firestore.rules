@@ -64,6 +64,7 @@ service cloud.firestore {
          incoming().status == 'cancelled' &&
          existing().status == 'pending')
       );
+      allow delete: if isAdmin();
 
       function isValidOrder(data) {
         return data.keys().hasAll(['tierId', 'quantity', 'totalPrice', 'status', 'createdAt']) &&
@@ -88,6 +89,7 @@ service cloud.firestore {
     match /registrations/{regId} {
       allow create: if incoming().keys().hasAny(['fullName', 'email', 'createdAt']) && incoming().createdAt == request.time;
       allow read: if isAdmin();
+      allow delete: if isAdmin();
     }
 
     // --- Admins ---
