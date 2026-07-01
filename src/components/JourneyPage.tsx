@@ -179,11 +179,6 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
         }
         
         setIsRegistered(true);
-        try {
-          window.open(getWhatsAppLink(), '_blank');
-        } catch (e) {
-          console.error("Popup blocked", e);
-        }
       } catch (err: any) {
         console.error("Failed to save order to database", err);
         setSubmitError(err?.message || "Failed to submit. Please check your internet connection.");
