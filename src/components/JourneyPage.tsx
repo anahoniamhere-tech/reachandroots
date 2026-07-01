@@ -129,6 +129,13 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
     setTimeout(() => setCopiedDetails(false), 2000);
   };
 
+  const getWhatsAppLink = () => {
+    const text = isRTL 
+      ? `مرحباً، لقد قمت للتو بحجز تذكرة لبرنامج د. يزيد موسى.\n\nالاسم: ${formData.name}\nالبريد الإلكتروني: ${formData.email}\nالهاتف: ${formData.phone}\nنوع التذكرة: ${getBookingSummary()}`
+      : `Hello! I just booked a ticket for Dr. Yazeed Mousa's program.\n\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nTicket Type: ${getBookingSummary()}`;
+    return `https://wa.me/96170530424?text=${encodeURIComponent(text)}`;
+  };
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.name && formData.phone && formData.email && formData.age && formData.nationality) {
@@ -155,6 +162,11 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
           createdAt: serverTimestamp()
         });
         setIsRegistered(true);
+        try {
+          window.open(getWhatsAppLink(), '_blank');
+        } catch (e) {
+          console.error("Popup blocked", e);
+        }
       } catch (err: any) {
         console.error("Failed to save order to database", err);
         setSubmitError(err?.message || "Failed to submit. Please check your internet connection.");
@@ -717,19 +729,31 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
 
 
 
-                        <button 
-                          onClick={() => { 
-                            setShowRegisterForm(false); 
-                            setIsRegistered(false); 
-                            setFormData({ name: '', phone: '', email: '', age: '', nationality: '', workshopChoice: 'both' });
-                            setTimeout(() => {
-                              document.getElementById('register')?.scrollIntoView({ behavior: 'smooth' });
-                            }, 500);
-                          }}
-                          className="mt-6 px-8 py-3 bg-brand-navy text-white text-xs font-display font-bold uppercase tracking-widest rounded-xl hover:bg-brand-coral transition-colors cursor-pointer"
-                        >
-                          {isRTL ? 'إغلاق' : 'Close'}
-                        </button>
+                        <div className="flex flex-col gap-3 max-w-xs mx-auto mt-6">
+                          <a 
+                            href={getWhatsAppLink()}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full py-4 bg-[#25D366] hover:bg-[#20ba5a] text-white text-xs font-display font-bold uppercase tracking-widest rounded-xl transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                          >
+                            <Send size={12} />
+                            {isRTL ? 'إرسال التفاصيل عبر واتساب' : 'Send Details on WhatsApp'}
+                          </a>
+                          
+                          <button 
+                            onClick={() => { 
+                              setShowRegisterForm(false); 
+                              setIsRegistered(false); 
+                              setFormData({ name: '', phone: '', email: '', age: '', nationality: '', workshopChoice: 'both' });
+                              setTimeout(() => {
+                                document.getElementById('register')?.scrollIntoView({ behavior: 'smooth' });
+                              }, 500);
+                            }}
+                            className="w-full py-3 bg-brand-navy/5 text-brand-navy hover:bg-brand-navy/10 text-xs font-display font-bold uppercase tracking-widest rounded-xl transition-colors cursor-pointer"
+                          >
+                            {isRTL ? 'إغلاق' : 'Close'}
+                          </button>
+                        </div>
                       </motion.div>
                     )}
                   </motion.div>
