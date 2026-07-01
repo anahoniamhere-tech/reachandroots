@@ -1338,6 +1338,7 @@ const AdminDashboard = () => {
   const [ticketBuyers, setTicketBuyers] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<FirebaseUser | null>(auth.currentUser);
+  const [selectedItem, setSelectedItem] = useState<{ type: 'ticket' | 'community'; data: any } | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -1578,8 +1579,12 @@ const AdminDashboard = () => {
             </thead>
             <tbody className="font-body text-brand-navy">
               {communityJoins.length > 0 ? communityJoins.map((join, i) => (
-                <tr key={join.id || i} className="border-b border-brand-navy/5 last:border-0 hover:bg-brand-navy/5 transition-colors">
-                  <td className="py-4">{join.fullName || join.name || 'N/A'}</td>
+                <tr 
+                  key={join.id || i} 
+                  onClick={() => setSelectedItem({ type: 'community', data: join })}
+                  className="border-b border-brand-navy/5 last:border-0 hover:bg-brand-navy/5 transition-colors cursor-pointer"
+                >
+                  <td className="py-4 font-bold">{join.fullName || join.name || 'N/A'}</td>
                   <td className="py-4">{join.email || 'N/A'}</td>
                   <td className="py-4">{join.phone || 'N/A'}</td>
                   <td className="py-4 capitalize">{join.role || 'N/A'}</td>
@@ -1621,8 +1626,12 @@ const AdminDashboard = () => {
             </thead>
             <tbody className="font-body text-brand-navy">
               {ticketBuyers.length > 0 ? ticketBuyers.map((buyer, i) => (
-                <tr key={buyer.id || i} className="border-b border-brand-navy/5 last:border-0 hover:bg-brand-navy/5 transition-colors">
-                  <td className="py-4">{buyer.customerInfo?.name || buyer.name || 'N/A'}</td>
+                <tr 
+                  key={buyer.id || i} 
+                  onClick={() => setSelectedItem({ type: 'ticket', data: buyer })}
+                  className="border-b border-brand-navy/5 last:border-0 hover:bg-brand-navy/5 transition-colors cursor-pointer"
+                >
+                  <td className="py-4 font-bold">{buyer.customerInfo?.name || buyer.name || 'N/A'}</td>
                   <td className="py-4">{buyer.customerInfo?.email || buyer.email || 'N/A'}</td>
                   <td className="py-4">{buyer.tierId || 'N/A'}</td>
                   <td className="py-4">{buyer.quantity || 1}</td>
@@ -1651,6 +1660,65 @@ const AdminDashboard = () => {
            Execute Protocol
          </button>
       </div>
+      )}
+
+      {/* Details Modal */}
+      {selectedItem && (
+        <div className="fixed inset-0 bg-brand-navy/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-[2.5rem] p-8 md:p-10 max-w-xl w-full border border-brand-navy/5 relative shadow-2xl overflow-y-auto max-h-[90vh]">
+            <button 
+              onClick={() => setSelectedItem(null)}
+              className="absolute top-6 right-6 text-brand-navy/40 hover:text-brand-coral transition-colors p-2 text-lg font-bold"
+            >
+              ✕
+            </button>
+            
+            <div className="mb-8">
+              <span className="editorial-label text-brand-coral font-bold italic">
+                {selectedItem.type === 'ticket' ? 'TICKET ORDER DETAILS' : 'COMMUNITY JOIN DETAILS'}
+              </span>
+              <h3 className="editorial-h2 text-brand-navy mt-2 text-2xl font-bold uppercase tracking-tight">
+                {selectedItem.type === 'ticket' 
+                  ? (selectedItem.data.customerInfo?.name || selectedItem.data.name || 'N/A')
+                  : (selectedItem.data.fullName || selectedItem.data.name || 'N/A')}
+              </h3>
+            </div>
+
+            <div className="space-y-4 border-t border-b border-brand-navy/5 py-6 font-body text-brand-navy">
+              {Object.entries(selectedItem.data).map(([key, val]: [string, any]) => {
+                if (key === 'id' || val === undefined || val === null) return null;
+                
+                let displayVal = typeof val === 'object' ? JSON.stringify(val) : String(val);
+                if (key === 'createdAt' && val && typeof val === 'object' && 'seconds' in val) {
+                  displayVal = new Date(val.seconds * 1000).toLocaleString();
+                } else if (key === 'createdAt' && typeof val === 'string') {
+                  displayVal = new Date(val).toLocaleString();
+                }
+                
+                // Format keys
+                const label = key
+                  .replace(/([A-Z])/g, ' $1')
+                  .replace(/^./, str => str.toUpperCase());
+
+                return (
+                  <div key={key} className="flex flex-col sm:flex-row justify-between sm:items-center gap-1 border-b border-brand-navy/[0.02] pb-3 last:border-0">
+                    <span className="text-[10px] editorial-label text-brand-navy/40 font-bold uppercase tracking-wider">{label}</span>
+                    <span className="text-sm font-semibold select-all break-all">{displayVal}</span>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="mt-8 flex justify-end">
+              <button 
+                onClick={() => setSelectedItem(null)}
+                className="px-8 py-3 bg-brand-navy hover:bg-brand-coral text-white text-xs font-display font-bold uppercase tracking-widest rounded-xl transition-all cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
