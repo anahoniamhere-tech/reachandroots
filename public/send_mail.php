@@ -28,16 +28,19 @@ $to = $email;
 $subject = "Roots & Reach - Journey Submission Confirmation";
 
 $whatsappNumber = "96181408171"; // Lebanon format
-$isFree = ($price == 0 || strtolower($tierName) === 'public lecture');
+$isFree = (empty($price) || stripos($tierName, 'public lecture') !== false);
 
 if ($isFree) {
-    $whatsappLink = "https://wa.me/" . $whatsappNumber . "?text=" . urlencode("Hello, I have successfully registered for the free Public Lecture: $name");
     $paymentInstruction = "<p>Your registration for the free <strong>Public Lecture</strong> has been successfully received. We look forward to seeing you at the Cultural Association Theatre, Tripoli!</p>";
-    $buttonText = "Confirm via WhatsApp";
+    $whatsappSection = ""; // No WhatsApp button needed for free events
 } else {
     $whatsappLink = "https://wa.me/" . $whatsappNumber . "?text=" . urlencode("Hello, here is my Whish receipt for $name ($tierName)");
     $paymentInstruction = "<p>To finalize your registration, please send us your <strong>Whish Money receipt</strong> via WhatsApp.</p>";
-    $buttonText = "Send Receipt via WhatsApp";
+    $whatsappSection = "<p style='margin: 30px 0; text-align: center;'>
+      <a href='$whatsappLink' style='background-color: #25D366; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: bold; display: inline-block;'>
+        Send Receipt via WhatsApp
+      </a>
+    </p>";
 }
 
 $message = "
@@ -57,11 +60,7 @@ $message = "
     
     $paymentInstruction
     
-    <p style='margin: 30px 0; text-align: center;'>
-      <a href='$whatsappLink' style='background-color: #25D366; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: bold; display: inline-block;'>
-        $buttonText
-      </a>
-    </p>
+    $whatsappSection
     
     <p style='color: #666; font-size: 14px;'>We look forward to seeing you!<br>
     The Roots & Reach Team</p>
