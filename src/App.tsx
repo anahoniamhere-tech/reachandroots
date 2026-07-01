@@ -32,6 +32,7 @@ import { PROGRAM_DATA, DayProgram, Session } from './constants/programData';
 import { useLanguage } from './lib/LanguageContext';
 import { CREATORS_EMAIL_DATA } from './constants/creatorsData';
 import RootsLogo from './assets/roots_logo.png';
+import { SEOHead, seoConfig } from './lib/seo';
 
 // --- Components ---
 
@@ -549,7 +550,13 @@ const ProgramPage = ({ onNavigate }: { onNavigate: (v: 'landing' | 'finder' | 't
 };
 
 export default function App() {
-  const { t, isRTL } = useLanguage();
+  const { t, isRTL, language } = useLanguage();
+
+  // Dynamic lang/dir on <html> element
+  useEffect(() => {
+    document.documentElement.lang = language === 'ar' ? 'ar' : 'en';
+    document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
+  }, [language]);
   const [view, setView] = useState<'landing' | 'finder' | 'tickets' | 'checkout' | 'success' | 'program' | 'sanctuary' | 'sanctuary-apply' | 'gallery' | 'sponsors' | 'trf-anahon' | 'journey' | 'registration'>('landing');
   const [selectedTrack, setSelectedTrack] = useState<string | null>(null);
   const [isAdminMode, setIsAdminMode] = useState(
@@ -721,6 +728,14 @@ export default function App() {
         <>
           <Navbar onNavigate={setView} onOpenTickets={() => setView('tickets')} currentView={view} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
           <main>
+            {/* Per-route SEO head tags */}
+            {view === 'landing' && <SEOHead title={seoConfig.home[language === 'ar' ? 'ar' : 'en'].title} description={seoConfig.home[language === 'ar' ? 'ar' : 'en'].description} path="/" locale={language === 'ar' ? 'ar_AR' : 'en_US'} />}
+            {view === 'journey' && <SEOHead title={seoConfig.journeys[language === 'ar' ? 'ar' : 'en'].title} description={seoConfig.journeys[language === 'ar' ? 'ar' : 'en'].description} path="/journeys" locale={language === 'ar' ? 'ar_AR' : 'en_US'} />}
+            {view === 'program' && <SEOHead title={seoConfig.program[language === 'ar' ? 'ar' : 'en'].title} description={seoConfig.program[language === 'ar' ? 'ar' : 'en'].description} path="/program" locale={language === 'ar' ? 'ar_AR' : 'en_US'} />}
+            {(view === 'sanctuary' || view === 'sanctuary-apply') && <SEOHead title={seoConfig.sanctuary[language === 'ar' ? 'ar' : 'en'].title} description={seoConfig.sanctuary[language === 'ar' ? 'ar' : 'en'].description} path="/sanctuary" locale={language === 'ar' ? 'ar_AR' : 'en_US'} />}
+            {view === 'gallery' && <SEOHead title={seoConfig.gallery[language === 'ar' ? 'ar' : 'en'].title} description={seoConfig.gallery[language === 'ar' ? 'ar' : 'en'].description} path="/gallery" locale={language === 'ar' ? 'ar_AR' : 'en_US'} />}
+            {view === 'sponsors' && <SEOHead title={seoConfig.sponsors[language === 'ar' ? 'ar' : 'en'].title} description={seoConfig.sponsors[language === 'ar' ? 'ar' : 'en'].description} path="/sponsors" locale={language === 'ar' ? 'ar_AR' : 'en_US'} />}
+
             {view === 'gallery' && <GalleryPage onNavigate={setView} />}
             {view === 'trf-anahon' && <TrfAnahonPage onNavigate={setView as any} />}
             {view === 'journey' && <JourneyPage onNavigate={setView as any} />}

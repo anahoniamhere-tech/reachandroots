@@ -1,6 +1,7 @@
 import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import App from './App.tsx';
 import './index.css';
 import { LanguageProvider } from './lib/LanguageContext.tsx';
@@ -12,24 +13,26 @@ import {TrfAnahonPage} from './components/TrfAnahonPage.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <LanguageProvider>
-      <BrowserRouter>
-        <Routes>
-          {/* Main Website */}
-          <Route path="/*" element={<App />} />
-          
-          {/* Public Content Creators Invitation Page */}
-          <Route path="/icontent_Creators" element={<ContentCreatorsInvitation />} />
-          <Route path="/icontent_creators" element={<Navigate to="/icontent_Creators" replace />} />
-          
-          {/* Public Sponsorship Landing Page */}
-          <Route path="/sponsors" element={<SponsorsLandingPage />} />
-          <Route path="/sponsores" element={<Navigate to="/sponsors" replace />} />
-          
-          {/* TRF Anahon Presentation Page */}
-          <Route path="/TRF-anahon" element={<TrfAnahonPage />} />
-        </Routes>
-      </BrowserRouter>
-    </LanguageProvider>
+    <HelmetProvider>
+      <LanguageProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* Main Website */}
+            <Route path="/*" element={<App />} />
+            
+            {/* Public Content Creators Invitation Page */}
+            <Route path="/icontent_Creators" element={<ContentCreatorsInvitation />} />
+            <Route path="/icontent_creators" element={<Navigate to="/icontent_Creators" replace />} />
+            
+            {/* Public Sponsorship Landing Page */}
+            <Route path="/sponsors" element={<SponsorsLandingPage />} />
+            <Route path="/sponsores" element={<Navigate to="/sponsors" replace />} />
+            
+            {/* TRF Anahon Presentation Page */}
+            <Route path="/TRF-anahon" element={<TrfAnahonPage />} />
+          </Routes>
+        </BrowserRouter>
+      </LanguageProvider>
+    </HelmetProvider>
   </StrictMode>,
 );
