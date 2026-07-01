@@ -51,7 +51,6 @@ const Navbar = ({ onNavigate, onOpenTickets, currentView, isMenuOpen, setIsMenuO
   const navLinks = [
     { name: t.nav.story, id: 'about', icon: <Globe size={10} />, type: 'anchor' },
     { name: (t.nav as any).journey || 'Journey', id: 'journey', icon: <User size={10} />, type: 'view' },
-    { name: t.nav.portal || 'Join Community', id: 'registration', icon: <Users size={10} />, type: 'view' },
   ];
 
   const useDarkIcons = (!isScrolled && currentView === 'landing') || isMenuOpen;
@@ -589,6 +588,7 @@ export default function App() {
   const [user, setUser] = useState<FirebaseUser | null>(auth.currentUser);
   const [showFloatingTab, setShowFloatingTab] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(() => typeof window !== 'undefined' ? window.innerWidth >= 768 : true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, setUser);
@@ -599,6 +599,11 @@ export default function App() {
       setShowFloatingTab(window.scrollY > 80);
     };
     window.addEventListener('scroll', handleScroll);
+
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 768);
+    };
+    window.addEventListener('resize', handleResize);
     
     // Listen for pops
     const handlePopState = () => {
@@ -620,6 +625,7 @@ export default function App() {
       window.removeEventListener('hashchange', handleHash);
       window.removeEventListener('popstate', handlePopState);
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -838,9 +844,9 @@ export default function App() {
               right: '0',
               top: isMenuOpen ? '70%' : '50%',
               transformOrigin: 'center',
-              transform: (showFloatingTab || isMenuOpen) ? 'translate(calc(50% - 22px), -50%) rotate(-90deg)' : 'translate(100%, -50%) rotate(-90deg)',
-              opacity: (showFloatingTab || isMenuOpen) ? 1 : 0,
-              pointerEvents: (showFloatingTab || isMenuOpen) ? 'auto' : 'none'
+              transform: (isDesktop || showFloatingTab || isMenuOpen) ? 'translate(calc(50% - 22px), -50%) rotate(-90deg)' : 'translate(100%, -50%) rotate(-90deg)',
+              opacity: (isDesktop || showFloatingTab || isMenuOpen) ? 1 : 0,
+              pointerEvents: (isDesktop || showFloatingTab || isMenuOpen) ? 'auto' : 'none'
             }}
           >
             {isRTL ? 'انضم للمجتمع' : 'Join Community'}
