@@ -28,7 +28,17 @@ $to = $email;
 $subject = "Roots & Reach - Journey Submission Confirmation";
 
 $whatsappNumber = "96181408171"; // Lebanon format
-$whatsappLink = "https://wa.me/" . $whatsappNumber . "?text=" . urlencode("Hello, here is my Whish receipt for $name ($tierName)");
+$isFree = ($price == 0 || strtolower($tierName) === 'public lecture');
+
+if ($isFree) {
+    $whatsappLink = "https://wa.me/" . $whatsappNumber . "?text=" . urlencode("Hello, I have successfully registered for the free Public Lecture: $name");
+    $paymentInstruction = "<p>Your registration for the free <strong>Public Lecture</strong> has been successfully received. We look forward to seeing you at the Cultural Association Theatre, Tripoli!</p>";
+    $buttonText = "Confirm via WhatsApp";
+} else {
+    $whatsappLink = "https://wa.me/" . $whatsappNumber . "?text=" . urlencode("Hello, here is my Whish receipt for $name ($tierName)");
+    $paymentInstruction = "<p>To finalize your registration, please send us your <strong>Whish Money receipt</strong> via WhatsApp.</p>";
+    $buttonText = "Send Receipt via WhatsApp";
+}
 
 $message = "
 <html>
@@ -42,14 +52,14 @@ $message = "
     
     <div style='background-color: white; padding: 15px; border-radius: 6px; margin: 20px 0;'>
       <p style='margin: 5px 0;'><strong>Package:</strong> $tierName</p>
-      <p style='margin: 5px 0;'><strong>Total Price:</strong> $$price</p>
+      <p style='margin: 5px 0;'><strong>Total Price:</strong> " . ($isFree ? "Free" : "$$price") . "</p>
     </div>
     
-    <p>To finalize your registration, please send us your <strong>Whish Money receipt</strong> via WhatsApp.</p>
+    $paymentInstruction
     
     <p style='margin: 30px 0; text-align: center;'>
       <a href='$whatsappLink' style='background-color: #25D366; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: bold; display: inline-block;'>
-        Send Receipt via WhatsApp
+        $buttonText
       </a>
     </p>
     
