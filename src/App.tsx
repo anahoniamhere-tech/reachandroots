@@ -1568,7 +1568,8 @@ const AdminDashboard = () => {
           </script>
         </body>
       </html>
-    `);
+    `;
+    printWindow.document.write(html);
     printWindow.document.close();
   };
   const filteredCommunity = communityJoins.filter(join => {
