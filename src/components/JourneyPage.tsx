@@ -6,7 +6,9 @@ import {
   Users, CheckCircle2, Copy, Send, Instagram
 } from 'lucide-react';
 import { useLanguage } from '../lib/LanguageContext';
-import { db, collection, doc, setDoc, updateDoc, serverTimestamp } from '../lib/firebase';
+import { db } from '../lib/firebase';
+import { collection, doc, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { countryCodes } from '../lib/countries';
 import YazeedPhoto from '../assets/yazeed_mousa_real.jpg';
 
 const countryTranslations: Record<string, string> = {
@@ -50,6 +52,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
   const [showRegisterForm, setShowRegisterForm] = useState(false);
   const [formData, setFormData] = useState({ 
     name: '', 
+    phoneCode: '+961',
     phone: '', 
     email: '', 
     age: '', 
@@ -58,6 +61,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
   });
   const [isRegistered, setIsRegistered] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [phoneError, setPhoneError] = useState('');
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Fallback values if context translations are loading or missing
@@ -138,7 +142,20 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setPhoneError('');
     if (formData.name && formData.phone && formData.email && formData.age && formData.nationality) {
+      // Clean phone number: remove non-digits
+      let national = formData.phone.replace(/[^\d]/g, '');
+      if (national.startsWith('0')) {
+        national = national.substring(1);
+      }
+      if (national.length < 7 || national.length > 15) {
+        setPhoneError(isRTL ? 'يرجى إدخال رقم واتساب صحيح مع رمز الدولة.' : 'Please enter a valid WhatsApp number with country code.');
+        return;
+      }
+      
+      const phone_e164 = `${formData.phoneCode}${national}`;
+      
       setSubmitting(true);
       setSubmitError(null);
       try {
@@ -165,7 +182,10 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
         await setDoc(orderRef, {
           name: formData.name,
           email: formData.email,
-          phone: formData.phone,
+          phone: phone_e164,
+          phone_e164: phone_e164,
+          phone_country_code: formData.phoneCode,
+          phone_national: national,
           age: formData.age,
           nationality: formData.nationality,
           tierId: tierName,
@@ -631,14 +651,31 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                           <div className="grid sm:grid-cols-2 gap-4">
                             <div className="space-y-2">
                               <label className="editorial-label text-[10px] font-bold block">{isRTL ? 'رقم الهاتف (واتساب)' : 'Phone Number (WhatsApp)'}</label>
-                              <input 
-                                type="tel" 
-                                required
-                                value={formData.phone}
-                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
-                                placeholder="e.g. +961 81 408 171"
-                              />
+                              <div className="flex gap-2" dir="ltr">
+                                <select 
+                                  value={formData.phoneCode}
+                                  onChange={(e) => setFormData({ ...formData, phoneCode: e.target.value })}
+                                  className="w-24 bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors appearance-none text-center"
+                                >
+                                  {countryCodes.map((country) => (
+                                    <option key={`${country.name}-${country.code}`} value={country.code}>
+                                      {country.flag} {country.code}
+                                    </option>
+                                  ))}
+                                  <option value="other">Other</option>
+                                </select>
+                                <input 
+                                  type="tel" 
+                                  required
+                                  value={formData.phone}
+                                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                  className={`flex-1 min-w-0 bg-warm-beige/25 border rounded-xl p-4 text-brand-navy font-body focus:outline-none transition-colors ${phoneError ? 'border-red-500 focus:border-red-500' : 'border-brand-navy/10 focus:border-brand-coral'}`}
+                                  placeholder="e.g. 71 000 000"
+                                />
+                              </div>
+                              {phoneError && (
+                                <p className="text-red-500 text-xs mt-1 font-body text-right" dir={isRTL ? 'rtl' : 'ltr'}>{phoneError}</p>
+                              )}
                             </div>
                             <div className="space-y-2">
                               <label className="editorial-label text-[10px] font-bold block">{isRTL ? 'البريد الإلكتروني' : 'Email Address'}</label>
@@ -732,7 +769,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                             disabled={submitting}
                             onClick={() => {
                               setShowRegisterForm(false);
-                              setFormData({ name: '', phone: '', email: '', age: '', nationality: '', workshopChoice: 'both' });
+                              setFormData({ name: '', phoneCode: '+961', phone: '', email: '', age: '', nationality: '', workshopChoice: 'both' }); setPhoneError('');
                               setSubmitError(null);
                             }}
                             className="flex-1 py-4 border border-brand-navy/10 hover:border-brand-coral rounded-xl text-brand-navy font-display font-bold text-xs uppercase tracking-widest transition-all cursor-pointer disabled:opacity-50"
@@ -791,7 +828,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                             onClick={() => { 
                               setShowRegisterForm(false); 
                               setIsRegistered(false); 
-                              setFormData({ name: '', phone: '', email: '', age: '', nationality: '', workshopChoice: 'both' });
+                              setFormData({ name: '', phoneCode: '+961', phone: '', email: '', age: '', nationality: '', workshopChoice: 'both' }); setPhoneError('');
                               setTimeout(() => {
                                 document.getElementById('register')?.scrollIntoView({ behavior: 'smooth' });
                               }, 500);

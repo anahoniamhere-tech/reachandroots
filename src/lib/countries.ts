@@ -71,6 +71,5 @@ export const countryCodes: CountryCode[] = [
   { name: 'Ireland', flag: '🇮🇪', code: '+353' },
   { name: 'Austria', flag: '🇦🇹', code: '+43' },
   { name: 'Czech Republic', flag: '🇨🇿', code: '+420' },
-  { name: 'Hungary', flag: '🇭🇺', code: '+36' },
-  { name: 'Israel', flag: '🇮🇱', code: '+972' }
+  { name: 'Hungary', flag: '🇭🇺', code: '+36' }
 ];
