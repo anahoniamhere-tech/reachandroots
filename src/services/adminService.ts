@@ -27,6 +27,14 @@ function handleFirestoreError(error: unknown, operationType: string, path: strin
   throw new Error(JSON.stringify(errInfo));
 }
 
+const getTimestamp = (val: any): number => {
+  if (!val) return 0;
+  if (typeof val === 'object' && 'seconds' in val) {
+    return val.seconds * 1000;
+  }
+  return new Date(val).getTime() || 0;
+};
+
 export const AdminService = {
   async getSalesReport() {
     const path = 'orders';
@@ -63,11 +71,27 @@ export const AdminService = {
     }
   },
 
+  async checkAdminStatus() {
+    const user = auth.currentUser;
+    if (!user) return false;
+    
+    const path = `admins/${user.uid}`;
+    try {
+      const docSnap = await getDoc(doc(db, path));
+      return docSnap.exists();
+    } catch (error) {
+      handleFirestoreError(error, 'GET', path);
+      return false;
+    }
+  },
+
   async getCommunityJoins() {
     const path = 'registrations';
     try {
       const snap = await getDocs(collection(db, path));
-      return snap.docs.map(d => ({ ...d.data(), id: d.id }));
+      return snap.docs
+        .map(d => ({ ...d.data(), id: d.id }))
+        .sort((a: any, b: any) => getTimestamp(b.createdAt) - getTimestamp(a.createdAt));
     } catch (error) {
       handleFirestoreError(error, 'LIST', path);
       return [];
@@ -78,7 +102,9 @@ export const AdminService = {
     const path = 'orders';
     try {
       const snap = await getDocs(collection(db, path));
-      return snap.docs.map(d => ({ ...d.data(), id: d.id }));
+      return snap.docs
+        .map(d => ({ ...d.data(), id: d.id }))
+        .sort((a: any, b: any) => getTimestamp(b.createdAt) - getTimestamp(a.createdAt));
     } catch (error) {
       handleFirestoreError(error, 'LIST', path);
       return [];
