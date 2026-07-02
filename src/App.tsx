@@ -23,7 +23,7 @@ import { TrfAnahonPage } from './components/TrfAnahonPage';
 import { JourneyPage } from './components/JourneyPage';
 import { RegistrationForm } from './components/RegistrationForm';
 import { FloatingCountdown } from './components/FloatingCountdown';
-import { auth, db, onAuthStateChanged, signInWithEmailAndPassword, signInWithGoogle, collection, getDocs, User as FirebaseUser, deleteDoc, updateDoc, setDoc, doc, serverTimestamp } from './lib/firebase';
+import { auth, db, storage, ref, uploadBytes, getDownloadURL, onAuthStateChanged, signInWithEmailAndPassword, signInWithGoogle, collection, getDocs, User as FirebaseUser, deleteDoc, updateDoc, setDoc, doc, serverTimestamp } from './lib/firebase';
 import { TICKET_TIERS, EVENT_DAYS } from './constants';
 import { TicketTier, EventDay, Order, BuyerInfo, VipDetails } from './types';
 import { TicketService } from './services/ticketService';
