@@ -19,6 +19,7 @@ import {
   writeBatch,
   deleteDoc
 } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { 
   getAuth, 
   onAuthStateChanged as fbOnAuthStateChanged, 
@@ -66,6 +67,7 @@ if (typeof window !== 'undefined') {
 
 const realAuth = getAuth(app);
 export const db = getFirestore(app, "ai-studio-38f5b8a6-3fca-4b7f-a650-42c5c99a4936");
+export const storage = getStorage(app);
 
 export const auth = realAuth;
 export const onAuthStateChanged = fbOnAuthStateChanged;
@@ -87,7 +89,10 @@ export {
   serverTimestamp,
   runTransaction,
   writeBatch,
-  deleteDoc
+  deleteDoc,
+  ref,
+  uploadBytes,
+  getDownloadURL
 };
 
 export const submitRegistration = async (data: any): Promise<void> => {

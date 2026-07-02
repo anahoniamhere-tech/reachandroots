@@ -6,7 +6,7 @@ import {
   Sparkles, Coffee, Mic2, Palmtree, Utensils, Theater, PlayCircle,
   Loader2, Video, Play, Mic, Radio, Smartphone, Activity, Mail,
   Grid, Award, Share2, MessageSquare, Zap, Waves, Signal, 
-  Search, Users, Globe, Target, Clock, Filter, ExternalLink, Copy, Download, FileDown, Instagram, Trash2
+  Search, Users, Globe, Target, Clock, Filter, ExternalLink, Copy, Download, FileDown, Instagram, Trash2, Upload
 } from 'lucide-react';
 import { 
   TripoliHeritage, FayhaaFlow, DigitalCreativity, 
@@ -1399,6 +1399,35 @@ const AdminDashboard = () => {
   const [ticketFilter, setTicketFilter] = useState('all');
   const [paymentFilter, setPaymentFilter] = useState('all');
   const [communitySearch, setCommunitySearch] = useState('');
+  const [isUploadingReceipt, setIsUploadingReceipt] = useState(false);
+
+  const handleReceiptUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    const buyerId = editItemData.id || selectedItem?.data.id;
+    if (!buyerId) {
+      alert("Cannot upload receipt without a valid buyer ID.");
+      return;
+    }
+
+    try {
+      setIsUploadingReceipt(true);
+      const storageRef = ref(storage, `whish_receipts/${buyerId}_${file.name}`);
+      await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(storageRef);
+      
+      setEditItemData((prev: any) => ({
+        ...prev,
+        whishReceiptUrl: downloadURL
+      }));
+    } catch (err) {
+      console.error("Error uploading receipt:", err);
+      alert("Failed to upload receipt. Please try again.");
+    } finally {
+      setIsUploadingReceipt(false);
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, setUser);
@@ -1980,14 +2009,37 @@ const AdminDashboard = () => {
                     <div key={key} className="flex flex-col sm:flex-row justify-between sm:items-center gap-1 border-b border-brand-navy/[0.02] pb-3 last:border-0">
                       <span className="text-[10px] editorial-label text-brand-navy/40 font-bold uppercase tracking-wider">{label}</span>
                       {key === 'paymentStatus' ? (
-                        <select 
-                          value={editItemData[key] || 'unpaid'}
-                          onChange={e => setEditItemData({...editItemData, [key]: e.target.value})}
-                          className="border border-brand-navy/10 rounded-lg p-2 text-sm font-semibold w-full sm:w-2/3 outline-none focus:border-brand-coral"
-                        >
-                          <option value="unpaid">Unpaid</option>
-                          <option value="paid">Paid</option>
-                        </select>
+                        <div className="flex flex-col sm:w-2/3 gap-2 w-full">
+                          <select 
+                            value={editItemData[key] || 'unpaid'}
+                            onChange={e => setEditItemData({...editItemData, [key]: e.target.value})}
+                            className="border border-brand-navy/10 rounded-lg p-2 text-sm font-semibold w-full outline-none focus:border-brand-coral"
+                          >
+                            <option value="unpaid">Unpaid</option>
+                            <option value="paid">Paid</option>
+                          </select>
+                          {editItemData[key] === 'paid' && (
+                            <div className="flex flex-wrap items-center gap-2 mt-1">
+                              <label className="flex items-center gap-1.5 text-xs font-semibold text-brand-navy/60 cursor-pointer hover:text-brand-coral transition-colors bg-brand-navy/5 px-2 py-1.5 rounded">
+                                {isUploadingReceipt ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
+                                <span>{editItemData.whishReceiptUrl ? 'Update Receipt' : 'Upload Whish Receipt'}</span>
+                                <input 
+                                  type="file" 
+                                  accept="image/png, image/jpeg, image/jpg" 
+                                  className="hidden" 
+                                  onChange={handleReceiptUpload}
+                                  disabled={isUploadingReceipt}
+                                />
+                              </label>
+                              {editItemData.whishReceiptUrl && (
+                                <a href={editItemData.whishReceiptUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-brand-coral hover:underline font-bold flex items-center gap-1">
+                                  <ExternalLink className="w-3.5 h-3.5" />
+                                  View Receipt
+                                </a>
+                              )}
+                            </div>
+                          )}
+                        </div>
                       ) : key === 'tierId' ? (
                         <select 
                           value={editItemData[key] || ''}
@@ -2016,7 +2068,13 @@ const AdminDashboard = () => {
                 return (
                   <div key={key} className="flex flex-col sm:flex-row justify-between sm:items-center gap-1 border-b border-brand-navy/[0.02] pb-3 last:border-0">
                     <span className="text-[10px] editorial-label text-brand-navy/40 font-bold uppercase tracking-wider">{label}</span>
-                    <span className="text-sm font-semibold select-all break-all">{displayVal}</span>
+                    {key === 'whishReceiptUrl' && val ? (
+                      <a href={val} target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-brand-coral hover:underline flex items-center gap-1">
+                        <ExternalLink className="w-3.5 h-3.5" /> View Receipt Image
+                      </a>
+                    ) : (
+                      <span className="text-sm font-semibold select-all break-all">{displayVal}</span>
+                    )}
                   </div>
                 );
               })}
