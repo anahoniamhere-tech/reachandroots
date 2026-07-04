@@ -14,7 +14,7 @@ export interface TicketTier {
   name: string;
   description: string;
   price: number;
-  duration: "single" | "3-day";
+  duration: "single" | "3-day" | "2-day";
   isVip: boolean;
   includes: string[];
   excludes: string[];

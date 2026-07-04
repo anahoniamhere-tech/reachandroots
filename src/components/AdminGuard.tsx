@@ -10,6 +10,7 @@ const ADMIN_EMAILS = [
   "anahoniamhere@gmail.com",
   "saadmatar@outlook.com",
   "ahmadmawass51@gmail.com",
+  "icontent2023@gmail.com",
   "your@email.com",
   "secondadmin@email.com",
   "RR666"
