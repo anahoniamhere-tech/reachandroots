@@ -111,6 +111,21 @@ export const AdminService = {
     }
   },
 
+  async checkInTicket(orderId: string) {
+    const path = `orders/${orderId}`;
+    try {
+      const orderRef = doc(db, 'orders', orderId);
+      await updateDoc(orderRef, {
+        checkedIn: true,
+        checkedInAt: new Date().toISOString()
+      });
+      return true;
+    } catch (error) {
+      handleFirestoreError(error, 'UPDATE', path);
+      return false;
+    }
+  },
+
   async seedDatabase() {
     try {
       // Clear old tiers

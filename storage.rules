@@ -1,0 +1,15 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Whish receipts can be read by anyone (or restrict if needed) and uploaded by authenticated users
+    match /whish_receipts/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    // Fallback for everything else
+    match /{allPaths=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}

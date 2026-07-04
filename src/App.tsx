@@ -23,11 +23,13 @@ import { TrfAnahonPage } from './components/TrfAnahonPage';
 import { JourneyPage } from './components/JourneyPage';
 import { RegistrationForm } from './components/RegistrationForm';
 import { FloatingCountdown } from './components/FloatingCountdown';
+import { DoorScanner } from './components/DoorScanner';
 import { auth, db, storage, ref, uploadBytes, getDownloadURL, onAuthStateChanged, signInWithEmailAndPassword, signInWithGoogle, collection, getDocs, User as FirebaseUser, deleteDoc, updateDoc, setDoc, doc, serverTimestamp } from './lib/firebase';
 import { TICKET_TIERS, EVENT_DAYS } from './constants';
 import { TicketTier, EventDay, Order, BuyerInfo, VipDetails } from './types';
 import { TicketService } from './services/ticketService';
 import { AdminService } from './services/adminService';
+import { QRService } from './services/qrService';
 import { PROGRAM_DATA, DayProgram, Session } from './constants/programData';
 import { useLanguage } from './lib/LanguageContext';
 import { CREATORS_EMAIL_DATA } from './constants/creatorsData';
@@ -1383,7 +1385,7 @@ const formatDate = (val: any) => {
 };
 
 const AdminDashboard = () => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'invitations' | 'community' | 'tickets' | 'settings'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'invitations' | 'community' | 'tickets' | 'scanner' | 'settings'>('overview');
   const [stats, setStats] = useState({ orders: 0, revenue: 0, tiers: [] as any[] });
   const [communityJoins, setCommunityJoins] = useState<any[]>([]);
   const [ticketBuyers, setTicketBuyers] = useState<any[]>([]);
@@ -1400,6 +1402,17 @@ const AdminDashboard = () => {
   const [paymentFilter, setPaymentFilter] = useState('all');
   const [communitySearch, setCommunitySearch] = useState('');
   const [isUploadingReceipt, setIsUploadingReceipt] = useState(false);
+  const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (selectedItem?.type === 'ticket' && selectedItem.data.id) {
+      QRService.generateQRCodeImage(selectedItem.data.id, selectedItem.data.tierId || 'unknown')
+        .then(url => setQrCodeDataUrl(url))
+        .catch(err => console.error("Failed to generate QR", err));
+    } else {
+      setQrCodeDataUrl(null);
+    }
+  }, [selectedItem]);
 
   const handleReceiptUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -1720,6 +1733,7 @@ const AdminDashboard = () => {
           { id: 'community', label: 'Community Joins' },
           { id: 'tickets', label: 'Ticket Buyers' },
           { id: 'invitations', label: 'Invitations' },
+          { id: 'scanner', label: 'Door Scanner' },
           { id: 'settings', label: 'Settings' }
         ].map(tab => (
           <button
@@ -1949,6 +1963,12 @@ const AdminDashboard = () => {
         </div>
       </div>
       )}
+
+      {activeTab === 'scanner' && (
+        <div className="space-y-12 relative z-10 mb-16">
+          <DoorScanner />
+        </div>
+      )}
       
       {activeTab === 'settings' && (
       <div className="media-card rounded-[3rem] p-16 md:p-24 flex flex-col md:flex-row justify-between items-center gap-12 relative overflow-hidden bg-warm-beige/30 border-none">
@@ -1987,6 +2007,25 @@ const AdminDashboard = () => {
                   : (selectedItem.data.fullName || selectedItem.data.name || 'N/A')}
               </h3>
             </div>
+
+            {selectedItem.type === 'ticket' && qrCodeDataUrl && (
+              <div className="mb-8 flex flex-col sm:flex-row items-center gap-6 bg-brand-navy/5 p-6 rounded-2xl border border-brand-navy/10">
+                <div className="w-32 h-32 bg-white rounded-xl shadow-sm border border-brand-navy/10 overflow-hidden flex-shrink-0">
+                  <img src={qrCodeDataUrl} alt="Ticket QR Code" className="w-full h-full object-cover" />
+                </div>
+                <div className="flex-1 text-center sm:text-left">
+                  <h4 className="font-display font-bold text-lg text-brand-navy mb-1 uppercase">Door Entry Pass</h4>
+                  <p className="font-body text-brand-navy/60 text-sm mb-4">Scan this QR code at the door to verify the ticket.</p>
+                  <a 
+                    href={qrCodeDataUrl} 
+                    download={`TicketQR_${selectedItem.data.id}.png`}
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-brand-navy text-white hover:bg-brand-coral rounded-lg font-display font-bold text-xs uppercase tracking-widest transition-colors"
+                  >
+                    <Download size={14} /> Download QR Code
+                  </a>
+                </div>
+              </div>
+            )}
 
             <div className="space-y-4 border-t border-b border-brand-navy/5 py-6 font-body text-brand-navy">
               {Object.entries(isEditingItem ? editItemData : selectedItem.data).map(([key, val]: [string, any]) => {

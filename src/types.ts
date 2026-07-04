@@ -60,6 +60,7 @@ export interface Order {
   createdAt: string;
   paymentId?: string;
   qrCode?: string;
+  checkedIn?: boolean;
 }
 
 export interface WaitlistEntry {
