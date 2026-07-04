@@ -2031,9 +2031,20 @@ const AdminDashboard = () => {
                         const tier = buyer.tierId || 'Ticket';
                         const token = QRService.generatePermitToken(buyer.id, buyer.tierId || 'unknown');
                         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(token)}`;
-                        const message = `Hello ${name}!\n\nHere is your ticket for Dr. Yazeed's Journey.\nTicket Type: ${tier}\nLocation: Beit El Fan\n\nPlease show this QR code at the door: ${qrUrl}\n\nLooking forward to seeing you!`;
+                        
+                        let timeString = "Doors open at 5:30 PM | Program starts at 6:00 PM";
+                        if (tier.toLowerCase().includes('workshop')) {
+                          timeString = "4:30 PM to 7:30 PM";
+                        }
+
+                        const message = `Hello ${name}! 🎟️\n\nHere is your ticket for Roots & Reach — Fayhaa Edition (Dr. Yazeed Mousa).\n\n📅 Date: Monday, July 6, 2026\n⏰ Time: ${timeString}\n📍 Location: Beit El Fan\n🗺️ Map: https://share.google/LhRcETpBPYSP6IRgp\n🎫 Ticket Type: ${tier}\n\nPlease show this QR code at the door for entry:\n🔗 ${qrUrl}\n\nLooking forward to seeing you there!`;
+                        
                         let phone = buyer.customerInfo?.phone || buyer.phone || '';
                         phone = phone.replace(/\D/g, '');
+                        if (!phone) {
+                          alert("This guest did not provide a phone number.");
+                          return;
+                        }
                         window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
                       }}
                       className="inline-flex items-center gap-2 px-4 py-2 bg-[#25D366] text-white hover:bg-[#128C7E] rounded-lg font-display font-bold text-xs uppercase tracking-widest transition-colors"
