@@ -2033,11 +2033,24 @@ const AdminDashboard = () => {
                         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(token)}`;
                         
                         let timeString = "Doors open at 5:30 PM | Program starts at 6:00 PM";
-                        if (tier.toLowerCase().includes('workshop')) {
+                        let dateString = "Monday, July 6, 2026";
+                        
+                        const t = tier.toLowerCase();
+                        if (t.includes('double')) {
+                          dateString = "July 8 & July 9, 2026";
+                          timeString = "4:30 PM to 7:30 PM";
+                        } else if (t.includes('passion') || t.includes('workshop 1')) {
+                          dateString = "Wednesday, July 8, 2026";
+                          timeString = "4:30 PM to 7:30 PM";
+                        } else if (t.includes('mind') || t.includes('workshop 2')) {
+                          dateString = "Thursday, July 9, 2026";
+                          timeString = "4:30 PM to 7:30 PM";
+                        } else if (t.includes('workshop')) {
+                          dateString = "July 8 & July 9, 2026";
                           timeString = "4:30 PM to 7:30 PM";
                         }
 
-                        const message = `Hello ${name}! 🎟️\n\nHere is your ticket for Roots & Reach — Fayhaa Edition (Dr. Yazeed Mousa).\n\n📅 Date: Monday, July 6, 2026\n⏰ Time: ${timeString}\n📍 Location: Beit El Fan\n🗺️ Map: https://share.google/LhRcETpBPYSP6IRgp\n🎫 Ticket Type: ${tier}\n\nPlease show this QR code at the door for entry:\n🔗 ${qrUrl}\n\nLooking forward to seeing you there!`;
+                        const message = `Hello ${name}! 🎟️\n\nHere is your ticket for Roots & Reach — Fayhaa Edition (Dr. Yazeed Mousa).\n\n📅 Date: ${dateString}\n⏰ Time: ${timeString}\n📍 Location: Beit El Fan\n🗺️ Map: https://share.google/LhRcETpBPYSP6IRgp\n🎫 Ticket Type: ${tier}\n\nPlease show this QR code at the door for entry:\n🔗 ${qrUrl}\n\nLooking forward to seeing you there!`;
                         
                         let phone = buyer.customerInfo?.phone || buyer.phone || '';
                         phone = phone.replace(/\D/g, '');
