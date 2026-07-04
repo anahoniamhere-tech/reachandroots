@@ -126,6 +126,20 @@ export const AdminService = {
     }
   },
 
+  async markTicketAsPaid(orderId: string) {
+    const path = `orders/${orderId}`;
+    try {
+      const orderRef = doc(db, 'orders', orderId);
+      await updateDoc(orderRef, {
+        paymentStatus: 'paid'
+      });
+      return true;
+    } catch (error) {
+      handleFirestoreError(error, 'UPDATE', path);
+      return false;
+    }
+  },
+
   async seedDatabase() {
     try {
       // Clear old tiers

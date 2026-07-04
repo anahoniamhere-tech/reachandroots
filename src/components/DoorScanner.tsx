@@ -118,6 +118,24 @@ export const DoorScanner = () => {
     }
   };
 
+  const handleConfirmPayment = async () => {
+    if (!scannedOrder || !scannedOrder.id) return;
+    try {
+      setLoading(true);
+      const success = await AdminService.markTicketAsPaid(scannedOrder.id);
+      if (success) {
+        setScannedOrder(prev => prev ? { ...prev, paymentStatus: 'paid', status: 'paid' } : null);
+        setStatus('success');
+      } else {
+        setError("Failed to update database. Try again.");
+      }
+    } catch (err: any) {
+      setError("Error confirming payment: " + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleReset = () => {
     setScannedOrder(null);
     setError(null);
@@ -199,6 +217,16 @@ export const DoorScanner = () => {
                 className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-xl font-display font-bold text-sm uppercase tracking-widest transition-colors flex items-center justify-center gap-2"
               >
                 <CheckCircle size={16} /> Check In Guest
+              </button>
+            )}
+            
+            {status === 'unpaid' && (
+              <button 
+                onClick={handleConfirmPayment}
+                disabled={loading}
+                className="flex-1 bg-yellow-600 hover:bg-yellow-700 text-white py-3 px-4 rounded-xl font-display font-bold text-sm uppercase tracking-widest transition-colors flex items-center justify-center gap-2"
+              >
+                <CheckCircle size={16} /> Confirm Payment (Cash)
               </button>
             )}
             
