@@ -79,10 +79,12 @@ export const DoorScanner = () => {
         throw new Error("Ticket not found in database");
       }
 
-      const order = { id: orderSnap.id, ...orderSnap.data() } as Order;
+      const order = { id: orderSnap.id, ...orderSnap.data() } as any; // Cast as any to access flexible fields
       setScannedOrder(order);
 
-      if (order.status !== 'paid') {
+      const isPaid = order.paymentStatus === 'paid' || order.status === 'paid';
+
+      if (!isPaid) {
         setStatus('unpaid');
       } else if (order.checkedIn) {
         setStatus('already_scanned');
@@ -183,9 +185,9 @@ export const DoorScanner = () => {
 
           {scannedOrder && (
             <div className="bg-white/60 p-4 rounded-xl space-y-2 text-sm font-body font-medium">
-              <p><span className="text-brand-navy/50 uppercase tracking-widest text-xs">Name:</span> <span className="font-bold text-brand-navy">{scannedOrder.buyerInfo?.fullName || 'N/A'}</span></p>
+              <p><span className="text-brand-navy/50 uppercase tracking-widest text-xs">Name:</span> <span className="font-bold text-brand-navy">{scannedOrder.customerInfo?.name || scannedOrder.name || scannedOrder.buyerInfo?.fullName || 'N/A'}</span></p>
               <p><span className="text-brand-navy/50 uppercase tracking-widest text-xs">Tier:</span> <span className="font-bold text-brand-navy">{scannedOrder.tierId}</span></p>
-              <p><span className="text-brand-navy/50 uppercase tracking-widest text-xs">Status:</span> <span className="font-bold text-brand-navy uppercase">{scannedOrder.status}</span></p>
+              <p><span className="text-brand-navy/50 uppercase tracking-widest text-xs">Status:</span> <span className="font-bold text-brand-navy uppercase">{scannedOrder.paymentStatus || scannedOrder.status || 'pending'}</span></p>
             </div>
           )}
 
