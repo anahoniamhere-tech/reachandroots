@@ -48,7 +48,7 @@ export const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
   };
 
   const handleSignOut = async () => {
-    await signOut(auth);
+    await signOut();
   };
 
   if (loading) {

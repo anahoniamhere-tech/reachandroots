@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Html5QrcodeScanner } from 'html5-qrcode';
+import React, { useEffect, useState, useRef } from 'react';
+import { Html5Qrcode } from 'html5-qrcode';
 import { db, doc, getDoc } from '../lib/firebase';
 import { AdminService } from '../services/adminService';
 import { Order } from '../types';
@@ -10,34 +10,54 @@ export const DoorScanner = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<'idle' | 'success' | 'already_scanned' | 'unpaid' | 'invalid'>('idle');
-  const [scannerInstance, setScannerInstance] = useState<any>(null);
+  const scannerRef = useRef<Html5Qrcode | null>(null);
 
   useEffect(() => {
-    // Initialize scanner
-    const scanner = new Html5QrcodeScanner(
-      "qr-reader",
-      { fps: 10, qrbox: { width: 250, height: 250 } },
-      /* verbose= */ false
-    );
-    setScannerInstance(scanner);
-
-    scanner.render(
-      (decodedText) => {
-        // Pause scanning while we process
-        scanner.pause();
-        handleScan(decodedText, scanner);
-      },
-      (error) => {
-        // ignore scan failures
-      }
-    );
+    let isMounted = true;
+    
+    // Small delay to ensure the DOM element is fully rendered before attaching scanner
+    const initTimer = setTimeout(() => {
+      if (!isMounted) return;
+      
+      const html5QrCode = new Html5Qrcode("qr-reader");
+      scannerRef.current = html5QrCode;
+      
+      html5QrCode.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: { width: 250, height: 250 } },
+        (decodedText) => {
+           if (html5QrCode.getState() === 2) { // 2 = SCANNING
+             html5QrCode.pause();
+           }
+           handleScan(decodedText);
+        },
+        (errorMessage) => {
+           // ignore continuous scan failures
+        }
+      ).catch((err) => {
+        console.error("Camera start failed:", err);
+        setError("Camera access denied or unavailable. Please check your browser permissions.");
+      });
+    }, 200);
 
     return () => {
-      scanner.clear().catch(console.error);
+      isMounted = false;
+      clearTimeout(initTimer);
+      if (scannerRef.current) {
+        try {
+          if (scannerRef.current.getState() !== 1) { // 1 = NOT_STARTED
+             scannerRef.current.stop().then(() => {
+               scannerRef.current?.clear();
+             }).catch(console.error);
+          }
+        } catch (e) {
+          console.error("Error cleaning up scanner", e);
+        }
+      }
     };
   }, []);
 
-  const handleScan = async (payload: string, scanner: any) => {
+  const handleScan = async (payload: string) => {
     try {
       setLoading(true);
       setError(null);
@@ -100,8 +120,15 @@ export const DoorScanner = () => {
     setScannedOrder(null);
     setError(null);
     setStatus('idle');
-    if (scannerInstance) {
-      scannerInstance.resume();
+    if (scannerRef.current && scannerRef.current.getState() === 2) {
+       // if it's already scanning, we don't need to resume, wait, if it's paused, getState is 3 (PAUSED)
+    }
+    try {
+      if (scannerRef.current && scannerRef.current.getState() === 3) { // 3 = PAUSED
+        scannerRef.current.resume();
+      }
+    } catch (err) {
+      console.error("Could not resume scanner", err);
     }
   };
 

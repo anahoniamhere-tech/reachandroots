@@ -1,5 +1,5 @@
 import { 
-  db, auth, collection, getDocs, query, where, writeBatch, doc, deleteDoc, updateDoc
+  db, auth, collection, getDocs, query, where, writeBatch, doc, deleteDoc, updateDoc, getDoc
 } from '../lib/firebase';
 import { Order, TicketTier } from '../types';
 import { TICKET_TIERS, EVENT_DAYS } from '../constants';
