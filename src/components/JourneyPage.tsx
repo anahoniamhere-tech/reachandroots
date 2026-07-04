@@ -81,19 +81,19 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
     workshop: 'Specialized Workshop',
     lectureTitle: 'The Five Inner Thoughts',
     lectureDesc: 'A free public lecture laying the foundation of our inner cognitive patterns, exploring how repeat thoughts shape our emotions and decisions.',
-    lectureLoc: 'Cultural Association Theatre, Tripoli',
+    lectureLoc: 'Beit El Fan, Tripoli',
     lectureDate: 'Monday, July 6, 2026',
     lectureTime: 'Doors open at 5:30 PM | Program: 6:00 PM',
     ws1Title: 'Passion & Stress Management',
     ws1Desc: 'Learn practical tools for breathing, emotional decompression, and finding authentic passion amidst modern life pressures.',
-    ws1Loc: 'Space Noor, Tripoli',
+    ws1Loc: 'Beit El Fan, Tripoli',
     ws1Date: 'Wednesday, July 8, 2026',
-    ws1Time: '3:00 PM – 6:00 PM',
+    ws1Time: '4:30 PM – 7:30 PM',
     ws2Title: 'Mind Programming',
     ws2Desc: 'An advanced session on identifying self-limiting core beliefs and replacing them with supportive cognitive patterns.',
-    ws2Loc: 'Space Noor, Tripoli',
+    ws2Loc: 'Beit El Fan, Tripoli',
     ws2Date: 'Thursday, July 9, 2026',
-    ws2Time: '3:00 PM – 6:00 PM',
+    ws2Time: '4:30 PM – 7:30 PM',
     pricingTitle: 'Ticket Options & Registration',
     singleWs: 'Single Workshop',
     singleWsPrice: '$20',
@@ -393,7 +393,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                     </div>
                     <div className="flex items-center gap-3">
                       <MapPin size={16} className="text-brand-coral shrink-0" />
-                      <a href="https://share.google/docrsjHr6HxCaqw1k" target="_blank" rel="noopener noreferrer" className="font-body text-[13px] hover:text-brand-coral hover:underline transition-colors">{journeyT.lectureLoc}</a>
+                      <a href="https://share.google/LhRcETpBPYSP6IRgp" target="_blank" rel="noopener noreferrer" className="font-body text-[13px] hover:text-brand-coral hover:underline transition-colors">{journeyT.lectureLoc}</a>
                     </div>
                   </div>
                 </div>
@@ -437,7 +437,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                     </div>
                     <div className="flex items-center gap-3">
                       <MapPin size={16} className="text-brand-coral shrink-0" />
-                      <a href="https://share.google/vXjuEugq6J3n8YY9N" target="_blank" rel="noopener noreferrer" className="font-body text-[13px] hover:text-brand-coral hover:underline transition-colors">{journeyT.ws1Loc}</a>
+                      <a href="https://share.google/LhRcETpBPYSP6IRgp" target="_blank" rel="noopener noreferrer" className="font-body text-[13px] hover:text-brand-coral hover:underline transition-colors">{journeyT.ws1Loc}</a>
                     </div>
                   </div>
                 </div>
@@ -481,7 +481,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                     </div>
                     <div className="flex items-center gap-3">
                       <MapPin size={16} className="text-brand-coral shrink-0" />
-                      <a href="https://share.google/vXjuEugq6J3n8YY9N" target="_blank" rel="noopener noreferrer" className="font-body text-[13px] hover:text-brand-coral hover:underline transition-colors">{journeyT.ws2Loc}</a>
+                      <a href="https://share.google/LhRcETpBPYSP6IRgp" target="_blank" rel="noopener noreferrer" className="font-body text-[13px] hover:text-brand-coral hover:underline transition-colors">{journeyT.ws2Loc}</a>
                     </div>
                   </div>
                 </div>
