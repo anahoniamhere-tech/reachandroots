@@ -2016,13 +2016,31 @@ const AdminDashboard = () => {
                 <div className="flex-1 text-center sm:text-left">
                   <h4 className="font-display font-bold text-lg text-brand-navy mb-1 uppercase">Door Entry Pass</h4>
                   <p className="font-body text-brand-navy/60 text-sm mb-4">Scan this QR code at the door to verify the ticket.</p>
-                  <a 
-                    href={qrCodeDataUrl} 
-                    download={`TicketQR_${selectedItem.data.id}.png`}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-brand-navy text-white hover:bg-brand-coral rounded-lg font-display font-bold text-xs uppercase tracking-widest transition-colors"
-                  >
-                    <Download size={14} /> Download QR Code
-                  </a>
+                  <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
+                    <a 
+                      href={qrCodeDataUrl} 
+                      download={`TicketQR_${selectedItem.data.id}.png`}
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-brand-navy text-white hover:bg-brand-coral rounded-lg font-display font-bold text-xs uppercase tracking-widest transition-colors"
+                    >
+                      <Download size={14} /> Download
+                    </a>
+                    <button 
+                      onClick={() => {
+                        const buyer = selectedItem.data;
+                        const name = buyer.customerInfo?.name || buyer.name || 'Guest';
+                        const tier = buyer.tierId || 'Ticket';
+                        const token = QRService.generatePermitToken(buyer.id, buyer.tierId || 'unknown');
+                        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(token)}`;
+                        const message = `Hello ${name}!\n\nHere is your ticket for Dr. Yazeed's Journey.\nTicket Type: ${tier}\nLocation: Beit El Fan\n\nPlease show this QR code at the door: ${qrUrl}\n\nLooking forward to seeing you!`;
+                        let phone = buyer.customerInfo?.phone || buyer.phone || '';
+                        phone = phone.replace(/\D/g, '');
+                        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+                      }}
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-[#25D366] text-white hover:bg-[#128C7E] rounded-lg font-display font-bold text-xs uppercase tracking-widest transition-colors"
+                    >
+                      <MessageSquare size={14} /> WhatsApp
+                    </button>
+                  </div>
                 </div>
               </div>
             )}
