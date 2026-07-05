@@ -1946,7 +1946,7 @@ const AdminDashboard = () => {
                 <tr 
                   key={buyer.id || i} 
                   onClick={() => setSelectedItem({ type: 'ticket', data: buyer })}
-                  className={`border-b border-brand-navy/5 last:border-0 transition-colors cursor-pointer ${buyer.whatsappSent ? 'bg-[#25D366]/15 hover:bg-[#25D366]/25' : 'hover:bg-brand-navy/5'}`}
+                  className={`border-b border-brand-navy/5 last:border-0 transition-colors cursor-pointer ${buyer.whatsappSent ? 'bg-green-100 hover:bg-green-200' : 'hover:bg-brand-navy/5'}`}
                 >
                   <td className="py-4 text-center text-brand-navy/30 text-sm font-mono">{i + 1}</td>
                   <td className="py-4 text-sm whitespace-nowrap">{formatDate(buyer.createdAt)}</td>
