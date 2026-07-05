@@ -2040,7 +2040,7 @@ const AdminDashboard = () => {
                         if (t.includes('double')) {
                           dateString = "July 8 & July 9, 2026";
                           timeString = "4:30 PM to 7:30 PM";
-                          bonusMessage = "\n\n🎁 Bonus: Your Double Workshop ticket also grants you full access to the Public Lecture on Monday, July 6 (Doors open at 5:30 PM)!";
+                          bonusMessage = "\n\nYou are also invited to attend the Public Lecture on Monday, July 6 (Doors open at 5:30 PM).";
                         } else if (t.includes('passion') || t.includes('workshop 1')) {
                           dateString = "Wednesday, July 8, 2026";
                           timeString = "4:30 PM to 7:30 PM";
