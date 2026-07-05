@@ -57,6 +57,10 @@ export interface Order {
   buyerInfo: BuyerInfo;
   vipDetails?: VipDetails;
   status: "pending" | "paid" | "cancelled" | "failed";
+  whishReceiptUrl?: string;
+  paymentStatus?: 'paid' | 'unpaid' | 'pending';
+  paymentMethod?: 'cash' | 'whish';
+  whatsappSent?: boolean;
   createdAt: string;
   paymentId?: string;
   qrCode?: string;

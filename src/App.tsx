@@ -1946,7 +1946,7 @@ const AdminDashboard = () => {
                 <tr 
                   key={buyer.id || i} 
                   onClick={() => setSelectedItem({ type: 'ticket', data: buyer })}
-                  className="border-b border-brand-navy/5 last:border-0 hover:bg-brand-navy/5 transition-colors cursor-pointer"
+                  className={`border-b border-brand-navy/5 last:border-0 transition-colors cursor-pointer ${buyer.whatsappSent ? 'bg-[#25D366]/15 hover:bg-[#25D366]/25' : 'hover:bg-brand-navy/5'}`}
                 >
                   <td className="py-4 text-center text-brand-navy/30 text-sm font-mono">{i + 1}</td>
                   <td className="py-4 text-sm whitespace-nowrap">{formatDate(buyer.createdAt)}</td>
@@ -2058,6 +2058,17 @@ const AdminDashboard = () => {
                           alert("This guest did not provide a phone number.");
                           return;
                         }
+
+                        // Mark as sent in the database and local state
+                        try {
+                          updateDoc(doc(db, 'orders', buyer.id), { whatsappSent: true }).catch(err => console.error("Error updating whatsapp status", err));
+                          
+                          setTicketBuyers(prev => prev.map((b: any) => b.id === buyer.id ? { ...b, whatsappSent: true } : b));
+                          setSelectedItem(prev => prev ? { ...prev, data: { ...prev.data, whatsappSent: true } } : null);
+                        } catch (e) {
+                          console.error("Failed to update whatsapp status", e);
+                        }
+
                         window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
                       }}
                       className="inline-flex items-center gap-2 px-4 py-2 bg-[#25D366] text-white hover:bg-[#128C7E] rounded-lg font-display font-bold text-xs uppercase tracking-widest transition-colors"
