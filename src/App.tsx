@@ -2034,11 +2034,13 @@ const AdminDashboard = () => {
                         
                         let timeString = "Doors open at 5:30 PM | Program starts at 6:00 PM";
                         let dateString = "Monday, July 6, 2026";
+                        let bonusMessage = "";
                         
                         const t = tier.toLowerCase();
                         if (t.includes('double')) {
                           dateString = "July 8 & July 9, 2026";
                           timeString = "4:30 PM to 7:30 PM";
+                          bonusMessage = "\n\n🎁 Bonus: Your Double Workshop ticket also grants you full access to the Public Lecture on Monday, July 6 (Doors open at 5:30 PM)!";
                         } else if (t.includes('passion') || t.includes('workshop 1')) {
                           dateString = "Wednesday, July 8, 2026";
                           timeString = "4:30 PM to 7:30 PM";
@@ -2050,7 +2052,7 @@ const AdminDashboard = () => {
                           timeString = "4:30 PM to 7:30 PM";
                         }
 
-                        const message = `Hello ${name}! 🎟️\n\nHere is your ticket for Roots & Reach — Fayhaa Edition (Dr. Yazeed Mousa).\n\n📅 Date: ${dateString}\n⏰ Time: ${timeString}\n📍 Location: Beit El Fan\n🗺️ Map: https://share.google/LhRcETpBPYSP6IRgp\n🎫 Ticket Type: ${tier}\n\nPlease show this QR code at the door for entry:\n🔗 ${qrUrl}\n\nLooking forward to seeing you there!`;
+                        const message = `Hello ${name}! 🎟️\n\nHere is your ticket for Roots & Reach — Fayhaa Edition (Dr. Yazeed Mousa).\n\n📅 Date: ${dateString}\n⏰ Time: ${timeString}\n📍 Location: Beit El Fan\n🗺️ Map: https://share.google/LhRcETpBPYSP6IRgp\n🎫 Ticket Type: ${tier}${bonusMessage}\n\nPlease show this QR code at the door for entry:\n🔗 ${qrUrl}\n\nLooking forward to seeing you there!`;
                         
                         let phone = buyer.customerInfo?.phone || buyer.phone || '';
                         phone = phone.replace(/\D/g, '');
