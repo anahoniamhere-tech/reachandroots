@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roots & Reach - Scan Your Journey</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Manrope:wght@500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#121e4d',
+                        coral: '#FF8072',
+                        gold: '#FEDD8B',
+                        beige: '#FEDD8B',
+                        ivory: '#F9F4C0'
+                    },
+                    fontFamily: {
+                        display: ['"Space Grotesk"', 'sans-serif'],
+                        body: ['"Manrope"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @page {
+            size: A4 portrait;
+            margin: 0;
+        }
+        body {
+            background-color: #e5e7eb;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        .poster-container {
+            width: 210mm;
+            height: 297mm;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            background: #F9F4C0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+        @media print {
+            body {
+                background-color: #F9F4C0;
+            }
+            .poster-container {
+                width: 100%;
+                height: 100vh;
+                margin: 0;
+                box-shadow: none !important;
+                page-break-after: always;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+        .bg-pattern {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(18, 30, 77, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(18, 30, 77, 0.03) 1px, transparent 1px);
+            background-size: 32px 32px;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="font-body text-navy flex items-center justify-center min-h-screen py-8">
+
+    <div class="fixed top-4 right-4 no-print flex gap-4 z-50">
+        <button onclick="window.print()" class="bg-navy text-white px-6 py-3 rounded-xl font-bold uppercase tracking-wider shadow-lg hover:bg-black transition-colors flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            Print Poster
+        </button>
+    </div>
+
+    <div class="poster-container shadow-2xl relative">
+        <!-- Background Pattern -->
+        <div class="bg-pattern opacity-50"></div>
+        
+        <!-- Decorative blobs -->
+        <div class="absolute top-[-100px] right-[-100px] w-96 h-96 bg-coral/20 rounded-full blur-3xl z-0"></div>
+        <div class="absolute bottom-[-100px] left-[-100px] w-[500px] h-[500px] bg-gold/30 rounded-full blur-3xl z-0"></div>
+
+        <div class="relative z-10 flex flex-col items-center justify-center w-full h-full text-center px-12">
+            
+            <!-- Logo / Event Name -->
+            <h1 class="font-display font-bold text-[5rem] leading-none uppercase tracking-tighter mb-4 text-navy">
+                Roots <span class="text-coral">&amp;</span> Reach
+            </h1>
+            
+            <p class="font-display text-xl uppercase tracking-[0.3em] font-bold text-navy/60 mb-20">
+                Welcome To The Event
+            </p>
+
+            <div class="mb-16">
+                <h2 class="text-4xl font-display font-bold uppercase tracking-tight mb-4">
+                    View Your Journey
+                </h2>
+                <p class="text-xl font-medium text-navy/80 max-w-md mx-auto leading-relaxed">
+                    Scan the QR code below to access your personalized event schedule, tickets, and live updates.
+                </p>
+            </div>
+
+            <!-- QR Code -->
+            <div class="bg-white p-8 rounded-[2rem] shadow-xl border-4 border-navy/5 mb-16 relative group">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=600x600&data=https://rootsandreach.org/journeys&margin=0&color=121e4d" 
+                     alt="Journeys QR Code" 
+                     class="w-72 h-72 object-contain" />
+                <div class="absolute -top-5 -right-5 bg-coral text-white text-lg font-bold px-6 py-2 rounded-full shadow-lg transform rotate-12 uppercase tracking-wider">
+                    Scan Me
+                </div>
+            </div>
+
+            <div class="text-center mt-4 bg-white/50 backdrop-blur-sm px-10 py-6 rounded-3xl border border-navy/10">
+                <p class="font-mono font-bold tracking-[0.2em] text-sm text-navy/40 uppercase mb-2">Or visit directly at</p>
+                <p class="font-display font-bold text-3xl text-navy tracking-tight">rootsandreach.org/journeys</p>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
