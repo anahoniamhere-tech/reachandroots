@@ -1939,6 +1939,7 @@ const AdminDashboard = () => {
                 <th className="py-4 font-normal">Email</th>
                 <th className="py-4 font-normal">Tier</th>
                 <th className="py-4 font-normal">Total</th>
+                <th className="py-4 font-normal text-right">Status</th>
               </tr>
             </thead>
             <tbody className="font-body text-brand-navy">
@@ -1954,6 +1955,19 @@ const AdminDashboard = () => {
                   <td className="py-4">{buyer.customerInfo?.email || buyer.email || 'N/A'}</td>
                   <td className="py-4">{buyer.tierId || 'N/A'}</td>
                   <td className="py-4 text-brand-coral font-display font-bold">${buyer.totalPrice || 0}</td>
+                  <td className="py-4">
+                    <div className="flex justify-end gap-2 items-center flex-wrap">
+                      {buyer.paymentStatus === 'paid' || buyer.status === 'paid' ? 
+                        <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">Paid</span> :
+                        <span className="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">Pending</span>
+                      }
+                      {buyer.checkedIn && (
+                        <span className="bg-brand-coral/10 text-brand-coral px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 whitespace-nowrap">
+                          <Check size={10} /> Checked In
+                        </span>
+                      )}
+                    </div>
+                  </td>
                 </tr>
               )) : (
                 <tr><td colSpan={6} className="py-8 text-center text-brand-navy/40">No ticket orders found.</td></tr>
