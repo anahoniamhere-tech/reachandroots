@@ -1447,16 +1447,25 @@ const AdminDashboard = () => {
     return () => unsubscribe();
   }, []);
 
-  const handleLogin = async (e?: React.FormEvent) => {
+  const handleLogin = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
+    
+    // Call synchronously to avoid iOS popup blockers
+    signInWithGoogle()
+      .then(() => {
+        // Success is handled globally by onAuthStateChanged
+      })
+      .catch((err: any) => {
+        if (err.code === 'auth/popup-closed-by-user') {
+          setError("Login cancelled. Please ensure you don't close the Google login popup.");
+        } else {
+          setError(err.message || "Login failed");
+        }
+        setIsLoading(false);
+      });
+
     setIsLoading(true);
     setError(null);
-    try {
-      await signInWithGoogle();
-    } catch (err: any) {
-      setError(err.message || "Login failed");
-      setIsLoading(false);
-    }
   };
 
   useEffect(() => {
