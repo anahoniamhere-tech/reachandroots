@@ -11,6 +11,7 @@ export const DoorScanner = () => {
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<'idle' | 'success' | 'already_scanned' | 'unpaid' | 'invalid'>('idle');
   const scannerRef = useRef<Html5Qrcode | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [isScannerActive, setIsScannerActive] = useState(false);
 
   const stopScanner = async () => {
@@ -123,6 +124,32 @@ export const DoorScanner = () => {
     }
   };
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      try {
+        setLoading(true);
+        setError(null);
+        let html5QrCode = scannerRef.current;
+        if (!html5QrCode) {
+           html5QrCode = new Html5Qrcode("qr-reader");
+           scannerRef.current = html5QrCode;
+        }
+        const decodedText = await html5QrCode.scanFile(file, true);
+        handleScan(decodedText);
+      } catch (err: any) {
+        setError("Could not read QR code from image. Please ensure the code is clear and well-lit.");
+        console.error("File scan error", err);
+      } finally {
+        setLoading(false);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+      }
+    }
+  };
+
+
   const handleCheckIn = async () => {
     if (!scannedOrder || !scannedOrder.id) return;
     try {
@@ -197,10 +224,30 @@ export const DoorScanner = () => {
         )}
 
         {!isScannerActive && !scannedOrder && (
-          <div className="w-full h-64 border-2 border-dashed border-brand-navy/20 rounded-2xl flex flex-col items-center justify-center bg-brand-navy/5 cursor-pointer hover:bg-brand-navy/10 transition-colors" onClick={startScanner}>
-            <Camera className="w-12 h-12 text-brand-navy/30 mb-4" />
-            <span className="font-display font-bold text-brand-navy uppercase tracking-widest text-sm">Start Scanner</span>
-            <span className="text-xs text-brand-navy/50 font-medium mt-2">Requires Camera Permission</span>
+          <div className="flex flex-col gap-4">
+            <div className="w-full h-48 border-2 border-dashed border-brand-navy/20 rounded-2xl flex flex-col items-center justify-center bg-brand-navy/5 cursor-pointer hover:bg-brand-navy/10 transition-colors" onClick={startScanner}>
+              <Camera className="w-10 h-10 text-brand-navy/30 mb-2" />
+              <span className="font-display font-bold text-brand-navy uppercase tracking-widest text-sm">Live Scanner</span>
+              <span className="text-[10px] text-brand-navy/50 font-medium mt-1">Requires Camera Permission</span>
+            </div>
+
+            <div className="text-center w-full mt-2">
+              <span className="text-[10px] text-brand-navy/40 uppercase tracking-widest font-bold mb-3 block">Or use fallback</span>
+              <button 
+                onClick={() => fileInputRef.current?.click()}
+                className="w-full bg-brand-coral hover:bg-brand-coral/90 text-white py-4 px-4 rounded-xl font-display font-bold text-sm uppercase tracking-widest transition-colors flex items-center justify-center gap-2 shadow-lg shadow-brand-coral/20"
+              >
+                <Camera size={18} /> Take Photo of Ticket
+              </button>
+              <input 
+                type="file" 
+                accept="image/*" 
+                capture="environment" 
+                ref={fileInputRef}
+                onChange={handleFileUpload}
+                className="hidden" 
+              />
+            </div>
           </div>
         )}
         
