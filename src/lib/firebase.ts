@@ -35,7 +35,7 @@ const firebaseConfig = {
   projectId: "gen-lang-client-0920193719",
   appId: "1:260399646277:web:8fbcd7dee926f0fe0ac52c",
   apiKey: "AIzaSyDJvBLFGz4RB1kGJ9V9kILKjH4dA3GTwX8",
-  authDomain: "gen-lang-client-0920193719.firebaseapp.com",
+  authDomain: typeof window !== 'undefined' && window.location.hostname !== 'localhost' ? "rootsandreach.org" : "gen-lang-client-0920193719.firebaseapp.com",
   storageBucket: "gen-lang-client-0920193719.firebasestorage.app",
   messagingSenderId: "260399646277",
 };
@@ -135,5 +135,5 @@ export const signInWithGoogle = async (emailHint?: string): Promise<any> => {
       login_hint: emailHint
     });
   }
-  return signInWithPopup(realAuth, provider);
+  return signInWithRedirect(realAuth, provider);
 };
