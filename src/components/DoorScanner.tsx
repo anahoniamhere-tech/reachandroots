@@ -42,21 +42,39 @@ export const DoorScanner = () => {
       const html5QrCode = new Html5Qrcode("qr-reader");
       scannerRef.current = html5QrCode;
       
-      html5QrCode.start(
-        { facingMode: "environment" },
-        { fps: 10, qrbox: { width: 250, height: 250 } },
-        (decodedText) => {
-           if (html5QrCode.getState() === 2) { // 2 = SCANNING
-             html5QrCode.pause();
-           }
-           handleScan(decodedText);
-        },
-        (errorMessage) => {
-           // ignore continuous scan failures
+      Html5Qrcode.getCameras().then(devices => {
+        if (devices && devices.length) {
+          // Try to find a back camera, otherwise use the first available
+          let cameraId = devices[0].id;
+          for (const device of devices) {
+            if (device.label.toLowerCase().includes('back') || device.label.toLowerCase().includes('environment') || device.label.toLowerCase().includes('rear')) {
+              cameraId = device.id;
+              break;
+            }
+          }
+          
+          html5QrCode.start(
+            cameraId,
+            { fps: 10, qrbox: { width: 250, height: 250 } },
+            (decodedText) => {
+               if (html5QrCode.getState() === 2) { // SCANNING
+                 html5QrCode.pause();
+               }
+               handleScan(decodedText);
+            },
+            () => {}
+          ).catch((err) => {
+            console.error("Camera start failed:", err);
+            setError("Camera blocked! Tap the 🔒 lock icon in your address bar and change Camera to 'Allow'. If you are in another app, open this page in Chrome or Safari.");
+            setIsScannerActive(false);
+          });
+        } else {
+          setError("No cameras found on this device.");
+          setIsScannerActive(false);
         }
-      ).catch((err) => {
-        console.error("Camera start failed:", err);
-        setError("Camera access denied or unavailable. Please click 'Start Scanner' and allow permissions when prompted.");
+      }).catch(err => {
+        console.error("Camera access denied:", err);
+        setError("Camera blocked! Tap the 🔒 lock icon in your address bar and change Camera to 'Allow'. If you are in an email or social app, open this page directly in Chrome or Safari.");
         setIsScannerActive(false);
       });
     }, 100);
