@@ -11,14 +11,34 @@ export const DoorScanner = () => {
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<'idle' | 'success' | 'already_scanned' | 'unpaid' | 'invalid'>('idle');
   const scannerRef = useRef<Html5Qrcode | null>(null);
+  const [isScannerActive, setIsScannerActive] = useState(false);
+
+  const stopScanner = async () => {
+    if (scannerRef.current) {
+      try {
+        if (scannerRef.current.getState() !== 1) { // 1 = NOT_STARTED
+           await scannerRef.current.stop();
+           scannerRef.current.clear();
+        }
+      } catch (e) {
+        console.error("Error cleaning up scanner", e);
+      }
+    }
+    setIsScannerActive(false);
+  };
 
   useEffect(() => {
-    let isMounted = true;
+    return () => {
+      stopScanner();
+    };
+  }, []);
+
+  const startScanner = () => {
+    setError(null);
+    setIsScannerActive(true);
     
     // Small delay to ensure the DOM element is fully rendered before attaching scanner
-    const initTimer = setTimeout(() => {
-      if (!isMounted) return;
-      
+    setTimeout(() => {
       const html5QrCode = new Html5Qrcode("qr-reader");
       scannerRef.current = html5QrCode;
       
@@ -36,26 +56,11 @@ export const DoorScanner = () => {
         }
       ).catch((err) => {
         console.error("Camera start failed:", err);
-        setError("Camera access denied or unavailable. Please check your browser permissions.");
+        setError("Camera access denied or unavailable. Please click 'Start Scanner' and allow permissions when prompted.");
+        setIsScannerActive(false);
       });
-    }, 200);
-
-    return () => {
-      isMounted = false;
-      clearTimeout(initTimer);
-      if (scannerRef.current) {
-        try {
-          if (scannerRef.current.getState() !== 1) { // 1 = NOT_STARTED
-             scannerRef.current.stop().then(() => {
-               scannerRef.current?.clear();
-             }).catch(console.error);
-          }
-        } catch (e) {
-          console.error("Error cleaning up scanner", e);
-        }
-      }
-    };
-  }, []);
+    }, 100);
+  };
 
   const handleScan = async (payload: string) => {
     try {
@@ -146,6 +151,8 @@ export const DoorScanner = () => {
     try {
       if (scannerRef.current && scannerRef.current.getState() === 3) { // 3 = PAUSED
         scannerRef.current.resume();
+      } else if (!isScannerActive) {
+        startScanner();
       }
     } catch (err) {
       console.error("Could not resume scanner", err);
@@ -165,7 +172,23 @@ export const DoorScanner = () => {
       </div>
 
       <div className="w-full relative">
-        <div id="qr-reader" className="w-full overflow-hidden rounded-2xl border-2 border-brand-navy/10 bg-brand-navy/5" />
+        {error && !isScannerActive && (
+          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm font-semibold text-center">
+            {error}
+          </div>
+        )}
+
+        {!isScannerActive && !scannedOrder && (
+          <div className="w-full h-64 border-2 border-dashed border-brand-navy/20 rounded-2xl flex flex-col items-center justify-center bg-brand-navy/5 cursor-pointer hover:bg-brand-navy/10 transition-colors" onClick={startScanner}>
+            <Camera className="w-12 h-12 text-brand-navy/30 mb-4" />
+            <span className="font-display font-bold text-brand-navy uppercase tracking-widest text-sm">Start Scanner</span>
+            <span className="text-xs text-brand-navy/50 font-medium mt-2">Requires Camera Permission</span>
+          </div>
+        )}
+        
+        {isScannerActive && (
+          <div id="qr-reader" className="w-full overflow-hidden rounded-2xl border-2 border-brand-navy/10 bg-brand-navy/5" />
+        )}
         
         {loading && (
           <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center rounded-2xl">
