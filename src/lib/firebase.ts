@@ -135,5 +135,5 @@ export const signInWithGoogle = async (emailHint?: string): Promise<any> => {
       login_hint: emailHint
     });
   }
-  return signInWithPopup(realAuth, provider);
+  return signInWithRedirect(realAuth, provider);
 };
