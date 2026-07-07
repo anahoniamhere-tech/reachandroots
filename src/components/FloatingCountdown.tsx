@@ -44,7 +44,7 @@ export const FloatingCountdown = ({ onClick }: { onClick?: () => void }) => {
          <span className={`text-brand-coral mb-0.5 block uppercase font-bold leading-tight ${isRTL ? 'font-arabic tracking-normal text-sm sm:text-base md:text-lg' : 'editorial-label tracking-widest text-[9px] sm:text-[10px] md:text-[11px]'}`}>
            {isRTL ? 'انضم لرحلة د. يزيد' : "Join Dr. Yazeed's Journey"}
          </span>
-         <h3 className="font-display font-bold text-[11px] sm:text-sm md:text-xl uppercase tracking-tighter whitespace-nowrap">July 6, 2026</h3>
+         <h3 className="font-display font-bold text-[11px] sm:text-sm md:text-xl uppercase tracking-tighter whitespace-nowrap">July 8, 2026</h3>
        </div>
        
        <div className="relative z-10 flex gap-1.5 md:gap-4 text-center shrink-0" dir="ltr">
