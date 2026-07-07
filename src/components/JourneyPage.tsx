@@ -395,15 +395,13 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                         </span>
                       </div>
                       
-                      <a 
-                        href="https://www.instagram.com/dr.yazedmousa/"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <button 
+                        onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); onNavigate('registration'); }}
                         className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-brand-navy text-white hover:bg-brand-coral rounded-xl font-bold text-xs uppercase tracking-widest transition-all duration-300 w-full sm:w-auto shadow-md"
                       >
-                        <Instagram size={16} />
+                        <Users size={16} />
                         {isRTL ? 'انضم للمجتمع' : 'Join Community'}
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>
