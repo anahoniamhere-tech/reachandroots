@@ -1681,7 +1681,8 @@ const AdminDashboard = () => {
     }
     let matchPayment = true;
     if (paymentFilter !== 'all') {
-      const pStatus = buyer.paymentStatus || 'unpaid';
+      const isPaid = buyer.paymentStatus === 'paid' || buyer.status === 'paid';
+      const pStatus = isPaid ? 'paid' : 'unpaid';
       matchPayment = pStatus === paymentFilter;
     }
     return matchSearch && matchFilter && matchPayment;
