@@ -4,7 +4,7 @@ import { useLanguage } from '../lib/LanguageContext';
 export const FloatingCountdown = ({ onClick }: { onClick?: () => void }) => {
   const { isRTL } = useLanguage();
   
-  const targetDate = new Date('2026-07-06T17:30:00').getTime();
+  const targetDate = new Date('2026-07-08T16:30:00').getTime();
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,

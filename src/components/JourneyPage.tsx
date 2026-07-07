@@ -355,45 +355,55 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
             <div className={`absolute top-0 bottom-0 w-1 bg-brand-navy/10 ${isRTL ? 'right-8 md:right-12' : 'left-8 md:left-12'} rounded-full`} />
             
             <div className="space-y-12">
-              {/* Event 1: Public Event */}
+              {/* Event 1: Public Event (Completed) */}
               <motion.div 
                 initial={{ opacity: 0, x: isRTL ? 30 : -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
-                className={`relative ${isRTL ? 'pr-20 md:pr-32' : 'pl-20 md:pl-32'}`}
+                className={`relative opacity-60 grayscale-[50%] ${isRTL ? 'pr-20 md:pr-32' : 'pl-20 md:pl-32'}`}
               >
                 {/* Timeline Node */}
-                <div className={`absolute top-8 ${isRTL ? 'right-6 md:right-10' : 'left-6 md:left-10'} w-5 h-5 rounded-full bg-brand-navy border-4 border-warm-beige shadow-lg z-10`} />
+                <div className={`absolute top-8 ${isRTL ? 'right-6 md:right-10' : 'left-6 md:left-10'} w-5 h-5 rounded-full bg-brand-navy/20 border-4 border-warm-beige shadow-sm z-10`} />
                 
-                <div className="glass-card p-8 md:p-10 rounded-[2rem] hover:shadow-xl transition-all duration-300 border border-brand-navy/5 group">
-                  <div className="flex justify-between items-start mb-6">
-                    <span className="px-4 py-1.5 bg-brand-navy/5 text-brand-navy text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
-                      {journeyT.publicEvent}
-                    </span>
-                    <span className="px-4 py-1.5 bg-brand-green/10 text-brand-green text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
-                      {isRTL ? 'مجاني' : 'Free Entry'}
-                    </span>
-                  </div>
-                  <h3 className="text-2xl md:text-3xl font-display font-bold text-brand-navy uppercase mb-4 tracking-tight group-hover:text-brand-coral transition-colors">
-                    {journeyT.lectureTitle}
-                  </h3>
-                  <p className="font-body text-sm text-brand-navy/60 leading-relaxed mb-6">
-                    {journeyT.lectureDesc}
-                  </p>
-                  
-                  <div className="flex flex-wrap gap-6 pt-6 border-t border-brand-navy/5 text-sm text-brand-navy/70">
-                    <div className="flex items-center gap-3">
-                      <Calendar size={16} className="text-brand-coral shrink-0" />
-                      <span className="font-mono text-[13px]">{journeyT.lectureDate}</span>
+                <div className="glass-card p-8 md:p-10 rounded-[2rem] border border-brand-navy/5 relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-brand-navy/5 pointer-events-none" />
+                  <div className="relative z-10">
+                    <div className="flex justify-between items-start mb-6">
+                      <span className="px-4 py-1.5 bg-brand-navy/5 text-brand-navy/50 text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
+                        {journeyT.publicEvent}
+                      </span>
+                      <span className="px-4 py-1.5 bg-brand-navy/10 text-brand-navy text-[10px] uppercase font-bold tracking-widest font-mono rounded-full flex items-center gap-2">
+                        <CheckCircle2 size={12} />
+                        {isRTL ? 'تم الانتهاء' : 'Completed'}
+                      </span>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <Clock size={16} className="text-brand-coral shrink-0" />
-                      <span className="font-mono text-[13px]">{journeyT.lectureTime}</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <MapPin size={16} className="text-brand-coral shrink-0" />
-                      <a href="https://share.google/LhRcETpBPYSP6IRgp" target="_blank" rel="noopener noreferrer" className="font-body text-[13px] hover:text-brand-coral hover:underline transition-colors">{journeyT.lectureLoc}</a>
+                    <h3 className="text-2xl md:text-3xl font-display font-bold text-brand-navy/50 uppercase mb-4 tracking-tight">
+                      {journeyT.lectureTitle}
+                    </h3>
+                    <p className="font-body text-sm text-brand-navy/40 leading-relaxed mb-6">
+                      {journeyT.lectureDesc}
+                    </p>
+                    
+                    <div className="flex flex-col sm:flex-row gap-6 pt-6 border-t border-brand-navy/10 items-center justify-between">
+                      <div className="text-center sm:text-left">
+                        <span className="font-display font-bold text-brand-navy/60 uppercase tracking-widest text-xs block mb-1">
+                          {isRTL ? 'نراكم في المرة القادمة!' : 'See you next time!'}
+                        </span>
+                        <span className="font-body text-brand-navy/40 text-[11px] uppercase tracking-widest">
+                          {journeyT.lectureDate}
+                        </span>
+                      </div>
+                      
+                      <a 
+                        href="https://www.instagram.com/dr.yazedmousa/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-brand-navy text-white hover:bg-brand-coral rounded-xl font-bold text-xs uppercase tracking-widest transition-all duration-300 w-full sm:w-auto shadow-md"
+                      >
+                        <Instagram size={16} />
+                        {isRTL ? 'انضم للمجتمع' : 'Join Community'}
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -519,23 +529,6 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                     exit={{ opacity: 0, y: -10 }}
                     className="space-y-6"
                   >
-                    {/* Option 1: Free Lecture Entry */}
-                    <div 
-                      onClick={() => setSelectedTicket('lecture')}
-                      className={`glass-card p-6 sm:p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex gap-4 sm:gap-6 items-center ${selectedTicket === 'lecture' ? 'border-brand-coral bg-white shadow-md' : 'border-brand-navy/5 hover:border-brand-navy/20 bg-white/40'}`}
-                    >
-                      <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${selectedTicket === 'lecture' ? 'border-brand-coral text-brand-coral' : 'border-brand-navy/20'}`}>
-                        {selectedTicket === 'lecture' && <div className="w-3 h-3 bg-brand-coral rounded-full" />}
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 mb-2">
-                          <h3 className="font-display font-bold text-xl uppercase tracking-tight text-brand-navy">{journeyT.freeLecture}</h3>
-                          <span className="font-display font-black text-2xl text-brand-green">{journeyT.freeLecturePrice}</span>
-                        </div>
-                        <p className="font-body text-sm text-brand-navy/60 leading-normal">{journeyT.freeLectureDesc}</p>
-                      </div>
-                    </div>
-
                     {/* Option 2: Passion & Stress Management Workshop */}
                     <div 
                       onClick={() => setSelectedTicket('ws1')}
