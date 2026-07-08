@@ -46,7 +46,7 @@ const countriesList = [
 
 export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) => {
   const { t, isRTL } = useLanguage();
-  const [selectedTicket, setSelectedTicket] = useState<'lecture' | 'ws1' | 'ws2' | 'package'>('package');
+  const [selectedTicket, setSelectedTicket] = useState<'lecture' | 'ws1' | 'ws2' | 'package'>('ws2');
   const [copied, setCopied] = useState(false);
   const [copiedDetails, setCopiedDetails] = useState(false);
   const [showRegisterForm, setShowRegisterForm] = useState(false);
@@ -407,45 +407,53 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                 </div>
               </motion.div>
 
-              {/* Event 2: Workshop 1 */}
+              {/* Event 2: Workshop 1 (Completed) */}
               <motion.div 
                 initial={{ opacity: 0, x: isRTL ? 30 : -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className={`relative ${isRTL ? 'pr-20 md:pr-32' : 'pl-20 md:pl-32'}`}
+                className={`relative opacity-60 grayscale-[50%] ${isRTL ? 'pr-20 md:pr-32' : 'pl-20 md:pl-32'}`}
               >
                 {/* Timeline Node */}
-                <div className={`absolute top-8 ${isRTL ? 'right-6 md:right-10' : 'left-6 md:left-10'} w-5 h-5 rounded-full bg-brand-coral border-4 border-warm-beige shadow-lg z-10`} />
+                <div className={`absolute top-8 ${isRTL ? 'right-6 md:right-10' : 'left-6 md:left-10'} w-5 h-5 rounded-full bg-brand-coral/20 border-4 border-warm-beige shadow-sm z-10`} />
                 
-                <div className="glass-card p-8 md:p-10 rounded-[2rem] hover:shadow-xl transition-all duration-300 border border-brand-navy/5 group">
-                  <div className="flex flex-wrap gap-2 justify-between items-start mb-6">
-                    <span className="px-3 md:px-4 py-1.5 bg-brand-coral/10 text-brand-coral text-[9px] md:text-[10px] uppercase font-bold tracking-widest font-mono rounded-full whitespace-nowrap">
-                      {journeyT.workshop} 01
-                    </span>
-                    <span className="px-3 md:px-4 py-1.5 bg-brand-navy text-white text-[9px] md:text-[10px] uppercase font-bold tracking-widest font-mono rounded-full whitespace-nowrap">
-                      {journeyT.badgeCapacity}
-                    </span>
-                  </div>
-                  <h3 className="text-2xl md:text-3xl font-display font-bold text-brand-navy uppercase mb-4 tracking-tight group-hover:text-brand-coral transition-colors">
-                    {journeyT.ws1Title}
-                  </h3>
-                  <p className="font-body text-sm text-brand-navy/60 leading-relaxed mb-6">
-                    {journeyT.ws1Desc}
-                  </p>
-                  
-                  <div className="flex flex-wrap gap-6 pt-6 border-t border-brand-navy/5 text-sm text-brand-navy/70">
-                    <div className="flex items-center gap-3">
-                      <Calendar size={16} className="text-brand-coral shrink-0" />
-                      <span className="font-mono text-[13px]">{journeyT.ws1Date}</span>
+                <div className="glass-card p-8 md:p-10 rounded-[2rem] border border-brand-navy/5 relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-brand-navy/5 pointer-events-none" />
+                  <div className="relative z-10">
+                    <div className="flex flex-wrap gap-2 justify-between items-start mb-6">
+                      <span className="px-3 md:px-4 py-1.5 bg-brand-coral/5 text-brand-coral/50 text-[9px] md:text-[10px] uppercase font-bold tracking-widest font-mono rounded-full whitespace-nowrap">
+                        {journeyT.workshop} 01
+                      </span>
+                      <span className="px-4 py-1.5 bg-brand-navy/10 text-brand-navy text-[10px] uppercase font-bold tracking-widest font-mono rounded-full flex items-center gap-2">
+                        <CheckCircle2 size={12} />
+                        {isRTL ? 'تم الانتهاء' : 'Completed'}
+                      </span>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <Clock size={16} className="text-brand-coral shrink-0" />
-                      <span className="font-mono text-[13px]">{journeyT.ws1Time}</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <MapPin size={16} className="text-brand-coral shrink-0" />
-                      <a href="https://share.google/LhRcETpBPYSP6IRgp" target="_blank" rel="noopener noreferrer" className="font-body text-[13px] hover:text-brand-coral hover:underline transition-colors">{journeyT.ws1Loc}</a>
+                    <h3 className="text-2xl md:text-3xl font-display font-bold text-brand-navy/50 uppercase mb-4 tracking-tight">
+                      {journeyT.ws1Title}
+                    </h3>
+                    <p className="font-body text-sm text-brand-navy/40 leading-relaxed mb-6">
+                      {journeyT.ws1Desc}
+                    </p>
+                    
+                    <div className="flex flex-col sm:flex-row gap-6 pt-6 border-t border-brand-navy/10 items-center justify-between">
+                      <div className="text-center sm:text-left">
+                        <span className="font-display font-bold text-brand-navy/60 uppercase tracking-widest text-xs block mb-1">
+                          {isRTL ? 'نراكم في المرة القادمة!' : 'See you next time!'}
+                        </span>
+                        <span className="font-body text-brand-navy/40 text-[11px] uppercase tracking-widest">
+                          {journeyT.ws1Date}
+                        </span>
+                      </div>
+                      
+                      <button 
+                        onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); onNavigate('registration'); }}
+                        className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-brand-navy text-white hover:bg-brand-coral rounded-xl font-bold text-xs uppercase tracking-widest transition-all duration-300 w-full sm:w-auto shadow-md"
+                      >
+                        <Users size={16} />
+                        {isRTL ? 'انضم للمجتمع' : 'Join Community'}
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -527,22 +535,6 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                     exit={{ opacity: 0, y: -10 }}
                     className="space-y-6"
                   >
-                    {/* Option 2: Passion & Stress Management Workshop */}
-                    <div 
-                      onClick={() => setSelectedTicket('ws1')}
-                      className={`glass-card p-6 sm:p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex gap-4 sm:gap-6 items-center ${selectedTicket === 'ws1' ? 'border-brand-coral bg-white shadow-md' : 'border-brand-navy/5 hover:border-brand-navy/20 bg-white/40'}`}
-                    >
-                      <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${selectedTicket === 'ws1' ? 'border-brand-coral text-brand-coral' : 'border-brand-navy/20'}`}>
-                        {selectedTicket === 'ws1' && <div className="w-3 h-3 bg-brand-coral rounded-full" />}
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 mb-2">
-                          <h3 className="font-display font-bold text-xl uppercase tracking-tight text-brand-navy">{journeyT.ws1Title}</h3>
-                          <span className="font-display font-black text-2xl text-brand-navy">{journeyT.singleWsPrice}</span>
-                        </div>
-                        <p className="font-body text-sm text-brand-navy/60 leading-normal">{journeyT.ws1Desc}</p>
-                      </div>
-                    </div>
 
                     {/* Option 3: Mind Programming Workshop */}
                     <div 
@@ -561,28 +553,7 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                       </div>
                     </div>
 
-                    {/* Option 4: Double Package (Recommended) */}
-                    <div 
-                      onClick={() => setSelectedTicket('package')}
-                      className={`glass-card p-6 sm:p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex gap-4 sm:gap-6 items-center relative overflow-hidden ${selectedTicket === 'package' ? 'border-brand-coral bg-white shadow-md' : 'border-brand-navy/5 hover:border-brand-navy/20 bg-white/40'}`}
-                    >
-                      {/* Visual Accent */}
-                      <div className="absolute top-0 right-0 w-24 h-24 bg-brand-coral/10 rounded-full blur-xl pointer-events-none" />
-                      <div className="absolute top-3 right-6 bg-brand-coral text-white text-[8px] uppercase tracking-widest font-mono font-bold px-3 py-1 rounded-full">
-                        {isRTL ? 'الباقة الأفضل قيمة' : 'Best Value'}
-                      </div>
 
-                      <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${selectedTicket === 'package' ? 'border-brand-coral text-brand-coral' : 'border-brand-navy/20'}`}>
-                        {selectedTicket === 'package' && <div className="w-3 h-3 bg-brand-coral rounded-full" />}
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 mb-2">
-                          <h3 className="font-display font-bold text-xl uppercase tracking-tight text-brand-navy pr-12">{journeyT.packageWs}</h3>
-                          <span className="font-display font-black text-2xl text-brand-coral">{journeyT.packageWsPrice}</span>
-                        </div>
-                        <p className="font-body text-sm text-brand-navy/60 leading-normal">{journeyT.packageWsDesc}</p>
-                      </div>
-                    </div>
 
                     {/* Action Button */}
                     <button 
