@@ -1681,7 +1681,7 @@ const AdminDashboard = () => {
     }
     let matchPayment = true;
     if (paymentFilter !== 'all') {
-      const isPaid = buyer.paymentStatus === 'paid' || buyer.status === 'paid';
+      const isPaid = buyer.paymentStatus ? buyer.paymentStatus === 'paid' : buyer.status === 'paid';
       const pStatus = isPaid ? 'paid' : 'unpaid';
       matchPayment = pStatus === paymentFilter;
     }
@@ -1967,7 +1967,7 @@ const AdminDashboard = () => {
                   <td className="py-4 text-brand-coral font-display font-bold">${buyer.totalPrice || 0}</td>
                   <td className="py-4">
                     <div className="flex justify-end gap-2 items-center flex-wrap">
-                      {buyer.paymentStatus === 'paid' || buyer.status === 'paid' ? 
+                      {(buyer.paymentStatus ? buyer.paymentStatus === 'paid' : buyer.status === 'paid') ? 
                         <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">Paid</span> :
                         <span className="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">Pending</span>
                       }
