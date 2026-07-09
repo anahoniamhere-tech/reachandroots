@@ -465,445 +465,58 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className={`relative ${isRTL ? 'pr-20 md:pr-32' : 'pl-20 md:pl-32'}`}
+                className={`relative opacity-60 grayscale-[50%] ${isRTL ? 'pr-20 md:pr-32' : 'pl-20 md:pl-32'}`}
               >
                 {/* Timeline Node */}
-                <div className={`absolute top-8 ${isRTL ? 'right-6 md:right-10' : 'left-6 md:left-10'} w-5 h-5 rounded-full bg-brand-orange border-4 border-warm-beige shadow-lg z-10`} />
+                <div className={`absolute top-8 ${isRTL ? 'right-6 md:right-10' : 'left-6 md:left-10'} w-5 h-5 rounded-full bg-brand-orange/20 border-4 border-warm-beige shadow-sm z-10`} />
                 
-                <div className="glass-card p-8 md:p-10 rounded-[2rem] hover:shadow-xl transition-all duration-300 border border-brand-navy/5 group">
-                  <div className="flex flex-wrap gap-2 justify-between items-start mb-6">
-                    <span className="px-3 md:px-4 py-1.5 bg-brand-coral/10 text-brand-coral text-[9px] md:text-[10px] uppercase font-bold tracking-widest font-mono rounded-full whitespace-nowrap">
-                      {journeyT.workshop} 02
-                    </span>
-                    <span className="px-3 md:px-4 py-1.5 bg-brand-navy text-white text-[9px] md:text-[10px] uppercase font-bold tracking-widest font-mono rounded-full whitespace-nowrap">
-                      {journeyT.badgeCapacity}
-                    </span>
-                  </div>
-                  <h3 className="text-2xl md:text-3xl font-display font-bold text-brand-navy uppercase mb-4 tracking-tight group-hover:text-brand-coral transition-colors">
-                    {journeyT.ws2Title}
-                  </h3>
-                  <p className="font-body text-sm text-brand-navy/60 leading-relaxed mb-6">
-                    {journeyT.ws2Desc}
-                  </p>
-                  
-                  <div className="flex flex-wrap gap-6 pt-6 border-t border-brand-navy/5 text-sm text-brand-navy/70">
-                    <div className="flex items-center gap-3">
-                      <Calendar size={16} className="text-brand-coral shrink-0" />
-                      <span className="font-mono text-[13px]">{journeyT.ws2Date}</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <Clock size={16} className="text-brand-coral shrink-0" />
-                      <span className="font-mono text-[13px]">{journeyT.ws2Time}</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <MapPin size={16} className="text-brand-coral shrink-0" />
-                      <a href="https://share.google/LhRcETpBPYSP6IRgp" target="_blank" rel="noopener noreferrer" className="font-body text-[13px] hover:text-brand-coral hover:underline transition-colors">{journeyT.ws2Loc}</a>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-
-        {/* 4. REGISTRATION AND TICKET OPTIONS */}
-        <span id="register" className="block h-24 -mt-24 pointer-events-none" />
-        <div className="w-full mb-24 relative z-10 max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-baseline mb-16 gap-4">
-            <div>
-              <span className="editorial-label text-brand-coral mb-2 block">// ADMISSION PASSES</span>
-              <h2 className="text-3xl md:text-5xl font-display font-bold text-brand-navy uppercase tracking-tighter">
-                {journeyT.pricingTitle}
-              </h2>
-            </div>
-            <div className="h-px bg-brand-navy/10 flex-1 mx-8 hidden md:block" />
-            <div className="font-mono text-[10px] md:text-xs text-brand-navy/40 uppercase tracking-[0.2em] whitespace-nowrap">
-              LIMITED TO 50 SEATS
-            </div>
-          </div>
-
-          <div className={showPaymentCard ? "grid lg:grid-cols-5 gap-12 items-start" : "max-w-3xl mx-auto w-full"}>
-            
-            {/* Interactive Ticket Selector OR Inline Registration Form */}
-            <div className={showPaymentCard ? "lg:col-span-3" : "w-full"}>
-              <AnimatePresence mode="wait">
-                {!showRegisterForm ? (
-                  <motion.div
-                    key="selector"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="space-y-6"
-                  >
-
-                    {/* Option 3: Mind Programming Workshop */}
-                    <div 
-                      onClick={() => setSelectedTicket('ws2')}
-                      className={`glass-card p-6 sm:p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex gap-4 sm:gap-6 items-center ${selectedTicket === 'ws2' ? 'border-brand-coral bg-white shadow-md' : 'border-brand-navy/5 hover:border-brand-navy/20 bg-white/40'}`}
-                    >
-                      <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${selectedTicket === 'ws2' ? 'border-brand-coral text-brand-coral' : 'border-brand-navy/20'}`}>
-                        {selectedTicket === 'ws2' && <div className="w-3 h-3 bg-brand-coral rounded-full" />}
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 mb-2">
-                          <h3 className="font-display font-bold text-xl uppercase tracking-tight text-brand-navy">{journeyT.ws2Title}</h3>
-                          <span className="font-display font-black text-2xl text-brand-navy">{journeyT.singleWsPrice}</span>
-                        </div>
-                        <p className="font-body text-sm text-brand-navy/60 leading-normal">{journeyT.ws2Desc}</p>
-                      </div>
-                    </div>
-
-
-
-                    {/* Action Button */}
-                    <button 
-                      onClick={() => {
-                        let choice = 'both';
-                        if (selectedTicket === 'ws1') choice = 'ws1';
-                        if (selectedTicket === 'ws2') choice = 'ws2';
-                        if (selectedTicket === 'lecture') choice = 'lecture';
-                        setFormData(prev => ({ ...prev, workshopChoice: choice }));
-                        setShowRegisterForm(true);
-                      }} 
-                      className="w-full flex items-center justify-between bg-brand-navy hover:bg-brand-coral text-white p-6 rounded-2xl transition-all duration-300 font-display font-bold text-sm tracking-widest uppercase shadow-lg hover:scale-101 cursor-pointer"
-                    >
-                      <span>{isRTL ? 'سجل اهتمامك الآن' : 'Reserve & Book Ticket'}</span>
-                      <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center transition-transform">
-                        <ArrowRight size={18} />
-                      </div>
-                    </button>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="form"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 border border-brand-navy/5 shadow-xl relative overflow-hidden"
-                  >
-                    <div className="absolute inset-0 pixel-grid opacity-10 pointer-events-none" />
-                    <div className="absolute top-0 left-0 w-full h-2 bg-brand-coral" />
-
-                    {!isRegistered ? (
-                      <form onSubmit={handleFormSubmit} className="space-y-6 relative z-10">
-                        <div>
-                          <h3 className="font-display font-bold text-3xl text-brand-navy uppercase mb-2 tracking-tight">
-                            {isRTL ? 'طلب حجز مقعد' : 'Ticket Reservation'}
-                          </h3>
-                          <p className="font-body text-sm text-brand-navy/50">
-                            {isRTL ? 'أدخل معلوماتك وسنقوم بالتواصل معك لتأكيد التذاكر.' : 'Enter your details. We will contact you to finalize ticketing details.'}
-                          </p>
-                        </div>
-
-                        <div className="space-y-4">
-                          {/* Full Name */}
-                          <div className="space-y-2">
-                            <label className="editorial-label text-[10px] font-bold block">{isRTL ? 'الاسم الكامل' : 'Full Name'}</label>
-                            <input 
-                              type="text" 
-                              required
-                              value={formData.name}
-                              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                              className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
-                              placeholder={isRTL ? 'مثال: محمد أحمد' : 'e.g. Jean Doe'}
-                              maxLength={100}
-                            />
-                          </div>
-
-                          {/* Phone Number & Email */}
-                          <div className="grid sm:grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                              <label className="editorial-label text-[10px] font-bold block">{isRTL ? 'رقم الهاتف (واتساب)' : 'Phone Number (WhatsApp)'}</label>
-                              <div className="flex gap-2" dir="ltr">
-                                <select 
-                                  value={formData.phoneCode}
-                                  onChange={(e) => setFormData({ ...formData, phoneCode: e.target.value })}
-                                  className="w-24 bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors appearance-none text-center"
-                                >
-                                  {countryCodes.map((country) => (
-                                    <option key={`${country.name}-${country.code}`} value={country.code}>
-                                      {country.flag} {country.code}
-                                    </option>
-                                  ))}
-                                  <option value="other">Other</option>
-                                </select>
-                                <input 
-                                  type="tel" 
-                                  required
-                                  value={formData.phone}
-                                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                  className={`flex-1 min-w-0 bg-warm-beige/25 border rounded-xl p-4 text-brand-navy font-body focus:outline-none transition-colors ${phoneError ? 'border-red-500 focus:border-red-500' : 'border-brand-navy/10 focus:border-brand-coral'}`}
-                                  placeholder="e.g. 71 000 000"
-                                  maxLength={30}
-                                />
-                              </div>
-                              {phoneError && (
-                                <p className="text-red-500 text-xs mt-1 font-body text-right" dir={isRTL ? 'rtl' : 'ltr'}>{phoneError}</p>
-                              )}
-                            </div>
-                            <div className="space-y-2">
-                              <label className="editorial-label text-[10px] font-bold block">{isRTL ? 'البريد الإلكتروني' : 'Email Address'}</label>
-                              <input 
-                                type="email" 
-                                required
-                                value={formData.email}
-                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
-                                placeholder="e.g. jean.doe@example.com"
-                                maxLength={100}
-                              />
-                            </div>
-                          </div>
-
-                          {/* Age & Nationality */}
-                          <div className="grid sm:grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                              <label className="editorial-label text-[10px] font-bold block">
-                                {isRTL ? 'العمر' : 'Age'} <span className="opacity-50 font-normal">({isRTL ? 'اختياري' : 'Optional'})</span>
-                              </label>
-                              <select 
-                                value={formData.age}
-                                onChange={(e) => setFormData({ ...formData, age: e.target.value })}
-                                className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
-                              >
-                                <option value="" disabled hidden>{isRTL ? 'اختر العمر' : 'Select Age'}</option>
-                                {(t.registration?.ageOptions as string[] || ['Under 18', '18 – 24', '25 – 35', '36 – 45', 'Over 45']).map(ageRange => (
-                                  <option key={ageRange} value={ageRange}>{ageRange}</option>
-                                ))}
-                              </select>
-                            </div>
-                            <div className="space-y-2">
-                              <label className="editorial-label text-[10px] font-bold block">
-                                {isRTL ? 'الجنسية' : 'Nationality'} <span className="opacity-50 font-normal">({isRTL ? 'اختياري' : 'Optional'})</span>
-                              </label>
-                              <select 
-                                value={formData.nationality}
-                                onChange={(e) => setFormData({ ...formData, nationality: e.target.value })}
-                                className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
-                              >
-                                <option value="" disabled hidden>{isRTL ? 'اختر الجنسية' : 'Select Nationality'}</option>
-                                {countriesList.map((country, idx) => (
-                                  <option 
-                                    key={idx} 
-                                    value={country === "---" ? "" : country} 
-                                    disabled={country === "---"}
-                                  >
-                                    {country === "---" 
-                                      ? "────────────────" 
-                                      : (isRTL && countryTranslations[country] ? countryTranslations[country] : country)}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Selected Event Segment */}
-                          <div className="space-y-2">
-                            <label className="editorial-label text-[10px] font-bold block">{isRTL ? 'الفعاليات المطلوبة' : 'Selected Event Segment'}</label>
-                            <select 
-                              value={formData.workshopChoice}
-                              onChange={(e) => setFormData({ ...formData, workshopChoice: e.target.value })}
-                              className="w-full bg-warm-beige/25 border border-brand-navy/10 rounded-xl p-4 text-brand-navy font-body focus:outline-none focus:border-brand-coral transition-colors"
-                            >
-                              <option value="both">
-                                {isRTL 
-                                  ? `باقة الورشتين معاً: ${journeyT.ws1Title} + ${journeyT.ws2Title} ($30)` 
-                                  : `Double Workshop Package: ${journeyT.ws1Title} + ${journeyT.ws2Title} ($30)`}
-                              </option>
-                              <option value="ws1">
-                                {journeyT.ws1Title} ($20)
-                              </option>
-                              <option value="ws2">
-                                {journeyT.ws2Title} ($20)
-                              </option>
-                              <option value="lecture">
-                                {journeyT.lectureTitle} ({isRTL ? 'مجاني' : 'Free'})
-                              </option>
-                            </select>
-                          </div>
-                        </div>
-
-                        {submitError && (
-                          <div className="p-4 bg-brand-coral/10 border border-brand-coral/25 rounded-xl text-brand-coral text-xs font-body text-center leading-relaxed">
-                            {submitError}
-                          </div>
-                        )}
-
-                        <div className="flex gap-4 pt-4">
-                          <button 
-                            type="button" 
-                            disabled={submitting}
-                            onClick={() => {
-                              setShowRegisterForm(false);
-                              setFormData({ name: '', phoneCode: '+961', phone: '', email: '', age: '', nationality: '', workshopChoice: 'both' }); setPhoneError('');
-                              setSubmitError(null);
-                            }}
-                            className="flex-1 py-4 border border-brand-navy/10 hover:border-brand-coral rounded-xl text-brand-navy font-display font-bold text-xs uppercase tracking-widest transition-all cursor-pointer disabled:opacity-50"
-                          >
-                            {isRTL ? 'إلغاء' : 'Cancel'}
-                          </button>
-                          <button 
-                            type="submit" 
-                            disabled={submitting}
-                            className="flex-1 py-4 bg-brand-navy hover:bg-brand-coral text-white rounded-xl font-display font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-                          >
-                            <span>{submitting ? (isRTL ? 'جاري الإرسال...' : 'Submitting...') : (isRTL ? 'إرسال' : 'Submit')}</span>
-                            {!submitting && <Send size={12} className={isRTL ? 'rotate-180' : ''} />}
-                          </button>
-                        </div>
-                      </form>
-                    ) : (
-                      <motion.div 
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="py-10 text-center space-y-6 relative z-10"
-                      >
-                        <div className="w-20 h-20 bg-brand-green/10 text-brand-green rounded-[1.5rem] flex items-center justify-center mx-auto">
-                          <CheckCircle2 size={40} />
-                        </div>
-                        
-                        <div className="space-y-2">
-                          <h3 className="font-display font-bold text-2xl text-brand-navy uppercase tracking-tight">
-                            {isRTL ? 'تم تسجيل اهتمامك بنجاح!' : 'Pre-Registration Saved!'}
-                          </h3>
-                          <p className="font-body text-sm text-brand-navy/60 leading-relaxed max-w-sm mx-auto">
-                            {formData.workshopChoice === 'lecture'
-                              ? (isRTL 
-                                ? 'طلبك لحضور المحاضرة العامة المجانية قيد المعالجة، وسنقوم بالتواصل معك قريباً لتأكيد مقعدك.'
-                                : 'Your request to attend the free public lecture is processing. We will contact you shortly to confirm your seat.')
-                              : (isRTL
-                                ? 'طلبك لحضور الفعالية قيد المعالجة. يرجى إتمام تحويل الرسوم عبر Whish Money للحساب: 81408171 لإتمام الحجز، مع كتابة نوع التذكرة وعناوين الورش المطلوبة في ملاحظات التحويل. وسنقوم بالتواصل معك لتأكيد مقعدك.'
-                                : 'Your request is processing. Please transfer your tickets fee via Whish Money to account 81408171 to guarantee your seat, and include the ticket type and workshop titles in the transfer description. Our team will contact you shortly.')}
-                          </p>
-                        </div>
-
-
-
-                        <div className="flex flex-col gap-3 max-w-xs mx-auto mt-6">
-                          <a 
-                            href={getWhatsAppLink()}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-full py-4 bg-[#25D366] hover:bg-[#20ba5a] text-white text-xs font-display font-bold uppercase tracking-widest rounded-xl transition-colors flex items-center justify-center gap-2 cursor-pointer"
-                          >
-                            <Send size={12} />
-                            {isRTL ? 'إرسال التفاصيل عبر واتساب' : 'Send Details on WhatsApp'}
-                          </a>
-                          
-                          <button 
-                            onClick={() => { 
-                              setShowRegisterForm(false); 
-                              setIsRegistered(false); 
-                              setFormData({ name: '', phoneCode: '+961', phone: '', email: '', age: '', nationality: '', workshopChoice: 'both' }); setPhoneError('');
-                              setTimeout(() => {
-                                document.getElementById('register')?.scrollIntoView({ behavior: 'smooth' });
-                              }, 500);
-                            }}
-                            className="w-full py-3 bg-brand-navy/5 text-brand-navy hover:bg-brand-navy/10 text-xs font-display font-bold uppercase tracking-widest rounded-xl transition-colors cursor-pointer"
-                          >
-                            {isRTL ? 'إغلاق' : 'Close'}
-                          </button>
-                        </div>
-                      </motion.div>
-                    )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* Suggested Payment Details Box */}
-            {showPaymentCard && (
-              <motion.div 
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="lg:col-span-2"
-              >
-                <div className="bg-white/70 border border-brand-navy/5 rounded-[1.5rem] sm:rounded-[2rem] p-6 sm:p-8 md:p-10 shadow-sm backdrop-blur-xl relative overflow-hidden">
-                  <div className="absolute inset-0 pixel-grid opacity-[0.02] pointer-events-none" />
+                <div className="glass-card p-8 md:p-10 rounded-[2rem] border border-brand-navy/5 relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-brand-navy/5 pointer-events-none" />
                   <div className="relative z-10">
-                    <div className="flex items-center gap-3 mb-8">
-                      <Wallet size={20} className="text-brand-coral" />
-                      <span className="editorial-label text-brand-navy/80 font-bold uppercase tracking-wider">
-                        {journeyT.paymentTitle}
+                    <div className="flex flex-wrap gap-2 justify-between items-start mb-6">
+                      <span className="px-3 md:px-4 py-1.5 bg-brand-coral/10 text-brand-coral/50 text-[9px] md:text-[10px] uppercase font-bold tracking-widest font-mono rounded-full whitespace-nowrap">
+                        {journeyT.workshop} 02
+                      </span>
+                      <span className="px-4 py-1.5 bg-brand-navy/10 text-brand-navy text-[10px] uppercase font-bold tracking-widest font-mono rounded-full flex items-center gap-2">
+                        <CheckCircle2 size={12} />
+                        {isRTL ? 'تم الانتهاء' : 'Completed'}
                       </span>
                     </div>
-
-                    <div className="space-y-8">
+                    <h3 className="text-2xl md:text-3xl font-display font-bold text-brand-navy/50 uppercase mb-4 tracking-tight group-hover:text-brand-coral transition-colors">
+                      {journeyT.ws2Title}
+                    </h3>
+                    <p className="font-body text-sm text-brand-navy/40 leading-relaxed mb-6">
+                      {journeyT.ws2Desc}
+                    </p>
+                    
+                    <div className="flex flex-col sm:flex-row gap-6 pt-6 border-t border-brand-navy/10 items-center justify-between">
+                      <div className="text-center sm:text-left">
+                        <span className="font-display font-bold text-brand-navy/60 uppercase tracking-widest text-xs block mb-1">
+                          {isRTL ? 'نراكم في المرة القادمة!' : 'See you next time!'}
+                        </span>
+                        <span className="font-body text-brand-navy/40 text-[11px] uppercase tracking-widest">
+                          {journeyT.ws2Date}
+                        </span>
+                      </div>
                       
-                      {/* Method 1: Wish Money */}
-                      <div className="space-y-3 pb-8 border-b border-brand-navy/5">
-                        <div className="flex items-center gap-3">
-                          <span className="w-6 h-6 rounded-full bg-brand-coral/10 text-brand-coral text-xs font-mono font-bold flex items-center justify-center">1</span>
-                          <h4 className="font-display font-bold text-lg text-brand-navy uppercase">{journeyT.wishTitle}</h4>
-                        </div>
-                        <p className="font-body text-sm text-brand-navy/60 leading-relaxed">
-                          {journeyT.wishDesc}
-                        </p>
-                        
-                        {/* Copyable Account Box */}
-                        <div className="flex items-center justify-between p-4 bg-warm-beige/30 rounded-xl border border-brand-navy/5">
-                          <div className="space-y-1">
-                            <span className="font-mono text-[9px] text-brand-navy/30 uppercase tracking-widest">WHISH TRANSFER ACCOUNT</span>
-                            <p className="font-mono font-bold text-lg text-brand-navy">81408171</p>
-                          </div>
-                          <button 
-                            onClick={handleCopyAccount}
-                            className="p-3 bg-white border border-brand-navy/5 hover:border-brand-coral hover:text-brand-coral rounded-lg transition-all active:scale-95 text-brand-navy/60 cursor-pointer shrink-0"
-                            title="Copy Account Number"
-                          >
-                            {copied ? <Check size={16} className="text-brand-green" /> : <Copy size={16} />}
-                          </button>
-                        </div>
-
-                        {/* Copyable Ticket Details Box */}
-                        <div className="flex items-center justify-between p-4 bg-brand-coral/10 rounded-xl border border-brand-coral/20 mt-3">
-                          <div className="space-y-1">
-                            <span className="font-mono text-[9px] text-brand-coral uppercase tracking-widest">{isRTL ? 'تفاصيل التذكرة للتحويل' : 'TICKET DETAILS FOR TRANSFER'}</span>
-                            <p className="font-mono font-bold text-xs sm:text-sm text-brand-navy truncate max-w-[200px] sm:max-w-xs">{getBookingSummary()}</p>
-                          </div>
-                          <button 
-                            onClick={handleCopyDetails}
-                            className="p-3 bg-brand-coral text-white hover:bg-brand-navy rounded-lg transition-all active:scale-95 cursor-pointer shrink-0"
-                            title={isRTL ? 'نسخ تفاصيل التذكرة' : 'Copy Ticket Details'}
-                          >
-                            {copiedDetails ? <Check size={16} /> : <Copy size={16} />}
-                          </button>
-                        </div>
-                        <p className="text-xs font-bold text-brand-coral mt-2">
-                           {isRTL ? '↑ يرجى نسخ تفاصيل التذكرة ولصقها في ملاحظات تحويل Whish' : '↑ Please copy your ticket details and paste them into your Whish transfer notes'}
-                        </p>
-                      </div>
-
-                      {/* Method 2: At the Door */}
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-3">
-                          <span className="w-6 h-6 rounded-full bg-brand-coral/10 text-brand-coral text-xs font-mono font-bold flex items-center justify-center">2</span>
-                          <h4 className="font-display font-bold text-lg text-brand-navy uppercase">{journeyT.doorTitle}</h4>
-                        </div>
-                        <p className="font-body text-sm text-brand-navy/60 leading-relaxed">
-                          {journeyT.doorDesc}
-                        </p>
-                      </div>
-
-                      {/* Gatekeeping Check */}
-                      <div className="bg-brand-gold/20 border border-brand-gold/30 p-4 rounded-xl flex items-start gap-4 text-xs text-brand-navy/70 mt-6">
-                        <ShieldCheck size={18} className="text-brand-coral shrink-0 mt-0.5" />
-                        <p className="leading-relaxed">
-                          {isRTL 
-                            ? 'بمجرد حجزك للتذكرة، سيقوم فريقنا بالتواصل معك هاتفياً أو عبر الواتساب لتأكيد الدفع وضمان مقعدك في ورشتي العمل التخصصيتين.'
-                            : 'After registration, our organizing committee will follow up with you via WhatsApp or phone call to confirm payment details and secure your workshop seat.'}
-                        </p>
-                      </div>
-
+                      <button 
+                        onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); onNavigate('registration'); }}
+                        className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-brand-navy text-white hover:bg-brand-coral rounded-xl font-bold text-xs uppercase tracking-widest transition-all duration-300 w-full sm:w-auto shadow-md"
+                      >
+                        <Users size={16} />
+                        {isRTL ? 'انضم للمجتمع' : 'Join Community'}
+                      </button>
                     </div>
                   </div>
                 </div>
               </motion.div>
-            )}
+            </div>
+          </div>
         </div>
+
+
       </div>
     </div>
-  </div>
   );
 };
 

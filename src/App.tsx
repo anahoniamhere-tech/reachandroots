@@ -854,7 +854,7 @@ export default function App() {
             {isRTL ? 'انضم للمجتمع' : 'Join Community'}
           </div>
 
-          <FloatingCountdown onClick={() => { setView('journey'); setIsMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
+
         </>
       )}
 
