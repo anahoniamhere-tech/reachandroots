@@ -222,5 +222,85 @@ export const AdminService = {
     } catch (error) {
       handleFirestoreError(error, 'UPDATE', path);
     }
+  },
+
+  async markAsAttended(orderId: string) {
+    const path = `orders/${orderId}`;
+    try {
+      const orderRef = doc(db, 'orders', orderId);
+      await updateDoc(orderRef, {
+        attended: true,
+        attendedAt: new Date().toISOString()
+      });
+      return true;
+    } catch (error) {
+      handleFirestoreError(error, 'UPDATE', path);
+      return false;
+    }
+  },
+
+  async markAsNotAttended(orderId: string) {
+    const path = `orders/${orderId}`;
+    try {
+      const orderRef = doc(db, 'orders', orderId);
+      await updateDoc(orderRef, {
+        attended: false,
+        attendedAt: null
+      });
+      return true;
+    } catch (error) {
+      handleFirestoreError(error, 'UPDATE', path);
+      return false;
+    }
+  },
+
+  async archiveJourney(journeyName: string) {
+    try {
+      const ordersSnap = await getDocs(collection(db, 'orders'));
+      if (ordersSnap.empty) return { archived: 0 };
+
+      const batch = writeBatch(db);
+      let count = 0;
+
+      ordersSnap.docs.forEach(orderDoc => {
+        const data = orderDoc.data();
+        // Write to archived_orders with the same doc ID
+        const archiveRef = doc(db, 'archived_orders', orderDoc.id);
+        batch.set(archiveRef, {
+          ...data,
+          journeyName,
+          archivedAt: new Date().toISOString()
+        });
+        // Delete from orders
+        batch.delete(orderDoc.ref);
+        count++;
+      });
+
+      await batch.commit();
+      return { archived: count };
+    } catch (error) {
+      handleFirestoreError(error, 'WRITE', 'archive_journey');
+      return { archived: 0 };
+    }
+  },
+
+  async getArchivedOrders() {
+    const path = 'archived_orders';
+    try {
+      const snap = await getDocs(collection(db, path));
+      return snap.docs
+        .map(d => ({ ...d.data(), id: d.id }))
+        .sort((a: any, b: any) => {
+          const getTs = (val: any): number => {
+            if (!val) return 0;
+            if (typeof val === 'object' && 'seconds' in val) return val.seconds * 1000;
+            return new Date(val).getTime() || 0;
+          };
+          return getTs(b.archivedAt || b.createdAt) - getTs(a.archivedAt || a.createdAt);
+        });
+    } catch (error) {
+      handleFirestoreError(error, 'LIST', path);
+      return [];
+    }
   }
 };

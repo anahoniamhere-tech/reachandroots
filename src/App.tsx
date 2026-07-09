@@ -6,7 +6,7 @@ import {
   Sparkles, Coffee, Mic2, Palmtree, Utensils, Theater, PlayCircle,
   Loader2, Video, Play, Mic, Radio, Smartphone, Activity, Mail,
   Grid, Award, Share2, MessageSquare, Zap, Waves, Signal, 
-  Search, Users, Globe, Target, Clock, Filter, ExternalLink, Copy, Download, FileDown, Instagram, Trash2, Upload
+  Search, Users, Globe, Target, Clock, Filter, ExternalLink, Copy, Download, FileDown, Instagram, Trash2, Upload, Archive, UserCheck, UserX
 } from 'lucide-react';
 import { 
   TripoliHeritage, FayhaaFlow, DigitalCreativity, 
@@ -1385,7 +1385,7 @@ const formatDate = (val: any) => {
 };
 
 const AdminDashboard = () => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'invitations' | 'community' | 'tickets' | 'scanner' | 'settings'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'invitations' | 'community' | 'tickets' | 'scanner' | 'archives' | 'settings'>('overview');
   const [stats, setStats] = useState({ orders: 0, revenue: 0, tiers: [] as any[] });
   const [communityJoins, setCommunityJoins] = useState<any[]>([]);
   const [ticketBuyers, setTicketBuyers] = useState<any[]>([]);
@@ -1400,9 +1400,13 @@ const AdminDashboard = () => {
   const [ticketSearch, setTicketSearch] = useState('');
   const [ticketFilter, setTicketFilter] = useState('all');
   const [paymentFilter, setPaymentFilter] = useState('all');
+  const [attendanceFilter, setAttendanceFilter] = useState('all');
   const [communitySearch, setCommunitySearch] = useState('');
   const [isUploadingReceipt, setIsUploadingReceipt] = useState(false);
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string | null>(null);
+  const [archivedOrders, setArchivedOrders] = useState<any[]>([]);
+  const [isArchiving, setIsArchiving] = useState(false);
+  const [archiveSearch, setArchiveSearch] = useState('');
 
   useEffect(() => {
     if (selectedItem?.type === 'ticket' && selectedItem.data.id) {
@@ -1591,6 +1595,58 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleToggleAttended = async () => {
+    if (!selectedItem || selectedItem.type !== 'ticket') return;
+    const isAttended = selectedItem.data.attended;
+    try {
+      if (isAttended) {
+        await AdminService.markAsNotAttended(selectedItem.data.id);
+        setTicketBuyers(prev => prev.map(t => t.id === selectedItem.data.id ? { ...t, attended: false, attendedAt: null } : t));
+        setSelectedItem(prev => prev ? { ...prev, data: { ...prev.data, attended: false, attendedAt: null } } : null);
+      } else {
+        await AdminService.markAsAttended(selectedItem.data.id);
+        setTicketBuyers(prev => prev.map(t => t.id === selectedItem.data.id ? { ...t, attended: true, attendedAt: new Date().toISOString() } : t));
+        setSelectedItem(prev => prev ? { ...prev, data: { ...prev.data, attended: true, attendedAt: new Date().toISOString() } } : null);
+      }
+    } catch (e) {
+      console.error("Failed to toggle attendance", e);
+      alert("Failed to update attendance status.");
+    }
+  };
+
+  const handleArchiveData = async () => {
+    const journeyName = window.prompt("Enter a name for this archive (e.g. 'Dr. Yazeed Mousa - July 2026'):");
+    if (!journeyName) return;
+    
+    if (!window.confirm(`Are you sure you want to archive all current ticket orders under "${journeyName}" and clear the dashboard? This cannot be undone.`)) return;
+
+    setIsArchiving(true);
+    try {
+      const result = await AdminService.archiveJourney(journeyName);
+      alert(`Successfully archived ${result.archived} orders.`);
+      
+      // Clear local state
+      setTicketBuyers([]);
+      setStats(prev => ({ ...prev, orders: 0, revenue: 0 }));
+      
+      // Reload archives
+      const archives = await AdminService.getArchivedOrders();
+      setArchivedOrders(archives);
+      
+    } catch (e) {
+      console.error("Failed to archive journey", e);
+      alert("Failed to archive journey.");
+    } finally {
+      setIsArchiving(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'archives' && archivedOrders.length === 0) {
+      AdminService.getArchivedOrders().then(setArchivedOrders).catch(console.error);
+    }
+  }, [activeTab]);
+
   const handlePrintPDF = (item: { type: 'ticket' | 'community'; data: any }) => {
     const printWindow = window.open('', '_blank');
     if (!printWindow) return;
@@ -1685,7 +1741,12 @@ const AdminDashboard = () => {
       const pStatus = isPaid ? 'paid' : 'unpaid';
       matchPayment = pStatus === paymentFilter;
     }
-    return matchSearch && matchFilter && matchPayment;
+    let matchAttendance = true;
+    if (attendanceFilter !== 'all') {
+      if (attendanceFilter === 'attended') matchAttendance = buyer.attended === true;
+      else if (attendanceFilter === 'noshow') matchAttendance = buyer.attended !== true;
+    }
+    return matchSearch && matchFilter && matchPayment && matchAttendance;
   });
 
   if (isLoading) return <div className="min-h-screen flex flex-col items-center justify-center bg-white gap-4"><Loader2 className="animate-spin text-brand-coral" size={32} /><span className="text-xs text-brand-navy/40 font-mono">Loading system telemetry...</span></div>;
@@ -1744,6 +1805,7 @@ const AdminDashboard = () => {
           { id: 'tickets', label: 'Ticket Buyers' },
           { id: 'invitations', label: 'Invitations' },
           { id: 'scanner', label: 'Door Scanner' },
+          { id: 'archives', label: 'Archives' },
           { id: 'settings', label: 'Settings' }
         ].map(tab => (
           <button
@@ -1931,6 +1993,15 @@ const AdminDashboard = () => {
               <option value="paid">Paid</option>
               <option value="unpaid">Unpaid</option>
             </select>
+            <select
+              value={attendanceFilter}
+              onChange={e => setAttendanceFilter(e.target.value)}
+              className="px-4 py-2 bg-brand-navy/5 border border-brand-navy/10 rounded-lg text-sm w-full sm:w-auto focus:outline-none focus:border-brand-coral"
+            >
+              <option value="all">All Attendance</option>
+              <option value="attended">Attended</option>
+              <option value="noshow">No-Show</option>
+            </select>
             <button 
               onClick={() => downloadCSV(filteredTickets, 'ticket_buyers.csv')}
               className="flex items-center justify-center gap-2 px-4 py-2 bg-brand-navy/5 hover:bg-brand-navy/10 text-brand-navy text-xs font-bold uppercase tracking-widest rounded-lg transition-colors whitespace-nowrap"
@@ -1949,6 +2020,7 @@ const AdminDashboard = () => {
                 <th className="py-4 font-normal">Email</th>
                 <th className="py-4 font-normal">Tier</th>
                 <th className="py-4 font-normal">Total</th>
+                <th className="py-4 font-normal text-center">Attended</th>
                 <th className="py-4 font-normal text-right">Status</th>
               </tr>
             </thead>
@@ -1965,6 +2037,17 @@ const AdminDashboard = () => {
                   <td className="py-4">{buyer.customerInfo?.email || buyer.email || 'N/A'}</td>
                   <td className="py-4">{buyer.tierId || 'N/A'}</td>
                   <td className="py-4 text-brand-coral font-display font-bold">${buyer.totalPrice || 0}</td>
+                  <td className="py-4 text-center">
+                    {buyer.attended ? (
+                      <span className="inline-flex items-center gap-1 bg-green-100 text-green-700 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">
+                        <UserCheck size={10} /> Attended
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 bg-brand-navy/5 text-brand-navy/30 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">
+                        <UserX size={10} /> —
+                      </span>
+                    )}
+                  </td>
                   <td className="py-4">
                     <div className="flex justify-end gap-2 items-center flex-wrap">
                       {(buyer.paymentStatus ? buyer.paymentStatus === 'paid' : buyer.status === 'paid') ? 
@@ -1980,7 +2063,7 @@ const AdminDashboard = () => {
                   </td>
                 </tr>
               )) : (
-                <tr><td colSpan={6} className="py-8 text-center text-brand-navy/40">No ticket orders found.</td></tr>
+                <tr><td colSpan={8} className="py-8 text-center text-brand-navy/40">No ticket orders found.</td></tr>
               )}
             </tbody>
           </table>
@@ -1994,19 +2077,128 @@ const AdminDashboard = () => {
         </div>
       )}
       
+      {activeTab === 'archives' && (
+      <div className="space-y-12 relative z-10 mb-16">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-brand-navy/5 pb-8">
+          <div className="flex items-center gap-6">
+             <span className="editorial-label text-brand-coral font-bold italic">06 //</span>
+             <h2 className="editorial-label text-brand-navy/30 tracking-[0.4em] uppercase font-bold text-[10px]">Archived Journeys</h2>
+          </div>
+          <div className="flex items-center gap-3 w-full md:w-auto">
+            <input 
+              type="text" 
+              placeholder="Search archives..." 
+              value={archiveSearch}
+              onChange={e => setArchiveSearch(e.target.value)}
+              className="px-4 py-2 bg-brand-navy/5 border border-brand-navy/10 rounded-lg text-sm w-full md:w-64 focus:outline-none focus:border-brand-coral"
+            />
+            <button 
+              onClick={() => downloadCSV(archivedOrders, 'archived_orders.csv')}
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-brand-navy/5 hover:bg-brand-navy/10 text-brand-navy text-xs font-bold uppercase tracking-widest rounded-lg transition-colors whitespace-nowrap"
+            >
+              <Download size={14} /> Export
+            </button>
+          </div>
+        </div>
+        
+        {archivedOrders.length === 0 ? (
+          <div className="bg-white border border-brand-navy/5 rounded-[2rem] p-12 text-center">
+            <Archive className="mx-auto text-brand-navy/20 mb-4" size={48} />
+            <h3 className="font-display font-bold text-xl text-brand-navy mb-2">No Archives Found</h3>
+            <p className="font-body text-brand-navy/40">You haven't archived any past journeys yet.</p>
+          </div>
+        ) : (
+          <div className="bg-white border border-brand-navy/5 rounded-[2rem] p-4 md:p-8 overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b border-brand-navy/5 text-brand-navy/40 font-mono text-xs uppercase tracking-widest">
+                  <th className="py-4 font-normal">Date Archived</th>
+                  <th className="py-4 font-normal">Journey</th>
+                  <th className="py-4 font-normal">Name</th>
+                  <th className="py-4 font-normal">Email</th>
+                  <th className="py-4 font-normal">Tier</th>
+                  <th className="py-4 font-normal text-center">Attended</th>
+                  <th className="py-4 font-normal text-right">Status</th>
+                </tr>
+              </thead>
+              <tbody className="font-body text-brand-navy">
+                {archivedOrders
+                  .filter(o => {
+                    if (!archiveSearch) return true;
+                    const s = archiveSearch.toLowerCase();
+                    return (o.journeyName || '').toLowerCase().includes(s) || 
+                           (o.customerInfo?.name || o.name || '').toLowerCase().includes(s) ||
+                           (o.customerInfo?.email || o.email || '').toLowerCase().includes(s);
+                  })
+                  .map((buyer, i) => (
+                  <tr 
+                    key={buyer.id || i} 
+                    onClick={() => setSelectedItem({ type: 'ticket', data: buyer })}
+                    className="border-b border-brand-navy/5 last:border-0 hover:bg-brand-navy/5 transition-colors cursor-pointer"
+                  >
+                    <td className="py-4 text-sm whitespace-nowrap">{formatDate(buyer.archivedAt)}</td>
+                    <td className="py-4 font-bold text-brand-coral">{buyer.journeyName || 'Legacy Archive'}</td>
+                    <td className="py-4 font-bold">{buyer.customerInfo?.name || buyer.name || 'N/A'}</td>
+                    <td className="py-4">{buyer.customerInfo?.email || buyer.email || 'N/A'}</td>
+                    <td className="py-4">{buyer.tierId || 'N/A'}</td>
+                    <td className="py-4 text-center">
+                      {buyer.attended ? (
+                        <span className="inline-flex items-center gap-1 bg-green-100 text-green-700 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">
+                          <UserCheck size={10} /> Attended
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 bg-brand-navy/5 text-brand-navy/30 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">
+                          <UserX size={10} /> —
+                        </span>
+                      )}
+                    </td>
+                    <td className="py-4">
+                      <div className="flex justify-end gap-2 items-center flex-wrap">
+                        {(buyer.paymentStatus ? buyer.paymentStatus === 'paid' : buyer.status === 'paid') ? 
+                          <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">Paid</span> :
+                          <span className="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">Pending</span>
+                        }
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+      )}
+      
       {activeTab === 'settings' && (
-      <div className="media-card rounded-[3rem] p-16 md:p-24 flex flex-col md:flex-row justify-between items-center gap-12 relative overflow-hidden bg-warm-beige/30 border-none">
-         <div className="absolute inset-0 pixel-grid opacity-[0.05]" />
-         <div className="relative z-10 max-w-lg text-center md:text-left">
-            <h4 className="editorial-h2 mb-4">Environment Reset</h4>
-            <p className="font-body text-brand-navy/40 text-lg leading-snug">Initialize the database architecture with original seed configuration. All records will be synchronized.</p>
-         </div>
-         <button 
-           onClick={() => AdminService.seedDatabase()}
-           className="relative z-10 px-12 py-5 bg-brand-navy text-white font-display font-bold text-xs uppercase tracking-widest transition-all duration-700 hover:bg-brand-coral shadow-2xl rounded-xl"
-         >
-           Execute Protocol
-         </button>
+      <div className="space-y-8">
+        <div className="media-card rounded-[3rem] p-16 md:p-24 flex flex-col md:flex-row justify-between items-center gap-12 relative overflow-hidden bg-warm-beige/30 border-none">
+           <div className="absolute inset-0 pixel-grid opacity-[0.05]" />
+           <div className="relative z-10 max-w-lg text-center md:text-left">
+              <h4 className="editorial-h2 mb-4">Environment Reset</h4>
+              <p className="font-body text-brand-navy/40 text-lg leading-snug">Initialize the database architecture with original seed configuration. All records will be synchronized.</p>
+           </div>
+           <button 
+             onClick={() => AdminService.seedDatabase()}
+             className="relative z-10 px-12 py-5 bg-brand-navy text-white font-display font-bold text-xs uppercase tracking-widest transition-all duration-700 hover:bg-brand-coral shadow-2xl rounded-xl"
+           >
+             Execute Protocol
+           </button>
+        </div>
+
+        <div className="media-card rounded-[3rem] p-16 md:p-24 flex flex-col md:flex-row justify-between items-center gap-12 relative overflow-hidden bg-white ring-1 ring-brand-navy/5">
+           <div className="absolute inset-0 pixel-grid opacity-[0.05]" />
+           <div className="relative z-10 max-w-lg text-center md:text-left">
+              <h4 className="editorial-h2 mb-4">Archive Journey & Reset</h4>
+              <p className="font-body text-brand-navy/40 text-lg leading-snug">Archive all current ticket orders to prepare the dashboard for the next event. Original orders will be moved to the Archives tab.</p>
+           </div>
+           <button 
+             onClick={handleArchiveData}
+             disabled={isArchiving}
+             className="relative z-10 px-12 py-5 bg-brand-navy hover:bg-brand-orange text-white font-display font-bold text-xs uppercase tracking-widest transition-all duration-700 shadow-2xl rounded-xl disabled:opacity-50"
+           >
+             {isArchiving ? 'Archiving...' : 'Archive & Reset'}
+           </button>
+        </div>
       </div>
       )}
 
@@ -2221,6 +2413,20 @@ const AdminDashboard = () => {
                     className="flex items-center justify-center gap-2 px-6 py-3 bg-brand-coral hover:bg-brand-orange text-white text-xs font-display font-bold uppercase tracking-widest rounded-xl transition-all cursor-pointer"
                   >
                     Edit
+                  </button>
+                )}
+                
+                {!isEditingItem && selectedItem.type === 'ticket' && (
+                  <button 
+                    onClick={handleToggleAttended}
+                    className={`flex items-center justify-center gap-2 px-6 py-3 text-white text-xs font-display font-bold uppercase tracking-widest rounded-xl transition-all cursor-pointer ${
+                      selectedItem.data.attended 
+                        ? 'bg-brand-navy hover:bg-brand-coral' 
+                        : 'bg-green-600 hover:bg-green-700'
+                    }`}
+                  >
+                    {selectedItem.data.attended ? <UserX size={14} /> : <UserCheck size={14} />}
+                    {selectedItem.data.attended ? 'Mark No-Show' : 'Mark Attended'}
                   </button>
                 )}
                 

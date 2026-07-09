@@ -65,6 +65,9 @@ export interface Order {
   paymentId?: string;
   qrCode?: string;
   checkedIn?: boolean;
+  attended?: boolean;
+  attendedAt?: string;
+  journeyName?: string;
 }
 
 export interface WaitlistEntry {
