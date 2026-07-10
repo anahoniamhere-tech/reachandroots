@@ -1614,6 +1614,41 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleSyncPaidAttendance = async () => {
+    if (!window.confirm("This will mark ALL currently Paid tickets as Attended. Continue?")) return;
+    
+    setIsArchiving(true); // Reusing the loading state
+    try {
+      let count = 0;
+      for (const buyer of ticketBuyers) {
+        const isPaid = buyer.paymentStatus ? buyer.paymentStatus === 'paid' : buyer.status === 'paid';
+        if (isPaid && !buyer.attended) {
+          await AdminService.markAsAttended(buyer.id);
+          count++;
+        }
+      }
+      
+      if (count > 0) {
+        // Update local state
+        setTicketBuyers(prev => prev.map(b => {
+          const isPaid = b.paymentStatus ? b.paymentStatus === 'paid' : b.status === 'paid';
+          if (isPaid && !b.attended) {
+            return { ...b, attended: true, attendedAt: new Date().toISOString() };
+          }
+          return b;
+        }));
+        alert(`Successfully marked ${count} paid tickets as attended.`);
+      } else {
+        alert("All paid tickets are already marked as attended.");
+      }
+    } catch (e) {
+      console.error("Failed to sync attendance", e);
+      alert("An error occurred during sync.");
+    } finally {
+      setIsArchiving(false);
+    }
+  };
+
   const handleArchiveData = async () => {
     const journeyName = window.prompt("Enter a name for this archive (e.g. 'Dr. Yazeed Mousa - July 2026'):");
     if (!journeyName) return;
@@ -2002,6 +2037,13 @@ const AdminDashboard = () => {
               <option value="attended">Attended</option>
               <option value="noshow">No-Show</option>
             </select>
+            <button 
+              onClick={handleSyncPaidAttendance}
+              disabled={isArchiving}
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-brand-navy hover:bg-brand-coral text-white text-xs font-bold uppercase tracking-widest rounded-lg transition-colors whitespace-nowrap disabled:opacity-50"
+            >
+              <UserCheck size={14} /> Sync Paid
+            </button>
             <button 
               onClick={() => downloadCSV(filteredTickets, 'ticket_buyers.csv')}
               className="flex items-center justify-center gap-2 px-4 py-2 bg-brand-navy/5 hover:bg-brand-navy/10 text-brand-navy text-xs font-bold uppercase tracking-widest rounded-lg transition-colors whitespace-nowrap"
