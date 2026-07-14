@@ -3,14 +3,23 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   Calendar, MapPin, Clock, ArrowRight, User, 
   Check, Sparkles, Award, Wallet, ShieldCheck, 
-  Users, CheckCircle2, Copy, Send, Instagram
+  Users, CheckCircle2, Copy, Send, Instagram, ChevronDown, ChevronUp
 } from 'lucide-react';
 import { useLanguage } from '../lib/LanguageContext';
 import { db } from '../lib/firebase';
 import { collection, doc, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { countryCodes } from '../lib/countries';
 import YazeedPhoto from '../assets/yazeed_mousa_real.jpg';
-
+import Trip2 from '../assets/Trip2.webp';
+import Trip3 from '../assets/Trip3.webp';
+import PublicEvent1 from '../assets/Public_Event_Yazeed.webp';
+import PublicEvent2 from '../assets/Public_Event_Yazeed2.webp';
+import PublicEvent3 from '../assets/Public_Event_Yazeed3.webp';
+import Workshop1_1 from '../assets/Workshop1_Yazeed1.webp';
+import Workshop1_2 from '../assets/Workshop1_yazeed.webp';
+import Workshop2_1 from '../assets/Workshop2_yazeed.webp';
+import Workshop2_2 from '../assets/Workshop2_yazeed1.webp';
+import Workshop2_3 from '../assets/Workshop2_yazeed2.webp';
 const countryTranslations: Record<string, string> = {
   "Lebanon": "لبنان",
   "Syria": "سوريا",
@@ -236,6 +245,47 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
 
   const showPaymentCard = isRegistered && formData.workshopChoice !== 'lecture';
 
+  const [expandedEvent, setExpandedEvent] = useState<string | null>(null);
+
+  const timelineEvents = [
+    {
+      id: 'trip',
+      tag: isRTL ? 'مكتمل' : 'Completed',
+      label: isRTL ? 'رحلة' : 'Trip',
+      title: isRTL ? 'رحلة إلى شمال لبنان' : 'Trip to North Lebanon',
+      desc: isRTL ? 'رحلة استكشافية غامرة عبر المناظر الطبيعية الخلابة والتراث الثقافي في شمال لبنان.' : 'An immersive exploration trip through North Lebanon\'s breathtaking landscapes and cultural heritage.',
+      date: 'Sunday, July 5, 2026',
+      images: [Trip2, Trip3]
+    },
+    {
+      id: 'lecture',
+      tag: isRTL ? 'مكتمل' : 'Completed',
+      label: journeyT.publicEvent,
+      title: journeyT.lectureTitle,
+      desc: journeyT.lectureDesc,
+      date: journeyT.lectureDate,
+      images: [PublicEvent1, PublicEvent2, PublicEvent3]
+    },
+    {
+      id: 'ws1',
+      tag: isRTL ? 'مكتمل' : 'Completed',
+      label: `${journeyT.workshop} 01`,
+      title: journeyT.ws1Title,
+      desc: journeyT.ws1Desc,
+      date: journeyT.ws1Date,
+      images: [Workshop1_1, Workshop1_2]
+    },
+    {
+      id: 'ws2',
+      tag: isRTL ? 'مكتمل' : 'Completed',
+      label: `${journeyT.workshop} 02`,
+      title: journeyT.ws2Title,
+      desc: journeyT.ws2Desc,
+      date: journeyT.ws2Date,
+      images: [Workshop2_1, Workshop2_2, Workshop2_3]
+    }
+  ];
+
   return (
     <div className={`min-h-screen bg-warm-beige/35 backdrop-blur-3xl pt-32 pb-40 ${isRTL ? 'text-right font-arabic' : 'text-left'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex flex-col items-center">
@@ -355,161 +405,86 @@ export const JourneyPage = ({ onNavigate }: { onNavigate: (v: any) => void }) =>
             <div className={`absolute top-0 bottom-0 w-1 bg-brand-navy/10 ${isRTL ? 'right-8 md:right-12' : 'left-8 md:left-12'} rounded-full`} />
             
             <div className="space-y-12">
-              {/* Event 1: Public Event (Completed) */}
-              <motion.div 
-                initial={{ opacity: 0, x: isRTL ? 30 : -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className={`relative opacity-60 grayscale-[50%] ${isRTL ? 'pr-20 md:pr-32' : 'pl-20 md:pl-32'}`}
-              >
-                {/* Timeline Node */}
-                <div className={`absolute top-8 ${isRTL ? 'right-6 md:right-10' : 'left-6 md:left-10'} w-5 h-5 rounded-full bg-brand-navy/20 border-4 border-warm-beige shadow-sm z-10`} />
-                
-                <div className="glass-card p-8 md:p-10 rounded-[2rem] border border-brand-navy/5 relative overflow-hidden group">
-                  <div className="absolute inset-0 bg-brand-navy/5 pointer-events-none" />
-                  <div className="relative z-10">
-                    <div className="flex justify-between items-start mb-6">
-                      <span className="px-4 py-1.5 bg-brand-navy/5 text-brand-navy/50 text-[10px] uppercase font-bold tracking-widest font-mono rounded-full">
-                        {journeyT.publicEvent}
-                      </span>
-                      <span className="px-4 py-1.5 bg-brand-navy/10 text-brand-navy text-[10px] uppercase font-bold tracking-widest font-mono rounded-full flex items-center gap-2">
-                        <CheckCircle2 size={12} />
-                        {isRTL ? 'تم الانتهاء' : 'Completed'}
-                      </span>
-                    </div>
-                    <h3 className="text-2xl md:text-3xl font-display font-bold text-brand-navy/50 uppercase mb-4 tracking-tight">
-                      {journeyT.lectureTitle}
-                    </h3>
-                    <p className="font-body text-sm text-brand-navy/40 leading-relaxed mb-6">
-                      {journeyT.lectureDesc}
-                    </p>
+              {timelineEvents.map((event, index) => {
+                const isExpanded = expandedEvent === event.id;
+                return (
+                  <motion.div 
+                    key={event.id}
+                    initial={{ opacity: 0, x: isRTL ? 30 : -30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className={`relative opacity-90 ${isRTL ? 'pr-20 md:pr-32' : 'pl-20 md:pl-32'}`}
+                  >
+                    {/* Timeline Node */}
+                    <div className={`absolute top-8 ${isRTL ? 'right-6 md:right-10' : 'left-6 md:left-10'} w-5 h-5 rounded-full bg-brand-gold/20 border-4 border-warm-beige shadow-sm z-10 transition-colors ${isExpanded ? 'bg-brand-coral' : ''}`} />
                     
-                    <div className="flex flex-col sm:flex-row gap-6 pt-6 border-t border-brand-navy/10 items-center justify-between">
-                      <div className="text-center sm:text-left">
-                        <span className="font-display font-bold text-brand-navy/60 uppercase tracking-widest text-xs block mb-1">
-                          {isRTL ? 'نراكم في المرة القادمة!' : 'See you next time!'}
-                        </span>
-                        <span className="font-body text-brand-navy/40 text-[11px] uppercase tracking-widest">
-                          {journeyT.lectureDate}
-                        </span>
-                      </div>
-                      
-                      <button 
-                        onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); onNavigate('registration'); }}
-                        className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-brand-navy text-white hover:bg-brand-coral rounded-xl font-bold text-xs uppercase tracking-widest transition-all duration-300 w-full sm:w-auto shadow-md"
-                      >
-                        <Users size={16} />
-                        {isRTL ? 'انضم للمجتمع' : 'Join Community'}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+                    <div 
+                      className={`glass-card p-6 md:p-10 rounded-[2rem] border border-brand-navy/5 relative overflow-hidden group cursor-pointer transition-all duration-500 hover:shadow-xl ${isExpanded ? 'shadow-2xl ring-1 ring-brand-navy/10' : ''}`}
+                      onClick={() => setExpandedEvent(isExpanded ? null : event.id)}
+                    >
+                      <div className="absolute inset-0 bg-brand-navy/5 pointer-events-none" />
+                      <div className="relative z-10">
+                        <div className="flex flex-wrap gap-2 justify-between items-start mb-4">
+                          <span className="px-3 md:px-4 py-1.5 bg-brand-gold/10 text-brand-gold/80 text-[9px] md:text-[10px] uppercase font-bold tracking-widest font-mono rounded-full whitespace-nowrap">
+                            {event.label}
+                          </span>
+                          <span className="px-4 py-1.5 bg-brand-navy/10 text-brand-navy text-[10px] uppercase font-bold tracking-widest font-mono rounded-full flex items-center gap-2">
+                            <CheckCircle2 size={12} />
+                            {event.tag}
+                          </span>
+                        </div>
+                        
+                        <div className="flex justify-between items-center gap-4 mb-2">
+                          <h3 className="text-2xl md:text-3xl font-display font-bold text-brand-navy uppercase tracking-tight group-hover:text-brand-coral transition-colors">
+                            {event.title}
+                          </h3>
+                          <div className="text-brand-navy/30 group-hover:text-brand-coral transition-colors">
+                            {isExpanded ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
+                          </div>
+                        </div>
 
-              {/* Event 2: Workshop 1 (Completed) */}
-              <motion.div 
-                initial={{ opacity: 0, x: isRTL ? 30 : -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className={`relative opacity-60 grayscale-[50%] ${isRTL ? 'pr-20 md:pr-32' : 'pl-20 md:pl-32'}`}
-              >
-                {/* Timeline Node */}
-                <div className={`absolute top-8 ${isRTL ? 'right-6 md:right-10' : 'left-6 md:left-10'} w-5 h-5 rounded-full bg-brand-coral/20 border-4 border-warm-beige shadow-sm z-10`} />
-                
-                <div className="glass-card p-8 md:p-10 rounded-[2rem] border border-brand-navy/5 relative overflow-hidden group">
-                  <div className="absolute inset-0 bg-brand-navy/5 pointer-events-none" />
-                  <div className="relative z-10">
-                    <div className="flex flex-wrap gap-2 justify-between items-start mb-6">
-                      <span className="px-3 md:px-4 py-1.5 bg-brand-coral/5 text-brand-coral/50 text-[9px] md:text-[10px] uppercase font-bold tracking-widest font-mono rounded-full whitespace-nowrap">
-                        {journeyT.workshop} 01
-                      </span>
-                      <span className="px-4 py-1.5 bg-brand-navy/10 text-brand-navy text-[10px] uppercase font-bold tracking-widest font-mono rounded-full flex items-center gap-2">
-                        <CheckCircle2 size={12} />
-                        {isRTL ? 'تم الانتهاء' : 'Completed'}
-                      </span>
-                    </div>
-                    <h3 className="text-2xl md:text-3xl font-display font-bold text-brand-navy/50 uppercase mb-4 tracking-tight">
-                      {journeyT.ws1Title}
-                    </h3>
-                    <p className="font-body text-sm text-brand-navy/40 leading-relaxed mb-6">
-                      {journeyT.ws1Desc}
-                    </p>
-                    
-                    <div className="flex flex-col sm:flex-row gap-6 pt-6 border-t border-brand-navy/10 items-center justify-between">
-                      <div className="text-center sm:text-left">
-                        <span className="font-display font-bold text-brand-navy/60 uppercase tracking-widest text-xs block mb-1">
-                          {isRTL ? 'نراكم في المرة القادمة!' : 'See you next time!'}
-                        </span>
-                        <span className="font-body text-brand-navy/40 text-[11px] uppercase tracking-widest">
-                          {journeyT.ws1Date}
-                        </span>
-                      </div>
-                      
-                      <button 
-                        onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); onNavigate('registration'); }}
-                        className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-brand-navy text-white hover:bg-brand-coral rounded-xl font-bold text-xs uppercase tracking-widest transition-all duration-300 w-full sm:w-auto shadow-md"
-                      >
-                        <Users size={16} />
-                        {isRTL ? 'انضم للمجتمع' : 'Join Community'}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+                        <div className="text-center sm:text-left mb-6 border-b border-brand-navy/5 pb-4">
+                          <span className="font-body text-brand-navy/60 text-[11px] uppercase tracking-widest block">
+                            {event.date}
+                          </span>
+                        </div>
+                        
+                        <AnimatePresence>
+                          {isExpanded && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto' }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.4 }}
+                              className="overflow-hidden"
+                            >
+                              <p className="font-body text-sm md:text-base text-brand-navy/70 leading-relaxed mb-8 border-l-2 border-brand-coral pl-4">
+                                {event.desc}
+                              </p>
+                              
+                              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+                                {event.images.map((img, imgIndex) => (
+                                  <div key={imgIndex} className="relative rounded-2xl overflow-hidden aspect-[4/3] group/img shadow-md">
+                                    <div className="absolute inset-0 bg-brand-navy/20 group-hover/img:bg-transparent transition-colors z-10" />
+                                    <img 
+                                      src={img} 
+                                      alt={`${event.title} photo ${imgIndex + 1}`} 
+                                      className="w-full h-full object-cover transition-transform duration-700 group-hover/img:scale-110"
+                                      loading="lazy"
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
 
-              {/* Event 3: Workshop 2 */}
-              <motion.div 
-                initial={{ opacity: 0, x: isRTL ? 30 : -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className={`relative opacity-60 grayscale-[50%] ${isRTL ? 'pr-20 md:pr-32' : 'pl-20 md:pl-32'}`}
-              >
-                {/* Timeline Node */}
-                <div className={`absolute top-8 ${isRTL ? 'right-6 md:right-10' : 'left-6 md:left-10'} w-5 h-5 rounded-full bg-brand-orange/20 border-4 border-warm-beige shadow-sm z-10`} />
-                
-                <div className="glass-card p-8 md:p-10 rounded-[2rem] border border-brand-navy/5 relative overflow-hidden group">
-                  <div className="absolute inset-0 bg-brand-navy/5 pointer-events-none" />
-                  <div className="relative z-10">
-                    <div className="flex flex-wrap gap-2 justify-between items-start mb-6">
-                      <span className="px-3 md:px-4 py-1.5 bg-brand-coral/10 text-brand-coral/50 text-[9px] md:text-[10px] uppercase font-bold tracking-widest font-mono rounded-full whitespace-nowrap">
-                        {journeyT.workshop} 02
-                      </span>
-                      <span className="px-4 py-1.5 bg-brand-navy/10 text-brand-navy text-[10px] uppercase font-bold tracking-widest font-mono rounded-full flex items-center gap-2">
-                        <CheckCircle2 size={12} />
-                        {isRTL ? 'تم الانتهاء' : 'Completed'}
-                      </span>
-                    </div>
-                    <h3 className="text-2xl md:text-3xl font-display font-bold text-brand-navy/50 uppercase mb-4 tracking-tight group-hover:text-brand-coral transition-colors">
-                      {journeyT.ws2Title}
-                    </h3>
-                    <p className="font-body text-sm text-brand-navy/40 leading-relaxed mb-6">
-                      {journeyT.ws2Desc}
-                    </p>
-                    
-                    <div className="flex flex-col sm:flex-row gap-6 pt-6 border-t border-brand-navy/10 items-center justify-between">
-                      <div className="text-center sm:text-left">
-                        <span className="font-display font-bold text-brand-navy/60 uppercase tracking-widest text-xs block mb-1">
-                          {isRTL ? 'نراكم في المرة القادمة!' : 'See you next time!'}
-                        </span>
-                        <span className="font-body text-brand-navy/40 text-[11px] uppercase tracking-widest">
-                          {journeyT.ws2Date}
-                        </span>
                       </div>
-                      
-                      <button 
-                        onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); onNavigate('registration'); }}
-                        className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-brand-navy text-white hover:bg-brand-coral rounded-xl font-bold text-xs uppercase tracking-widest transition-all duration-300 w-full sm:w-auto shadow-md"
-                      >
-                        <Users size={16} />
-                        {isRTL ? 'انضم للمجتمع' : 'Join Community'}
-                      </button>
                     </div>
-                  </div>
-                </div>
-              </motion.div>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </div>
