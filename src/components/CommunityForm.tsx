@@ -1,8 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { db } from '../lib/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, updateDoc, doc, getDocs, query, where, serverTimestamp } from 'firebase/firestore';
 
 export const CommunityForm: React.FC = () => {
+  const [gateStep, setGateStep] = useState(0); // 0: Check Email, 1: Form
+  const [checkEmail, setCheckEmail] = useState('');
+  const [gateError, setGateError] = useState('');
+  const [gateLoading, setGateLoading] = useState(false);
+  const [docId, setDocId] = useState('');
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -36,6 +42,54 @@ export const CommunityForm: React.FC = () => {
   });
 
   const [invalidFields, setInvalidFields] = useState<Record<string, boolean>>({});
+
+  const handleEmailCheck = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setGateError('');
+    if (!checkEmail.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(checkEmail)) {
+      setGateError('Please enter a valid email.');
+      return;
+    }
+
+    setGateLoading(true);
+    try {
+      const q = query(collection(db, 'community'), where('email', '==', checkEmail.trim()));
+      const snap = await getDocs(q);
+      
+      if (snap.empty) {
+        // Fallback for lowercase matching if first attempt misses due to case
+        const qLower = query(collection(db, 'community'), where('email', '==', checkEmail.trim().toLowerCase()));
+        const snapLower = await getDocs(qLower);
+        if (snapLower.empty) {
+          setGateError("We couldn't find a registration with this email. Please check your spelling or contact us.");
+          setGateLoading(false);
+          return;
+        } else {
+          setDocId(snapLower.docs[0].id);
+          populateForm(snapLower.docs[0].data());
+        }
+      } else {
+        setDocId(snap.docs[0].id);
+        populateForm(snap.docs[0].data());
+      }
+    } catch (err) {
+      console.error("Email check failed:", err);
+      setGateError("Something went wrong connecting to the database. Please try again.");
+    } finally {
+      setGateLoading(false);
+    }
+  };
+
+  const populateForm = (userData: any) => {
+    setFormData(prev => ({
+      ...prev,
+      fullName: userData.fullName || '',
+      city: userData.city || '',
+      email: userData.email || '',
+      whatsapp: userData.whatsapp || ''
+    }));
+    setGateStep(1);
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -111,7 +165,7 @@ export const CommunityForm: React.FC = () => {
         activityTypes: formData.activityTypes.slice(0, 20),
         whatsappConsent: formData.whatsappConsent,
         dataConsent: formData.dataConsent,
-        createdAt: serverTimestamp()
+        updatedAt: serverTimestamp()
       };
 
       if (formData.oneLiner) dataToSubmit.oneLiner = formData.oneLiner.slice(0, 500);
@@ -128,7 +182,7 @@ export const CommunityForm: React.FC = () => {
       if (formData.topics.length) dataToSubmit.topics = formData.topics.slice(0, 20);
       if (formData.availability.length) dataToSubmit.availability = formData.availability.slice(0, 10);
 
-      await addDoc(collection(db, 'community'), dataToSubmit);
+      await updateDoc(doc(db, 'community', docId), dataToSubmit);
       setSuccess(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err: any) {
@@ -140,6 +194,39 @@ export const CommunityForm: React.FC = () => {
   };
 
   const isInvalid = (field: string) => invalidFields[field] ? 'invalid' : '';
+
+  if (gateStep === 0) {
+    return (
+      <div id="gate" style={{
+        minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
+        background: 'radial-gradient(120% 80% at 100% 0%, rgba(44,110,106,0.12), transparent 60%), radial-gradient(90% 70% at 0% 10%, rgba(217,138,30,0.10), transparent 55%), #16302C'
+      }}>
+        <div className="gate-card" style={{ textAlign: 'center', padding: '44px 40px', maxWidth: '400px', width: '100%', background: '#F0ECDE', borderRadius: '8px', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
+          <div style={{ fontSize: '11px', letterSpacing: '.28em', textTransform: 'uppercase', color: '#D98A1E', fontWeight: 600, marginBottom: '16px' }}>Roots &amp; Reach · Fayhaa</div>
+          <h1 style={{ fontFamily: '"Amiri", serif', color: '#16302C', fontSize: '32px', margin: '0 0 12px' }}>Welcome Back</h1>
+          <div style={{ color: '#3D544E', fontSize: '14.5px', marginBottom: '24px', lineHeight: 1.5 }}>Please enter the email you used to register for the event to access the community form.</div>
+          
+          <form onSubmit={handleEmailCheck}>
+            <input 
+              type="email" 
+              placeholder="you@example.com" 
+              value={checkEmail} 
+              onChange={e => setCheckEmail(e.target.value)} 
+              style={{ width: '100%', padding: '12px 14px', borderRadius: '4px', border: '1px solid #C9C0A8', marginBottom: '14px', fontSize: '15px' }}
+            />
+            <button 
+              type="submit" 
+              disabled={gateLoading}
+              style={{ width: '100%', background: '#2C6E6A', color: '#FBF9F2', border: 0, borderRadius: '4px', padding: '13px', fontSize: '15.5px', fontWeight: 600, cursor: gateLoading ? 'not-allowed' : 'pointer', transition: 'background 0.2s' }}
+            >
+              {gateLoading ? 'Checking...' : 'Continue'}
+            </button>
+          </form>
+          {gateError && <div style={{ color: '#A6402C', fontSize: '13.5px', marginTop: '16px' }}>{gateError}</div>}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--paper)', color: 'var(--ink)' }}>
