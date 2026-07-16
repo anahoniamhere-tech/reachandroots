@@ -10,6 +10,8 @@ import {AdminGuard} from './components/AdminGuard.tsx';
 import {ContentCreatorsInvitation} from './components/ContentCreatorsInvitation.tsx';
 import {SponsorsLandingPage} from './components/SponsorsLandingPage.tsx';
 import {TrfAnahonPage} from './components/TrfAnahonPage.tsx';
+import {CommunityForm} from './components/CommunityForm.tsx';
+import {CommunityDashboard} from './components/CommunityDashboard.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -30,6 +32,10 @@ createRoot(document.getElementById('root')!).render(
             
             {/* TRF Anahon Presentation Page */}
             <Route path="/TRF-anahon" element={<TrfAnahonPage />} />
+            
+            {/* Community Feature */}
+            <Route path="/members" element={<CommunityForm />} />
+            <Route path="/team-dashboard" element={<CommunityDashboard />} />
           </Routes>
         </BrowserRouter>
       </LanguageProvider>

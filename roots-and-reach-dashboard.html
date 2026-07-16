@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Roots & Reach — Community Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F0ECDE; --paper-2:#E7E1CE; --white:#FBF9F2;
+    --ink:#16302C; --ink-soft:#3D544E;
+    --sea:#2C6E6A; --sea-deep:#1F5450;
+    --citrus:#D98A1E; --citrus-deep:#B96E12;
+    --line:#C9C0A8; --line-soft:#DBD4BF;
+    --radius:5px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"IBM Plex Sans Arabic",system-ui,sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  .ar{direction:rtl;}
+  button{font-family:inherit;cursor:pointer;}
+
+  /* ---------- Login gate ---------- */
+  #gate{min-height:100vh;display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(120% 80% at 100% 0%, rgba(44,110,106,0.12), transparent 60%),
+      radial-gradient(90% 70% at 0% 10%, rgba(217,138,30,0.10), transparent 55%),var(--ink);}
+  .gate-card{text-align:center;padding:44px 40px;max-width:400px;}
+  .gate-card .eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--citrus);font-weight:600;margin-bottom:16px;}
+  .gate-card h1{font-family:"Amiri",serif;color:var(--paper);font-size:40px;margin:0 0 4px;}
+  .gate-card .sub{color:#C9C2AE;font-size:14px;margin-bottom:30px;}
+  .gbtn{display:inline-flex;align-items:center;gap:11px;background:var(--white);color:#333;border:0;
+    border-radius:var(--radius);padding:13px 22px;font-size:15px;font-weight:600;}
+  .gbtn:hover{background:#fff;}
+  .gbtn svg{width:19px;height:19px;}
+  #gateMsg{color:#E7B7AA;font-size:13px;margin-top:18px;min-height:18px;}
+
+  /* ---------- App shell ---------- */
+  #app{display:none;}
+  header.bar{background:var(--ink);color:var(--paper);padding:16px 24px;
+    display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--citrus);}
+  header.bar .brand{font-family:"Amiri",serif;font-size:22px;}
+  header.bar .brand span{color:var(--citrus);}
+  header.bar .who{display:flex;align-items:center;gap:14px;font-size:13px;color:#C9C2AE;}
+  header.bar .who button{background:transparent;border:1px solid #45605A;color:var(--paper);
+    border-radius:40px;padding:6px 14px;font-size:13px;}
+  header.bar .who button:hover{background:#22423D;}
+
+  .container{max-width:1180px;margin:0 auto;padding:24px;}
+
+  /* stats */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:22px;}
+  .stat{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;}
+  .stat .n{font-family:"Amiri",serif;font-size:34px;line-height:1;color:var(--sea-deep);}
+  .stat .l{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);margin-top:6px;}
+  .stat.accent .n{color:var(--citrus-deep);}
+
+  /* controls */
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px;}
+  .controls input[type=text], .controls select{
+    font-family:inherit;font-size:14px;color:var(--ink);background:var(--white);
+    border:1px solid var(--line);border-radius:var(--radius);padding:9px 12px;}
+  .controls input[type=text]{min-width:220px;flex:1;}
+  .controls .spacer{flex:1;}
+  .btn{background:var(--sea);color:var(--white);border:0;border-radius:var(--radius);padding:9px 16px;font-size:14px;font-weight:600;}
+  .btn:hover{background:var(--sea-deep);}
+  .btn.ghost{background:transparent;color:var(--sea-deep);border:1px solid var(--sea);}
+  .btn.ghost:hover{background:rgba(44,110,106,0.08);}
+
+  /* table */
+  .table-wrap{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  table{width:100%;border-collapse:collapse;font-size:14px;}
+  thead th{text-align:left;background:var(--paper-2);color:var(--ink-soft);font-weight:600;
+    font-size:12px;letter-spacing:.03em;text-transform:uppercase;padding:11px 14px;border-bottom:1px solid var(--line);}
+  tbody td{padding:12px 14px;border-bottom:1px solid var(--line-soft);vertical-align:top;}
+  tbody tr{cursor:pointer;}
+  tbody tr:hover{background:#F5F2E8;}
+  tbody tr:last-child td{border-bottom:0;}
+  .pill{display:inline-block;background:var(--paper-2);border:1px solid var(--line);border-radius:30px;
+    padding:2px 9px;font-size:12px;margin:2px 3px 2px 0;}
+  .muted{color:var(--ink-soft);font-size:13px;}
+  .empty{padding:50px 20px;text-align:center;color:var(--ink-soft);}
+
+  /* detail drawer */
+  #overlay{display:none;position:fixed;inset:0;background:rgba(22,48,44,.45);z-index:40;}
+  #drawer{display:none;position:fixed;top:0;right:0;height:100%;width:min(460px,92vw);background:var(--paper);
+    z-index:41;box-shadow:-8px 0 30px rgba(0,0,0,.2);overflow-y:auto;}
+  #drawer .dh{background:var(--ink);color:var(--paper);padding:20px 22px;position:sticky;top:0;}
+  #drawer .dh .name{font-family:"Amiri",serif;font-size:24px;}
+  #drawer .dh .close{position:absolute;top:16px;right:18px;background:transparent;border:0;color:var(--paper);font-size:24px;}
+  #drawer .db{padding:8px 22px 40px;}
+  .drow{padding:13px 0;border-bottom:1px solid var(--line-soft);}
+  .drow .k{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:3px;}
+  .drow .v{font-size:14.5px;}
+  .drow .v.ar-val{direction:rtl;}
+  a.wa{color:var(--sea-deep);text-decoration:none;font-weight:600;}
+  a.wa:hover{text-decoration:underline;}
+
+  #loading{padding:60px;text-align:center;color:var(--ink-soft);}
+  @media(max-width:640px){
+    .hide-sm{display:none;}
+    .container{padding:16px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- Login gate -->
+<div id="gate">
+  <div class="gate-card">
+    <div class="eyebrow">Roots &amp; Reach · Fayhaa</div>
+    <h1>Community Dashboard</h1>
+    <div class="sub">Admins only. Sign in with your Roots &amp; Reach Google account.</div>
+    <button class="gbtn" id="loginBtn">
+      <svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Sign in with Google
+    </button>
+    <div id="gateMsg"></div>
+  </div>
+</div>
+
+<!-- App -->
+<div id="app">
+  <header class="bar">
+    <div class="brand">Roots <span>&amp;</span> Reach — Community</div>
+    <div class="who"><span id="whoEmail"></span><button id="logoutBtn">Sign out</button></div>
+  </header>
+
+  <div class="container">
+    <div class="stats" id="stats"></div>
+
+    <div class="controls">
+      <input type="text" id="search" placeholder="Search name or email…" />
+      <select id="cityFilter"><option value="">All cities</option></select>
+      <select id="roleFilter"><option value="">All roles</option></select>
+      <select id="activityFilter"><option value="">All activities</option></select>
+      <div class="spacer"></div>
+      <button class="btn ghost" id="refreshBtn">Refresh</button>
+      <button class="btn" id="exportBtn">Export CSV</button>
+    </div>
+
+    <div class="table-wrap">
+      <div id="loading">Loading submissions…</div>
+      <table id="table" style="display:none;">
+        <thead><tr>
+          <th>Name</th><th>City</th><th class="hide-sm">Roles</th>
+          <th class="hide-sm">Contact</th><th>Joined</th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="empty" id="emptyState" style="display:none;">No submissions match your filters yet.</div>
+    </div>
+  </div>
+</div>
+
+<div id="overlay"></div>
+<div id="drawer">
+  <div class="dh"><div class="name" id="dName"></div><button class="close" id="dClose">×</button></div>
+  <div class="db" id="dBody"></div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getFirestore, collection, getDocs, query, orderBy }
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDJvBLFGz4RB1kGJ9V9kILKjH4dA3GTwX8",
+    authDomain: "gen-lang-client-0920193719.firebaseapp.com",
+    projectId: "gen-lang-client-0920193719",
+    storageBucket: "gen-lang-client-0920193719.firebasestorage.app",
+    messagingSenderId: "260399646277",
+    appId: "1:260399646277:web:8fbcd7dee926f0fe0ac52c",
+    measurementId: "G-BGBYJJ50P4"
+  };
+
+  const ADMIN_EMAILS = ["anahoniamhere@gmail.com","ahmadmawass51@gmail.com","icontent2023@gmail.com"];
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  // Named database — same one the form writes to
+  const db   = getFirestore(app, "ai-studio-38f5b8a6-3fca-4b7f-a650-42c5c99a4936");
+
+  const $ = (id) => document.getElementById(id);
+  let ALL = [];
+
+  // ---- Auth ----
+  $("loginBtn").addEventListener("click", async () => {
+    $("gateMsg").textContent = "";
+    try { await signInWithPopup(auth, new GoogleAuthProvider()); }
+    catch (e) { $("gateMsg").textContent = "Sign-in failed: " + (e.code || e.message); }
+  });
+  $("logoutBtn").addEventListener("click", () => signOut(auth));
+
+  onAuthStateChanged(auth, (user) => {
+    if (user && ADMIN_EMAILS.includes((user.email||"").toLowerCase())) {
+      $("gate").style.display = "none";
+      $("app").style.display = "block";
+      $("whoEmail").textContent = user.email;
+      loadData();
+    } else if (user) {
+      // signed in but not an admin
+      $("gateMsg").textContent = "This account isn't an authorized admin.";
+      signOut(auth);
+      $("gate").style.display = "flex";
+      $("app").style.display = "none";
+    } else {
+      $("gate").style.display = "flex";
+      $("app").style.display = "none";
+    }
+  });
+
+  // ---- Data ----
+  async function loadData(){
+    $("loading").style.display = "block";
+    $("table").style.display = "none";
+    $("emptyState").style.display = "none";
+    try{
+      const snap = await getDocs(query(collection(db,"community"), orderBy("createdAt","desc")));
+      ALL = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+      buildFilters(); renderStats(); applyFilters();
+    }catch(e){
+      $("loading").textContent = "Couldn't load data: " + (e.code || e.message) + ". Make sure you're signed in as an admin.";
+      console.error(e);
+    }
+  }
+
+  const fmtDate = (ts) => { try { const d = ts.toDate(); return d.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});} catch { return "—"; } };
+  const uniqSorted = (arr) => [...new Set(arr.filter(Boolean))].sort();
+
+  function buildFilters(){
+    const cities = uniqSorted(ALL.map(r=>r.city));
+    const roles = uniqSorted(ALL.flatMap(r=>r.roles||[]));
+    const acts = uniqSorted(ALL.flatMap(r=>r.activityTypes||[]));
+    const fill = (sel, items, label) => {
+      const cur = sel.value;
+      sel.innerHTML = `<option value="">${label}</option>` + items.map(i=>`<option>${i}</option>`).join("");
+      sel.value = cur;
+    };
+    fill($("cityFilter"), cities, "All cities");
+    fill($("roleFilter"), roles, "All roles");
+    fill($("activityFilter"), acts, "All activities");
+  }
+
+  function renderStats(){
+    const now = Date.now();
+    const weekAgo = now - 7*24*3600*1000;
+    const thisWeek = ALL.filter(r=>{ try{ return r.createdAt.toDate().getTime() >= weekAgo; }catch{return false;} }).length;
+    const hosts = ALL.filter(r=>r.willingToHost==="Yes").length;
+    const cityCount = {};
+    ALL.forEach(r=>{ if(r.city) cityCount[r.city]=(cityCount[r.city]||0)+1; });
+    const topCity = Object.entries(cityCount).sort((a,b)=>b[1]-a[1])[0];
+    const cards = [
+      {n:ALL.length, l:"Total members"},
+      {n:thisWeek, l:"Joined this week", accent:true},
+      {n:hosts, l:"Willing to host"},
+      {n: topCity ? topCity[0].split(" /")[0] : "—", l:"Top city"}
+    ];
+    $("stats").innerHTML = cards.map(c=>`<div class="stat ${c.accent?'accent':''}"><div class="n">${c.n}</div><div class="l">${c.l}</div></div>`).join("");
+  }
+
+  function applyFilters(){
+    const q = $("search").value.trim().toLowerCase();
+    const city = $("cityFilter").value, role = $("roleFilter").value, act = $("activityFilter").value;
+    const rows = ALL.filter(r=>{
+      if(q && !((r.fullName||"").toLowerCase().includes(q) || (r.email||"").toLowerCase().includes(q))) return false;
+      if(city && r.city!==city) return false;
+      if(role && !(r.roles||[]).includes(role)) return false;
+      if(act && !(r.activityTypes||[]).includes(act)) return false;
+      return true;
+    });
+    renderTable(rows);
+  }
+
+  function esc(s){ return (s==null?"":String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+  function renderTable(rows){
+    $("loading").style.display="none";
+    const tb = $("tbody");
+    if(!rows.length){ $("table").style.display="none"; $("emptyState").style.display="block"; return; }
+    $("emptyState").style.display="none"; $("table").style.display="table";
+    tb.innerHTML = rows.map((r,i)=>{
+      const roles = (r.roles||[]).slice(0,3).map(x=>`<span class="pill">${esc(x)}</span>`).join("")
+        + ((r.roles||[]).length>3?`<span class="muted">+${r.roles.length-3}</span>`:"");
+      return `<tr data-i="${ALL.indexOf(r)}">
+        <td><strong>${esc(r.fullName)}</strong></td>
+        <td>${esc(r.city)}</td>
+        <td class="hide-sm">${roles||'<span class="muted">—</span>'}</td>
+        <td class="hide-sm muted">${esc(r.email)}</td>
+        <td class="muted">${fmtDate(r.createdAt)}</td>
+      </tr>`;
+    }).join("");
+    tb.querySelectorAll("tr").forEach(tr=>tr.addEventListener("click",()=>openDrawer(ALL[+tr.dataset.i])));
+  }
+
+  // ---- Detail drawer ----
+  function drow(k,v,arVal){ if(v==null||v===""||(Array.isArray(v)&&!v.length)) return "";
+    const val = Array.isArray(v) ? v.map(x=>`<span class="pill">${esc(x)}</span>`).join("") : esc(v);
+    return `<div class="drow"><div class="k">${k}</div><div class="v ${arVal?'ar-val':''}">${val}</div></div>`; }
+
+  function openDrawer(r){
+    $("dName").textContent = r.fullName || "—";
+    const wa = (r.whatsapp||"").replace(/[^\d+]/g,"");
+    $("dBody").innerHTML =
+      drow("City", r.city)
+      + drow("Email", r.email)
+      + (r.whatsapp?`<div class="drow"><div class="k">WhatsApp</div><div class="v"><a class="wa" href="https://wa.me/${esc(wa.replace('+',''))}" target="_blank">${esc(r.whatsapp)}</a></div></div>`:"")
+      + drow("Age range", r.ageRange) + drow("Language", r.language)
+      + drow("Roles", r.roles) + drow("Experience", r.experience)
+      + drow("Creates", r.oneLiner, true) + drow("Links", r.links)
+      + drow("Story means", r.storyMeaning, true) + drow("Story to tell", r.storyToTell, true)
+      + drow("Goals", r.goals) + drow("Topics wanted", r.topics)
+      + drow("Activities", r.activityTypes) + drow("Format", r.formatPref)
+      + drow("Availability", r.availability) + drow("Willing to host", r.willingToHost)
+      + drow("Can contribute", r.contribution, true) + drow("Volunteer", r.volunteer)
+      + drow("WhatsApp group", r.whatsappConsent?"Yes":"No")
+      + drow("Joined", fmtDate(r.createdAt));
+    $("overlay").style.display="block"; $("drawer").style.display="block";
+  }
+  const closeDrawer = ()=>{ $("overlay").style.display="none"; $("drawer").style.display="none"; };
+  $("dClose").addEventListener("click", closeDrawer);
+  $("overlay").addEventListener("click", closeDrawer);
+
+  // ---- CSV export ----
+  function exportCSV(){
+    const q = $("search").value.trim().toLowerCase();
+    const city=$("cityFilter").value, role=$("roleFilter").value, act=$("activityFilter").value;
+    const rows = ALL.filter(r=>{
+      if(q && !((r.fullName||"").toLowerCase().includes(q)||(r.email||"").toLowerCase().includes(q))) return false;
+      if(city && r.city!==city) return false;
+      if(role && !(r.roles||[]).includes(role)) return false;
+      if(act && !(r.activityTypes||[]).includes(act)) return false;
+      return true;
+    });
+    const cols = ["fullName","city","email","whatsapp","ageRange","language","roles","experience","oneLiner","links","storyMeaning","storyToTell","goals","topics","activityTypes","formatPref","availability","willingToHost","contribution","volunteer","whatsappConsent","createdAt"];
+    const cell = (r,c)=>{ let v=r[c]; if(c==="createdAt"){try{v=r.createdAt.toDate().toISOString();}catch{v="";}}
+      if(Array.isArray(v)) v=v.join("; "); if(v==null)v=""; return `"${String(v).replace(/"/g,'""')}"`; };
+    const csv = [cols.join(","), ...rows.map(r=>cols.map(c=>cell(r,c)).join(","))].join("\n");
+    const blob = new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8;"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `roots-reach-community-${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+  }
+
+  $("search").addEventListener("input", applyFilters);
+  $("cityFilter").addEventListener("change", applyFilters);
+  $("roleFilter").addEventListener("change", applyFilters);
+  $("activityFilter").addEventListener("change", applyFilters);
+  $("refreshBtn").addEventListener("click", loadData);
+  $("exportBtn").addEventListener("click", exportCSV);
+</script>
+</body>
+</html>

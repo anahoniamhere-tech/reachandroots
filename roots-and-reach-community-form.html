@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Roots & Reach — Member Check-in · عرِّفنا عن نفسك</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F0ECDE;        /* limestone */
+    --paper-2: #E7E1CE;      /* deeper limestone */
+    --ink: #16302C;          /* sea-green ink */
+    --ink-soft: #3D544E;
+    --sea: #2C6E6A;          /* Mediterranean teal */
+    --citrus: #D98A1E;       /* Fayhaa pomelo/amber */
+    --citrus-deep: #B96E12;
+    --line: #C9C0A8;
+    --error: #A6402C;
+    --white: #FBF9F2;
+    --radius: 4px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .ar { font-family: "IBM Plex Sans Arabic", sans-serif; direction: rtl; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 22px; }
+
+  /* Hero */
+  header.hero {
+    background:
+      radial-gradient(120% 80% at 100% 0%, rgba(44,110,106,0.12), transparent 60%),
+      radial-gradient(90% 70% at 0% 10%, rgba(217,138,30,0.10), transparent 55%),
+      var(--ink);
+    color: var(--paper);
+    padding: 68px 0 60px;
+    border-bottom: 3px solid var(--citrus);
+  }
+  .eyebrow {
+    font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--citrus); font-weight: 600; margin: 0 0 20px;
+  }
+  .hero h1 {
+    font-family: "Amiri", serif;
+    font-weight: 700;
+    font-size: clamp(38px, 8vw, 66px);
+    line-height: 1.05; margin: 0 0 6px; letter-spacing: 0.5px;
+  }
+  .hero .h1-ar {
+    font-family: "Amiri", serif; direction: rtl;
+    font-size: clamp(30px, 6.5vw, 52px); font-weight: 700;
+    color: var(--paper); opacity: 0.92; margin: 0 0 26px;
+  }
+  .hero p.lede { font-size: 17px; max-width: 54ch; color: #E8E2D0; margin: 0 0 8px; }
+  .hero p.lede-ar { direction: rtl; font-size: 16px; max-width: 54ch; color: #D7CFBB; margin: 0; }
+  .hero .meta { margin-top: 26px; font-size: 13px; color: #B9B39F; letter-spacing: 0.04em; }
+
+  main { padding: 44px 0 90px; }
+
+  fieldset { border: 0; margin: 0 0 8px; padding: 0; }
+  .section { padding: 30px 0; border-top: 1px solid var(--line); }
+  .section:first-of-type { border-top: 0; }
+  .section-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px; }
+  .section-num {
+    font-family: "Amiri", serif; font-size: 15px; font-weight: 700;
+    color: var(--white); background: var(--sea);
+    width: 30px; height: 30px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex: 0 0 auto; margin-top: 2px;
+  }
+  .section-titles { display: flex; flex-direction: column; gap: 1px; }
+  .section-title { font-size: 20px; font-weight: 600; letter-spacing: 0.01em; }
+  .section-title-ar { direction: rtl; font-size: 16px; color: var(--ink-soft); font-weight: 500; }
+
+  .field { margin-bottom: 22px; }
+  label.q { display: block; margin-bottom: 9px; }
+  .q-en { font-weight: 600; font-size: 15.5px; }
+  .q-ar { display: block; direction: rtl; font-size: 14px; color: var(--ink-soft); margin-top: 1px; }
+  .req { color: var(--citrus-deep); font-weight: 700; margin-inline-start: 3px; }
+  .opt { color: var(--ink-soft); font-weight: 400; font-size: 12.5px; margin-inline-start: 6px; opacity: 0.8; }
+
+  input[type=text], input[type=email], input[type=tel], textarea, select {
+    width: 100%; font-family: inherit; font-size: 15.5px; color: var(--ink);
+    background: var(--white); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 12px 13px; transition: border-color .15s, box-shadow .15s;
+  }
+  textarea { min-height: 84px; resize: vertical; line-height: 1.5; }
+  input:focus, textarea:focus, select:focus {
+    outline: none; border-color: var(--sea);
+    box-shadow: 0 0 0 3px rgba(44,110,106,0.15);
+  }
+  input::placeholder, textarea::placeholder { color: #9A9581; }
+
+  /* chip groups (checkbox / radio) */
+  .chips { display: flex; flex-wrap: wrap; gap: 9px; }
+  .chip { position: relative; }
+  .chip input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .chip label {
+    display: inline-flex; flex-direction: column; cursor: pointer;
+    border: 1px solid var(--line); background: var(--white);
+    border-radius: 40px; padding: 8px 15px; font-size: 14px; line-height: 1.25;
+    transition: all .13s; user-select: none;
+  }
+  .chip label .lab-ar { direction: rtl; font-size: 12px; color: var(--ink-soft); }
+  .chip input:checked + label {
+    border-color: var(--sea); background: var(--sea); color: var(--white);
+  }
+  .chip input:checked + label .lab-ar { color: #D7EAE8; }
+  .chip input:focus-visible + label { box-shadow: 0 0 0 3px rgba(44,110,106,0.25); }
+
+  .hint { font-size: 12.5px; color: var(--ink-soft); margin-top: 7px; }
+
+  /* consent */
+  .consent { display: flex; gap: 12px; align-items: flex-start; background: var(--paper-2);
+    border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 15px; margin-bottom: 14px; }
+  .consent input { margin-top: 4px; width: 18px; height: 18px; accent-color: var(--sea); flex: 0 0 auto; }
+  .consent .txt { font-size: 14px; }
+  .consent .txt .ar { display: block; color: var(--ink-soft); font-size: 13px; margin-top: 2px; }
+
+  .actions { margin-top: 30px; }
+  button.submit {
+    font-family: inherit; font-size: 16px; font-weight: 600; cursor: pointer;
+    background: var(--citrus); color: #2A1B04; border: 0; border-radius: var(--radius);
+    padding: 15px 30px; transition: background .15s, transform .05s;
+  }
+  button.submit:hover { background: var(--citrus-deep); color: var(--white); }
+  button.submit:active { transform: translateY(1px); }
+  button.submit:disabled { background: var(--line); color: var(--ink-soft); cursor: not-allowed; }
+
+  .err-msg { color: var(--error); font-size: 13px; margin-top: 7px; display: none; }
+  .field.invalid .err-msg { display: block; }
+  .field.invalid input, .field.invalid textarea { border-color: var(--error); }
+
+  #formError { display: none; background: #F6E4DE; border: 1px solid var(--error);
+    color: #7A2E1E; padding: 13px 15px; border-radius: var(--radius); margin-top: 20px; font-size: 14px; }
+
+  /* success */
+  #success { display: none; text-align: center; padding: 60px 10px; }
+  #success .mark { width: 58px; height: 58px; border-radius: 50%; background: var(--sea);
+    color: var(--white); display: inline-flex; align-items: center; justify-content: center;
+    font-size: 30px; margin-bottom: 22px; }
+  #success h2 { font-family: "Amiri", serif; font-size: 32px; margin: 0 0 6px; }
+  #success .h2-ar { direction: rtl; font-family: "Amiri", serif; font-size: 26px; color: var(--ink-soft); margin-bottom: 18px; }
+  #success p { max-width: 46ch; margin: 0 auto 6px; color: var(--ink-soft); }
+  #success p.ar { direction: rtl; }
+
+  footer { text-align: center; padding: 26px 0 40px; color: var(--ink-soft); font-size: 12.5px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Roots &amp; Reach · Fayhaa Edition · Members</p>
+    <h1>Help us build what's next</h1>
+    <div class="h1-ar">ساعِدنا نبني ما هو قادم</div>
+    <p class="lede">You're already part of Roots &amp; Reach — thank you for being here. This short form helps us get to know you better and plan events, workshops, and collaborations around what you actually want.</p>
+    <p class="lede-ar">أنت أصلاً جزء من مجتمع جذور ووصول — شكراً لوجودك معنا. هذا النموذج القصير يساعدنا على التعرّف إليك أكثر، وعلى تنظيم فعاليات وورش عمل وتعاونات مبنية على ما تريده أنت.</p>
+    <p class="meta">≈ 3–4 minutes · ٣–٤ دقائق</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <form id="intakeForm" novalidate>
+
+      <!-- Section 1 -->
+      <fieldset class="section">
+        <div class="section-head">
+          <span class="section-num">١</span>
+          <span class="section-titles">
+            <span class="section-title">Who you are</span>
+            <span class="section-title-ar">من أنت</span>
+          </span>
+        </div>
+
+        <div class="field" data-required>
+          <label class="q" for="fullName"><span class="q-en">Full name<span class="req">*</span></span><span class="q-ar">الاسم الكامل</span></label>
+          <input type="text" id="fullName" name="fullName" maxlength="100" autocomplete="name" />
+          <div class="err-msg">Please enter your name · الرجاء إدخال اسمك</div>
+        </div>
+
+        <div class="field" data-required>
+          <label class="q" for="city"><span class="q-en">City / town<span class="req">*</span></span><span class="q-ar">المدينة</span></label>
+          <input type="text" id="city" name="city" maxlength="100" list="cities" placeholder="Tripoli / طرابلس" />
+          <datalist id="cities">
+            <option value="Tripoli / طرابلس"></option>
+            <option value="Beirut / بيروت"></option>
+            <option value="Saida / صيدا"></option>
+            <option value="Zgharta / زغرتا"></option>
+            <option value="Batroun / البترون"></option>
+            <option value="Other Levant / بلاد الشام"></option>
+            <option value="Diaspora / المهجر"></option>
+          </datalist>
+          <div class="err-msg">Please tell us where you're based · الرجاء إدخال مدينتك</div>
+        </div>
+
+        <div class="field" data-required>
+          <label class="q" for="email"><span class="q-en">Email<span class="req">*</span></span><span class="q-ar">البريد الإلكتروني</span></label>
+          <input type="email" id="email" name="email" maxlength="200" autocomplete="email" placeholder="you@example.com" />
+          <div class="err-msg">Please enter a valid email · بريد إلكتروني صحيح</div>
+        </div>
+
+        <div class="field" data-required>
+          <label class="q" for="whatsapp"><span class="q-en">WhatsApp number<span class="req">*</span></span><span class="q-ar">رقم الواتساب</span></label>
+          <input type="tel" id="whatsapp" name="whatsapp" maxlength="30" autocomplete="tel" placeholder="+961 …" />
+          <div class="err-msg">Please enter your WhatsApp number · الرجاء إدخال رقم الواتساب</div>
+        </div>
+
+        <div class="field">
+          <label class="q"><span class="q-en">Age range<span class="opt">optional</span></span><span class="q-ar">الفئة العمرية</span></label>
+          <div class="chips" data-single="ageRange">
+            <span class="chip"><input type="radio" name="ageRange" id="age1" value="under 18"><label for="age1">Under 18<span class="lab-ar">أقل من ١٨</span></label></span>
+            <span class="chip"><input type="radio" name="ageRange" id="age2" value="18-24"><label for="age2">18–24</label></span>
+            <span class="chip"><input type="radio" name="ageRange" id="age3" value="25-34"><label for="age3">25–34</label></span>
+            <span class="chip"><input type="radio" name="ageRange" id="age4" value="35-44"><label for="age4">35–44</label></span>
+            <span class="chip"><input type="radio" name="ageRange" id="age5" value="45+"><label for="age5">45+</label></span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="q"><span class="q-en">Preferred language for updates<span class="opt">optional</span></span><span class="q-ar">لغة التواصل المفضّلة</span></label>
+          <div class="chips" data-single="language">
+            <span class="chip"><input type="radio" name="language" id="lang1" value="Arabic"><label for="lang1">Arabic<span class="lab-ar">العربية</span></label></span>
+            <span class="chip"><input type="radio" name="language" id="lang2" value="English"><label for="lang2">English<span class="lab-ar">الإنجليزية</span></label></span>
+            <span class="chip"><input type="radio" name="language" id="lang3" value="Both"><label for="lang3">Both<span class="lab-ar">كلاهما</span></label></span>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Section 2 -->
+      <fieldset class="section">
+        <div class="section-head">
+          <span class="section-num">٢</span>
+          <span class="section-titles">
+            <span class="section-title">Your creative world</span>
+            <span class="section-title-ar">عالمك الإبداعي</span>
+          </span>
+        </div>
+
+        <div class="field" data-required-group="roles">
+          <label class="q"><span class="q-en">What best describes you?<span class="req">*</span></span><span class="q-ar">ما الذي يصفك؟ (اختر كل ما ينطبق)</span></label>
+          <div class="chips" data-multi="roles">
+            <span class="chip"><input type="checkbox" name="roles" id="r1" value="Writer/poet"><label for="r1">Writer / poet<span class="lab-ar">كاتب / شاعر</span></label></span>
+            <span class="chip"><input type="checkbox" name="roles" id="r2" value="Storyteller"><label for="r2">Storyteller<span class="lab-ar">راوي قصص</span></label></span>
+            <span class="chip"><input type="checkbox" name="roles" id="r3" value="Photographer"><label for="r3">Photographer<span class="lab-ar">مصوّر</span></label></span>
+            <span class="chip"><input type="checkbox" name="roles" id="r4" value="Filmmaker"><label for="r4">Filmmaker / video<span class="lab-ar">صانع أفلام</span></label></span>
+            <span class="chip"><input type="checkbox" name="roles" id="r5" value="Visual artist"><label for="r5">Visual artist<span class="lab-ar">فنان تشكيلي</span></label></span>
+            <span class="chip"><input type="checkbox" name="roles" id="r6" value="Musician"><label for="r6">Musician<span class="lab-ar">موسيقي</span></label></span>
+            <span class="chip"><input type="checkbox" name="roles" id="r7" value="Designer"><label for="r7">Designer<span class="lab-ar">مصمّم</span></label></span>
+            <span class="chip"><input type="checkbox" name="roles" id="r8" value="Journalist/content creator"><label for="r8">Journalist / creator<span class="lab-ar">صحفي / صانع محتوى</span></label></span>
+            <span class="chip"><input type="checkbox" name="roles" id="r9" value="Podcaster"><label for="r9">Podcaster<span class="lab-ar">بودكاست</span></label></span>
+            <span class="chip"><input type="checkbox" name="roles" id="r10" value="Actor/performer"><label for="r10">Actor / performer<span class="lab-ar">ممثل / أداء</span></label></span>
+            <span class="chip"><input type="checkbox" name="roles" id="r11" value="Craftsperson"><label for="r11">Craftsperson<span class="lab-ar">حرفي</span></label></span>
+            <span class="chip"><input type="checkbox" name="roles" id="r12" value="Educator"><label for="r12">Educator<span class="lab-ar">معلّم</span></label></span>
+            <span class="chip"><input type="checkbox" name="roles" id="r13" value="Community organizer"><label for="r13">Organizer<span class="lab-ar">منظّم مجتمعي</span></label></span>
+            <span class="chip"><input type="checkbox" name="roles" id="r14" value="Audience/supporter"><label for="r14">Here to support<span class="lab-ar">داعم / جمهور</span></label></span>
+            <span class="chip"><input type="checkbox" name="roles" id="r15" value="Other"><label for="r15">Other<span class="lab-ar">أخرى</span></label></span>
+          </div>
+          <div class="err-msg">Please choose at least one · اختر واحداً على الأقل</div>
+        </div>
+
+        <div class="field">
+          <label class="q"><span class="q-en">Experience level<span class="opt">optional</span></span><span class="q-ar">مستوى الخبرة</span></label>
+          <div class="chips" data-single="experience">
+            <span class="chip"><input type="radio" name="experience" id="e1" value="Just starting"><label for="e1">Just starting<span class="lab-ar">مبتدئ</span></label></span>
+            <span class="chip"><input type="radio" name="experience" id="e2" value="Hobbyist"><label for="e2">Hobbyist<span class="lab-ar">هاوٍ</span></label></span>
+            <span class="chip"><input type="radio" name="experience" id="e3" value="Semi-professional"><label for="e3">Semi-pro<span class="lab-ar">شبه محترف</span></label></span>
+            <span class="chip"><input type="radio" name="experience" id="e4" value="Professional"><label for="e4">Professional<span class="lab-ar">محترف</span></label></span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="q" for="oneLiner"><span class="q-en">In one line, what do you create?<span class="opt">optional</span></span><span class="q-ar">بسطر واحد، ما الذي تبدعه؟</span></label>
+          <input type="text" id="oneLiner" name="oneLiner" maxlength="500" />
+        </div>
+
+        <div class="field">
+          <label class="q" for="links"><span class="q-en">Links to your work<span class="opt">optional</span></span><span class="q-ar">روابط أعمالك</span></label>
+          <textarea id="links" name="links" maxlength="1000" placeholder="Instagram, portfolio, YouTube…"></textarea>
+        </div>
+      </fieldset>
+
+      <!-- Section 3 -->
+      <fieldset class="section">
+        <div class="section-head">
+          <span class="section-num">٣</span>
+          <span class="section-titles">
+            <span class="section-title">You &amp; our mission</span>
+            <span class="section-title-ar">أنت ورسالتنا</span>
+          </span>
+        </div>
+
+        <div class="field">
+          <label class="q" for="storyMeaning"><span class="q-en">What does telling your — or your community's — story mean to you?<span class="opt">optional</span></span><span class="q-ar">ماذا يعني لك أن تروي قصتك أو قصة مجتمعك؟</span></label>
+          <textarea id="storyMeaning" name="storyMeaning" maxlength="1000"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="q" for="storyToTell"><span class="q-en">A story, place, or tradition from the Fayhaa / Levant you wish more people knew?<span class="opt">optional</span></span><span class="q-ar">قصة أو مكان أو تقليد من الفيحاء أو بلاد الشام تتمنى أن يعرفه الناس أكثر؟</span></label>
+          <textarea id="storyToTell" name="storyToTell" maxlength="1000"></textarea>
+        </div>
+      </fieldset>
+
+      <!-- Section 4 -->
+      <fieldset class="section">
+        <div class="section-head">
+          <span class="section-num">٤</span>
+          <span class="section-titles">
+            <span class="section-title">What you want from the community</span>
+            <span class="section-title-ar">ماذا تريد من المجتمع</span>
+          </span>
+        </div>
+
+        <div class="field" data-required-group="goals">
+          <label class="q"><span class="q-en">What are you hoping to get out of Roots &amp; Reach?<span class="req">*</span></span><span class="q-ar">ما الذي تأمل أن تحصل عليه؟</span></label>
+          <div class="chips" data-multi="goals">
+            <span class="chip"><input type="checkbox" name="goals" id="g1" value="Learn new skills"><label for="g1">Learn new skills<span class="lab-ar">تعلّم مهارات</span></label></span>
+            <span class="chip"><input type="checkbox" name="goals" id="g2" value="Meet other creators"><label for="g2">Meet creators<span class="lab-ar">لقاء مبدعين</span></label></span>
+            <span class="chip"><input type="checkbox" name="goals" id="g3" value="Collaborate"><label for="g3">Collaborate<span class="lab-ar">تعاون</span></label></span>
+            <span class="chip"><input type="checkbox" name="goals" id="g4" value="Get my work seen"><label for="g4">Get my work seen<span class="lab-ar">إبراز أعمالي</span></label></span>
+            <span class="chip"><input type="checkbox" name="goals" id="g5" value="Find mentorship"><label for="g5">Find mentorship<span class="lab-ar">إرشاد</span></label></span>
+            <span class="chip"><input type="checkbox" name="goals" id="g6" value="Mentor others"><label for="g6">Mentor others<span class="lab-ar">أن أرشد غيري</span></label></span>
+            <span class="chip"><input type="checkbox" name="goals" id="g7" value="Perform/exhibit"><label for="g7">Perform / exhibit<span class="lab-ar">عرض أعمالي</span></label></span>
+            <span class="chip"><input type="checkbox" name="goals" id="g8" value="Belong to a community"><label for="g8">Belong<span class="lab-ar">الانتماء</span></label></span>
+            <span class="chip"><input type="checkbox" name="goals" id="g9" value="Other"><label for="g9">Other<span class="lab-ar">أخرى</span></label></span>
+          </div>
+          <div class="err-msg">Please choose at least one · اختر واحداً على الأقل</div>
+        </div>
+
+        <div class="field">
+          <label class="q"><span class="q-en">Topics you'd want workshops on<span class="opt">optional</span></span><span class="q-ar">مواضيع تودّ ورش عمل حولها</span></label>
+          <div class="chips" data-multi="topics">
+            <span class="chip"><input type="checkbox" name="topics" id="t1" value="Storytelling & writing"><label for="t1">Storytelling &amp; writing<span class="lab-ar">السرد والكتابة</span></label></span>
+            <span class="chip"><input type="checkbox" name="topics" id="t2" value="Photography"><label for="t2">Photography<span class="lab-ar">التصوير</span></label></span>
+            <span class="chip"><input type="checkbox" name="topics" id="t3" value="Video/filmmaking"><label for="t3">Video / film<span class="lab-ar">الفيديو والأفلام</span></label></span>
+            <span class="chip"><input type="checkbox" name="topics" id="t4" value="Social media & audience"><label for="t4">Social media<span class="lab-ar">التواصل والجمهور</span></label></span>
+            <span class="chip"><input type="checkbox" name="topics" id="t5" value="Design tools"><label for="t5">Design tools<span class="lab-ar">أدوات التصميم</span></label></span>
+            <span class="chip"><input type="checkbox" name="topics" id="t6" value="Music production"><label for="t6">Music production<span class="lab-ar">إنتاج موسيقي</span></label></span>
+            <span class="chip"><input type="checkbox" name="topics" id="t7" value="Funding & grants"><label for="t7">Funding &amp; grants<span class="lab-ar">التمويل والمنح</span></label></span>
+            <span class="chip"><input type="checkbox" name="topics" id="t8" value="Freelancing/business"><label for="t8">Freelancing / business<span class="lab-ar">العمل الحر</span></label></span>
+            <span class="chip"><input type="checkbox" name="topics" id="t9" value="Creative writing AR/EN"><label for="t9">Creative writing<span class="lab-ar">الكتابة الإبداعية</span></label></span>
+            <span class="chip"><input type="checkbox" name="topics" id="t10" value="Other"><label for="t10">Other<span class="lab-ar">أخرى</span></label></span>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Section 5 -->
+      <fieldset class="section">
+        <div class="section-head">
+          <span class="section-num">٥</span>
+          <span class="section-titles">
+            <span class="section-title">Events &amp; activities</span>
+            <span class="section-title-ar">الفعاليات والنشاطات</span>
+          </span>
+        </div>
+
+        <div class="field" data-required-group="activityTypes">
+          <label class="q"><span class="q-en">What would you actually show up to?<span class="req">*</span></span><span class="q-ar">ما النشاطات التي ستحضرها فعلاً؟</span></label>
+          <div class="chips" data-multi="activityTypes">
+            <span class="chip"><input type="checkbox" name="activityTypes" id="a1" value="In-person meetups in Tripoli"><label for="a1">Meetups in Tripoli<span class="lab-ar">لقاءات في طرابلس</span></label></span>
+            <span class="chip"><input type="checkbox" name="activityTypes" id="a2" value="Hands-on workshops"><label for="a2">Workshops<span class="lab-ar">ورش عمل</span></label></span>
+            <span class="chip"><input type="checkbox" name="activityTypes" id="a3" value="Online sessions"><label for="a3">Online sessions<span class="lab-ar">جلسات أونلاين</span></label></span>
+            <span class="chip"><input type="checkbox" name="activityTypes" id="a4" value="Storytelling nights"><label for="a4">Storytelling nights<span class="lab-ar">أمسيات سردية</span></label></span>
+            <span class="chip"><input type="checkbox" name="activityTypes" id="a5" value="Exhibitions/showcases"><label for="a5">Exhibitions<span class="lab-ar">معارض</span></label></span>
+            <span class="chip"><input type="checkbox" name="activityTypes" id="a6" value="Collaborative projects"><label for="a6">Collaborations<span class="lab-ar">مشاريع مشتركة</span></label></span>
+            <span class="chip"><input type="checkbox" name="activityTypes" id="a7" value="Networking gatherings"><label for="a7">Networking<span class="lab-ar">تشبيك</span></label></span>
+            <span class="chip"><input type="checkbox" name="activityTypes" id="a8" value="Field trips/outings"><label for="a8">Creative outings<span class="lab-ar">جولات إبداعية</span></label></span>
+            <span class="chip"><input type="checkbox" name="activityTypes" id="a9" value="Other"><label for="a9">Other<span class="lab-ar">أخرى</span></label></span>
+          </div>
+          <div class="err-msg">Please choose at least one · اختر واحداً على الأقل</div>
+        </div>
+
+        <div class="field">
+          <label class="q"><span class="q-en">In-person, online, or both?<span class="opt">optional</span></span><span class="q-ar">حضوري، أونلاين، أم كليهما؟</span></label>
+          <div class="chips" data-single="formatPref">
+            <span class="chip"><input type="radio" name="formatPref" id="f1" value="In-person"><label for="f1">In-person<span class="lab-ar">حضوري</span></label></span>
+            <span class="chip"><input type="radio" name="formatPref" id="f2" value="Online"><label for="f2">Online<span class="lab-ar">أونلاين</span></label></span>
+            <span class="chip"><input type="radio" name="formatPref" id="f3" value="Both"><label for="f3">Both<span class="lab-ar">كلاهما</span></label></span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="q"><span class="q-en">When are you usually free?<span class="opt">optional</span></span><span class="q-ar">متى تكون عادةً متفرغاً؟</span></label>
+          <div class="chips" data-multi="availability">
+            <span class="chip"><input type="checkbox" name="availability" id="av1" value="Weekday mornings"><label for="av1">Weekday mornings<span class="lab-ar">صباحات أيام الأسبوع</span></label></span>
+            <span class="chip"><input type="checkbox" name="availability" id="av2" value="Weekday evenings"><label for="av2">Weekday evenings<span class="lab-ar">أمسيات أيام الأسبوع</span></label></span>
+            <span class="chip"><input type="checkbox" name="availability" id="av3" value="Weekends"><label for="av3">Weekends<span class="lab-ar">عطلة نهاية الأسبوع</span></label></span>
+            <span class="chip"><input type="checkbox" name="availability" id="av4" value="Flexible"><label for="av4">Flexible<span class="lab-ar">مرن</span></label></span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="q"><span class="q-en">Would you host or lead an activity yourself?<span class="opt">optional</span></span><span class="q-ar">هل ترغب في استضافة أو قيادة نشاط بنفسك؟</span></label>
+          <div class="chips" data-single="willingToHost">
+            <span class="chip"><input type="radio" name="willingToHost" id="h1" value="Yes"><label for="h1">Yes<span class="lab-ar">نعم</span></label></span>
+            <span class="chip"><input type="radio" name="willingToHost" id="h2" value="Maybe, tell me more"><label for="h2">Maybe, tell me more<span class="lab-ar">ربما، أخبروني أكثر</span></label></span>
+            <span class="chip"><input type="radio" name="willingToHost" id="h3" value="Not right now"><label for="h3">Not right now<span class="lab-ar">ليس الآن</span></label></span>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Section 6 -->
+      <fieldset class="section">
+        <div class="section-head">
+          <span class="section-num">٦</span>
+          <span class="section-titles">
+            <span class="section-title">What you can contribute</span>
+            <span class="section-title-ar">ما الذي يمكنك تقديمه</span>
+          </span>
+        </div>
+
+        <div class="field">
+          <label class="q" for="contribution"><span class="q-en">A skill, space, or resource you'd share?<span class="opt">optional</span></span><span class="q-ar">مهارة أو مكان أو مورد تشاركه؟</span></label>
+          <textarea id="contribution" name="contribution" maxlength="1000" placeholder="e.g. I can teach editing · لديّ استوديو صغير · I can help with design"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="q"><span class="q-en">Would you volunteer to help organize?<span class="opt">optional</span></span><span class="q-ar">هل ترغب في التطوّع للتنظيم؟</span></label>
+          <div class="chips" data-single="volunteer">
+            <span class="chip"><input type="radio" name="volunteer" id="v1" value="Yes"><label for="v1">Yes<span class="lab-ar">نعم</span></label></span>
+            <span class="chip"><input type="radio" name="volunteer" id="v2" value="Maybe"><label for="v2">Maybe<span class="lab-ar">ربما</span></label></span>
+            <span class="chip"><input type="radio" name="volunteer" id="v3" value="No"><label for="v3">No<span class="lab-ar">لا</span></label></span>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Section 7 -->
+      <fieldset class="section">
+        <div class="section-head">
+          <span class="section-num">٧</span>
+          <span class="section-titles">
+            <span class="section-title">Staying in touch</span>
+            <span class="section-title-ar">التواصل والموافقة</span>
+          </span>
+        </div>
+
+        <div class="consent">
+          <input type="checkbox" id="whatsappConsent" name="whatsappConsent" />
+          <span class="txt">Add me to the Roots &amp; Reach WhatsApp group (if I'm not already in it).
+            <span class="ar">أضِفني إلى مجموعة واتساب "جذور ووصول" (إن لم أكن مضافاً).</span></span>
+        </div>
+
+        <div class="field" data-required-consent>
+          <div class="consent">
+            <input type="checkbox" id="dataConsent" name="dataConsent" />
+            <span class="txt">I agree that Roots &amp; Reach can store this information to contact me about community events and activities.<span class="req">*</span>
+              <span class="ar">أوافق على أن يحتفظ "جذور ووصول" بهذه المعلومات للتواصل معي بخصوص الفعاليات والنشاطات.</span></span>
+          </div>
+          <div class="err-msg">This consent is required to submit · هذه الموافقة مطلوبة</div>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="submit" id="submitBtn">Send my answers · أرسل إجاباتي</button>
+        </div>
+        <div id="formError"></div>
+      </fieldset>
+
+    </form>
+
+    <!-- Success -->
+    <div id="success">
+      <div class="mark">✓</div>
+      <h2>Thank you — this helps a lot.</h2>
+      <div class="h2-ar">شكراً لك — هذا يساعدنا كثيراً.</div>
+      <p>We'll be in touch soon with activities shaped by what you told us here.</p>
+      <p class="ar">سنتواصل معك قريباً بنشاطات مبنية على ما شاركتنا به.</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  Roots &amp; Reach — Fayhaa Edition · جذور ووصول
+</footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDJvBLFGz4RB1kGJ9V9kILKjH4dA3GTwX8",
+    authDomain: "gen-lang-client-0920193719.firebaseapp.com",
+    projectId: "gen-lang-client-0920193719",
+    storageBucket: "gen-lang-client-0920193719.firebasestorage.app",
+    messagingSenderId: "260399646277",
+    appId: "1:260399646277:web:8fbcd7dee926f0fe0ac52c",
+    measurementId: "G-BGBYJJ50P4"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  // IMPORTANT: this project has no (default) database — connect to the named one
+  const db = getFirestore(app, "ai-studio-38f5b8a6-3fca-4b7f-a650-42c5c99a4936");
+
+  const form = document.getElementById("intakeForm");
+  const submitBtn = document.getElementById("submitBtn");
+  const formError = document.getElementById("formError");
+
+  const getVals = (name) => Array.from(form.querySelectorAll(`input[name="${name}"]:checked`)).map(i => i.value);
+  const getVal  = (name) => { const el = form.querySelector(`input[name="${name}"]:checked`); return el ? el.value : ""; };
+  const text    = (id) => document.getElementById(id).value.trim();
+  const clearInvalid = (el) => el.closest(".field")?.classList.remove("invalid");
+
+  form.querySelectorAll("input, textarea").forEach(el => {
+    el.addEventListener("input", () => clearInvalid(el));
+    el.addEventListener("change", () => clearInvalid(el));
+  });
+
+  function validate() {
+    let firstBad = null;
+    const fail = (field) => { field.classList.add("invalid"); if (!firstBad) firstBad = field; };
+
+    const nameField = document.getElementById("fullName").closest(".field");
+    if (!text("fullName")) fail(nameField);
+
+    const cityField = document.getElementById("city").closest(".field");
+    if (!text("city")) fail(cityField);
+
+    const emailField = document.getElementById("email").closest(".field");
+    const email = text("email");
+    if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) fail(emailField);
+
+    const waField = document.getElementById("whatsapp").closest(".field");
+    if (!text("whatsapp")) fail(waField);
+
+    if (getVals("roles").length === 0) fail(form.querySelector('[data-required-group="roles"]'));
+    if (getVals("goals").length === 0) fail(form.querySelector('[data-required-group="goals"]'));
+    if (getVals("activityTypes").length === 0) fail(form.querySelector('[data-required-group="activityTypes"]'));
+
+    if (!document.getElementById("dataConsent").checked) fail(form.querySelector('[data-required-consent]'));
+
+    if (firstBad) firstBad.scrollIntoView({ behavior: "smooth", block: "center" });
+    return !firstBad;
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    formError.style.display = "none";
+    if (!validate()) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending… · جارٍ الإرسال…";
+
+    // Required fields (must match security rules exactly)
+    const data = {
+      fullName: text("fullName").slice(0, 100),
+      city: text("city").slice(0, 100),
+      email: text("email").slice(0, 200),
+      whatsapp: text("whatsapp").slice(0, 30),
+      roles: getVals("roles").slice(0, 20),
+      goals: getVals("goals").slice(0, 20),
+      activityTypes: getVals("activityTypes").slice(0, 20),
+      whatsappConsent: document.getElementById("whatsappConsent").checked,
+      dataConsent: document.getElementById("dataConsent").checked,
+      createdAt: serverTimestamp()
+    };
+
+    // Optional fields — only include when present, respecting size caps
+    const addStr = (key, id, cap) => { const v = text(id); if (v) data[key] = v.slice(0, cap); };
+    addStr("oneLiner", "oneLiner", 500);
+    addStr("links", "links", 1000);
+    addStr("storyMeaning", "storyMeaning", 1000);
+    addStr("storyToTell", "storyToTell", 1000);
+    addStr("contribution", "contribution", 1000);
+    const ageRange = getVal("ageRange"); if (ageRange) data.ageRange = ageRange;
+    const language = getVal("language"); if (language) data.language = language;
+    const experience = getVal("experience"); if (experience) data.experience = experience;
+    const formatPref = getVal("formatPref"); if (formatPref) data.formatPref = formatPref;
+    const willingToHost = getVal("willingToHost"); if (willingToHost) data.willingToHost = willingToHost;
+    const volunteer = getVal("volunteer"); if (volunteer) data.volunteer = volunteer;
+    const topics = getVals("topics"); if (topics.length) data.topics = topics.slice(0, 20);
+    const availability = getVals("availability"); if (availability.length) data.availability = availability.slice(0, 10);
+
+    try {
+      await addDoc(collection(db, "community"), data);
+      form.style.display = "none";
+      document.getElementById("success").style.display = "block";
+      document.getElementById("success").scrollIntoView({ behavior: "smooth", block: "center" });
+    } catch (err) {
+      console.error("Submit failed:", err);
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send my answers · أرسل إجاباتي";
+      formError.textContent = "Something went wrong sending your answers. Please check your connection and try again. · تعذّر الإرسال، حاول مرة أخرى.";
+      formError.style.display = "block";
+    }
+  });
+</script>
+</body>
+</html>
