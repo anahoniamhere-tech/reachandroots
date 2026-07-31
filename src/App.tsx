@@ -37,6 +37,7 @@ import RootsLogo from './assets/roots_logo.png';
 import YellowLogo from './assets/WordsLogo_yellow.png';
 import YazeedPhoto from './assets/yazeed_mousa_real.jpg';
 import { SEOHead, seoConfig } from './lib/seo';
+import * as XLSX from 'xlsx';
 
 // --- Components ---
 
@@ -1549,6 +1550,93 @@ const AdminDashboard = () => {
     link.click();
   };
 
+  const downloadMergedExcel = () => {
+    const normalize = (str: string) => str?.toLowerCase().replace(/\s+/g, ' ').trim() || '';
+    
+    const getTimestampVal = (val: any): string => {
+      if (!val) return '';
+      if (typeof val === 'object' && val.seconds !== undefined) {
+        return new Date(val.seconds * 1000).toLocaleString();
+      }
+      if (typeof val === 'object' && val.toDate && typeof val.toDate === 'function') {
+        return val.toDate().toLocaleString();
+      }
+      if (typeof val === 'string') return new Date(val).toLocaleString();
+      return String(val);
+    };
+
+    // Build a map keyed by normalized name to deduplicate
+    const peopleMap = new Map<string, any>();
+
+    // Process ticket buyers first (richer data)
+    ticketBuyers.forEach((buyer: any) => {
+      const name = normalize(buyer.customerInfo?.name || buyer.name || '');
+      if (!name) return;
+      const existing = peopleMap.get(name) || {};
+      peopleMap.set(name, {
+        ...existing,
+        Name: buyer.customerInfo?.name || buyer.name || existing.Name || '',
+        Email: buyer.customerInfo?.email || buyer.email || existing.Email || '',
+        Phone: buyer.customerInfo?.phone || buyer.phone || existing.Phone || '',
+        'Ticket Type': buyer.tierId || existing['Ticket Type'] || '',
+        'Total Price': buyer.totalPrice || existing['Total Price'] || 0,
+        'Payment Status': buyer.paymentStatus || existing['Payment Status'] || '',
+        'Payment Method': buyer.paymentMethod || existing['Payment Method'] || '',
+        'WhatsApp Sent': buyer.whatsappSent ? 'Yes' : (existing['WhatsApp Sent'] || 'No'),
+        'Checked In': buyer.checkedIn ? 'Yes' : (existing['Checked In'] || 'No'),
+        'Ticket Purchase Date': getTimestampVal(buyer.createdAt) || existing['Ticket Purchase Date'] || '',
+        Source: existing.Source ? existing.Source + ', Ticket Buyer' : 'Ticket Buyer',
+      });
+    });
+
+    // Process community joins
+    communityJoins.forEach((join: any) => {
+      const name = normalize(join.fullName || join.name || '');
+      if (!name) return;
+      const existing = peopleMap.get(name) || {};
+      peopleMap.set(name, {
+        Name: join.fullName || join.name || existing.Name || '',
+        Email: join.email || existing.Email || '',
+        Phone: join.phone || existing.Phone || '',
+        'Ticket Type': existing['Ticket Type'] || '',
+        'Total Price': existing['Total Price'] || 0,
+        'Payment Status': existing['Payment Status'] || '',
+        'Payment Method': existing['Payment Method'] || '',
+        'WhatsApp Sent': existing['WhatsApp Sent'] || 'No',
+        'Checked In': existing['Checked In'] || 'No',
+        'Ticket Purchase Date': existing['Ticket Purchase Date'] || '',
+        'Community Join Date': getTimestampVal(join.createdAt) || existing['Community Join Date'] || '',
+        Source: existing.Source ? (existing.Source.includes('Community') ? existing.Source : existing.Source + ', Community') : 'Community',
+        ...existing,
+        // Make sure name/email/phone prefer ticket buyer data if it exists
+        ...(existing.Name ? {} : { Name: join.fullName || join.name || '' }),
+        ...(existing.Email ? {} : { Email: join.email || '' }),
+        ...(existing.Phone ? {} : { Phone: join.phone || '' }),
+        'Community Join Date': getTimestampVal(join.createdAt) || existing['Community Join Date'] || '',
+        Source: existing.Source ? (existing.Source.includes('Community') ? existing.Source : existing.Source + ', Community') : 'Community',
+      });
+    });
+
+    const rows = Array.from(peopleMap.values());
+    if (rows.length === 0) {
+      alert('No data to export.');
+      return;
+    }
+
+    // Create workbook with ordered columns
+    const headers = ['Name', 'Email', 'Phone', 'Ticket Type', 'Total Price', 'Payment Status', 'Payment Method', 'WhatsApp Sent', 'Checked In', 'Ticket Purchase Date', 'Community Join Date', 'Source'];
+    const wsData = [headers, ...rows.map(row => headers.map(h => row[h] ?? ''))];
+    
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(wsData);
+    
+    // Set column widths
+    ws['!cols'] = headers.map(h => ({ wch: Math.max(h.length + 2, 18) }));
+    
+    XLSX.utils.book_append_sheet(wb, ws, 'All People');
+    XLSX.writeFile(wb, 'RootsAndReach_AllPeople.xlsx');
+  };
+
   const handleDeleteItem = async () => {
     if (!selectedItem || !window.confirm("Are you sure you want to delete this record?")) return;
     try {
@@ -1879,6 +1967,16 @@ const AdminDashboard = () => {
           <p className="text-7xl font-display font-bold tracking-tighter uppercase leading-none mb-4">Secured</p>
           <p className="font-body text-white/40 text-sm uppercase tracking-widest">Rashid Karami Creator Pass</p>
         </div>
+      </div>
+
+      <div className="flex justify-center mb-16 relative z-10">
+        <button 
+          onClick={downloadMergedExcel}
+          className="flex items-center gap-3 px-8 py-4 bg-brand-navy text-white hover:bg-brand-coral rounded-2xl font-display font-bold text-xs uppercase tracking-widest transition-all duration-500 shadow-xl hover:shadow-2xl"
+        >
+          <FileDown size={18} />
+          Export All People (Excel · No Duplicates)
+        </button>
       </div>
 
       <div className="space-y-12 relative z-10 mb-16">
